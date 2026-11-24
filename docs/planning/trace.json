@@ -1961,9 +1961,23 @@
    "key": "MP-190",
    "summary": "Redraw the control screens to match the owner's picks",
    "type": "Task",
-   "status": "To Do",
+   "status": "In Progress",
    "parent": "MP-4",
-   "code": []
+   "code": [
+    "docs/design/journeys/src/journeys/",
+    "docs/design/journeys/src/shell.js",
+    "docs/design/journeys/index.html",
+    "docs/design/journeys/README.md",
+    "docs/design/admin/src/journeys/",
+    "docs/design/admin/src/shell.js",
+    "docs/design/admin/index.html",
+    "docs/design/admin/permissions.json",
+    "tests/journey_facts/",
+    "tests/admin_facts/",
+    "review/MP-190/",
+    "docs/planning/trace.json",
+    "docs/planning/owner-question-pack-2026-11-05/scope.md"
+   ]
   },
   {
    "key": "MP-191",

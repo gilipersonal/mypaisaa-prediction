@@ -219,6 +219,35 @@ function briefBody(ctx) {
   return { left: lead + all.left, right: all.right };
 }
 
+/* ---------- the weekend (MP40-Q11b, "Weekdays only"): no brief on Saturday or Sunday, and Home says why ----------
+   Drawn on Saturday 7 November, the weekend after Tuesday's brief, so it shows no figure from Tuesday: every price is Friday's close,
+   so no price is late and the data chips read fresh, as on a morning with no holdings to be late (fresh: 'empty').
+   That held alerts land in the inbox at 07:30 is proposed in the owner's pick itself, so it keeps its label */
+const WK = ['No brief today · Saturday', 'Weekdays only: markets are shut'];
+const wkStamps = () => `<div class="home-stamps">${['US closed Fri 21:00', 'UK closed Fri 16:35', 'India closed Fri 10:00'].map(t => `<span class="chip" data-mo="chip">${t}</span>`).join('')}</div>`;
+/* what Home shows in the brief's place: the floating pill in Tiles, the card in Ledger. A picture of Home, so it opens nothing here */
+const WKB = ['No brief today · Saturday', 'Weekdays only. The next is Monday, 07:30'];
+const wkOnHome = o => (o === 'a' ? `${sec('On Home, above the dock')}<div class="home-pill" role="img" aria-label="${WK[0]}. ${WK[1]}.">${ic('clock', 's18')}<span class="home-pt"><b>${WK[0]}</b><span class="t">${WK[1]}</span></span></div>` : `${sec('On the ledger, after the holdings')}<div class="card home-card" role="img" aria-label="${WKB[0]}. ${WKB[1]}." data-mo="card"><div style="display:flex;align-items:center;gap:8px">${ic('clock', 's18')}<h4 style="flex:1">${WKB[0]}</h4></div><p class="home-sub">${WKB[1]}</p></div>`);
+const WK_WHY = 'MP writes the brief on weekdays only. Markets are shut on Saturday and Sunday, so a weekend brief would mostly repeat Friday. The next is Monday 9 November, 07:30 London.';
+const wkHeld = () => `<div class="card home-card" data-mo="card"><h4>Alerts held overnight</h4><p class="home-sub">With no brief to carry them, an alert held by quiet hours lands in your inbox at 07:30. Every alert is in the inbox already.</p><div><span class="chip proposed"><span class="dot"></span>Proposed · MP40-Q11</span></div></div>`;
+function weekendBody(ctx, o) {
+  const st = ctx.state;
+  if (st === 'loading') return { left: `<div class="card home-card" data-mo="card"><div class="label">Saturday 7 November</div><p class="home-sub">Reading what is due. No brief is due until Monday.</p><span class="sk" style="height:14px;width:80%"></span></div>`, right: '' };
+  if (st === 'empty') return { left: stateCard('clock', 'No brief yet', 'Your first brief arrives on Monday 9 November, 07:30 London: the brief runs on weekdays only, from the first weekday after your holdings are in.', ''), right: '' };
+  const lead = st === 'offline' ? banner('', 'Saved copy.', `Saved on this device at 07:31. Nothing updates until you reconnect.${q12(ctx)}`, 'wifi-off') : '';
+  return {
+    left: lead + wkOnHome(o) + stateCard('clock', 'No brief today', WK_WHY, '', '<span class="chip">Weekdays only</span>') + wkHeld(),
+    right: `<div class="card home-card" data-mo="card"><h4>Last closes</h4><p class="home-sub">Every price is Friday's close, on its own market's clock.</p>${wkStamps()}</div>`
+  };
+}
+const naWeekend = {
+  error: 'No brief is written at the weekend, so its writing route cannot fail here. A failed Friday run shows on Friday\'s brief.',
+  stale: 'At the weekend every price is Friday\'s close, which is the close, not a stale price.',
+  noModel: 'No brief is written at the weekend, so no model is read for one.',
+  disagreement: 'No action is ranked into a weekend brief, so nothing can conflict here. Friday\'s brief keeps its conflicts.',
+  abstention: 'No action is ranked into a weekend brief, so nothing can abstain here. Friday\'s brief keeps its abstentions.'
+};
+
 /* ---------- the top 5 board ---------- */
 /* a name flagged on a list it stays on. None today: a split takes the name off its list, as an abstention does ("Both parts go", OWN-17). */
 const FLAG = {};
@@ -513,7 +542,8 @@ const OTHERS = ORDER.filter(k => k !== 'ustech');
 const EMPTY = {
   holdings: 'Empty here means no holdings yet: the lists still show, because a ranking needs no holdings (MP-135).',
   lists: 'Empty here means the first morning, before any daily run, so no list exists yet.',
-  brief: 'Empty is the first morning; a weekend brief waits on MP40-Q11.',
+  brief: 'Empty is the first morning. There is no brief at the weekend, and No brief at the weekend says why (MP40-Q11b).',
+  weekend: 'Empty here means no holdings yet, so the first brief comes on the first weekday after they are in.',
   band: 'Empty here means a holding with no action band.',
   rows: 'Empty here means no holdings yet, so no row opens.',
   metals: 'Empty here means no list, as in every state.',
@@ -555,6 +585,9 @@ J.add({
       id: 'a-brief', title: 'Daily brief', note: `Actions, then risks, changes and upcoming events, with each market on its own clock. ${EMPTY.brief}`,
       render: ctx => { const b = briefBody(ctx); return frame(ctx, placed(ctx, 'research', { tab: 0, back: 'Portfolio', title: 'Daily brief', actions: tb('info', 'About the brief'), body: b.left, rail: b.right }, 'Portfolio')); }
     }, {
+      id: 'a-weekend', title: 'No brief at the weekend', na: naWeekend, note: `Saturday 7 November. The owner picked "Weekdays only" (MP40-Q11b): no brief on Saturday or Sunday, Home says why, and alerts held overnight land in the inbox at 07:30, which the pick itself marks proposed. The floating pill reads No brief today and opens this. ${EMPTY.weekend}`,
+      render: ctx => { const b = weekendBody(ctx, 'a'); return frame(ctx, { fresh: 'empty', tab: 0, back: 'Portfolio', title: 'Daily brief', actions: tb('info', 'About the brief'), body: b.left, rail: b.right }); }
+    }, {
       id: 'a-search', title: 'Search', note: `Holdings, watch-only and the 150-name universe stay visibly apart. Search cannot add a listing: that goes through chat, a coverage check and your confirm. ${EMPTY.search}`,
       render: ctx => frame(ctx, { tab: 0, back: 'Portfolio', title: 'Search', actions: '<span></span>', body: searchMain(ctx), rail: searchRail(ctx) })
     }]
@@ -581,6 +614,9 @@ J.add({
     }, {
       id: 'b-brief', title: 'Daily brief', note: `What the brief row opens: actions, then risks, changes and upcoming events, each market on its own clock. Each action row carries its ticker, as a ledger row does. ${EMPTY.brief}`,
       render: ctx => { const b = briefBody({ ...ctx, tick: true }); return frame(ctx, placed(ctx, 'research', { tab: 0, back: 'Portfolio', title: 'Daily brief', actions: tb('info', 'About the brief'), body: b.left, rail: b.right }, 'Portfolio')); }
+    }, {
+      id: 'b-weekend', title: 'No brief at the weekend', na: naWeekend, note: `Saturday 7 November. The owner picked "Weekdays only" (MP40-Q11b): the brief row on the ledger reads No brief today and opens this, and alerts held overnight land in the inbox at 07:30, which the pick itself marks proposed. ${EMPTY.weekend}`,
+      render: ctx => { const b = weekendBody(ctx, 'b'); return frame(ctx, { fresh: 'empty', tab: 0, back: 'Portfolio', title: 'Daily brief', actions: tb('info', 'About the brief'), body: b.left, rail: b.right }); }
     }, {
       id: 'b-top5', title: 'Top 5 in place', note: `The top 5 as it sits below the holdings on the ledger, here on its own, with eight segments as a picker, so the list changes under your thumb and you never leave home. Each name carries its median and 80% range. ${EMPTY.lists}`,
       render: ctx => frame(ctx, { tab: 0, title: 'Top 5', ...homeActs(ctx), body: switcher(ctx) })

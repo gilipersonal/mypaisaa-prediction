@@ -42,7 +42,8 @@ export default {
         for (const id of ['A13', 'A41']) must(!v.html.includes(`data-act="${id}"`), `${id} is drawn in ${s} ${st} ${kind}, with nothing awaiting you`);
         if (st !== 'loading') lacks(v.text, /Approve this replay|Approve reprocessing/);
       }
-      has(view('incidents', o, s, 'web', 'empty').text, /Replayed/);
+      // Narrowed for ADM-06, "No, keep it apart": a late price is never replayed, so Empty's last request is the +40 retry, not a replay
+      has(view('incidents', o, s, 'web', 'empty').text, /Retried at \+40, 17:15/);
       has(view('incidents', o, s, 'web', 'expired').text, /Refused\. This approval ran out/);
       for (const kind of BIG) {
         const h = view('incidents', o, s, kind, 'error').html;
@@ -288,14 +289,16 @@ export default {
     for (const kind of ALL) has(view('identity', 'b', 'b-devices', kind, 'error').text, LINE);
   },
   'R4-s6': ({ view, each, must, has, lacks }) => {
-    const NOTE = /Whether a late price counts as a missed collection is open/;
-    for (const [o, s] of REPLAY) for (const kind of ALL) for (const st of STATES.filter((x) => !['error', 'loading'].includes(x))) { const t = view('incidents', o, s, kind, st).text; has(t, NOTE); has(t, /Proposed · CT-14/); }
+    // Narrowed for ADM-06, "No, keep it apart": the condition this held is answered, so every replay screen states the answer where it stated the question.
+    // What stays: no screen calls a late price inside the allowlist or says code is auto-retrying it.
+    const NOTE = /A late price is not a missed collection/;
+    for (const [o, s] of REPLAY) for (const kind of ALL) for (const st of STATES.filter((x) => !['error', 'loading'].includes(x))) { const t = view('incidents', o, s, kind, st).text; has(t, NOTE); lacks(t, /Whether a late price counts as a missed collection is open|if a late price counts/); }
     each({ journey: 'incidents' }, (v, at) => { if (at.state !== 'error') lacks(v.text, /Not needed, inside the allowlist|is inside the allowlist/); lacks(v.text, /Auto-retrying/); });
-    for (const [o, s] of REPLAY) { has(view('incidents', o, s, 'web', 'default').text, /Not needed if a late price counts as a missed collection/); }
-    has(view('incidents', 'a', 'a-replay', 'web', 'default').text, /Nothing waits on you if CT-14 says so/);
-    has(view('incidents', 'a', 'a-detail', 'web', 'default').text, /if a late price counts as a missed collection/);
-    has(view('incidents', 'b', 'b-escalate', 'web', 'default').text, /if a late price counts as a missed collection/);
-    has(view('incidents', 'b', 'b-replay', 'web', 'default').text, /Inside the allowlist only if a late price counts as a missed collection/);
+    for (const [o, s] of REPLAY) { has(view('incidents', o, s, 'web', 'default').text, /A late price is not a missed collection, so code re-runs nothing/); }
+    has(view('incidents', 'a', 'a-replay', 'web', 'default').text, /Nothing waits on you/);
+    has(view('incidents', 'a', 'a-detail', 'web', 'default').text, /The \+40 retry, at 17:15, was the only automatic one/);
+    has(view('incidents', 'b', 'b-escalate', 'web', 'default').text, /The \+40 retry, at 17:15, was the only automatic one/);
+    has(view('incidents', 'b', 'b-replay', 'web', 'default').text, /A late price is not a missed collection, so it is outside the allowlist/);
   },
   'R4-s10': ({ view, has }) => { const t = view('incidents', 'a', 'a-evidence', 'web', 'partial').text; has(t, /Trace\s*Not read, it links from run_8cf7/); has(t, /its trace are not read/); },
   'R5-s3': ({ view, each, must, has, lacks }) => {
@@ -309,11 +312,12 @@ export default {
     }
   },
   'R5-s4': ({ view, must, has, lacks }) => {
-    has(view('incidents', 'a', 'a-replay', 'web', 'default').text, /Auto-retry if CT-14 allows/);
-    has(view('incidents', 'a', 'a-detail', 'web', 'default').text, /Replay\s*Auto-retry if CT-14 allows/);
-    for (const [o, s] of REPLAY) { const t = view('incidents', o, s, 'web', 'empty').text; has(t, /Your approval\s*None asked\. Drawn as if CT-14 counts this/); has(t, /Proposed · CT-14/); lacks(t, /Not needed if/); }
-    has(view('incidents', 'b', 'b-runbook', 'web', 'default').text, /step 3 of 5, Auto-retry if CT-14 allows/);
-    has(view('incidents', 'b', 'b-escalate', 'web', 'default').text, /Replay\s*Auto-retry if CT-14 allows/);
+    // Narrowed for ADM-06, "No, keep it apart": the request is the +40 retry, the only automatic one, so no screen draws an auto-retry that waits on CT-14.
+    has(view('incidents', 'a', 'a-replay', 'web', 'default').text, /Retried at \+40, 17:15/);
+    has(view('incidents', 'a', 'a-detail', 'web', 'default').text, /Replay\s*Retried at \+40, 17:15/);
+    for (const [o, s] of REPLAY) { const t = view('incidents', o, s, 'web', 'empty').text; has(t, /Your approval\s*None asked\. A newer price came at the next check/); lacks(t, /Drawn as if CT-14 counts this/); lacks(t, /Not needed if/); }
+    has(view('incidents', 'b', 'b-runbook', 'web', 'default').text, /step 3 of 5, waiting for a newer price/);
+    has(view('incidents', 'b', 'b-escalate', 'web', 'default').text, /Replay\s*Retried at \+40, 17:15/);
     has(view('incidents', 'b', 'b-escalate', 'web', 'conflict').text, /Replay\s*Refused/);
     must(!/code is recovering/.test(view('incidents', 'b', 'b-runbook', 'web', 'default').text), 'the runbook still states recovery as a fact');
   },

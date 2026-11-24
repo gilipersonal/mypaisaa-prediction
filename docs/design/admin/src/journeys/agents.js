@@ -15,7 +15,7 @@
   const kept = ctx => (browser(ctx) ? tagged(proposed('MP40-Q12'), 'What a browser keeps offline is open.') : '');
   const offline = (ctx, what) => banner('', 'Offline.', `Showing ${what} from 11:20. ${OFFLINE_NOTE}`, 'wifi-off') + kept(ctx);
   const phone = ctx => ctx.kind === 'iphone' || ctx.kind === 'pwa';
-  const mayNeed = ctx => (phone(ctx) ? banner('warn', 'Change this on iPad or desktop.', 'A phone reads only, so this waits for a larger screen.', 'lock') : banner('warn', 'A fresh sign-in may be needed.', `${STEP} Whether this act needs one is open.`, 'lock'));
+  const mayNeed = ctx => (phone(ctx) ? banner('warn', 'Change this on iPad or desktop.', 'A phone reads only, so this waits for a larger screen.', 'lock') : banner('warn', 'A fresh sign-in is needed.', `${STEP} This act writes or widens, so it needs one (OWN-39). How recent a sign-in must be is still open.`, 'lock'));
   const claudeOff = () => banner('warn', 'Claude off.', OFF_WORDS, 'lock');
 
   /* ---------- the roster ---------- */
@@ -170,7 +170,7 @@
     expired: () => banner('warn', 'late (missed the cutoff).', 'The last batch missed the +60 freeze, so the forecast used the previous frozen set, labelled with its age. A late factor is kept for the next origin, never backdated.', 'clock') + factHead(WARN('late')) + factEv(),
     denied: () => mayNeed(ctx) + factHead() + factEv() + factBind() + factYes()
   });
-  const railFact = () => `${box(`${lbl('A factor is one of')}<div class="aagents-chips">${['shadow', 'frozen', 'late', 'hindsight_flagged', 'admitted', 'withdrawn'].map(PLAIN).join('')}</div><p class="small muted" style="margin-top:8px">A withdrawn factor leaves future origins. Past predictions keep their original input references. No record names who withdraws a factor, so no control is drawn.</p>`)}${box(`${lbl('What a route returns')}<p class="small muted" style="margin-top:6px">Claude returns categories and cited spans only. Any number used as a model input is computed by code.</p>`)}`;
+  const railFact = () => `${box(`${lbl('A factor is one of')}<div class="aagents-chips">${['shadow', 'frozen', 'late', 'hindsight_flagged', 'admitted', 'withdrawn'].map(PLAIN).join('')}</div><p class="small muted" style="margin-top:8px">A withdrawn factor leaves future origins. Past predictions keep their original input references. Code withdraws one by itself only on a trigger you approved in advance, and tells you, and you can withdraw an admitted one by hand with a fresh sign-in (ADM-08). None is admitted and no trigger is listed yet, so no control is drawn.</p>`)}${box(`${lbl('What a route returns')}<p class="small muted" style="margin-top:6px">Claude returns categories and cited spans only. Any number used as a model input is computed by code.</p>`)}`;
 
   /* ---------- Option B: one route, whole ---------- */
   const SHORT = ['Triage', 'Event analysis', 'Factors', 'Extraction', 'Explanations', 'Chat', 'Judges'];

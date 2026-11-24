@@ -108,10 +108,12 @@
   }
 
   /* ---------- the thresholds ---------- */
+  /* OWN-36 "Cut in a set order" and OWN-25 "Daily forecasts keep running", with the owner's later "Yes, add them": daily forecasts
+     run inside the £15 kept above £85. The same three sentences, word for word, in admin Costs */
   const RUNGS = [
     ['£60', 'Warn', 'A notice reaches you. Nothing stops.'],
-    ['£75', 'Reduce', 'Fewer optional backfills, challenger models and Claude jobs.'],
-    ['£85', 'Pause', 'New optional paid work pauses, and each pause shows its reason.'],
+    ['£75', 'Reduce', 'Code cuts backfills first, then challenger models, then Claude jobs, and says which step it reached.'],
+    ['£85', 'Pause', 'New optional paid work pauses, and each pause shows its reason. Daily forecasts carry on, inside the £15 kept above £85.'],
     ['£100', 'Ceiling', 'The limit of the month. It is not an instant AWS shut-off: hard caps on requests, concurrency, timeouts and retention back it.']
   ];
   const firstOf = s => ({ default: '27p away', stale: '27p away', offline: '27p away', loading: 'Last good: 27p away', empty: 'Plan: 27p away', noModel: '£13.52 away', error: 'Estimated: 27p away', disagreement: 'Reached' }[s] || 'Not known');
@@ -126,7 +128,11 @@
     return box(`${head('Where you are', chipOf(m.st))}${load ? sk('100%', 12) : lad(m)}<div class="cost-rung" data-mo="rise">${rungHead(v, t, first, first === 'Reached')}</div><p class="small muted">${load ? lastGood : m.say}</p>${askOf(m)}`);
   }
   const miniRungs = () => RUNGS.slice(0, 3).map(([v, t, p]) => `<div class="cost-rung mini" data-mo="rise"><span class="v">${v}</span><span class="t">${t}</span><p>${p}</p></div>`).join('');
-  const always = () => box(`${head('Never paused')}<div class="cost-chips">${['Sign-in', 'Ledger reads', 'Audit', 'Recovery'].map(t => chipOf(['fresh', t])).join('')}</div><p class="small muted">These stay available at every threshold. A £15 window is kept for them.</p><div class="cost-chips">${proposed('MP40-Q6')}</div>`);
+  /* the £15 above £85 also holds daily forecasts (the owner, 5 Nov 2026: "Yes, add them"). The window itself stays labelled until MP-192 */
+  const KEPT = ['Sign-in', 'Ledger reads', 'Audit', 'Recovery', 'Daily forecasts'];
+  const always = () => box(`${head('Never paused')}<div class="cost-chips">${KEPT.map(t => chipOf(['fresh', t])).join('')}</div><p class="small muted">These stay available at every threshold. A £15 window above £85 is kept for them, daily forecasts included.</p><div class="cost-chips">${proposed('MP40-Q6')}</div>`);
+  /* OWN-35, "Code may draft one": one sentence, word for word here and in admin Costs */
+  const RAISE = 'When a line is close, code may draft a raise for your Approvals, with its cost and rollback. Only your yes, with a fresh sign-in, applies it, and it stays under £100.';
 
   /* ---------- where the figures come from ---------- */
   const LANES = {
@@ -180,8 +186,8 @@
   /* ---------- a line reached: warned, reduced or paused. Every degraded mode shows here with its reason and how it ends ---------- */
   const OVERS = {
     warn: { line: '£60', noun: 'warning', head: 'What changes', day: 20, when: '20 Nov at 06:14', so: '51.06', fc: 61.20, aws: 14.60, cl: 8.28, off: [23.22, 60.90], bill: 59.80, st: ['stale', 'Warned at £60', 'alert'], does: 'Nothing stops.', back: 'so the warning clears at the next check.', none: 'No warning this month', noneSay: 'The forecast is under £60. A notice reaches you the moment it passes, and this page then says how far the next line is.' },
-    reduce: { line: '£75', noun: 'reduction', head: 'Reduced', day: 23, when: '23 Nov at 06:14', so: '64.86', fc: 76.10, aws: 24.10, cl: 12.58, off: [36.90, 75.70], bill: 74.30, st: ['stale', 'Reduced at £75', 'trim'], does: 'Fewer optional jobs run.', back: 'so optional work is back in full at the next check.', none: 'Nothing is reduced this month', noneSay: 'Every optional job runs in full. A reduction would show here with its reason, the moment one starts.' },
-    pause: { line: '£85', noun: 'pause', head: 'Paused', day: 24, when: '24 Nov at 06:14', so: '71.20', fc: 86.40, aws: 28.40, cl: 14.62, off: [43.02, 85.90], bill: 84.10, st: ['error', 'Paused at £85', 'pause'], does: 'New optional paid work waits.', back: 'so optional work is admitted at the next check.', none: 'Nothing is paused this month', noneSay: 'Every optional job is admitted. A pause would show here with its reason, the moment one starts.' }
+    reduce: { line: '£75', noun: 'reduction', head: 'Reduced', day: 23, when: '23 Nov at 06:14', so: '64.86', fc: 76.10, aws: 24.10, cl: 12.58, off: [36.90, 75.70], bill: 74.30, st: ['stale', 'Reduced at £75', 'trim'], does: 'Code cut backfills first, step 1 of 3.', back: 'so optional work is back in full at the next check.', none: 'Nothing is reduced this month', noneSay: 'Every optional job runs in full. A reduction would show here with its reason, the moment one starts.' },
+    pause: { line: '£85', noun: 'pause', head: 'Paused', day: 24, when: '24 Nov at 06:14', so: '71.20', fc: 86.40, aws: 28.40, cl: 14.62, off: [43.02, 85.90], bill: 84.10, st: ['error', 'Paused at £85', 'pause'], does: 'New optional paid work waits, and daily forecasts carry on.', back: 'so optional work is admitted at the next check.', none: 'Nothing is paused this month', noneSay: 'Every optional job is admitted. A pause would show here with its reason, the moment one starts.' }
   };
   const gbp = v => `£${v.toFixed(2)}`;
   function overOf(ctx, k) {
@@ -214,12 +220,15 @@
       return box(`${head(L.head, tag)}${list([li('alert', 'A notice reached you', '20 Nov at 06:14 · it stays in your inbox', 'Sent'), li('check', 'Optional work', 'All of it still runs. Nothing stops at £60', 'Running'), li('trim', 'Next line: reduce at £75', left, '')])}<p class="small muted">The warning clears at the next check once the forecast falls under £60, after reconciliation or on 1 December.</p>`);
     }
     const rows = k === 'reduce'
-      ? [li('trim', 'Backfills', 'Fewer runs. Each resumes from its step', 'Reduced'), li('trim', 'Challenger models', 'Fewer runs this month', 'Reduced'), off ? li('ban', 'Claude jobs', 'Already off, so nothing to reduce', 'Off') : li('trim', 'Claude jobs', 'Fewer scans, explanations and research runs', 'Reduced')]
-      : [li('pause', 'Backfills', 'Stopped at step 4 of 9. Resumes from that step', 'Paused'), li('pause', 'Challenger models', 'The next run waits', 'Paused'), off ? li('ban', 'Claude jobs', 'Already off, so nothing to pause', 'Off') : li('pause', 'Claude jobs', 'Scans, explanations and research wait', 'Paused')];
-    return box(`${head(L.head, tag)}${list(rows)}<p class="small muted">It comes back at the next check once cash falls under ${L.line}, after reconciliation or on 1 December.</p>`);
+      /* OWN-36, "Cut in a set order": backfills first, then challenger models, then Claude jobs, and code says which step it reached. Drawn at step 1 */
+      ? [li('trim', 'Step 1 · Backfills', 'Cut first. Each resumes from its step', 'Cut'), li('check', 'Step 2 · Challenger models', 'Next, if code cuts further. Running in full until then', 'Running'), off ? li('ban', 'Step 3 · Claude jobs', 'Already off, so nothing to reduce', 'Off') : li('check', 'Step 3 · Claude jobs', 'Last. Scans, explanations and research run in full until then', 'Running')]
+      /* OWN-25, "Daily forecasts keep running": optional paid work stops at £85, and daily forecasts carry on inside the £15 kept above it */
+      : [li('pause', 'Backfills', 'Stopped at step 4 of 9. Resumes from that step', 'Paused'), li('pause', 'Challenger models', 'The next run waits', 'Paused'), off ? li('ban', 'Claude jobs', 'Already off, so nothing to pause', 'Off') : li('pause', 'Claude jobs', 'Scans, explanations and research wait', 'Paused'), li('check', 'Daily forecasts', 'Carry on, inside the £15 kept above £85', 'Running')];
+    const step = k === 'reduce' ? `<p class="small muted">Code cuts in a set order and says which step it reached: step 1 of 3, backfills.</p><div class="cost-chips">${proposed('CT-13')}<span class="small muted">How far each step cuts, and what moves code to the next, is not set.</span></div>` : '';
+    return box(`${head(L.head, tag)}${list(rows)}${step}<p class="small muted">It comes back at the next check once cash falls under ${L.line}, after reconciliation or on 1 December.</p>`);
   }
-  const howHere = k => box(`${head('How the month got here', illus())}${list([li('alert', 'Warned at £60', '20 Nov · a notice reached you', ''), li('trim', 'Reduced at £75', '23 Nov · fewer optional jobs', ''), li('pause', 'Paused at £85', '24 Nov · a challenger run and extra build minutes took AWS past £22', '')].slice(0, Object.keys(OVERS).indexOf(k) + 1))}`);
-  const stillOn = () => box(`${head('Still working')}<div class="cost-chips">${['Sign-in', 'Ledger reads', 'Audit', 'Recovery'].map(t => chipOf(['fresh', t])).join('')}</div><p class="small muted">Bills can still arrive after a pause. A threshold is not an instant AWS shut-off.</p>`);
+  const howHere = k => box(`${head('How the month got here', illus())}${list([li('alert', 'Warned at £60', '20 Nov · a notice reached you', ''), li('trim', 'Reduced at £75', '23 Nov · backfills cut first, step 1 of 3', ''), li('pause', 'Paused at £85', '24 Nov · a challenger run and extra build minutes took AWS past £22', '')].slice(0, Object.keys(OVERS).indexOf(k) + 1))}`);
+  const stillOn = () => box(`${head('Still working')}<div class="cost-chips">${KEPT.map(t => chipOf(['fresh', t])).join('')}</div><p class="small muted">Bills can still arrive after a pause. A threshold is not an instant AWS shut-off.</p>`);
   const overRail = (ctx, k) => (ctx.state === 'empty' ? '' : howHere(k)) + stillOn();
 
   /* ---------- does the month fit ---------- */
@@ -321,7 +330,7 @@
     return box(`${head('What happened', illus())}${list([sofar])}${days.map(([d, rows], i) => `<div class="cost-day">${d}</div>${list(rows.map(r => li(r[0], r[1], r[2], r[3])))}${i === 0 ? askOf(m) : ''}`).join('')}`);
   }
   const limitTable = ctx => `<div style="overflow-x:auto"><table class="ht"><thead><tr><th>Line</th><th>What changes</th></tr></thead><tbody>${[
-    ['£60 Warn', 'A notice reaches you. Nothing stops'], ['£75 Reduce', 'Fewer optional backfills, challengers and Claude jobs'], ['£85 Pause', 'New optional paid work pauses, with its reason'],
+    ['£60 Warn', 'A notice reaches you. Nothing stops'], ['£75 Reduce', 'Backfills first, then challengers, then Claude jobs'], ['£85 Pause', 'Optional paid work pauses, with its reason. Daily forecasts carry on'],
     ['£100 Ceiling', 'The limit. Not an instant AWS shut-off'], ['£5 Scan cap', 'A batch that could cross it is refused'], ['Claude off', '£46.48 a month. Chat and research unavailable'], ['Apple fee month', 'Whole month £149.77. Judged on £54.73']
   ].map(r => `<tr data-mo="rise"><td style="font-weight:600">${r[0]}</td><td style="white-space:normal">${r[1]}</td></tr>`).join('')}</tbody></table></div>`;
   const sheetOf = (ctx) => {
@@ -352,8 +361,8 @@
         render: ctx => page(ctx, { tab: 0, back: 'Portfolio', title: 'This month', webActions: illus('Read only'), body: hero(ctx) + parts(ctx) + scan(ctx), rail: box(`${head('The lines')}<div>${miniRungs()}</div>${toThresholds}`) + sourcesCard(ctx) })
       }, {
         id: 'cost-a-limits', title: 'The lines',
-        note: 'Code applies the lines. Only you change one, in Settings, with a fresh sign-in, so this page has no control.',
-        render: ctx => page(ctx, { tab: 0, back: 'This month', title: 'The lines', webActions: illus('Read only'), body: (ctx.state === 'loading' ? hero(ctx) : box(`${head('Where you are', chipOf(month(ctx).st))}${lad(month(ctx))}<p class="small muted">${month(ctx).say}</p>${askOf(month(ctx))}`)) + box(`${head('The lines')}<p class="small muted">Each line is judged on the forecast for the month, before paid work starts. Code applies them. Only you change one, in Settings, with a fresh sign-in.</p><div>${rungs(ctx)}</div>`) + always(), rail: scan(ctx) + claudeCard(ctx) })
+        note: 'Code applies the lines. Only you change one, in Settings, with a fresh sign-in, so this page has no control. The owner picked "Code may draft one" (OWN-35), not the Recommended option, so a raise code drafts lands in Approvals.',
+        render: ctx => page(ctx, { tab: 0, back: 'This month', title: 'The lines', webActions: illus('Read only'), body: (ctx.state === 'loading' ? hero(ctx) : box(`${head('Where you are', chipOf(month(ctx).st))}${lad(month(ctx))}<p class="small muted">${month(ctx).say}</p>${askOf(month(ctx))}`)) + box(`${head('The lines')}<p class="small muted">Each line is judged on the forecast for the month, before paid work starts. Code applies them. Only you change one, in Settings, with a fresh sign-in. ${RAISE}</p><div>${rungs(ctx)}</div>`) + always(), rail: scan(ctx) + claudeCard(ctx) })
       }, {
         id: 'cost-a-warned', title: 'Warned at £60',
         note: 'A notice opens this. Nothing stops at £60, and the page says how far the next line is.',
@@ -399,7 +408,7 @@
       }, {
         id: 'cost-b-limits', title: 'Limits',
         note: 'One table for the lines, the scan cap, Claude and the Apple fee month.',
-        render: ctx => page(ctx, { tab: 0, back: 'This month', title: 'Limits', webActions: illus('Read only'), body: whereYouAre(ctx) + box(`${head('Every limit', illus())}${limitTable(ctx)}<p class="small muted">Code applies these. Only you change one, in Settings, with a fresh sign-in.</p>`) + always(), rail: claudeCard(ctx) + scan(ctx) + apple(ctx) })
+        render: ctx => page(ctx, { tab: 0, back: 'This month', title: 'Limits', webActions: illus('Read only'), body: whereYouAre(ctx) + box(`${head('Every limit', illus())}${limitTable(ctx)}<p class="small muted">Code applies these. Only you change one, in Settings, with a fresh sign-in. ${RAISE}</p>`) + always(), rail: claudeCard(ctx) + scan(ctx) + apple(ctx) })
       }, {
         id: 'cost-b-warned', title: 'Warned at £60',
         note: 'A notice opens this. The same chart, with the forecast past the first line. Nothing stops at £60.',

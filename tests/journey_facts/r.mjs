@@ -68,7 +68,11 @@ const LIVE = [
   [['aa-restart-result', 'ab-restart-result'], ['Sign in and approve'], ['stale']],
   [REVOKES, ['Revoke this approval'], ['default']],
   [REVOKES, ['Sign in and approve'], ['stale']],
-  [REVOKES, ['Sign in again'], ['abstention']],
+  // Narrowed for OWN-16, "An open session is enough": revoking asks for no sign-in, so Abstaining is not applicable on a revoke and draws no Sign in again.
+  // MP-190 (OWN-35, "Code may draft one"): a raise code drafted is decided like a settings change, and its step-up like any other.
+  [['aa-budget', 'ab-budget'], ['Refuse', 'Approve'], ['default']],
+  [['aa-budget-step', 'ab-budget-step'], ['Continue with passkey'], ['default', 'stale']],
+  [['aa-budget-step', 'ab-budget-step'], ['Approve this'], ['empty']],
   [['aa-record'], ['Roll back'], ['default', 'error', 'stale']],
   [INBOXES, ['See the evidence', 'Dismiss'], NOTICE_LIVE],
   [['ab-home'], ['See the evidence', 'Dismiss'], NOTICE_LIVE, WIDE],
@@ -78,6 +82,8 @@ const HELD_OFF = [
   [LISTINGS, ['Refuse', 'Confirm'], ['loading', 'error', 'offline']],
   [MODELS, ['Refuse', 'Approve'], ['offline']],
   [SETTINGS, ['Refuse', 'Approve'], ['offline']],
+  [['aa-budget', 'ab-budget'], ['Refuse', 'Approve'], ['offline']],   // MP-190 (OWN-35)
+  [['aa-budget-step', 'ab-budget-step'], ['Continue with passkey'], ['offline']],   // MP-190 (OWN-35)
   [RESTARTS, ['Stay on v1', 'Switch forward'], ['offline']],
   [STEPS, ['Continue with passkey'], ['offline']],
   [REVOKES, ['Revoke this approval'], ['offline']],
@@ -318,7 +324,10 @@ const FACTS = {
   },
 
   'R1-r19': ({ each, lacks }) => {
-    each({ journey: A }, (v, at) => { for (const re of RAISE) lacks(v.text, re, `${said(at)}: MP-114 and MP-78 conflict, so no approval or record may raise a budget`); });
+    // Narrowed for OWN-35, "Code may draft one": the owner settled the MP-114 and MP-78 conflict, so a raise code drafted for your yes is drawn on
+    // its own screens. Everywhere else the old refusal holds: no other approval or record may raise a budget.
+    const RAISES = /^a[ab]-budget(-step)?$/;
+    each({ journey: A }, (v, at) => { if (RAISES.test(at.screen)) return; for (const re of RAISE) lacks(v.text, re, `${said(at)}: MP-114 and MP-78 conflict, so no approval or record may raise a budget`); });
   },
 
   'R1-r20': ({ each, has }) => {
@@ -333,7 +342,9 @@ const FACTS = {
     each({ journey: A, option: 'a', screen: 'aa-result', state: 'default' }, (v, at) => has(v.text, /Proposed · SCI-D07/, `${said(at)}: the bad-week rule is open`));
     each({ journey: R, option: 'a', screen: 'ra-alert', state: 'default' }, (v, at) => {
       lacks(v.text, /Cooldown runs to/, `${said(at)}: a cooldown time on no record`);
-      has(v.text, /Proposed · CT-18/, `${said(at)}: cooldowns are open`);
+      // Narrowed for OWN-34, "Once in 24 hours": the cooldown is settled; CT-18 stays on what is still open, each line's value.
+      has(v.text, /It pushes once in 24 hours for this holding, rule and severity/, `${said(at)}: the cooldown the owner picked`);
+      has(v.text, /Each line still needs your value before build\. Proposed · CT-18/, `${said(at)}: the line's value is open`);
     });
     // Narrowed in MP-189: the owner pressed "Both keep the five" (MP40-Q12c), so a browser's copy is no longer labelled open. It says it is saved here, and that its protection is unverified.
     for (const journey of [R, A]) each({ journey, surface: ['web', 'pwa'], state: 'offline' }, (v, at) => { has(v.text, /Saved in this browser How a browser protects saved records is unverified\./, `${said(at)}: an offline copy in a browser`); lacks(v.text, /Proposed · MP40-Q12|keeps offline is open/, `${said(at)}: a settled question still labelled open`); });
@@ -377,7 +388,7 @@ const FACTS = {
   },
 
   // The same listing is approved the same way in both options.
-  'R2-r2': ({ view, each, has, must }) => {
+  'R2-r2': ({ view, each, has, lacks, must }) => {
     for (const surface of SURFACES) for (const state of STATES.filter((s) => s !== 'noModel')) {
       const sheet = (o, s) => view(A, o, s, surface, state).html.match(/<div class="sheet"[\s\S]*$/);
       const a = sheet('a', 'aa-listing-step'), b = sheet('b', 'ab-step');
@@ -387,11 +398,13 @@ const FACTS = {
       has(v.text, /Approve with a fresh sign-in/, `${said(at)}: no step-up`);
       has(v.text, /Environment Production/, `${said(at)}: not the listing's sheet`);
       has(v.text, /Payload hash 2d7a…b310/, `${said(at)}: not the listing's sheet`);
-      has(v.text, /Proposed · CT-01 Proposed · MP40-Q9/, `${said(at)}: the listing's sign-in and its expiry are open`);
+      // Narrowed for OWN-39, "Anything that writes or widens": confirming a listing widens, so it needs a fresh sign-in by the owner's rule and its CT-01 label is gone. Its expiry stays open.
+      has(v.text, /Proposed · MP40-Q9/, `${said(at)}: the listing's expiry is open`); lacks(v.text, /Proposed · CT-01/, `${said(at)}: a sign-in OWN-39 settled, still labelled`);
     });
     for (const [option, screen] of [['a', 'aa-listing'], ['b', 'ab-chat']]) {
-      each({ journey: A, option, screen, state: ['default', 'noModel', 'disagreement'] }, (v, at) => has(v.text, /Bound to catalogue v14 · expires 18:00 · needs a fresh sign-in Proposed · CT-01 Proposed · MP40-Q9/, `${said(at)}: the foot and its labels`));
-      each({ journey: A, option, screen, state: 'offline' }, (v, at) => has(v.text, /Bound to catalogue v14 · expires 18:00 · confirming needs a connection and a fresh sign-in Proposed · CT-01 Proposed · MP40-Q9/, `${said(at)}: the foot and its labels`));
+      // Narrowed for OWN-39: the foot keeps its fresh sign-in and its expiry label; the CT-01 label is gone.
+      each({ journey: A, option, screen, state: ['default', 'noModel', 'disagreement'] }, (v, at) => has(v.text, /Bound to catalogue v14 · expires 18:00 · needs a fresh sign-in Proposed · MP40-Q9/, `${said(at)}: the foot and its labels`));
+      each({ journey: A, option, screen, state: 'offline' }, (v, at) => has(v.text, /Bound to catalogue v14 · expires 18:00 · confirming needs a connection and a fresh sign-in Proposed · MP40-Q9/, `${said(at)}: the foot and its labels`));
     }
   },
 
@@ -404,9 +417,10 @@ const FACTS = {
         for (const w of ['Artefact', 'Calibrator', 'Tasks', 'Scope', 'Evidence hash', 'Limits', 'Previous safe', 'Expected version', 'Expires 15 minutes after you approve', at.state === 'noModel' ? 'Proposed · POLICY-003' : 'Proposed · SCI-D07']) has(v.text, new RegExp(w), `${said(at)}: no "${w}"`);
         has(v.text, /Your approval then has 15 minutes to apply\. Proposed · CT-02/, `${said(at)}: the window's label is not beside it`);
       });
-      each({ journey: A, option, screen, state: ['default', 'disagreement', 'abstention'] }, (v, at) => has(v.text, /Bound to R1-LGB v2 · 15 min once approved · needs a fresh sign-in Proposed · CT-01 Proposed · CT-02/, `${said(at)}: the foot and its labels`));
-      each({ journey: A, option, screen, state: 'offline' }, (v, at) => has(v.text, /Bound to R1-LGB v2 · 15 min once approved · switching forward needs a connection and a fresh sign-in Proposed · CT-01 Proposed · CT-02/, `${said(at)}: the foot and its labels`));
-      each({ journey: A, option, screen, state: 'noModel' }, (v, at) => has(v.text, /Bound to R2-HGB v3 on US tech, 12 months · 15 min once approved · needs a fresh sign-in Proposed · CT-01 Proposed · CT-02/, `${said(at)}: the foot and its labels`));
+      // Narrowed for OWN-39, "Anything that writes or widens": switching forward and restarting write, so each needs a fresh sign-in by the owner's rule and loses its CT-01 label. The window's CT-02 label stays.
+      each({ journey: A, option, screen, state: ['default', 'disagreement', 'abstention'] }, (v, at) => has(v.text, /Bound to R1-LGB v2 · 15 min once approved · needs a fresh sign-in Proposed · CT-02/, `${said(at)}: the foot and its labels`));
+      each({ journey: A, option, screen, state: 'offline' }, (v, at) => has(v.text, /Bound to R1-LGB v2 · 15 min once approved · switching forward needs a connection and a fresh sign-in Proposed · CT-02/, `${said(at)}: the foot and its labels`));
+      each({ journey: A, option, screen, state: 'noModel' }, (v, at) => has(v.text, /Bound to R2-HGB v3 on US tech, 12 months · 15 min once approved · needs a fresh sign-in Proposed · CT-02/, `${said(at)}: the foot and its labels`));
       each({ journey: A, option, screen, state: 'noModel' }, (v, at) => {
         has(v.text, /Bound to R2-HGB v3 on US tech, 12 months/, `${said(at)}: the foot does not name the model`);
         has(v.text, /Artefact R2-HGB v3/, `${said(at)}: the card does not name the model`);
@@ -543,8 +557,9 @@ const FACTS = {
         lacks(v.text, /Already revoked/, `${said(at)}: against Holdings`);
       });
       each({ journey: A, option, screen, state: 'abstention' }, (v, at) => {
-        must(!v.na, `${said(at)}: not applicable here, and drawn on Holdings`);
-        has(v.text, /Fresh sign-in needed/, `${said(at)}: Holdings' reading`);
+        // Narrowed for OWN-16, "An open session is enough": the revoke step-up is gone here and on Holdings, so both read not applicable, for the same reason.
+        must(v.na && /OWN-16/.test(v.na), `${said(at)}: not applicable here, and drawn on Holdings`);
+        for (const s of ['a-live', 'b-live']) must(/OWN-16/.test(view('holdings', s[0], s, at.surface, 'abstention').na || ''), `${said(at)}: Holdings' ${s} still draws a revoke step-up`);
       });
     }
   },
@@ -623,7 +638,8 @@ const FACTS = {
       });
       each({ journey: A, option, screen: res, state: 'default' }, (v, at) => {
         must(v.html.includes('aria-modal="true"'), `${said(at)}: no sheet`);
-        for (const w of [/Switch forward/, /R1-LGB v1 to v2/, /Artefact R1-LGB v2/, /Payload hash/, /Expires 15 minutes after you approve/, /Proposed · CT-01/]) has(v.text, w, `${said(at)}: ${w}`);
+        // Narrowed for OWN-39: switching forward writes, so its fresh sign-in is the owner's rule and the CT-01 label is gone.
+        for (const w of [/Switch forward/, /R1-LGB v1 to v2/, /Artefact R1-LGB v2/, /Payload hash/, /Expires 15 minutes after you approve/, /Approve with a fresh sign-in/]) has(v.text, w, `${said(at)}: ${w}`);
       });
       each({ journey: A, option, screen: res, state: 'noModel' }, (v, at) => {
         must(v.html.includes('aria-modal="true"') && !v.na, `${said(at)}: no sheet`);
@@ -716,10 +732,11 @@ const FACTS = {
     for (const [option, screen, sheet] of [['a', 'aa-listing', 'aa-listing-step'], ['b', 'ab-chat', 'ab-step']]) {
       each({ journey: A, option, screen, state: ['default', 'offline', 'noModel', 'disagreement'] }, (v, at) => {
         has(v.text, /Expires 18:00 Proposed · MP40-Q9/, `${said(at)}: the head`);
-        has(v.text, /expires 18:00 · [a-z ]*fresh sign-in Proposed · CT-01 Proposed · MP40-Q9/, `${said(at)}: the foot`);
+        // Narrowed for OWN-39: the CT-01 label is gone; the expiry keeps MP40-Q9.
+        has(v.text, /expires 18:00 · [a-z ]*fresh sign-in Proposed · MP40-Q9/, `${said(at)}: the foot`);
       });
       each({ journey: A, option, screen, state: 'stale' }, (v, at) => has(v.text, /Expired Proposed · MP40-Q9/, `${said(at)}: an expired listing`));
-      each({ journey: A, option, screen: sheet, state: ['default', 'loading', 'empty', 'error', 'stale', 'offline', 'disagreement', 'abstention'] }, (v, at) => has(v.text, /Expires Today, 18:00 Proposed · CT-01 Proposed · MP40-Q9/, `${said(at)}: the sheet`));
+      each({ journey: A, option, screen: sheet, state: ['default', 'loading', 'empty', 'error', 'stale', 'offline', 'disagreement', 'abstention'] }, (v, at) => has(v.text, /Expires Today, 18:00 Proposed · MP40-Q9/, `${said(at)}: the sheet`)); // narrowed for OWN-39: the CT-01 label is gone
     }
     for (const [option, screen] of [['a', 'aa-after'], ['b', 'ab-after']]) each({ journey: A, option, screen, state: 'stale' }, (v, at) => has(v.text, /Expired Proposed · MP40-Q9/, `${said(at)}: an expired listing`));
     for (const [option, model, step, set, setStep] of [['a', 'aa-model', 'aa-step', 'aa-setting', 'aa-setting-step'], ['b', 'ab-model', 'ab-model-step', 'ab-setting', 'ab-setting-step']]) {
@@ -743,7 +760,7 @@ const FACTS = {
     for (const [option, screen] of [['a', 'aa-result'], ['b', 'ab-model-result'], ['a', 'aa-setting-result'], ['b', 'ab-setting-result'], ['a', 'aa-restart-result'], ['b', 'ab-restart-result']]) each({ journey: A, option, screen, state: 'stale' }, (v, at) => has(v.text, /Expired Proposed · CT-02/, `${said(at)}: an expired proposal`));
     for (const [option, screen, sheet] of [['a', 'aa-restart', 'aa-restart-step'], ['b', 'ab-restart', 'ab-restart-step']]) {
       each({ journey: A, option, screen, state: ['default', 'noModel', 'stale', 'offline', 'disagreement', 'abstention'] }, (v, at) => has(v.text, /Stays open · waits for your yes Proposed · CT-02/, `${said(at)}: the head`));
-      each({ journey: A, option, screen: sheet }, (v, at) => has(words(sheetOf(v.html)), /Expires 15 minutes after you approve Proposed · CT-01 Proposed · CT-02/, `${said(at)}: the sheet`));
+      each({ journey: A, option, screen: sheet }, (v, at) => has(words(sheetOf(v.html)), /Expires 15 minutes after you approve Proposed · CT-02/, `${said(at)}: the sheet`)); // narrowed for OWN-39: the CT-01 label is gone
     }
     each({ journey: A, option: 'a', screen: 'aa-record', state: ['default', 'stale', 'offline', 'error'] }, (v, at) => has(v.text, /Watch Barclays Nobody · expired Wed 08:14 Expired Proposed · MP40-Q9/, `${said(at)}: the record`));
     each({ journey: A, option: 'b', screen: 'ab-history', state: ['default', 'stale', 'offline'] }, (v, at) => has(v.text, /Earlier proposal Thu 22 Oct · nobody acted Expired Proposed · MP40-Q9/, `${said(at)}: the history`));
@@ -793,14 +810,17 @@ const FACTS = {
   'R3-r7': (a) => FACTS['R2-r10'](a),
 
   // The sign-in label stays with the act after the decision, and on the stop control.
-  'R3-r8': ({ each, has }) => {
-    const LABEL = 'Proposed · CT-01';
+  'R3-r8': ({ each, has, must }) => {
+    // Narrowed for OWN-39, "Anything that writes or widens": these acts need a fresh sign-in by the owner's rule, so the CT-01 label is gone.
+    // What stays: the record and the outcome still say the act was done with a fresh sign-in, with no label after it.
+    const LABEL = '(?!Proposed · CT-01)';
     each({ journey: A, option: 'a', screen: 'aa-record', state: ['default', 'error', 'stale', 'offline'] }, (v, at) => has(v.text, new RegExp(`Taiwan Semiconductor added You · Wed 09:02 · catalogue v15 · fresh sign-in Approved ${LABEL}`), `${said(at)}: the record`));
     each({ journey: A, option: 'b', screen: 'ab-history', state: ['default', 'error', 'stale', 'offline'] }, (v, at) => has(v.text, new RegExp(`Confirmed by you Wed 09:02 · catalogue v15 · fresh sign-in Approved ${LABEL}`), `${said(at)}: the history`));
     for (const [option, res, rev] of [['a', 'aa-restart-result', 'aa-revoke'], ['b', 'ab-restart-result', 'ab-revoke']]) {
       each({ journey: A, option, screen: res, state: ['default', 'noModel'] }, (v, at) => has(v.text, new RegExp(`Applied at 09:18 with your fresh sign-in\\..*? Approved ${LABEL}`), `${said(at)}: the outcome`));
       each({ journey: A, option, screen: res, state: 'stale' }, (v, at) => has(v.text, new RegExp(`Expired Proposed · CT-02 ${LABEL}`), `${said(at)}: signing in again`));
-      each({ journey: A, option, screen: rev, state: 'abstention' }, (v, at) => has(v.text, new RegExp(`Fresh sign-in needed .*?Sign in again ${LABEL}`), `${said(at)}: a stop control behind an unnamed rule`));
+      // Narrowed for OWN-16: revoking needs no fresh sign-in, so no stop control waits behind one.
+      each({ journey: A, option, screen: rev, state: 'abstention' }, (v, at) => must(v.na && /OWN-16/.test(v.na), `${said(at)}: a stop control behind a sign-in`));
     }
   },
 
@@ -866,7 +886,7 @@ const FACTS = {
     must(rows > 100, `only ${rows} open rows were read`);
     const name = (html) => [...html.matchAll(/role="button" tabindex="0" aria-label="([^"]*)"/g)].map((m) => m[1]).join(' | ');
     each({ journey: A, option: 'a', screen: 'aa-record', state: 'default' }, (v, at) => {
-      for (const re of [/R2-HGB v4 promoted, You · Wed 09:14 · on probation, Approved/, /Taiwan Semiconductor added, You · Wed 09:02 · catalogue v15 · fresh sign-in, Approved, Proposed · CT-01/, /Watch Barclays, Nobody · expired Wed 08:14, Expired, Proposed · MP40-Q9/, /Let the chat route add listings, Code · Tue 17:20 · would widen authority, Blocked/, /R1-LGB v2 reverted to v1, Code · Mon 22:20 · 2 bad weeks on probation, Automatic/, /Statement import approval revoked, You · Fri 30 Oct · before the commit started, Revoked/]) has(name(v.html), re, `${said(at)}: ${re}`);
+      for (const re of [/R2-HGB v4 promoted, You · Wed 09:14 · on probation, Approved/, /Taiwan Semiconductor added, You · Wed 09:02 · catalogue v15 · fresh sign-in, Approved(?!, Proposed · CT-01)/, /* narrowed for OWN-39: the CT-01 label is gone */ /Watch Barclays, Nobody · expired Wed 08:14, Expired, Proposed · MP40-Q9/, /Let the chat route add listings, Code · Tue 17:20 · would widen authority, Blocked/, /R1-LGB v2 reverted to v1, Code · Mon 22:20 · 2 bad weeks on probation, Automatic/, /Statement import approval revoked, You · Fri 30 Oct · before the commit started, Revoked/]) has(name(v.html), re, `${said(at)}: ${re}`);
     });
     for (const [option, screen] of [['a', 'ra-memory'], ['b', 'rb-memory']]) {
       each({ journey: R, option, screen, state: 'default' }, (v, at) => {

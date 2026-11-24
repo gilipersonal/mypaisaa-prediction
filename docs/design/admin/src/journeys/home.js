@@ -40,14 +40,14 @@
     offline: banner('', WAIT, 'From 11:20. Reading only. No financial write offline.', 'wifi-off'),
     conflict: `${banner('warn', 'Settings changed while you read.', `Settings v10 was written at 09:01, so a proposal built on v9 needs a new look. Nothing was applied. ${WAITS(3, '2 incidents')} Production is recorded lost.`, 'split')}<div>${proposed('CT-14')}</div>`,
     expired: banner('warn', WAITS(3), 'Taiwan Semiconductor expired at 18:00. It changed nothing.', 'clock'),
-    denied: `${banner('warn', 'Reading needs no fresh sign-in. Some changes do.', `Each says so before you press it. ${WAIT}`, 'lock')}<div>${proposed('CT-01')}</div>`
+    denied: `${banner('warn', 'Reading needs no fresh sign-in. Every change that writes or widens does.', `Most stops need none, such as revoking an approval. Revoking a device still does, because it removes a passkey. Each control says what it needs before you press it. ${WAIT}`, 'lock')}<div>${proposed('CT-01')}</div>`
   }[ctx.state]);
   const bBody = ctx => `${wide(ctx) && ctx.state !== 'empty' ? '' : topOf(ctx)}${ctx.state === 'error' ? `<div>${bs('Try again', 'tinted', 'refresh')}</div>` : ''}${tiles(ctx)}`;
   const note = () => `<p class="small">Admin sits under Settings. Phones read and acknowledge; changes happen on iPad or desktop, and account recovery works anywhere.</p>`;
   const state = (ctx, ok, what) => region(ctx, {
     what, rows: 5, ok,
     empty: () => banner('', 'Nothing waits on you.', 'Runs, audit and costs stay here to read. Silence is not a sign that nothing is wrong, so the last run and the last restore always show.', 'check') + places(ctx),
-    denied: () => banner('warn', 'Reading needs no fresh sign-in. Some changes do.', 'Each says so before you press it, and nothing is pre-approved.', 'lock') + `<div>${proposed('CT-01')}</div>` + ok()
+    denied: () => banner('warn', 'Reading needs no fresh sign-in. Every change that writes or widens does.', 'Most stops need none, such as revoking an approval. Revoking a device still does, because it removes a passkey. Each control says what it needs before you press it, and nothing is pre-approved.', 'lock') + `<div>${proposed('CT-01')}</div>` + ok()
   });
   J.add({
     id: 'home', title: 'Admin home', stories: ['MP-64'],

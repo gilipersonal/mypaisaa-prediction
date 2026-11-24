@@ -91,6 +91,12 @@ Never hide risk, staleness or a provider's status behind a spinner: freshness st
   means no score, said in words.
 - Numbers come from code and models; Claude only explains, and every figure it quotes carries a source.
 - Holdings first on home. Holdings and imports are separate places.
+- An approval binds one exact change and grants no tool, source or permission. A budget changes only by your own change
+  in Settings or a raise code drafted for your yes ("Code may draft one", OWN-35). An act that writes or widens asks for
+  a fresh sign-in, and reading and stopping do not ("Anything that writes or widens", OWN-39), so revoking an approval needs
+  only an open session ("An open session is enough", OWN-16). Revoking a device still asks for one on any healthy
+  path, because it removes a passkey ("Revoke removes it too", ADM-02; "Any healthy path", ADM-03). How recent a
+  sign-in must be is still open.
 - Privacy mode masks money and units, and percentages stay ("Mask units too", OWN-18). Lock screens, widgets and
   snapshots show no holdings.
 - Each market runs on its own clock (POLICY-002): cutoff at +60 and forecasts by +75 after its close, US 22:00 and 22:15, UK

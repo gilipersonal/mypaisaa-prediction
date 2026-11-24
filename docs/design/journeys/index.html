@@ -2042,7 +2042,7 @@ const FLIP_NAMES = { home: ['Tiles', 'Ledger'], holdings: ['Desk', 'One by one']
 const FLIP_AT = { 'cost-a-sources': 'Sources', 'cost-b-log': 'Log', 'cost-a-fit': 'Months', 'cost-b-fit': 'List', 'cost-b-limits': 'Table', 'b-forecast': 'Dossier', 'b-proof': 'Dossier', 'b-views': 'Dossier', 'b-evidence': 'Dossier' };
 const pairs = (...p) => Object.fromEntries(p);
 const FLIPS = {
-  home: pairs(['a-portfolio', 'b-ledger'], ['a-12m', 'b-12m'], ['a-launch', 'b-launch'], ['a-board', 'b-top5'], ['a-segment', 'b-explore'], ['a-seg-uslarge', 'b-top5-uslarge'], ['a-seg-n50', 'b-top5-n50'], ['a-seg-midcap', 'b-top5-midcap'], ['a-seg-usetf', 'b-top5-usetf'], ['a-seg-uketf', 'b-top5-uketf'], ['a-seg-inetf', 'b-top5-inetf'], ['a-seg-metals', 'b-top5-metals'], ['a-brief', 'b-brief'], ['a-search', 'b-search']),
+  home: pairs(['a-portfolio', 'b-ledger'], ['a-12m', 'b-12m'], ['a-launch', 'b-launch'], ['a-board', 'b-top5'], ['a-segment', 'b-explore'], ['a-seg-uslarge', 'b-top5-uslarge'], ['a-seg-n50', 'b-top5-n50'], ['a-seg-midcap', 'b-top5-midcap'], ['a-seg-usetf', 'b-top5-usetf'], ['a-seg-uketf', 'b-top5-uketf'], ['a-seg-inetf', 'b-top5-inetf'], ['a-seg-metals', 'b-top5-metals'], ['a-brief', 'b-brief'], ['a-weekend', 'b-weekend'], ['a-search', 'b-search']),
   holdings: pairs(['a-list', 'b-accounts'], ['a-private', 'b-private'], ['a-one', 'b-one'], ['a-imports', 'b-imports'], ['a-done', 'b-done']),
   forecast: pairs(['a-forecasts', 'b-forecasts'], ['a-instrument', 'b-ladder'], ['a-technical', 'b-technical'], ['a-proof', 'b-proof'], ['a-views', 'b-views'], ['a-evidence', 'b-evidence'], ['a-scenarios', 'b-scenarios'], ['a-hzstates', 'b-hzstates'], ['a-3m', 'b-ladder'], ['a-12m', 'b-ladder'], ['a-short', 'b-ladder'], ['b-forecast', 'a-instrument']),
   research: pairs(['ra-brief', 'rb-today'], ['ra-card', 'rb-card'], ['ra-ask', 'rb-ask'], ['ra-memory', 'rb-memory'], ['ra-alert', 'rb-alert']),
@@ -2372,11 +2372,11 @@ const OPEN = [
   ['Action thresholds (FIN-OD-07)', 'Settled, 5 Nov 2026 ("Evidence first", OWN-09): no label appears until evaluation supports the thresholds and you approve a ranking policy version. Portfolio and Ledger at launch draw that time; every other screen draws labels as they read after the approval. Open: the thresholds themselves.'],
   ['Scenario returns (SCI-D06)', 'The figures are placeholders. Empty is the state today.'],
   ['Import limits and locked PDFs (MP40-Q1, MP40-Q2)', 'Import limits: labelled proposed. Locked PDFs: settled, 5 Nov 2026 ("Local unlock step", MP40-Q2): you type its password in a step on your device, which opens the PDF there and sends only the unlocked copy. The password never leaves the device, and it is never stored, logged or sent to a model. Drawn as Unlock a PDF in both options of Holdings and imports.'],
-  ['Billing data and freshness (MP40-Q5, MP40-Q6)', 'Labelled proposed.'],
-  ['Weekend brief (MP40-Q11)', 'Not drawn.'],
+  ['Billing data and freshness (MP40-Q5, MP40-Q6)', 'Labelled proposed. The £15 kept above £85 now also holds daily forecasts (the owner, 5 Nov 2026: "Yes, add them").'],
+  ['Weekend brief (MP40-Q11)', 'Settled, 5 Nov 2026 ("Weekdays only", MP40-Q11b): no brief on Saturday or Sunday, and Home says why, drawn as No brief at the weekend. That held alerts then land in the inbox at 07:30 is proposed in the pick itself, and labelled.'],
   ['Is one root with no uniqueness certificate Ambiguous, and how is a search limit worded? (FIN-OD-04)', 'Proposed: Reliance stays Ambiguous, with its one found rate shown and not picked. AstraZeneca stays Nonconvergent: the search used its budget before it could separate the possible rates, so none is stated.'],
   ['Can a disagreement with no ranked action be recorded at all? (MP-158)', 'Settled, 5 Nov 2026 ("Any time evidence shows", OWN-15): yes, saved with both sides and why no action was ranked.'],
-  ['Does revoking an approval need a fresh sign-in? (CT-01)', 'Proposed: drawn when the session is stale. Neither MP-55 nor CT-01 names it.'],
+  ['Does revoking an approval need a fresh sign-in? (CT-01)', 'Settled, 5 Nov 2026 ("An open session is enough", OWN-16): any live signed-in session revokes at once, and a signed-out device signs in first. The Sign-in too old state is gone from Approvals and Holdings.'],
   ['Does an abstained or split horizon take only growth, or protection too? (MP-135)', 'Settled, 5 Nov 2026 ("Both parts go", OWN-17): both go, so the name is not ranked. Apple leaves US tech in Disagreement and in Abstaining.'],
   ['Do units count as amounts when amounts are hidden? (MP-84)', 'Settled, 5 Nov 2026 ("Mask units too", OWN-18): money and units are masked, and percentages stay.'],
   ['How does rebasing a part of a history work? (FIN-OD-03)', 'Labelled proposed, and its approval is disabled.'],
@@ -2385,7 +2385,7 @@ const OPEN = [
   ['Must ranges show on Home itself? MP-153 asks for them, and a tile cannot hold one.', 'Home A shows ranges one tap in, on every segment list, and says so in its cost. Home B shows them in the rows.'],
   ['Can a decision be recorded against an abstention? (MP-158)', 'Settled, 5 Nov 2026 ("Any time evidence shows", OWN-15): yes, against the evidence, and the entry says why no action was ranked. With no forecast at that horizon it may never get an outcome. Past entries stand.'],
   ['Where do track records by horizon and regime live? (MP-154)', 'Not drawn. The journal shows only the scored decisions.'],
-  ['What no clear view, a cost pause and the technical mode show on a forecast (MP-145)', 'Labelled proposed.'],
+  ['What no clear view, a cost pause and the technical mode show on a forecast (MP-145)', 'The cost pause is settled, 5 Nov 2026 ("Daily forecasts keep running", OWN-25): daily forecasts carry on past £85, inside the £15 kept above it, and Cost paused shows only where a forecast needs optional paid work. No clear view and the technical mode stay labelled proposed.'],
   ['Gold and silver have no short-term rows, views or scenarios (SCI-D08)', 'Labelled proposed.'],
   ['Probation at 6 and 12 months, where nothing matures in the first 4 live weeks, and the bad-week rule (SCI-D07)', 'Labelled proposed. Probation ends with no score at those horizons.'],
   ['What evidence does restarting a paused scope need, and does the yes give the model a fresh approval? (POLICY-003)', 'Labelled proposed.'],
@@ -2393,13 +2393,13 @@ const OPEN = [
   ['In No model, is only NVIDIA unlabelled, or every non-India row? The reason given covers them all. (FIN-OD-07)', 'Not yours to choose (OWN-30): MP-144 already leaves every row unlabelled until thresholds are approved, and the launch screens now draw that. Still to do as design work: move the unclassified case out of No model, whose subject is India. NVIDIA alone reads No label there today.'],
   ['Does an open reconciliation difference withhold the account return? (FIN-OD-04)', 'Not withheld: General shows +17.4% beside the open £8.15.'],
   ['Reliance reads Pause beside a positive median at 3 and 12 months, and the conflict is recorded only at 6. Is that right? (SCI-D03)', 'Settled, 5 Nov 2026 ("Conflict at every long horizon", OWN-32): wherever they point different ways at 3, 6 or 12 months, that horizon is conflicted and no action is ranked. Reliance is conflicted at all three.'],
-  ['What counts as beating the rules, and how rules are scored (SCI-D03)', 'Labelled proposed.'],
-  ['How long a risk alert cools down (CT-18)', 'No time is promised.'],
-  ['May a budget be raised through an approval? MP-114 bars it and MP-78 lists it as a sensitive action.', 'Not drawn. The records conflict.'],
-  ['Which runs does a Reduce line cut? (MP-103)', 'Labelled proposed: fewer optional runs.'],
+  ['What counts as beating the rules, and how rules are scored (SCI-D03)', 'Labelled proposed. One part is settled, 5 Nov 2026 ("Use the best simple baseline", ADM-09): where the rules cannot be scored fairly, the strongest simple baseline stands in for them on that task, with your yes each time, in admin Models.'],
+  ['How long a risk alert cools down (CT-18)', 'Settled, 5 Nov 2026 ("Once in 24 hours", OWN-34): one push per holding, rule and severity in 24 hours, sooner only if it worsens or the cause is new. What makes an alert material or critical is settled too ("Your lines, no investment wake-ups", MP40-Q11a). Each line\'s value is still yours to set (CT-18).'],
+  ['May a budget be raised through an approval? MP-114 bars it and MP-78 lists it as a sensitive action.', 'Settled, 5 Nov 2026 ("Code may draft one", OWN-35, not the Recommended option): when a line is close, code drafts an exact raise for your queue, with cost and rollback, and you approve it with a fresh sign-in. Drawn as Budget raise in Approvals. How code sizes a raise is open (CT-13).'],
+  ['Which runs does a Reduce line cut? (MP-103)', 'Settled, 5 Nov 2026 ("Cut in a set order", OWN-36): backfills first, then challenger models, then Claude jobs, and code says which step it reached. How far each step cuts is not set (CT-13).'],
   ['A revoked device that has not connected can still read its saved copy, against MP-165. Is that acceptable?', 'Settled, 5 Nov 2026 ("Saved copy also times out", OWN-37): the copy clears when the device next connects, and the app also stops showing it after a set time without reaching the server. Open: that time, which you choose, so no number is drawn. Unverified: how well an offline app can enforce it.'],
   ['What is kept offline, and which devices (MP40-Q12)', 'What is kept: settled, 5 Nov 2026 ("Both keep the five", MP40-Q12c): the Apple app and a browser each keep holdings, prices, forecasts, notices and cost, each with its age. Unverified: how a browser protects them, which needs an architecture answer before build, so every browser offline frame says so. Which devices: labelled proposed.'],
-  ['Revocation time (CT-17) and which acts need a fresh sign-in (CT-01)', 'No exact time is promised. Every approval asks for a fresh sign-in, in both options. Renewing an original and turning on a less private option also ask for one (Proposed · CT-01). Settled, 5 Nov 2026 ("Any healthy path", ADM-03): revoking a device asks for a fresh sign-in on any healthy path, passkey or Google, and the revoke removes any passkey held on it ("Revoke removes it too", ADM-02), unverified until MP-197.']
+  ['Revocation time (CT-17) and which acts need a fresh sign-in (CT-01)', 'The acts are settled, 5 Nov 2026 ("Anything that writes or widens", OWN-39): every act that changes a record, widens what MP may do or opens an original needs a fresh sign-in, and reading and stopping do not. Open: how recent a sign-in must be, and the revocation time. Both are set from measured proof before the identity phase ends, so no time is promised. Settled, 5 Nov 2026 ("Any healthy path", ADM-03): revoking a device asks for a fresh sign-in on any healthy path, passkey or Google, and the revoke removes any passkey held on it ("Revoke removes it too", ADM-02), unverified until MP-197.']
 ];
 function showInventory() {
   mark('inv');
@@ -2642,6 +2642,35 @@ function briefBody(ctx) {
   if (st === 'empty') return { left: stateCard('clock', 'No brief yet', 'Your first brief arrives at 07:30 London tomorrow, with actions first, then risks, changes and upcoming events.', ''), right: '' };
   return { left: lead + all.left, right: all.right };
 }
+
+/* ---------- the weekend (MP40-Q11b, "Weekdays only"): no brief on Saturday or Sunday, and Home says why ----------
+   Drawn on Saturday 7 November, the weekend after Tuesday's brief, so it shows no figure from Tuesday: every price is Friday's close,
+   so no price is late and the data chips read fresh, as on a morning with no holdings to be late (fresh: 'empty').
+   That held alerts land in the inbox at 07:30 is proposed in the owner's pick itself, so it keeps its label */
+const WK = ['No brief today · Saturday', 'Weekdays only: markets are shut'];
+const wkStamps = () => `<div class="home-stamps">${['US closed Fri 21:00', 'UK closed Fri 16:35', 'India closed Fri 10:00'].map(t => `<span class="chip" data-mo="chip">${t}</span>`).join('')}</div>`;
+/* what Home shows in the brief's place: the floating pill in Tiles, the card in Ledger. A picture of Home, so it opens nothing here */
+const WKB = ['No brief today · Saturday', 'Weekdays only. The next is Monday, 07:30'];
+const wkOnHome = o => (o === 'a' ? `${sec('On Home, above the dock')}<div class="home-pill" role="img" aria-label="${WK[0]}. ${WK[1]}.">${ic('clock', 's18')}<span class="home-pt"><b>${WK[0]}</b><span class="t">${WK[1]}</span></span></div>` : `${sec('On the ledger, after the holdings')}<div class="card home-card" role="img" aria-label="${WKB[0]}. ${WKB[1]}." data-mo="card"><div style="display:flex;align-items:center;gap:8px">${ic('clock', 's18')}<h4 style="flex:1">${WKB[0]}</h4></div><p class="home-sub">${WKB[1]}</p></div>`);
+const WK_WHY = 'MP writes the brief on weekdays only. Markets are shut on Saturday and Sunday, so a weekend brief would mostly repeat Friday. The next is Monday 9 November, 07:30 London.';
+const wkHeld = () => `<div class="card home-card" data-mo="card"><h4>Alerts held overnight</h4><p class="home-sub">With no brief to carry them, an alert held by quiet hours lands in your inbox at 07:30. Every alert is in the inbox already.</p><div><span class="chip proposed"><span class="dot"></span>Proposed · MP40-Q11</span></div></div>`;
+function weekendBody(ctx, o) {
+  const st = ctx.state;
+  if (st === 'loading') return { left: `<div class="card home-card" data-mo="card"><div class="label">Saturday 7 November</div><p class="home-sub">Reading what is due. No brief is due until Monday.</p><span class="sk" style="height:14px;width:80%"></span></div>`, right: '' };
+  if (st === 'empty') return { left: stateCard('clock', 'No brief yet', 'Your first brief arrives on Monday 9 November, 07:30 London: the brief runs on weekdays only, from the first weekday after your holdings are in.', ''), right: '' };
+  const lead = st === 'offline' ? banner('', 'Saved copy.', `Saved on this device at 07:31. Nothing updates until you reconnect.${q12(ctx)}`, 'wifi-off') : '';
+  return {
+    left: lead + wkOnHome(o) + stateCard('clock', 'No brief today', WK_WHY, '', '<span class="chip">Weekdays only</span>') + wkHeld(),
+    right: `<div class="card home-card" data-mo="card"><h4>Last closes</h4><p class="home-sub">Every price is Friday's close, on its own market's clock.</p>${wkStamps()}</div>`
+  };
+}
+const naWeekend = {
+  error: 'No brief is written at the weekend, so its writing route cannot fail here. A failed Friday run shows on Friday\'s brief.',
+  stale: 'At the weekend every price is Friday\'s close, which is the close, not a stale price.',
+  noModel: 'No brief is written at the weekend, so no model is read for one.',
+  disagreement: 'No action is ranked into a weekend brief, so nothing can conflict here. Friday\'s brief keeps its conflicts.',
+  abstention: 'No action is ranked into a weekend brief, so nothing can abstain here. Friday\'s brief keeps its abstentions.'
+};
 
 /* ---------- the top 5 board ---------- */
 /* a name flagged on a list it stays on. None today: a split takes the name off its list, as an abstention does ("Both parts go", OWN-17). */
@@ -2937,7 +2966,8 @@ const OTHERS = ORDER.filter(k => k !== 'ustech');
 const EMPTY = {
   holdings: 'Empty here means no holdings yet: the lists still show, because a ranking needs no holdings (MP-135).',
   lists: 'Empty here means the first morning, before any daily run, so no list exists yet.',
-  brief: 'Empty is the first morning; a weekend brief waits on MP40-Q11.',
+  brief: 'Empty is the first morning. There is no brief at the weekend, and No brief at the weekend says why (MP40-Q11b).',
+  weekend: 'Empty here means no holdings yet, so the first brief comes on the first weekday after they are in.',
   band: 'Empty here means a holding with no action band.',
   rows: 'Empty here means no holdings yet, so no row opens.',
   metals: 'Empty here means no list, as in every state.',
@@ -2979,6 +3009,9 @@ J.add({
       id: 'a-brief', title: 'Daily brief', note: `Actions, then risks, changes and upcoming events, with each market on its own clock. ${EMPTY.brief}`,
       render: ctx => { const b = briefBody(ctx); return frame(ctx, placed(ctx, 'research', { tab: 0, back: 'Portfolio', title: 'Daily brief', actions: tb('info', 'About the brief'), body: b.left, rail: b.right }, 'Portfolio')); }
     }, {
+      id: 'a-weekend', title: 'No brief at the weekend', na: naWeekend, note: `Saturday 7 November. The owner picked "Weekdays only" (MP40-Q11b): no brief on Saturday or Sunday, Home says why, and alerts held overnight land in the inbox at 07:30, which the pick itself marks proposed. The floating pill reads No brief today and opens this. ${EMPTY.weekend}`,
+      render: ctx => { const b = weekendBody(ctx, 'a'); return frame(ctx, { fresh: 'empty', tab: 0, back: 'Portfolio', title: 'Daily brief', actions: tb('info', 'About the brief'), body: b.left, rail: b.right }); }
+    }, {
       id: 'a-search', title: 'Search', note: `Holdings, watch-only and the 150-name universe stay visibly apart. Search cannot add a listing: that goes through chat, a coverage check and your confirm. ${EMPTY.search}`,
       render: ctx => frame(ctx, { tab: 0, back: 'Portfolio', title: 'Search', actions: '<span></span>', body: searchMain(ctx), rail: searchRail(ctx) })
     }]
@@ -3005,6 +3038,9 @@ J.add({
     }, {
       id: 'b-brief', title: 'Daily brief', note: `What the brief row opens: actions, then risks, changes and upcoming events, each market on its own clock. Each action row carries its ticker, as a ledger row does. ${EMPTY.brief}`,
       render: ctx => { const b = briefBody({ ...ctx, tick: true }); return frame(ctx, placed(ctx, 'research', { tab: 0, back: 'Portfolio', title: 'Daily brief', actions: tb('info', 'About the brief'), body: b.left, rail: b.right }, 'Portfolio')); }
+    }, {
+      id: 'b-weekend', title: 'No brief at the weekend', na: naWeekend, note: `Saturday 7 November. The owner picked "Weekdays only" (MP40-Q11b): the brief row on the ledger reads No brief today and opens this, and alerts held overnight land in the inbox at 07:30, which the pick itself marks proposed. ${EMPTY.weekend}`,
+      render: ctx => { const b = weekendBody(ctx, 'b'); return frame(ctx, { fresh: 'empty', tab: 0, back: 'Portfolio', title: 'Daily brief', actions: tb('info', 'About the brief'), body: b.left, rail: b.right }); }
     }, {
       id: 'b-top5', title: 'Top 5 in place', note: `The top 5 as it sits below the holdings on the ledger, here on its own, with eight segments as a picker, so the list changes under your thumb and you never leave home. Each name carries its median and 80% range. ${EMPTY.lists}`,
       render: ctx => frame(ctx, { tab: 0, title: 'Top 5', ...homeActs(ctx), body: switcher(ctx) })
@@ -3544,12 +3580,13 @@ J.add({
     error: () => stateCard('alert', 'Too late to revoke', 'The commit started at 21:22, so it finishes whole or not at all. To undo it, reverse the import.', btn('Back to Imports', 'tinted sm')),
     stale: () => stateCard('clock', 'This approval expired', 'It expired at 21:33 with no commit started, so nothing was committed. The rows have not changed, so a fresh approval is enough.', btn('Sign in and approve', 'primary sm')),
     offline: () => off(ctx, 'Revoking needs a connection. If no commit starts by 21:33, this approval expires by itself.') + stillApproved().replace(btn('Revoke approval', 'plain sm'), dis('Revoke approval', 'plain')),
-    disagreement: () => stateCard('alert', 'Refused for a stale revision', 'Your ledger moved to revision 214, so this approval for 213 can never commit. Nothing was committed. Refresh the preview to approve it again.', btn('Refresh preview', 'primary sm', 'refresh')),
-    abstention: () => stateCard('lock', 'Fresh sign-in needed', 'Your sign-in is too old for this step, and a Face ID unlock alone does not count. Nothing has changed.', btn('Sign in again', 'primary sm'), proposed('CT-01'))
+    disagreement: () => stateCard('alert', 'Refused for a stale revision', 'Your ledger moved to revision 214, so this approval for 213 can never commit. Nothing was committed. Refresh the preview to approve it again.', btn('Refresh preview', 'primary sm', 'refresh'))
   });
+  /* OWN-16, "An open session is enough": revoking asks for no fresh sign-in, so the step-up this screen drew in Abstaining is gone */
+  const naLive = { ...naApprove, abstention: 'An open session is enough to revoke (OWN-16), so no sign-in step can hold it up, and a decision is yours, so nothing can abstain on it.' };
   const liveScreen = (id, top = '') => ({
-    id, title: 'Approved, until the commit starts', na: naApprove,
-    note: 'What an approval does next. Ready is live, Empty revoked, Stale expired, Disagreement refused for a stale revision and Abstaining a step-up. Revoking before the commit stops it from taking effect.',
+    id, title: 'Approved, until the commit starts', na: naLive,
+    note: 'What an approval does next. Ready is live, Empty revoked, Stale expired and Disagreement refused for a stale revision. Revoking before the commit stops it from taking effect, and an open session is enough to revoke (OWN-16, "An open session is enough").',
     render: ctx => imp(ctx, { tab: 4, title: 'Approved', back: 'Imports', fresh: 'default', actions: eyeInfo('About approvals'), body: top + liveBody(ctx) })
   });
 
@@ -4033,7 +4070,8 @@ const KEY = [
   { n: '12 months', chip: () => pill('', 'ban', 'Abstained'), why: 'Too little comparable history, so no range.' },
   { n: '6 months', chip: () => pill('stale', 'clock', 'Stale input'), why: `An input is past its freshness limit, so the last issue is held, not current. ${qLate}` },
   { n: '10 sessions', chip: () => pill('', 'pause', 'Model paused'), why: 'Paused by the safety rule (POLICY-003). The rules show instead.' },
-  { n: '20 sessions', state: 'costpaused', why: `The next run waits at the £85 line of the £100 ceiling. The last issue stays dated, and nothing is made up. ${qH}` },
+  /* OWN-25, "Daily forecasts keep running": a daily forecast carries on past £85, so Cost paused shows only where a forecast needs optional paid work */
+  { n: '20 sessions', state: 'costpaused', why: 'Shown only where a forecast needs optional paid work, which pauses at the £85 line. Daily forecasts carry on, inside the £15 kept above £85. The last issue stays dated, and nothing is made up.' },
   { n: 'All seven', chip: () => pill('', 'ban', 'Unavailable'), why: 'No forecast can be made, and the reason shows: gold and silver today (SCI-D08).' }
 ];
 const keyLead = () => `<div class="fc-sub" data-mo="fade">A horizon always says which state it is in. None is removed, and none is given a made-up number.</div>`;
@@ -4556,7 +4594,7 @@ J.add({
     return region(ctx, {
       what: 'The brief', rows: 4, ok: () => main(),
       loading: () => box(`${lbl('Tue 3 Nov · last brief, until today\'s loads')}<span class="sk" style="height:22px;width:86%;margin-top:10px"></span><span class="sk" style="height:14px;width:60%;margin-top:8px"></span>`) + skel(4),
-      empty: () => stateCard('clock', 'The next brief comes at 07:30', 'It leads with ranked actions, then risks, changes and what is coming up. Alerts held overnight arrive with it.', bs('Read Tuesday\'s brief'), `<span class="chip">Scheduled · 07:30 London</span>`) + box(`${lbl('Moves with daylight saving')}<p class="small muted" style="margin-top:4px">Always 07:30 in London, with India, UK and US shown on their own clocks.</p>`),
+      empty: () => stateCard('clock', 'The next brief comes at 07:30', 'It leads with ranked actions, then risks, changes and what is coming up. Alerts held overnight arrive with it, on weekdays: there is no brief at the weekend.', bs('Read Tuesday\'s brief'), `<span class="chip">Scheduled · 07:30 London</span>`) + box(`${lbl('Moves with daylight saving')}<p class="small muted" style="margin-top:4px">Always 07:30 in London, with India, UK and US shown on their own clocks.</p>`),
       error: () => banner('warn', 'Late.', 'MP was down at 07:30. This brief was issued on recovery at 08:12, once.', 'clock') + main({ when: 'Wed 4 Nov · issued late, 08:12 London', text: 'Alerts found during the outage carry their detection time.' }),
       stale: () => banner('warn', 'Some evidence is pending.', `HSBC is past the freshness limit, so it leaves the total until its price returns: £84,051.05 known, 6 of 7 priced. The brief never waits on this morning's batch: it quotes the last valid evidence, dated. ${LATE}`, 'clock') + main({ title: 'Four ranked actions, one on a stale price, and one risk held overnight.' }),
       offline: () => banner('', 'Offline.', 'This is the 07:30 brief, saved on this device. Asking and sources wait until you reconnect.', 'wifi-off') + main(),
@@ -4701,6 +4739,12 @@ J.add({
   };
 
   /* ---------- a material risk alert (MP-138): one alert, held overnight, never an order ---------- */
+  /* MP40-Q11a, "Your lines, no investment wake-ups": material is a line you set, crossed; critical is security and service faults only.
+     Each line's value is still yours to set before build, so 28% stays illustrative and CT-18 stays on it */
+  const KINDS = `<p class="small muted" style="margin-top:8px">Material means a line you set is crossed, on exposure, price move, volatility or an event flag. Critical covers security and service faults only, so an investment alert waits for 07:30. Each line still needs your value before build.</p><div style="margin-top:8px">${proposed('CT-18')}</div>`;
+  /* OWN-34, "Once in 24 hours", and MP40-Q11b, "Weekdays only": the weekend landing is proposed in the owner's pick itself */
+  const COOL = 'It pushes once in 24 hours for this holding, rule and severity, and sooner only if it worsens or the cause is new. Every event stays in the app.';
+  const WEEKEND = 'There is no brief on Saturday or Sunday, so an alert held then lands in your inbox at 07:30.';
   const alertCard = (ctx, o = {}) => { const s = share(ctx); return box(`<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"><span class="chip stale">${ic('alert', 's14')}Material</span><span class="chip">Investment risk</span>${illus()}</div>
     <p style="margin-top:10px;font:700 22px/28px var(--font-text);letter-spacing:-.015em;text-wrap:balance">US tech is ${s.us} of ${s.of}</p>
     <div class="calbar" role="img" aria-label="US tech ${s.us} against your material line of 28%"><i data-mo="barx" style="width:${s.bar}%;background:var(--warn)"></i><b style="left:56%"></b></div>
@@ -4708,7 +4752,7 @@ J.add({
     <p style="margin-top:10px;font:400 15px/20px var(--font-text);letter-spacing:-.005em">${o.text || `Apple is ${fig(s.ap)} and NVIDIA ${fig(s.nv)} of ${s.of}.${ref(1)} Code found this on eligible data as of 22:15.`}</p>
     <div style="margin-top:8px">${sources('1 · Ledger, 22:15')}</div>
     <div style="display:grid;margin-top:12px">${ctx.state === 'offline' || ctx.state === 'noModel' ? '<button class="btn sm btn-tinted" type="button" disabled>Ask why</button>' : bs('Ask why', 'primary')}</div>
-    <p class="small muted" style="margin-top:8px">Decision support. This alert acts on nothing.</p>`); };
+    <p class="small muted" style="margin-top:8px">Decision support. This alert acts on nothing.</p>${KINDS}`); };
   const alertBody = ctx => region(ctx, {
     what: 'This alert', rows: 2, ok: () => alertCard(ctx),
     loading: () => box(`${lbl('Detected Tue 22:15 · loading its evidence')}<span class="sk" style="height:22px;width:80%;margin-top:10px"></span><span class="sk" style="height:8px;margin-top:12px"></span><span class="sk" style="height:40px;margin-top:12px"></span>`),
@@ -4719,9 +4763,9 @@ J.add({
     noModel: () => banner('', 'Claude is off.', 'Code found this alert, so it stands, and asking why waits. Claude stays off until credit is verified or you approve paid use, in Settings, with a fresh sign-in.', 'ban') + alertCard(ctx),
     disagreement: () => banner('', 'Sources differ on the close.', 'On Yahoo\'s NVIDIA price US tech is 29.0%; on Twelve Data\'s it is 29.1%. Both are above your line.', 'split') + alertCard(ctx)
   });
-  const LOG = [['Detected Tue 22:15', 'Risk check after the US run, on data to its 22:00 cutoff'], ['Held by quiet hours', '22:00 to 07:00 London'], ['Arrived with the 07:30 brief', 'Push attempted, which is not proof you read it'], ['Opened Wed 08:02', 'In the app, and in the inbox on every device']];
+  const LOG = [['Detected Tue 22:15', 'Risk check after the US run, on data to its 22:00 cutoff'], ['Held by quiet hours', '22:00 to 07:00 London. It is material, not critical, so it waited'], ['Arrived with the 07:30 brief', 'Push attempted, which is not proof you read it'], ['Opened Wed 08:02', 'In the app, and in the inbox on every device']];
   const alertLog = ctx => {
-    const log = ctx.state === 'empty' ? '' : box(`${lbl('What happened')}<ol class="cl-steps" style="margin-top:8px;gap:8px">${LOG.map(([a, b]) => `<li class="cl-step" style="align-items:start">${TICK}<span><b style="font-weight:600;color:var(--ink)">${a}</b><br>${b}</span></li>`).join('')}</ol><p class="small muted" style="margin-top:8px">2 repeats were grouped into this one alert. How long a cooldown runs is open.</p><div style="margin-top:8px">${proposed('CT-18')}</div>`);
+    const log = ctx.state === 'empty' ? '' : box(`${lbl('What happened')}<ol class="cl-steps" style="margin-top:8px;gap:8px">${LOG.map(([a, b]) => `<li class="cl-step" style="align-items:start">${TICK}<span><b style="font-weight:600;color:var(--ink)">${a}</b><br>${b}</span></li>`).join('')}</ol><p class="small muted" style="margin-top:8px">2 repeats were grouped into this one alert. ${COOL}</p><p class="small muted" style="margin-top:8px">${WEEKEND}</p><div style="margin-top:8px">${proposed('MP40-Q11')}</div>`);
     return `${log}${box(`${lbl('On the lock screen')}<p style="margin-top:4px;font:600 15px/20px var(--font-text);letter-spacing:-.01em">MyPrediction: you have a new notice</p><p class="small muted" style="margin-top:2px">No value and no holding, ever.</p>`)}`;
   };
 
@@ -4796,7 +4840,7 @@ J.add({
         id: 'ra-memory', title: 'Memory notes', note: 'Reached from Settings. Disagreement shows a note against the ledger; the ledger wins.',
         render: ctx => fr(ctx, { fresh: 'default', tab: 4, back: 'Settings', title: 'Memory notes', body: memBody(ctx), rail: noteDetail(ctx) })
       }, {
-        id: 'ra-alert', title: 'Risk alert', note: 'The line is illustrative: the owner approves the material and critical thresholds. Empty never reads as an all-clear. No model shows Claude off: the alert stands and Ask why is unavailable.',
+        id: 'ra-alert', title: 'Risk alert', note: 'The owner picked "Your lines, no investment wake-ups" (MP40-Q11a) for what makes an alert material or critical, and "Once in 24 hours" (OWN-34) for repeats. The 28% line is illustrative: its value is the owner\'s to set. A weekend landing in the inbox is proposed in "Weekdays only" (MP40-Q11b) itself. Empty never reads as an all-clear. No model shows Claude off: the alert stands and Ask why is unavailable.',
         na: { abstention: 'A risk alert is a rule run by code, so no model can abstain on it.' },
         render: ctx => fr(ctx, { tab: 0, back: 'Brief', title: 'Risk alert', body: alertBody(ctx), rail: alertLog(ctx) })
       }]
@@ -4821,7 +4865,7 @@ J.add({
         id: 'rb-memory', title: 'Memory in the thread', note: 'You ask what Claude holds, and the notes come back as a post you can correct or forget.',
         render: ctx => fr(ctx, { fresh: 'default', tab: 0, back: 'Today', title: 'Today', body: (ctx.state === 'noModel' ? '' : ask('What do you remember about me?')) + memBody(ctx), rail: noteDetail(ctx) })
       }, {
-        id: 'rb-alert', title: 'Risk alert', note: 'Posted with the brief, then expanded in place. The line is illustrative: the owner approves the thresholds. No model shows Claude off: the alert stands and Ask why is unavailable.',
+        id: 'rb-alert', title: 'Risk alert', note: 'Posted with the brief, then expanded in place. The owner picked "Your lines, no investment wake-ups" (MP40-Q11a) and "Once in 24 hours" (OWN-34). The 28% line is illustrative: its value is the owner\'s to set. No model shows Claude off: the alert stands and Ask why is unavailable.',
         na: { abstention: 'A risk alert is a rule run by code, so no model can abstain on it.' },
         render: ctx => fr(ctx, { tab: 0, back: 'Today', title: 'Today', body: threadAlert(ctx), rail: alertLog(ctx) })
       }]
@@ -5286,10 +5330,12 @@ J.add({
   }
 
   /* ---------- the thresholds ---------- */
+  /* OWN-36 "Cut in a set order" and OWN-25 "Daily forecasts keep running", with the owner's later "Yes, add them": daily forecasts
+     run inside the £15 kept above £85. The same three sentences, word for word, in admin Costs */
   const RUNGS = [
     ['£60', 'Warn', 'A notice reaches you. Nothing stops.'],
-    ['£75', 'Reduce', 'Fewer optional backfills, challenger models and Claude jobs.'],
-    ['£85', 'Pause', 'New optional paid work pauses, and each pause shows its reason.'],
+    ['£75', 'Reduce', 'Code cuts backfills first, then challenger models, then Claude jobs, and says which step it reached.'],
+    ['£85', 'Pause', 'New optional paid work pauses, and each pause shows its reason. Daily forecasts carry on, inside the £15 kept above £85.'],
     ['£100', 'Ceiling', 'The limit of the month. It is not an instant AWS shut-off: hard caps on requests, concurrency, timeouts and retention back it.']
   ];
   const firstOf = s => ({ default: '27p away', stale: '27p away', offline: '27p away', loading: 'Last good: 27p away', empty: 'Plan: 27p away', noModel: '£13.52 away', error: 'Estimated: 27p away', disagreement: 'Reached' }[s] || 'Not known');
@@ -5304,7 +5350,11 @@ J.add({
     return box(`${head('Where you are', chipOf(m.st))}${load ? sk('100%', 12) : lad(m)}<div class="cost-rung" data-mo="rise">${rungHead(v, t, first, first === 'Reached')}</div><p class="small muted">${load ? lastGood : m.say}</p>${askOf(m)}`);
   }
   const miniRungs = () => RUNGS.slice(0, 3).map(([v, t, p]) => `<div class="cost-rung mini" data-mo="rise"><span class="v">${v}</span><span class="t">${t}</span><p>${p}</p></div>`).join('');
-  const always = () => box(`${head('Never paused')}<div class="cost-chips">${['Sign-in', 'Ledger reads', 'Audit', 'Recovery'].map(t => chipOf(['fresh', t])).join('')}</div><p class="small muted">These stay available at every threshold. A £15 window is kept for them.</p><div class="cost-chips">${proposed('MP40-Q6')}</div>`);
+  /* the £15 above £85 also holds daily forecasts (the owner, 5 Nov 2026: "Yes, add them"). The window itself stays labelled until MP-192 */
+  const KEPT = ['Sign-in', 'Ledger reads', 'Audit', 'Recovery', 'Daily forecasts'];
+  const always = () => box(`${head('Never paused')}<div class="cost-chips">${KEPT.map(t => chipOf(['fresh', t])).join('')}</div><p class="small muted">These stay available at every threshold. A £15 window above £85 is kept for them, daily forecasts included.</p><div class="cost-chips">${proposed('MP40-Q6')}</div>`);
+  /* OWN-35, "Code may draft one": one sentence, word for word here and in admin Costs */
+  const RAISE = 'When a line is close, code may draft a raise for your Approvals, with its cost and rollback. Only your yes, with a fresh sign-in, applies it, and it stays under £100.';
 
   /* ---------- where the figures come from ---------- */
   const LANES = {
@@ -5358,8 +5408,8 @@ J.add({
   /* ---------- a line reached: warned, reduced or paused. Every degraded mode shows here with its reason and how it ends ---------- */
   const OVERS = {
     warn: { line: '£60', noun: 'warning', head: 'What changes', day: 20, when: '20 Nov at 06:14', so: '51.06', fc: 61.20, aws: 14.60, cl: 8.28, off: [23.22, 60.90], bill: 59.80, st: ['stale', 'Warned at £60', 'alert'], does: 'Nothing stops.', back: 'so the warning clears at the next check.', none: 'No warning this month', noneSay: 'The forecast is under £60. A notice reaches you the moment it passes, and this page then says how far the next line is.' },
-    reduce: { line: '£75', noun: 'reduction', head: 'Reduced', day: 23, when: '23 Nov at 06:14', so: '64.86', fc: 76.10, aws: 24.10, cl: 12.58, off: [36.90, 75.70], bill: 74.30, st: ['stale', 'Reduced at £75', 'trim'], does: 'Fewer optional jobs run.', back: 'so optional work is back in full at the next check.', none: 'Nothing is reduced this month', noneSay: 'Every optional job runs in full. A reduction would show here with its reason, the moment one starts.' },
-    pause: { line: '£85', noun: 'pause', head: 'Paused', day: 24, when: '24 Nov at 06:14', so: '71.20', fc: 86.40, aws: 28.40, cl: 14.62, off: [43.02, 85.90], bill: 84.10, st: ['error', 'Paused at £85', 'pause'], does: 'New optional paid work waits.', back: 'so optional work is admitted at the next check.', none: 'Nothing is paused this month', noneSay: 'Every optional job is admitted. A pause would show here with its reason, the moment one starts.' }
+    reduce: { line: '£75', noun: 'reduction', head: 'Reduced', day: 23, when: '23 Nov at 06:14', so: '64.86', fc: 76.10, aws: 24.10, cl: 12.58, off: [36.90, 75.70], bill: 74.30, st: ['stale', 'Reduced at £75', 'trim'], does: 'Code cut backfills first, step 1 of 3.', back: 'so optional work is back in full at the next check.', none: 'Nothing is reduced this month', noneSay: 'Every optional job runs in full. A reduction would show here with its reason, the moment one starts.' },
+    pause: { line: '£85', noun: 'pause', head: 'Paused', day: 24, when: '24 Nov at 06:14', so: '71.20', fc: 86.40, aws: 28.40, cl: 14.62, off: [43.02, 85.90], bill: 84.10, st: ['error', 'Paused at £85', 'pause'], does: 'New optional paid work waits, and daily forecasts carry on.', back: 'so optional work is admitted at the next check.', none: 'Nothing is paused this month', noneSay: 'Every optional job is admitted. A pause would show here with its reason, the moment one starts.' }
   };
   const gbp = v => `£${v.toFixed(2)}`;
   function overOf(ctx, k) {
@@ -5392,12 +5442,15 @@ J.add({
       return box(`${head(L.head, tag)}${list([li('alert', 'A notice reached you', '20 Nov at 06:14 · it stays in your inbox', 'Sent'), li('check', 'Optional work', 'All of it still runs. Nothing stops at £60', 'Running'), li('trim', 'Next line: reduce at £75', left, '')])}<p class="small muted">The warning clears at the next check once the forecast falls under £60, after reconciliation or on 1 December.</p>`);
     }
     const rows = k === 'reduce'
-      ? [li('trim', 'Backfills', 'Fewer runs. Each resumes from its step', 'Reduced'), li('trim', 'Challenger models', 'Fewer runs this month', 'Reduced'), off ? li('ban', 'Claude jobs', 'Already off, so nothing to reduce', 'Off') : li('trim', 'Claude jobs', 'Fewer scans, explanations and research runs', 'Reduced')]
-      : [li('pause', 'Backfills', 'Stopped at step 4 of 9. Resumes from that step', 'Paused'), li('pause', 'Challenger models', 'The next run waits', 'Paused'), off ? li('ban', 'Claude jobs', 'Already off, so nothing to pause', 'Off') : li('pause', 'Claude jobs', 'Scans, explanations and research wait', 'Paused')];
-    return box(`${head(L.head, tag)}${list(rows)}<p class="small muted">It comes back at the next check once cash falls under ${L.line}, after reconciliation or on 1 December.</p>`);
+      /* OWN-36, "Cut in a set order": backfills first, then challenger models, then Claude jobs, and code says which step it reached. Drawn at step 1 */
+      ? [li('trim', 'Step 1 · Backfills', 'Cut first. Each resumes from its step', 'Cut'), li('check', 'Step 2 · Challenger models', 'Next, if code cuts further. Running in full until then', 'Running'), off ? li('ban', 'Step 3 · Claude jobs', 'Already off, so nothing to reduce', 'Off') : li('check', 'Step 3 · Claude jobs', 'Last. Scans, explanations and research run in full until then', 'Running')]
+      /* OWN-25, "Daily forecasts keep running": optional paid work stops at £85, and daily forecasts carry on inside the £15 kept above it */
+      : [li('pause', 'Backfills', 'Stopped at step 4 of 9. Resumes from that step', 'Paused'), li('pause', 'Challenger models', 'The next run waits', 'Paused'), off ? li('ban', 'Claude jobs', 'Already off, so nothing to pause', 'Off') : li('pause', 'Claude jobs', 'Scans, explanations and research wait', 'Paused'), li('check', 'Daily forecasts', 'Carry on, inside the £15 kept above £85', 'Running')];
+    const step = k === 'reduce' ? `<p class="small muted">Code cuts in a set order and says which step it reached: step 1 of 3, backfills.</p><div class="cost-chips">${proposed('CT-13')}<span class="small muted">How far each step cuts, and what moves code to the next, is not set.</span></div>` : '';
+    return box(`${head(L.head, tag)}${list(rows)}${step}<p class="small muted">It comes back at the next check once cash falls under ${L.line}, after reconciliation or on 1 December.</p>`);
   }
-  const howHere = k => box(`${head('How the month got here', illus())}${list([li('alert', 'Warned at £60', '20 Nov · a notice reached you', ''), li('trim', 'Reduced at £75', '23 Nov · fewer optional jobs', ''), li('pause', 'Paused at £85', '24 Nov · a challenger run and extra build minutes took AWS past £22', '')].slice(0, Object.keys(OVERS).indexOf(k) + 1))}`);
-  const stillOn = () => box(`${head('Still working')}<div class="cost-chips">${['Sign-in', 'Ledger reads', 'Audit', 'Recovery'].map(t => chipOf(['fresh', t])).join('')}</div><p class="small muted">Bills can still arrive after a pause. A threshold is not an instant AWS shut-off.</p>`);
+  const howHere = k => box(`${head('How the month got here', illus())}${list([li('alert', 'Warned at £60', '20 Nov · a notice reached you', ''), li('trim', 'Reduced at £75', '23 Nov · backfills cut first, step 1 of 3', ''), li('pause', 'Paused at £85', '24 Nov · a challenger run and extra build minutes took AWS past £22', '')].slice(0, Object.keys(OVERS).indexOf(k) + 1))}`);
+  const stillOn = () => box(`${head('Still working')}<div class="cost-chips">${KEPT.map(t => chipOf(['fresh', t])).join('')}</div><p class="small muted">Bills can still arrive after a pause. A threshold is not an instant AWS shut-off.</p>`);
   const overRail = (ctx, k) => (ctx.state === 'empty' ? '' : howHere(k)) + stillOn();
 
   /* ---------- does the month fit ---------- */
@@ -5499,7 +5552,7 @@ J.add({
     return box(`${head('What happened', illus())}${list([sofar])}${days.map(([d, rows], i) => `<div class="cost-day">${d}</div>${list(rows.map(r => li(r[0], r[1], r[2], r[3])))}${i === 0 ? askOf(m) : ''}`).join('')}`);
   }
   const limitTable = ctx => `<div style="overflow-x:auto"><table class="ht"><thead><tr><th>Line</th><th>What changes</th></tr></thead><tbody>${[
-    ['£60 Warn', 'A notice reaches you. Nothing stops'], ['£75 Reduce', 'Fewer optional backfills, challengers and Claude jobs'], ['£85 Pause', 'New optional paid work pauses, with its reason'],
+    ['£60 Warn', 'A notice reaches you. Nothing stops'], ['£75 Reduce', 'Backfills first, then challengers, then Claude jobs'], ['£85 Pause', 'Optional paid work pauses, with its reason. Daily forecasts carry on'],
     ['£100 Ceiling', 'The limit. Not an instant AWS shut-off'], ['£5 Scan cap', 'A batch that could cross it is refused'], ['Claude off', '£46.48 a month. Chat and research unavailable'], ['Apple fee month', 'Whole month £149.77. Judged on £54.73']
   ].map(r => `<tr data-mo="rise"><td style="font-weight:600">${r[0]}</td><td style="white-space:normal">${r[1]}</td></tr>`).join('')}</tbody></table></div>`;
   const sheetOf = (ctx) => {
@@ -5530,8 +5583,8 @@ J.add({
         render: ctx => page(ctx, { tab: 0, back: 'Portfolio', title: 'This month', webActions: illus('Read only'), body: hero(ctx) + parts(ctx) + scan(ctx), rail: box(`${head('The lines')}<div>${miniRungs()}</div>${toThresholds}`) + sourcesCard(ctx) })
       }, {
         id: 'cost-a-limits', title: 'The lines',
-        note: 'Code applies the lines. Only you change one, in Settings, with a fresh sign-in, so this page has no control.',
-        render: ctx => page(ctx, { tab: 0, back: 'This month', title: 'The lines', webActions: illus('Read only'), body: (ctx.state === 'loading' ? hero(ctx) : box(`${head('Where you are', chipOf(month(ctx).st))}${lad(month(ctx))}<p class="small muted">${month(ctx).say}</p>${askOf(month(ctx))}`)) + box(`${head('The lines')}<p class="small muted">Each line is judged on the forecast for the month, before paid work starts. Code applies them. Only you change one, in Settings, with a fresh sign-in.</p><div>${rungs(ctx)}</div>`) + always(), rail: scan(ctx) + claudeCard(ctx) })
+        note: 'Code applies the lines. Only you change one, in Settings, with a fresh sign-in, so this page has no control. The owner picked "Code may draft one" (OWN-35), not the Recommended option, so a raise code drafts lands in Approvals.',
+        render: ctx => page(ctx, { tab: 0, back: 'This month', title: 'The lines', webActions: illus('Read only'), body: (ctx.state === 'loading' ? hero(ctx) : box(`${head('Where you are', chipOf(month(ctx).st))}${lad(month(ctx))}<p class="small muted">${month(ctx).say}</p>${askOf(month(ctx))}`)) + box(`${head('The lines')}<p class="small muted">Each line is judged on the forecast for the month, before paid work starts. Code applies them. Only you change one, in Settings, with a fresh sign-in. ${RAISE}</p><div>${rungs(ctx)}</div>`) + always(), rail: scan(ctx) + claudeCard(ctx) })
       }, {
         id: 'cost-a-warned', title: 'Warned at £60',
         note: 'A notice opens this. Nothing stops at £60, and the page says how far the next line is.',
@@ -5577,7 +5630,7 @@ J.add({
       }, {
         id: 'cost-b-limits', title: 'Limits',
         note: 'One table for the lines, the scan cap, Claude and the Apple fee month.',
-        render: ctx => page(ctx, { tab: 0, back: 'This month', title: 'Limits', webActions: illus('Read only'), body: whereYouAre(ctx) + box(`${head('Every limit', illus())}${limitTable(ctx)}<p class="small muted">Code applies these. Only you change one, in Settings, with a fresh sign-in.</p>`) + always(), rail: claudeCard(ctx) + scan(ctx) + apple(ctx) })
+        render: ctx => page(ctx, { tab: 0, back: 'This month', title: 'Limits', webActions: illus('Read only'), body: whereYouAre(ctx) + box(`${head('Every limit', illus())}${limitTable(ctx)}<p class="small muted">Code applies these. Only you change one, in Settings, with a fresh sign-in. ${RAISE}</p>`) + always(), rail: claudeCard(ctx) + scan(ctx) + apple(ctx) })
       }, {
         id: 'cost-b-warned', title: 'Warned at £60',
         note: 'A notice opens this. The same chart, with the forecast past the first line. Nothing stops at £60.',
@@ -5641,7 +5694,9 @@ J.add({
   const SAY = t => `<p class="cl-a">${t}</p>`;
   /* one line that says who did what, the same on every proposal */
   const chain = (a = 'Claude drafted', b = 'Code checked', c = 'You decide') => `<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px" data-mo="rise" role="list" aria-label="Who did what">${[[mark(' s'), a], [ic('check', 's16'), b], [ic('person', 's16'), c, true]].map(([i, t, on]) => `<div role="listitem" style="display:flex;gap:6px;align-items:center;min-height:40px;padding:6px 8px;border-radius:var(--r-sm);min-width:0;font:600 12px/16px var(--font-text);letter-spacing:0;${on ? 'background:var(--btn);color:var(--btn-ink)' : 'background:var(--surface);color:var(--ink);box-shadow:var(--shadow-1)'}">${i}<span>${t}</span></div>`).join('')}</div>`;
-  const limits = t => banner('', 'Cannot widen authority.', `${t} It grants no tool, source, budget or permission, and code refuses any change that would.`, 'shield');
+  /* OWN-35, "Code may draft one": a budget is no longer outside every proposal, so the sentence names the one way it changes. Word for word in admin Approvals */
+  const BUDGET = 'A budget changes only when you change a line in Settings, or approve a raise code drafted with its cost and rollback, and it stays under £100.';
+  const limits = t => banner('', 'Cannot widen authority.', `${t} It grants no tool, source or permission, and code refuses any change that would. ${BUDGET}`, 'shield');
   const expiry = (t, cls = 'stale') => `<span class="chip ${cls}">${ic('clock', 's14')}${t}</span>`;
   const status = {
     approved: '<span class="chip fresh"><span class="dot"></span>Approved</span>', refused: `<span class="chip error">${ic('x', 's14')}Refused</span>`, expired: expiry('Expired'),
@@ -5655,8 +5710,8 @@ J.add({
   const buttons = (yes, o = {}) => (o.only ? `<div style="display:grid;gap:8px">${o.only}</div>` : `<div style="display:grid;grid-template-columns:1fr 1.5fr;gap:8px"><button class="btn sm btn-tinted" type="button"${o.off ? ' disabled' : ''}>${o.no || 'Refuse'}</button><button class="btn sm btn-primary" type="button"${o.off ? ' disabled' : ''}>${yes}</button></div>`);
   const decideBar = (ctx, yes, foot, o = {}) => (wide(ctx) ? '' : `<div style="display:grid;gap:6px;padding:2px"><p class="small" style="text-align:center;color:var(--ink)">${foot}</p>${o.tag ? `<div style="display:flex;justify-content:center;gap:6px;flex-wrap:wrap">${o.tag}</div>` : ''}${buttons(yes, o)}</div>`);
   const decideCard = (ctx, yes, foot, o = {}) => (wide(ctx) ? box(`${lbl('Your decision')}<p class="small muted" style="margin:4px 0 10px">${foot}</p>${o.tag ? `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">${o.tag}</div>` : ''}${buttons(yes, o)}`) : '');
-  /* which acts need a fresh sign-in is open (CT-01), so the ones the records do not name say so */
-  const CT = proposed('CT-01');
+  /* which acts need a fresh sign-in is settled (OWN-39, "Anything that writes or widens"): every act here writes or widens, so each
+     asks for one, and the CT-01 label that marked the acts no record named is gone. How recent a sign-in must be is still open */
   /* how long a chat-proposed listing waits is open (MP40-Q9), and so are every other proposal's expiry and the 15-minute window on switching forward or restarting (CT-02). POLICY-001's 15 minutes covers financial writes only */
   const Q9 = proposed('MP40-Q9'), CT2 = proposed('CT-02');
   /* only your yes restarts a paused scope (POLICY-003). What evidence a restart needs, and so what the yes gives the model, is left open by POLICY-003 itself */
@@ -5715,10 +5770,10 @@ J.add({
   const listingYes = (ctx, foot, yes = 'Confirm') => {
     const st = ctx.state;
     if (st === 'stale') return { yes, foot: 'An expired proposal cannot be approved', o: { only: bs('Run the check again', 'primary', 'refresh') } };
-    if (st === 'offline') return { yes, foot: `${foot} · confirming needs a connection and a fresh sign-in`, o: { off: true, tag: CT + Q9 } };
+    if (st === 'offline') return { yes, foot: `${foot} · confirming needs a connection and a fresh sign-in`, o: { off: true, tag: Q9 } };
     if (st === 'loading' || st === 'error') return { yes, foot: 'Nothing can be confirmed until the check finishes', o: { off: true } };
     if (st === 'empty' || st === 'abstention') return null;
-    return { yes, foot: `${foot} · needs a fresh sign-in`, o: { tag: CT + Q9 } };
+    return { yes, foot: `${foot} · needs a fresh sign-in`, o: { tag: Q9 } };
   };
 
   /* ---------- the model promotion (MP-156, MP-159) ---------- */
@@ -5810,7 +5865,7 @@ J.add({
   /* ---------- the record (MP-114): every decision, by whoever made it ---------- */
   const REC = [
     ['cube', 'R2-HGB v4 promoted', 'You · Wed 09:14 · on probation', status.approved],
-    ['plus', 'Taiwan Semiconductor added', 'You · Wed 09:02 · catalogue v15 · fresh sign-in', status.approved, CT],
+    ['plus', 'Taiwan Semiconductor added', 'You · Wed 09:02 · catalogue v15 · fresh sign-in', status.approved],
     ['clock', 'Watch Barclays', 'Nobody · expired Wed 08:14', status.expired, Q9],
     ['ban', 'Let the chat route add listings', 'Code · Tue 17:20 · would widen authority', status.blocked],
     ['refresh', 'R1-LGB v2 reverted to v1', 'Code · Mon 22:20 · 2 bad weeks on probation', status.auto],
@@ -5866,6 +5921,48 @@ J.add({
   });
   const setResultRail = ctx => (ctx.state === 'default' ? changeCard(SET_WHY.slice(3), 'If you change your mind') : safeBox('An approval covers one exact change and cannot be replayed. A failed step leaves the previous version current.'));
 
+  /* ---------- a budget raise code drafted (OWN-35, "Code may draft one", not the Recommended option) ----------
+     When a line is close, code drafts an exact raise for your queue, with its cost and rollback, and you approve it with a fresh
+     sign-in. It must fit under £100. Drawn on the cost month's own clock, day 18 of 30, when the forecast is up to £59.73, 27p under
+     the £60 warning: the line the cost journey shows close, and the line admin works as its example. £65 is the first whole pound
+     above the adverse month on record, £64.89. How code sizes a raise is not recorded, so that part is labelled */
+  const RAISE_DAY = 'cost month, day 18 of 30';
+  const RAISE_SIZE = `<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center" data-mo="rise">${proposed('CT-13')}<span class="small muted">How code sizes a raise is not recorded. This one clears the adverse month.</span></div>`;
+  const budHead = (chip = expiry('Expires tomorrow 18:00') + CT2) => headCard(lead('target'), 'Raise the warning line', `£60 to £65 · code drafted this · ${RAISE_DAY}`, chip);
+  const BUD_ROWS = [['Warn line', '£60', '£65', 'A notice reaches you when the forecast passes £65, not £60.'], ['Budgets version', 'v2', 'v3']];
+  const BUD_WHY = [
+    ['Why now', '', '27p from the line', 'The forecast for the month is up to £59.73, 27p under the £60 warning.'],
+    ['Why £65', '', 'Clears the adverse month', 'Adverse rates with the scan at its cap reach £64.89, past £60. £65 is the first whole pound above it.'],
+    ['Against the month', '', '£5.27 under it', 'Up to £59.73 sits £5.27 under £65.'],
+    ['Against £100 and the plan', '', 'Unchanged', 'The £100 ceiling, the £70 plan, the £30 reserve, £75, £85 and the £15 kept above £85 stay as they are.'],
+    ['Cost a month', '', '£0', 'A warning stops nothing, so raising it spends nothing by itself. Reduce at £75 and pause at £85 still apply.'],
+    ['How to roll it back', '', 'A new version', 'A rollback makes v4 equal to v2, with its own record. Nothing is overwritten.']
+  ];
+  const BUD_BIND = [['Owner', 'You'], ['Environment', 'Production'], ['Line', 'Warn line'], ['Value', '£65'], ['Current version', 'Budgets v2'], ['Evidence', 'Forecast up to £59.73, saved to 22:15'], ['Expires', 'Tomorrow, 18:00']];
+  const budBound = (title = 'This approval is bound to') => box(`${lbl(title)}<div style="margin-top:8px">${kv(BUD_BIND)}</div><div style="margin-top:8px">${CT2}</div>`);
+  const budRail = ctx => (['default', 'offline'].includes(ctx.state) ? budBound() + limits('This raises one line, inside the £100 ceiling.') : ['error', 'stale', 'disagreement'].includes(ctx.state) ? budBound('What this proposed') : '');
+  const budgetCore = ctx => {
+    const trail = chain('Code drafted', 'Code checked', 'You decide');
+    const all = () => budHead() + trail + changeCard(BUD_ROWS) + changeCard(BUD_WHY, 'Cost, evidence and rollback') + RAISE_SIZE;
+    return region(ctx, {
+      what: 'This proposal', rows: 3, ok: all,
+      loading: () => budHead(`<span class="chip"><span class="spin" aria-hidden="true"></span>Loading</span>`) + box(`${lbl('Reading the saved figures')}<span class="sk" style="height:60px;margin-top:10px"></span>`),
+      empty: () => stateCard('check', 'No raise waits', 'Code drafts one only when a line is close, with its cost and rollback. Every line stays as you set it.'),
+      error: () => budHead(status.refused) + stateCard('alert', 'The figures changed', 'The month moved after code drafted this, so it cannot be approved. Code drafts it again on the new figures, if a line is still close.', '', `<span class="chip error">Evidence changed</span>`),
+      stale: () => banner('warn', 'Expired.', 'It ran out at 18:00 the day after code drafted it. An expired proposal cannot be approved, and nothing changed. Code drafts again only if a line is still close.', 'clock') + budHead(expiry('Expired') + CT2) + changeCard(BUD_ROWS, 'What this proposed'),
+      offline: () => banner('', 'Offline.', 'You can read this proposal. Approving needs a connection and a fresh sign-in.', 'wifi-off') + all(),
+      disagreement: () => banner('', 'The line moved.', 'You moved the warning line to £55 in Settings, as Budgets v3, so this raise against v2 is refused. Code drafts again on v3 only if a line is close.', 'split') + budHead(status.refused) + changeCard(BUD_ROWS, 'What this proposed'),
+      abstention: () => budHead(`<span class="chip">Forecast unknown</span>`) + stateCard('ban', 'No raise while the month is unknown', 'Claude usage is not collected, so the forecast for the month is unknown, never £0. Code drafts no raise on an unknown, and nothing can be approved until it is known.', '', proposed('MP40-Q5'))
+    });
+  };
+  const budgetYes = ctx => {
+    if (ctx.state === 'offline') return { yes: 'Approve', foot: 'Bound to Budgets v2 · expires tomorrow 18:00 · approving needs a connection and a fresh sign-in', o: { off: true, tag: CT2 } };
+    return ctx.state === 'default' ? { yes: 'Approve', foot: 'Bound to Budgets v2 · expires tomorrow 18:00 · needs a fresh sign-in', o: { tag: CT2 } } : null;
+  };
+  const STEP_BUD = [['Action', 'Raise a budget line'], ['Drafted by', 'Code'], ['Owner', 'You'], ['Environment', 'Production'], ['Line', 'Warn line'], ['Change', '£60 to £65'], ['Current version', 'Budgets v2'], ['Payload hash', '9d41…b2c7'], ['Expires', 'Tomorrow, 18:00']];
+  const naBudget = { noModel: 'A cost line involves no forecasting model, so none can be missing from this proposal.' };
+  const BUD_NOTE = 'The owner picked "Code may draft one" (OWN-35), not the Recommended option: when a line is close, code drafts an exact raise for your queue, with cost and rollback, and you approve it with a fresh sign-in. It must fit under £100. Drawn on the cost month\'s own clock, day 18 of 30, when the £60 warning is 27p away. The queue here is Wed 4 Nov, when no line is close, so the raise is not in its count.';
+
   /* ---------- switching forward and restarting (MP-159, owner answers 6 and 15): only your yes does either ---------- */
   /* that it waits for your yes is settled (MP-159, owner answers 6 and 15). That the proposal stays open, with no expiry of its own, is what CT-02 leaves open */
   const WAITS = 'Stays open · waits for your yes';
@@ -5899,7 +5996,7 @@ J.add({
     });
   };
   const restartYes = ctx => {
-    const st = ctx.state, tag = CT + CT2, o = { no: 'Stay on v1', tag }, foot = 'Bound to R1-LGB v2 · 15 min once approved';
+    const st = ctx.state, tag = CT2, o = { no: 'Stay on v1', tag }, foot = 'Bound to R1-LGB v2 · 15 min once approved';
     if (st === 'offline') return { yes: 'Switch forward', foot: `${foot} · switching forward needs a connection and a fresh sign-in`, o: { ...o, off: true } };
     if (st === 'default' || st === 'disagreement' || st === 'abstention') return { yes: 'Switch forward', foot: `${foot} · needs a fresh sign-in`, o };
     return st === 'noModel' ? { yes: 'Restart', foot: 'Bound to R2-HGB v3 on US tech, 12 months · 15 min once approved · needs a fresh sign-in', o: { no: 'Keep paused', tag } } : null;
@@ -5907,13 +6004,13 @@ J.add({
   const restartRail = ctx => (['default', 'loading', 'offline', 'noModel', 'disagreement', 'abstention'].includes(ctx.state) ? limits(ctx.state === 'noModel' ? 'This restarts one paused scope.' : 'This changes which approved artefact issues forecasts.') : '');
   const restartStep = ctx => (ctx.state === 'noModel' ? pauseHead() + chain('Code paused', 'Code checked', 'You decide') + changeCard(RESTART_ROWS) + `<div>${RESTARTS}</div>` : fwdHead() + chain('Code reverted', 'Code scored', 'You decide') + changeCard(FWD_ROWS));
   const restartResult = ctx => region(ctx, {
-    what: 'This decision', ok: () => outcome('check', 'rise', 'Switched forward. R1-LGB v2 is active.', 'Applied at 09:18 with your fresh sign-in. It writes forecasts for India midcap, 3 months, from tonight\'s run.', tags(status.approved, CT)) + changeCard(FWD_ROWS.slice(0, 1), 'What changed'),
+    what: 'This decision', ok: () => outcome('check', 'rise', 'Switched forward. R1-LGB v2 is active.', 'Applied at 09:18 with your fresh sign-in. It writes forecasts for India midcap, 3 months, from tonight\'s run.', tags(status.approved)) + changeCard(FWD_ROWS.slice(0, 1), 'What changed'),
     loading: () => box(`${lbl('Applying · approved at 09:18')}<p class="small muted" style="margin-top:4px">R1-LGB v1 stays active until this finishes, and it completes once or not at all.</p><div style="margin-top:8px">${steps(step('Recheck', 'Your approval, the expiry and the version'), step('Switch', 'Writing the new record', 'now'))}</div>`),
     empty: () => outcome('x', 'fall', 'You stayed on v1. Nothing changed.', 'R1-LGB v1 keeps issuing. Nothing switches forward without your yes.', `<div style="margin-top:10px">${status.refused}</div>`),
     error: () => outcome('x', 'fall', 'Refused by MP. Nothing changed.', 'The recheck found a new evidence hash after you approved, and an approval never moves to a different change. Review the new version.', `<div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">${status.refused}<span class="chip">Evidence hash mismatch</span></div>`) + bs('Review the new version', 'primary'),
-    stale: () => outcome('clock', 'warn', 'Expired. It did not apply.', 'The 15 minutes closed before this applied, so nothing changed. Approve again for a new window.', tags(status.expired, CT2, CT)) + bs('Sign in and approve', 'primary', 'lock'),
+    stale: () => outcome('clock', 'warn', 'Expired. It did not apply.', 'The 15 minutes closed before this applied, so nothing changed. Approve again for a new window.', tags(status.expired, CT2)) + bs('Sign in and approve', 'primary', 'lock'),
     offline: () => banner('', 'Offline.', 'Your approval reached MP at 09:18. Applying runs on the server, and the result shows when you reconnect.', 'wifi-off') + outcome('clock', 'warn', 'Approved, result not seen yet.', 'Nothing is sent twice: the same approval cannot apply again.'),
-    noModel: () => outcome('check', 'rise', 'Restarted. US tech, 12 months is issuing.', 'Applied at 09:18 with your fresh sign-in. R2-HGB v3 has a fresh approval, and forecasts return from the next run.', tags(status.approved, CT)) + changeCard(RESTART_ROWS.slice(0, 2), 'What changed') + `<div>${RESTARTS}</div>`,
+    noModel: () => outcome('check', 'rise', 'Restarted. US tech, 12 months is issuing.', 'Applied at 09:18 with your fresh sign-in. R2-HGB v3 has a fresh approval, and forecasts return from the next run.', tags(status.approved)) + changeCard(RESTART_ROWS.slice(0, 2), 'What changed') + `<div>${RESTARTS}</div>`,
     abstention: () => outcome('pause', 'warn', 'You kept it paused. Nothing changed.', 'US tech, 12 months stays paused, so its forecasts stay withheld. The proposal stays with what waits on you, and nothing restarts without your yes.', tags(status.paused, CT2)),
     disagreement: () => outcome('check', 'rise', 'Already decided on your iPad.', 'You approved this at 09:18, and your tap here made no second approval. One record, one change.', `<div style="margin-top:10px">${status.approved}</div>`)
   });
@@ -5934,10 +6031,11 @@ J.add({
     stale: () => outcome('clock', 'warn', 'Expired. There is nothing to revoke.', 'It expired at 21:33 with no commit started, so nothing was committed. The rows have not changed, so a fresh approval is enough.', `<div style="margin-top:10px">${status.expired}</div>`) + bs('Sign in and approve', 'primary', 'lock'),
     offline: () => banner('', 'Offline.', 'You can read this approval. Revoking needs a connection. If no commit starts by 21:33, this approval expires by itself.', 'wifi-off') + impHead() + box(`${lbl('Approved, not started')}<div style="margin-top:8px">${impBound()}${impRows()}</div><div style="display:grid;margin-top:12px">${revokeBtn(true)}</div>`),
     disagreement: () => outcome('alert', 'warn', 'Refused for a stale revision.', 'Your ledger moved to revision 214, so this approval for 213 can never commit. Nothing was committed. Refresh the preview to approve it again.', `<div style="margin-top:10px">${status.refused}</div>`) + bs('Refresh preview', 'primary', 'refresh'),
-    abstention: () => impHead(`<span class="chip stale">${ic('lock', 's14')}Sign-in too old</span>`) + stateCard('lock', 'Fresh sign-in needed', 'Your sign-in is too old for this step, and a Face ID unlock alone does not count. Nothing has changed.', bs('Sign in again', 'primary'), CT)
   });
-  const revokeRail = () => safeBox('This records what already happened at your broker. It places no trade. Revoking stops one approval from activating. It changes nothing else, and it is kept on the record.');
-  const naRevoke = { noModel: 'Revoking an approval involves no forecast, so no model can be missing here.' };
+  /* OWN-16, "An open session is enough": any live signed-in session revokes at once, so no sign-in step can let the commit start first */
+  const OPEN_SESSION = 'An open session is enough to revoke: it asks for no fresh sign-in, so the commit cannot start while you sign in. A signed-out device signs in first, as usual.';
+  const revokeRail = () => safeBox('This records what already happened at your broker. It places no trade. Revoking stops one approval from activating. It changes nothing else, and it is kept on the record.') + box(`${lbl('What revoking needs')}<p class="small muted" style="margin-top:4px">${OPEN_SESSION}</p>`);
+  const naRevoke = { noModel: 'Revoking an approval involves no forecast, so no model can be missing here.', abstention: 'An open session is enough to revoke (OWN-16), so no sign-in step can hold it up, and a decision is yours, so nothing can abstain on it.' };
   /* once approved, an import leaves the decisions and waits here until its commit starts. Ready still has it awaiting your approval, so this row shows when nothing else waits */
   const liveRow = () => sec('Approved, not started') + list(item(lead('layers'), 'Statement import, 9 of 11 rows', 'ISA statement · ledger revision 213', ic('chev-r', 's18'), `<span style="display:flex;gap:6px;flex-wrap:wrap">${expiry(LIVE)}</span>`, false, true));
   const liveNote = () => `<p class="small muted" style="padding:0 4px">An import you approve moves to Approved, not started, and you can revoke it until its commit starts.</p>`;
@@ -6048,7 +6146,7 @@ J.add({
     });
   };
   const HIST = [
-    ['check', 'Confirmed by you', 'Wed 09:02 · catalogue v15 · fresh sign-in', status.approved, CT],
+    ['check', 'Confirmed by you', 'Wed 09:02 · catalogue v15 · fresh sign-in', status.approved],
     ['check', 'Code check passed', 'Wed 08:44 · 8 credits used', '<span class="chip">Code</span>'],
     ['plus', 'Claude drafted it', 'Wed 08:41 · from your chat', '<span class="chip">Claude</span>'],
     ['clock', 'Earlier proposal', 'Thu 22 Oct · nobody acted', status.expired, Q9]
@@ -6092,7 +6190,7 @@ J.add({
       }, {
         id: 'aa-listing-step', title: 'Step-up for a listing', note: 'The same sheet as the chat\'s. Every line is bound to the approval. Disagreement shows the record moving mid-way.',
         na: naStep,
-        render: ctx => fr(ctx, { tab: SET(ctx), back: 'Waiting', title: 'Proposal', noKept: true, body: listingHead() + chain() + changeCard(TSM_ROWS.slice(0, 3)), rail: wide(ctx) ? checks({ state: 'default' }) : '', sheet: stepFor(ctx, STEP_TSM, CT + Q9) })
+        render: ctx => fr(ctx, { tab: SET(ctx), back: 'Waiting', title: 'Proposal', noKept: true, body: listingHead() + chain() + changeCard(TSM_ROWS.slice(0, 3)), rail: wide(ctx) ? checks({ state: 'default' }) : '', sheet: stepFor(ctx, STEP_TSM, Q9) })
       }, {
         id: 'aa-model', title: 'Model promotion', note: 'After its shadow trial. Empty shows a trial still running; Stale shows the count paused; Disagreement shows it beating only one comparator.',
         render: ctx => {
@@ -6115,6 +6213,17 @@ J.add({
         na: naResult,
         render: ctx => fr(ctx, { tab: SET(ctx), back: 'Waiting', title: 'Decision', body: setResult(ctx), rail: setResultRail(ctx) })
       }, {
+        id: 'aa-budget', title: 'Budget raise', note: `${BUD_NOTE} Stale shows it expired; Disagreement shows the line moving first; Abstaining shows a month that cannot be known.`,
+        na: naBudget,
+        render: ctx => {
+          const y = budgetYes(ctx);
+          return fr(ctx, { tab: SET(ctx), back: 'Waiting', title: 'Proposal', body: budgetCore(ctx), rail: `${y ? decideCard(ctx, y.yes, y.foot, y.o) : ''}${budRail(ctx)}${pad(ctx)}`, accessory: y ? decideBar(ctx, y.yes, y.foot, y.o) : '' });
+        }
+      }, {
+        id: 'aa-budget-step', title: 'Step-up for a budget raise', note: 'Bound to the exact line, value, current version and expiry. Code drafted it; only your fresh sign-in approves it.',
+        na: naStep,
+        render: ctx => fr(ctx, { tab: SET(ctx), back: 'Waiting', title: 'Proposal', noKept: true, body: budHead() + chain('Code drafted', 'Code checked', 'You decide') + changeCard(BUD_ROWS), rail: wide(ctx) ? budBound(ctx.state === 'disagreement' ? 'What this proposed' : undefined) : '', sheet: stepFor(ctx, STEP_BUD, CT2) })
+      }, {
         id: 'aa-restart', title: 'Switch forward or restart', note: 'Ready switches a reverted model forward. No model restarts a paused scope. Abstaining has no new score, and the decision stays yours. Nothing does either without your yes.',
         render: ctx => {
           const y = restartYes(ctx);
@@ -6122,7 +6231,7 @@ J.add({
         }
       }, {
         id: 'aa-restart-step', title: 'Step-up to switch or restart', note: 'Ready is the sheet for switching forward. No model is the sheet for restarting. Every line is bound to the approval.',
-        render: ctx => fr(ctx, { tab: SET(ctx), back: 'Waiting', title: 'Proposal', noKept: true, body: restartStep(ctx), rail: wide(ctx) ? restartStepBound(ctx) : '', sheet: stepFor(ctx, ctx.state === 'noModel' ? STEP_RESTART : STEP_FWD, CT + CT2, WAITING) })
+        render: ctx => fr(ctx, { tab: SET(ctx), back: 'Waiting', title: 'Proposal', noKept: true, body: restartStep(ctx), rail: wide(ctx) ? restartStepBound(ctx) : '', sheet: stepFor(ctx, ctx.state === 'noModel' ? STEP_RESTART : STEP_FWD, CT2, WAITING) })
       }, {
         id: 'aa-restart-result', title: 'Switch or restart outcome', note: 'Ready is switched forward. No model is restarted. Empty is you staying on v1. Abstaining is you keeping a paused scope paused. Error is MP refusing at execution. Stale is a window that closed.',
         render: ctx => fr(ctx, { tab: SET(ctx), back: 'Waiting', title: 'Decision', body: restartResult(ctx), rail: restartResultRail(ctx) })
@@ -6137,7 +6246,7 @@ J.add({
         id: 'aa-after', title: 'Listing outcome', note: 'Ready joins from the next close. Empty is you refusing. Stale is expired. Error is a write that failed, confirmed but not applied.',
         render: ctx => fr(ctx, { tab: SET(ctx), back: 'Waiting', title: 'Decision', body: afterCore(ctx), rail: afterRail() })
       }, {
-        id: 'aa-revoke', title: 'Revoke an approval', note: 'The same import as Holdings. Ready is approved and not started. Empty is revoked. Error is a commit that started first. Stale is expired, with a fresh approval. Disagreement is refused for a stale revision. Abstaining is a step-up.',
+        id: 'aa-revoke', title: 'Revoke an approval', note: 'The same import as Holdings. Ready is approved and not started. Empty is revoked. Error is a commit that started first. Stale is expired, with a fresh approval. Disagreement is refused for a stale revision. An open session is enough to revoke (OWN-16, "An open session is enough"), so no step-up is drawn and Abstaining does not apply.',
         na: naRevoke,
         render: ctx => fr(ctx, { tab: SET(ctx), back: 'Waiting', title: 'Approved', body: revokeCore(ctx), rail: revokeRail() })
       }, {
@@ -6164,7 +6273,7 @@ J.add({
       }, {
         id: 'ab-step', title: 'Step-up', note: 'The same sheet everywhere, over the place you are. Disagreement shows the record moving mid-way.',
         na: naStep,
-        render: ctx => fr(ctx, { tab: 0, back: 'Portfolio', title: 'Ask', noKept: true, body: fromChat({ state: 'default' }) + changeCard(TSM_ROWS.slice(0, 3)), rail: wide(ctx) ? checks({ state: 'default' }) : '', sheet: stepFor(ctx, STEP_TSM, CT + Q9) })
+        render: ctx => fr(ctx, { tab: 0, back: 'Portfolio', title: 'Ask', noKept: true, body: fromChat({ state: 'default' }) + changeCard(TSM_ROWS.slice(0, 3)), rail: wide(ctx) ? checks({ state: 'default' }) : '', sheet: stepFor(ctx, STEP_TSM, Q9) })
       }, {
         id: 'ab-after', title: 'Outcome', note: 'The listing\'s own page tells you what happened. Empty is you refusing. Stale is expired. Error is a write that failed, confirmed but not applied.',
         render: ctx => fr(ctx, { tab: 1, back: 'Ask', title: TSM.n, body: afterCore(ctx), rail: afterRail() })
@@ -6198,6 +6307,17 @@ J.add({
         na: naResult,
         render: ctx => fr(ctx, { tab: SET(ctx), back: 'Settings', title: 'Decision', body: setResult(ctx), rail: setResultRail(ctx) })
       }, {
+        id: 'ab-budget', title: 'Budget raise', note: `In Settings, beside the line it would raise. ${BUD_NOTE}`,
+        na: naBudget,
+        render: ctx => {
+          const y = budgetYes(ctx);
+          return fr(ctx, { tab: SET(ctx), back: 'Settings', title: 'Proposal', body: budgetCore(ctx), rail: `${y ? decideCard(ctx, y.yes, y.foot, y.o) : ''}${budRail(ctx)}${pad(ctx)}`, accessory: y ? decideBar(ctx, y.yes, y.foot, y.o) : '' });
+        }
+      }, {
+        id: 'ab-budget-step', title: 'Step-up for a budget raise', note: 'The same sheet, in Settings. Bound to the exact line, value, current version and expiry.',
+        na: naStep,
+        render: ctx => fr(ctx, { tab: SET(ctx), back: 'Settings', title: 'Proposal', noKept: true, body: budHead() + chain('Code drafted', 'Code checked', 'You decide') + changeCard(BUD_ROWS), rail: wide(ctx) ? budBound(ctx.state === 'disagreement' ? 'What this proposed' : undefined) : '', sheet: stepFor(ctx, STEP_BUD, CT2) })
+      }, {
         id: 'ab-restart', title: 'Switch forward or restart', note: 'On the models page. Ready switches a reverted model forward. No model restarts a paused scope. Abstaining has no new score, and the decision stays yours.',
         render: ctx => {
           const y = restartYes(ctx);
@@ -6205,12 +6325,12 @@ J.add({
         }
       }, {
         id: 'ab-restart-step', title: 'Step-up to switch or restart', note: 'The same sheet, over the models page. Ready is switching forward. No model is restarting.',
-        render: ctx => fr(ctx, { tab: 1, back: 'Forecasts', title: 'Models', noKept: true, body: restartStep(ctx), rail: wide(ctx) ? restartStepBound(ctx) : '', sheet: stepFor(ctx, ctx.state === 'noModel' ? STEP_RESTART : STEP_FWD, CT + CT2, WAITING) })
+        render: ctx => fr(ctx, { tab: 1, back: 'Forecasts', title: 'Models', noKept: true, body: restartStep(ctx), rail: wide(ctx) ? restartStepBound(ctx) : '', sheet: stepFor(ctx, ctx.state === 'noModel' ? STEP_RESTART : STEP_FWD, CT2, WAITING) })
       }, {
         id: 'ab-restart-result', title: 'Switch or restart outcome', note: 'On the models page. Ready is switched forward. No model is restarted. Empty is you staying on v1. Abstaining is you keeping a paused scope paused. Stale is a window that closed.',
         render: ctx => fr(ctx, { tab: 1, back: 'Models', title: 'Decision', body: restartResult(ctx), rail: restartResultRail(ctx) })
       }, {
-        id: 'ab-revoke', title: 'Revoke an approval', note: 'The same import as Holdings. Ready is approved and not started. Empty is revoked. Error is a commit that started first. Disagreement is refused for a stale revision. Abstaining is a step-up.',
+        id: 'ab-revoke', title: 'Revoke an approval', note: 'The same import as Holdings. Ready is approved and not started. Empty is revoked. Error is a commit that started first. Disagreement is refused for a stale revision. An open session is enough to revoke (OWN-16, "An open session is enough"), so no step-up is drawn and Abstaining does not apply.',
         na: naRevoke,
         render: ctx => fr(ctx, { tab: 0, back: 'Portfolio', title: 'Approved', body: revokeCore(ctx), rail: revokeRail() })
       }, {
@@ -6226,7 +6346,8 @@ J.add({
 /* Privacy: sign in, a new or lost device, privacy mode, what shows outside the app, sessions and revocation, notices, the
    offline copy, export, deleting an original and memory notes (MP-73, MP-87, MP-78, MP-166, MP-165, MP-167, MP-162, MP-169,
    MP-45, MP-115). Google and passkeys only: no passwords, and no Sign in with Apple until the owner buys the Developer
-   Program. Revocation time and assurance levels are open (CT-01, CT-17), so no exact window is promised.
+   Program. Which acts need a fresh sign-in is settled (OWN-39, "Anything that writes or widens"). Revocation time and assurance
+   levels are open (CT-01, CT-17), so no exact window is promised.
    The owner's picks of 5 Nov 2026 (MP-184, drawn in MP-188): "Redraw Privacy now" (ADM-13), so two paths are usable today, your
    Mac passkey and Google, the iPhone passkey waits on the purchase (MP-179) and a replacement goes on the Mac; "Allowed in the
    browser" (ADM-04) and "Finish in the phone browser" (ADM-15), so Phone web adds a passkey in the browser and, with the Mac lost,
@@ -6377,7 +6498,7 @@ J.add({
   function lessCard(ctx) {
     const s = ctx.state;
     if (s === 'loading') return skCard('Less private options', 3);
-    return box(`${head('Less private options', `<span class="small muted">${s === 'disagreement' ? '1 on' : 'All off'}</span>`)}${lessNote(s)}${list(lessRows(ctx))}<p class="small muted">Each stays off until you turn it on, and turning one on asks for a fresh sign-in. Unlocking the app does not count.</p>${CHIP_ROWS(proposed('CT-01'))}`);
+    return box(`${head('Less private options', `<span class="small muted">${s === 'disagreement' ? '1 on' : 'All off'}</span>`)}${lessNote(s)}${list(lessRows(ctx))}<p class="small muted">Each stays off until you turn it on, and turning one on asks for a fresh sign-in, because it widens what MP may do. Unlocking the app does not count.</p>`);
   }
 
   /* ---------- notices ---------- */
@@ -6405,7 +6526,7 @@ J.add({
       abstention: li('clock', 'Phone notifications', 'On. Held for quiet hours until 07:30', sw('Phone notifications', true)),
       disagreement: li('ban', 'Phone notifications', 'On here, denied in this device\'s settings. Your inbox still has everything', sw('Phone notifications', false))
     }[s] || li('shield', 'Phone notifications', 'On, through the web app\'s Web Push', sw('Phone notifications', true));
-    return box(`${head('Notifications')}${list([status, li('clock', 'Quiet hours', '22:00 to 07:00 London. Held notices arrive with the 07:30 brief', ''), li('lock', 'What a notice says', 'Neutral text only. A tap opens it after sign-in', '')])}<p class="small muted">Delivery is never promised, so silence never means no risk. The inbox keeps every notice either way. On iPhone and iPad this needs the web app on your Home Screen.</p>`);
+    return box(`${head('Notifications')}${list([status, li('clock', 'Quiet hours', '22:00 to 07:00 London. Held notices arrive with the 07:30 brief on weekdays, and in your inbox at 07:30 at the weekend, when there is no brief (MP40-Q11b)', proposed('MP40-Q11')), li('lock', 'What a notice says', 'Neutral text only. A tap opens it after sign-in', '')])}<p class="small muted">Delivery is never promised, so silence never means no risk. The inbox keeps every notice either way. On iPhone and iPad this needs the web app on your Home Screen.</p>`);
   }
 
   /* ---------- devices and sessions ---------- */
@@ -6537,7 +6658,7 @@ J.add({
     }[s] || '';
     const dis = ['loading', 'offline', 'abstention'].includes(s);
     return `<div class="sheet privacy-sheet" role="dialog" aria-modal="true" aria-labelledby="privacy-ren" data-mo="sheet">${wide(ctx) ? '' : '<div class="grabber"></div>'}<h4 id="privacy-ren">${s === 'empty' ? 'Nothing is due' : 'Renew this original?'}</h4>
-      ${s === 'empty' ? `<p class="small">No original is due for renewal. Each one shows here as its 24 months near their end, and nothing deletes by itself.</p>${wbtn('Done', 'tinted')}` : `<p class="small muted">Indian funds statement, Dec 2024 · version 1 · production</p>${note}${list([li('clock', 'Keeps it to Dec 2028', 'Another 24 months for the file and the text read from it.', ''), li('check', 'Stays as it is', 'Its ledger events and the audit trail do not change.', '')])}<p class="small muted">This approval covers this file at this version, and asks for a fresh sign-in. Unlocking the app does not count.</p>${CHIP_ROWS(proposed('CT-01'))}<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">${wbtn('Not now', 'tinted')}${wbtn(s === 'disagreement' || s === 'stale' ? 'Approve again' : s === 'error' ? 'Try again' : s === 'loading' ? 'Renewing' : 'Renew', 'primary', s === 'loading' ? 'spin' : 'lock', dis)}</div>`}</div>`;
+      ${s === 'empty' ? `<p class="small">No original is due for renewal. Each one shows here as its 24 months near their end, and nothing deletes by itself.</p>${wbtn('Done', 'tinted')}` : `<p class="small muted">Indian funds statement, Dec 2024 · version 1 · production</p>${note}${list([li('clock', 'Keeps it to Dec 2028', 'Another 24 months for the file and the text read from it.', ''), li('check', 'Stays as it is', 'Its ledger events and the audit trail do not change.', '')])}<p class="small muted">This approval covers this file at this version, and asks for a fresh sign-in, because it changes a record. Unlocking the app does not count.</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">${wbtn('Not now', 'tinted')}${wbtn(s === 'disagreement' || s === 'stale' ? 'Approve again' : s === 'error' ? 'Try again' : s === 'loading' ? 'Renewing' : 'Renew', 'primary', s === 'loading' ? 'spin' : 'lock', dis)}</div>`}</div>`;
   }
 
   /* ---------- one notice, opened: its evidence, and no action ---------- */

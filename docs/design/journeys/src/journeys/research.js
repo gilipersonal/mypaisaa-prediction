@@ -104,7 +104,7 @@
     return region(ctx, {
       what: 'The brief', rows: 4, ok: () => main(),
       loading: () => box(`${lbl('Tue 3 Nov · last brief, until today\'s loads')}<span class="sk" style="height:22px;width:86%;margin-top:10px"></span><span class="sk" style="height:14px;width:60%;margin-top:8px"></span>`) + skel(4),
-      empty: () => stateCard('clock', 'The next brief comes at 07:30', 'It leads with ranked actions, then risks, changes and what is coming up. Alerts held overnight arrive with it.', bs('Read Tuesday\'s brief'), `<span class="chip">Scheduled · 07:30 London</span>`) + box(`${lbl('Moves with daylight saving')}<p class="small muted" style="margin-top:4px">Always 07:30 in London, with India, UK and US shown on their own clocks.</p>`),
+      empty: () => stateCard('clock', 'The next brief comes at 07:30', 'It leads with ranked actions, then risks, changes and what is coming up. Alerts held overnight arrive with it, on weekdays: there is no brief at the weekend.', bs('Read Tuesday\'s brief'), `<span class="chip">Scheduled · 07:30 London</span>`) + box(`${lbl('Moves with daylight saving')}<p class="small muted" style="margin-top:4px">Always 07:30 in London, with India, UK and US shown on their own clocks.</p>`),
       error: () => banner('warn', 'Late.', 'MP was down at 07:30. This brief was issued on recovery at 08:12, once.', 'clock') + main({ when: 'Wed 4 Nov · issued late, 08:12 London', text: 'Alerts found during the outage carry their detection time.' }),
       stale: () => banner('warn', 'Some evidence is pending.', `HSBC is past the freshness limit, so it leaves the total until its price returns: £84,051.05 known, 6 of 7 priced. The brief never waits on this morning's batch: it quotes the last valid evidence, dated. ${LATE}`, 'clock') + main({ title: 'Four ranked actions, one on a stale price, and one risk held overnight.' }),
       offline: () => banner('', 'Offline.', 'This is the 07:30 brief, saved on this device. Asking and sources wait until you reconnect.', 'wifi-off') + main(),
@@ -249,6 +249,12 @@
   };
 
   /* ---------- a material risk alert (MP-138): one alert, held overnight, never an order ---------- */
+  /* MP40-Q11a, "Your lines, no investment wake-ups": material is a line you set, crossed; critical is security and service faults only.
+     Each line's value is still yours to set before build, so 28% stays illustrative and CT-18 stays on it */
+  const KINDS = `<p class="small muted" style="margin-top:8px">Material means a line you set is crossed, on exposure, price move, volatility or an event flag. Critical covers security and service faults only, so an investment alert waits for 07:30. Each line still needs your value before build.</p><div style="margin-top:8px">${proposed('CT-18')}</div>`;
+  /* OWN-34, "Once in 24 hours", and MP40-Q11b, "Weekdays only": the weekend landing is proposed in the owner's pick itself */
+  const COOL = 'It pushes once in 24 hours for this holding, rule and severity, and sooner only if it worsens or the cause is new. Every event stays in the app.';
+  const WEEKEND = 'There is no brief on Saturday or Sunday, so an alert held then lands in your inbox at 07:30.';
   const alertCard = (ctx, o = {}) => { const s = share(ctx); return box(`<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"><span class="chip stale">${ic('alert', 's14')}Material</span><span class="chip">Investment risk</span>${illus()}</div>
     <p style="margin-top:10px;font:700 22px/28px var(--font-text);letter-spacing:-.015em;text-wrap:balance">US tech is ${s.us} of ${s.of}</p>
     <div class="calbar" role="img" aria-label="US tech ${s.us} against your material line of 28%"><i data-mo="barx" style="width:${s.bar}%;background:var(--warn)"></i><b style="left:56%"></b></div>
@@ -256,7 +262,7 @@
     <p style="margin-top:10px;font:400 15px/20px var(--font-text);letter-spacing:-.005em">${o.text || `Apple is ${fig(s.ap)} and NVIDIA ${fig(s.nv)} of ${s.of}.${ref(1)} Code found this on eligible data as of 22:15.`}</p>
     <div style="margin-top:8px">${sources('1 · Ledger, 22:15')}</div>
     <div style="display:grid;margin-top:12px">${ctx.state === 'offline' || ctx.state === 'noModel' ? '<button class="btn sm btn-tinted" type="button" disabled>Ask why</button>' : bs('Ask why', 'primary')}</div>
-    <p class="small muted" style="margin-top:8px">Decision support. This alert acts on nothing.</p>`); };
+    <p class="small muted" style="margin-top:8px">Decision support. This alert acts on nothing.</p>${KINDS}`); };
   const alertBody = ctx => region(ctx, {
     what: 'This alert', rows: 2, ok: () => alertCard(ctx),
     loading: () => box(`${lbl('Detected Tue 22:15 · loading its evidence')}<span class="sk" style="height:22px;width:80%;margin-top:10px"></span><span class="sk" style="height:8px;margin-top:12px"></span><span class="sk" style="height:40px;margin-top:12px"></span>`),
@@ -267,9 +273,9 @@
     noModel: () => banner('', 'Claude is off.', 'Code found this alert, so it stands, and asking why waits. Claude stays off until credit is verified or you approve paid use, in Settings, with a fresh sign-in.', 'ban') + alertCard(ctx),
     disagreement: () => banner('', 'Sources differ on the close.', 'On Yahoo\'s NVIDIA price US tech is 29.0%; on Twelve Data\'s it is 29.1%. Both are above your line.', 'split') + alertCard(ctx)
   });
-  const LOG = [['Detected Tue 22:15', 'Risk check after the US run, on data to its 22:00 cutoff'], ['Held by quiet hours', '22:00 to 07:00 London'], ['Arrived with the 07:30 brief', 'Push attempted, which is not proof you read it'], ['Opened Wed 08:02', 'In the app, and in the inbox on every device']];
+  const LOG = [['Detected Tue 22:15', 'Risk check after the US run, on data to its 22:00 cutoff'], ['Held by quiet hours', '22:00 to 07:00 London. It is material, not critical, so it waited'], ['Arrived with the 07:30 brief', 'Push attempted, which is not proof you read it'], ['Opened Wed 08:02', 'In the app, and in the inbox on every device']];
   const alertLog = ctx => {
-    const log = ctx.state === 'empty' ? '' : box(`${lbl('What happened')}<ol class="cl-steps" style="margin-top:8px;gap:8px">${LOG.map(([a, b]) => `<li class="cl-step" style="align-items:start">${TICK}<span><b style="font-weight:600;color:var(--ink)">${a}</b><br>${b}</span></li>`).join('')}</ol><p class="small muted" style="margin-top:8px">2 repeats were grouped into this one alert. How long a cooldown runs is open.</p><div style="margin-top:8px">${proposed('CT-18')}</div>`);
+    const log = ctx.state === 'empty' ? '' : box(`${lbl('What happened')}<ol class="cl-steps" style="margin-top:8px;gap:8px">${LOG.map(([a, b]) => `<li class="cl-step" style="align-items:start">${TICK}<span><b style="font-weight:600;color:var(--ink)">${a}</b><br>${b}</span></li>`).join('')}</ol><p class="small muted" style="margin-top:8px">2 repeats were grouped into this one alert. ${COOL}</p><p class="small muted" style="margin-top:8px">${WEEKEND}</p><div style="margin-top:8px">${proposed('MP40-Q11')}</div>`);
     return `${log}${box(`${lbl('On the lock screen')}<p style="margin-top:4px;font:600 15px/20px var(--font-text);letter-spacing:-.01em">MyPrediction: you have a new notice</p><p class="small muted" style="margin-top:2px">No value and no holding, ever.</p>`)}`;
   };
 
@@ -344,7 +350,7 @@
         id: 'ra-memory', title: 'Memory notes', note: 'Reached from Settings. Disagreement shows a note against the ledger; the ledger wins.',
         render: ctx => fr(ctx, { fresh: 'default', tab: 4, back: 'Settings', title: 'Memory notes', body: memBody(ctx), rail: noteDetail(ctx) })
       }, {
-        id: 'ra-alert', title: 'Risk alert', note: 'The line is illustrative: the owner approves the material and critical thresholds. Empty never reads as an all-clear. No model shows Claude off: the alert stands and Ask why is unavailable.',
+        id: 'ra-alert', title: 'Risk alert', note: 'The owner picked "Your lines, no investment wake-ups" (MP40-Q11a) for what makes an alert material or critical, and "Once in 24 hours" (OWN-34) for repeats. The 28% line is illustrative: its value is the owner\'s to set. A weekend landing in the inbox is proposed in "Weekdays only" (MP40-Q11b) itself. Empty never reads as an all-clear. No model shows Claude off: the alert stands and Ask why is unavailable.',
         na: { abstention: 'A risk alert is a rule run by code, so no model can abstain on it.' },
         render: ctx => fr(ctx, { tab: 0, back: 'Brief', title: 'Risk alert', body: alertBody(ctx), rail: alertLog(ctx) })
       }]
@@ -369,7 +375,7 @@
         id: 'rb-memory', title: 'Memory in the thread', note: 'You ask what Claude holds, and the notes come back as a post you can correct or forget.',
         render: ctx => fr(ctx, { fresh: 'default', tab: 0, back: 'Today', title: 'Today', body: (ctx.state === 'noModel' ? '' : ask('What do you remember about me?')) + memBody(ctx), rail: noteDetail(ctx) })
       }, {
-        id: 'rb-alert', title: 'Risk alert', note: 'Posted with the brief, then expanded in place. The line is illustrative: the owner approves the thresholds. No model shows Claude off: the alert stands and Ask why is unavailable.',
+        id: 'rb-alert', title: 'Risk alert', note: 'Posted with the brief, then expanded in place. The owner picked "Your lines, no investment wake-ups" (MP40-Q11a) and "Once in 24 hours" (OWN-34). The 28% line is illustrative: its value is the owner\'s to set. No model shows Claude off: the alert stands and Ask why is unavailable.',
         na: { abstention: 'A risk alert is a rule run by code, so no model can abstain on it.' },
         render: ctx => fr(ctx, { tab: 0, back: 'Today', title: 'Today', body: threadAlert(ctx), rail: alertLog(ctx) })
       }]

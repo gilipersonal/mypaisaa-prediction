@@ -2,7 +2,7 @@
 
 All 64 questions are answered: 23 pressed on the page, and 41 by the owner's words in chat, "for the remaining pick up recommended options". The 41 are recorded as the Recommended option because that is what those words chose. 61 of the 64 are the Recommended option. `answers.json` holds each one.
 
-Answering is not applying. Each pick is recorded here and in the decision log; an issue's section says when its picks are drawn. MP-185's, MP-191's, MP-186's, MP-188's and MP-189's are drawn; the rest are not yet. UX approval (MP-66) waits on the first seven issues. Permission to build is separate.
+Answering is not applying. Each pick is recorded here and in the decision log; an issue's section says when its picks are drawn. MP-185's, MP-191's, MP-186's, MP-188's, MP-189's and MP-190's are drawn; the rest are not yet. UX approval (MP-66) waits on the first seven issues. Permission to build is separate.
 
 ## Answered after the pack
 
@@ -96,6 +96,8 @@ Drawn on branch `MP-189-pdf-unlock-offline` (23 November 2026), in the Holdings 
 | MP40-Q2 | Local unlock step (not the Recommended option) | pressed | Screens redrawn |
 
 ### MP-190: Redraw the control screens to match the owner's picks
+
+Drawn on branch `MP-190-control-screens` (23 November 2026), in the Journeys and Admin designs and the admin permission inventory, with the owner's later "Yes, add them" for daily forecasts inside the £15. One act the rule leaves unclear, acknowledging an incident under OWN-39, stays open for the owner. Stories that word the old rules (MP-114, MP-103, MP-145) are MP-192's.
 
 | Id | The pick | How | Effect |
 | --- | --- | --- | --- |
