@@ -3152,6 +3152,10 @@ function frame(ctx, spec) {
    HTML, so text written into the page or into storage never does (MP-198, CodeQL js/xss-through-dom). */
 const FRAME_HZ = ['0', '1', '2'], FRAME_MODE = ['0', '1'];
 const frameExtra = e => ({ hz: FRAME_HZ.find(x => x === String(e.hz)), mode: FRAME_MODE.find(x => x === String(e.mode)), t: (byT[e.t] || {}).t });
+/* The page's theme reaches the HTML only as the code's own 'light' or 'dark', never as the data-theme attribute's text
+   (MP-198, CodeQL js/xss-through-dom). Unset or unknown follows the system, as before. */
+const SCHEMES_OK = ['light', 'dark'];
+const schemeNow = () => SCHEMES_OK.find(x => x === root.getAttribute('data-theme')) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
 /* ---------- the registry ---------- */
 const J = {
   /* J.add({ id, title, stories: ['MP-153'], summary, options: [{ id: 'a', name, rec: true, why, cost, screens: [{ id, title, note, na: { noModel: 'reason' }, render: ctx => frame(ctx, {...}) }] }] }) */
@@ -3174,7 +3178,7 @@ const J = {
     /* a theme press, or the system's theme changing under Auto */
     const repaint = () => {
       if (sum.retheme) sum.retheme();
-      const sch = root.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      const sch = schemeNow();
       $$('.acard .dev').forEach(d => { d.classList.remove('scheme-light', 'scheme-dark'); d.classList.add(`scheme-${sch}`); });
     };
     if (typeof MutationObserver === 'function') new MutationObserver(repaint).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
@@ -3245,7 +3249,7 @@ function show() {
   const naAll = k => k !== 'default' && o.screens.every(s => (s.na || {})[k]);
   chips($('#jstate'), STATES.map(([k, t]) => [k, t, naAll(k) ? 'Does not apply to this journey' : '']), sum.at.st, k => { sum.at.st = k; show(); });
   $('#jwhy').innerHTML = `<p><b>${o.rec ? 'Why it is recommended.' : 'What this view does.'}</b> ${o.why}</p>${o.cost ? `<p><b>What it costs.</b> ${o.cost}</p>` : ''}`;
-  const scheme = () => { const t = root.getAttribute('data-theme'); return t || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); };
+  const scheme = schemeNow;
   const row = $('#jrow');
   row.classList.toggle('wide', surf[2] !== 'phone');
   /* A slot remembers the side it is on and the state it turned in, and stays turned until it is turned back. In another state a turned
@@ -3472,7 +3476,7 @@ function showCompare() {
 }
 function drawCompare() {
   const inv = $('#jinv'), c = sum.cmp, j = sum.journeys.find(x => x.id === c.j), [dn, w, h, kind, z] = CMP_DEV[c.dev];
-  const t = root.getAttribute('data-theme'), sch = t || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  const sch = schemeNow();
   const picked = sum.journeys.filter(x => c.picks[x.id]).length, text = picksText(c.picks);
   const card = (o, s) => `<article class="acard" style="--cw:${Math.round((w + (kind === 'win' ? 0 : 20)) * z)}px;--cr:${kind === 'win' ? 6 : 32}px"><div class="acard-frame" inert aria-hidden="true"><div class="dev${kind === 'win' ? ' win' : ''} scheme-${sch}" style="--w:${w}px;--h:${h}px;zoom:${z}"><div class="scr">${s.render({ kind: c.dev, state: 'default', scheme: sch, journey: j.id, option: o.id, screen: s.id })}</div></div></div><h4>${s.title}</h4>${s.note ? `<p>${s.note}</p>` : ''}<button class="btn sm btn-tinted" type="button" data-open="${o.id}|${s.id}" aria-label="Open ${s.title}, option ${o.id.toUpperCase()}">Open</button></article>`;
   const opt = o => `<section class="acmp-opt" aria-label="Option ${o.id.toUpperCase()}, ${o.name}"><div class="acmp-head"><h3>${o.id.toUpperCase()} · ${o.name}</h3>${o.rec ? '<span class="chip owner">Recommended</span>' : ''}<span class="small">${o.screens.length} ${o.screens.length === 1 ? 'screen' : 'screens'}</span><button class="btn sm ${c.picks[j.id] === o.id ? 'btn-primary' : 'btn-tinted'}" type="button" data-pick="${o.id}" aria-pressed="${c.picks[j.id] === o.id}">${c.picks[j.id] === o.id ? `${ic('check', 's16')}Picked` : `Pick ${o.id.toUpperCase()}`}</button></div><p class="acmp-why">${o.why}${o.cost ? ` <b>What it costs.</b> ${o.cost}` : ''}</p><div class="acmp-row" tabindex="0" role="region" aria-label="Screens of option ${o.id.toUpperCase()}">${o.screens.map(s => card(o, s)).join('')}</div></section>`;
