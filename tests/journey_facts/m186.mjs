@@ -13,11 +13,11 @@ const ADMIN = process.env.MP186_ADMIN_PAGE || join(ROOT, 'docs/design/admin/inde
 // The harness that runs these checks cannot be imported from them (it imports this file), so the admin page is read here, the same way:
 // its own script runs with no browser, and each screen's render(ctx) is called directly.
 const ENT = { '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#39;': "'", '&nbsp;': ' ' };
-const textOf = (html) => html.replace(/<svg[\s\S]*?<\/svg>/g, (m) => (m.match(/aria-label="([^"]*)"/) || [, ' '])[1] + ' ').replace(/<(style|script)\b[\s\S]*?<\/\1\s*>/gi, ' ').replace(/<[^>]+>/g, ' ').replace(/&[a-z#0-9]+;/g, (e) => ENT[e] ?? ' ').replace(/\s+/g, ' ').trim();
+const textOf = (html) => html.replace(/<svg[\s\S]*?<\/svg>/g, (m) => (m.match(/aria-label="([^"]*)"/) || [, ' '])[1] + ' ').replace(/<(style|script)\b[\s\S]*?<\/\1(?:\s[^>]*)?>/gi, ' ').replace(/<[^>]+>/g, ' ').replace(/&[a-z#0-9]+;/g, (e) => ENT[e] ?? ' ').replace(/\s+/g, ' ').trim();
 const stub = () => new Proxy(function () {}, { get: (_, k) => (k === Symbol.iterator ? function* () {} : k === Symbol.toPrimitive ? () => '' : k === 'length' ? 0 : k === 'matches' ? false : stub()), apply: () => stub(), construct: () => stub(), set: () => true, has: () => true });
 function adminPage(page) {
   if (!existsSync(page)) throw new Error(`no admin page at ${page}`);
-  const scripts = [...readFileSync(page, 'utf8').matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script\s*>/gi)].map((m) => m[1]).filter((x) => x.includes('J.start();'));
+  const scripts = [...readFileSync(page, 'utf8').matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script(?:\s[^>]*)?>/gi)].map((m) => m[1]).filter((x) => x.includes('J.start();'));
   if (scripts.length !== 1) throw new Error(`expected one script in ${page}, found ${scripts.length}`);
   const box = { console, setTimeout: () => 0, clearTimeout: () => 0, setInterval: () => 0, requestAnimationFrame: () => 0, cancelAnimationFrame: () => 0 };
   for (const k of ['document', 'navigator', 'location', 'history', 'localStorage', 'sessionStorage', 'performance', 'getComputedStyle', 'addEventListener', 'removeEventListener', 'scrollTo', 'CSS', 'PerformanceObserver']) box[k] = stub();
