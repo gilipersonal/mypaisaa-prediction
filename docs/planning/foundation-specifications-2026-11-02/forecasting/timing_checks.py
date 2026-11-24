@@ -6,7 +6,9 @@ owner-pending; policy checks hold the owner's 3 Nov 2026 numbers and the SCI-D09
 answers (ETF lists one per market; ranking horizons per component, daily cadence and
 Nasdaq-100 tech, MP-177; SCI-D09 closed with its tie-break a stated proposal) and the
 owner's picks of 5 Nov 2026 (MP-184, recorded by MP-192: OWN-33 and ADM-09 on SCI-D03,
-OWN-10 on SCI-D06, OWN-27 on SCI-D07, OWN-26 on SCI-D08) against the records, and run
+OWN-10 on SCI-D06, OWN-27 on SCI-D07, OWN-26 on SCI-D08) and the owner's picks of 24 Nov 2026
+(MP-203: MP203-05 and MP203-06 on SCI-D03, MP203-04 on SCI-D07, MP203-10 on SCI-D08, MP203-09 on the
+event wave), each copied word for word from its answers file, against the records, and run
 synthetic band, overlay, trial-count and slip cases whose remaining readings are
 proposed (SCI-D03, SCI-D07, SCI-D10). The selftest mutates copies and proves the
 policy gate refuses each fault.
@@ -23,6 +25,7 @@ from pathlib import Path
 
 BASE = Path(__file__).resolve().parent
 DECISION_LOG = BASE.parents[1] / "ma-reconciliation-2026-11-02" / "decision-log.md"
+ANSWERS_2026_11_24 = BASE.parents[1] / "owner-question-pack-2026-11-24" / "answers.json"
 
 
 def require(condition: bool, message: str) -> None:
@@ -162,10 +165,20 @@ OWNER = {
     # What each partly answered decision must still hold open (rule 4: partly answered stays partly answered).
     "still_open_2026_11_05": {
         "SCI-D07": ("minimum count", "safety triggers", "first promotion"),
-        "SCI-D08": ("cover and bar time", "GBP rate pinned", "new price type", "calendar of valuation days",
-                    "unavailable_with_reason"),
+        # MP-203 moved "calendar of valuation days" from here: MP203-10 answered it (verify_picks_2026_11_24).
+        "SCI-D08": ("cover and bar time", "GBP rate pinned", "new price type", "unavailable_with_reason"),
     },
+    # Owner picks of 24 Nov 2026 (MP-203; owner-question-pack-2026-11-24/answers.json): pick id -> the open decisions it answers.
+    "picks_2026_11_24": {"MP203-06": ["SCI-D03"], "MP203-05": ["SCI-D03"], "MP203-04": ["SCI-D07"], "MP203-10": ["SCI-D08"],
+                         "MP203-09": []},
+    "bar_days_phrase": "the calendar of valuation days is the provider's bar days",
+    # What SCI-D08 must still hold open after MP203-10, read from its "Still open:" part only.
+    "d08_open_2026_11_24": ("cover and bar time", "GBP rate pinned", "new price type"),
+    # fixed-policies.json forecasts.owner_answers_2026_11_24: key -> the pick it copies word for word.
+    "fixed_2026_11_24": {"trial_no_hurdle": "MP203-06", "range_stand_in": "MP203-05", "probation_three_months": "MP203-04",
+                         "event_source_gaps": "MP203-09", "metals_valuation_days": "MP203-10"},
 }
+HOW_WORDS = {"page": "pressed on the page", "chat": "on a question card in chat"}
 # Each number above is anchored to the owner's own words; whitespace is normalised so a
 # phrase split over a line break still matches.
 DECISION_LOG_PHRASES = (
@@ -212,6 +225,7 @@ def load_docs() -> dict:
         "fixed": json.loads((pack / "fixed-policies.json").read_text()),
         "spec": (BASE / "forecasting-specification.md").read_text(),
         "log": " ".join(DECISION_LOG.read_text().split()),
+        "pack_2026_11_24": json.loads(ANSWERS_2026_11_24.read_text()),
     }
 
 
@@ -463,6 +477,99 @@ def verify_picks_2026_11_05(docs: dict, choices: dict) -> int:
     return len(OWNER["picks_2026_11_05"]) + len(OWNER["still_open_2026_11_05"]) + 3 + len(live) * len(STALE_PICK_PHRASINGS)
 
 
+# Every phrasing that presented a 24 Nov 2026 pick as still open or as a reading of an option not picked
+# (lessons 3 and 49), read in every live record; superseded notes keep the old wording on purpose.
+STALE_PICK_PHRASINGS_2026_11_24 = (
+    re.compile(r"(pick|OWN-27)[^.;\"]{0,20}does not name (it|3 months)", re.IGNORECASE),
+    re.compile(r"ADM-09(\W+s yes each time)? applies (here|there) too", re.IGNORECASE),
+    re.compile(r"proposed reading, an open question for the owner", re.IGNORECASE),
+    re.compile(r"calendar of valuation days[^.;\"]{0,30}(which the pick does not name|stays? open(?! \(the calendar was answered))",
+               re.IGNORECASE),
+    re.compile(r"would have added both", re.IGNORECASE),
+)
+
+
+def without_any_superseded(value):
+    """Drop every key that names a superseded note, wherever the word sits in the key."""
+    if isinstance(value, dict):
+        return {k: without_any_superseded(v) for k, v in value.items() if "superseded" not in k}
+    if isinstance(value, list):
+        return [without_any_superseded(v) for v in value]
+    return value
+
+
+def record_2026_11_24(answer: dict) -> str:
+    """The one sentence form for a 24 Nov 2026 pick (lesson 7), built from the answers file."""
+    return ('%s, 24 November 2026 (MP-203): the owner picked "%s" (%s). The option read: "%s"'
+            % (at(answer, "id"), at(answer, "pick"), at(HOW_WORDS, at(answer, "how")), at(answer, "read")))
+
+
+def verify_picks_2026_11_24(docs: dict) -> int:
+    """Owner picks of 24 Nov 2026 (MP-203): each is copied word for word where it lands, and what it leaves stays open."""
+    choices = {at(c, "id"): c for c in at(docs["decisions"], "material_choices")}
+    source = {at(a, "id"): a for a in at(docs["pack_2026_11_24"], "answers")}
+    answers = {at(a, "id"): a for a in at(docs["decisions"], "owner_answers_2026_11_24")}
+    records = {}
+    for pick, decides in OWNER["picks_2026_11_24"].items():
+        require(pick in source and pick in answers and at(answers[pick], "decides") == decides
+                and at(answers[pick], "received_on") == "2026-11-24", "owner answer of 24 Nov 2026 missing: " + pick)
+        records[pick] = record_2026_11_24(source[pick])
+        require(at(answers[pick], "record") == records[pick] and at(answers[pick], "pick") == at(source[pick], "pick"),
+                "owner answer of 24 Nov 2026 is not the pick word for word: " + pick)
+        for choice_id in decides:
+            require(pick in at(choices[choice_id], "answered_by"), "owner answer not recorded on " + choice_id + ": " + pick)
+    trial = at(docs["protocol"], "live_trial")
+    beat = at(trial, "beat_meaning")
+    require(records["MP203-06"] in beat and "would have added both" not in beat,
+            "beat meaning does not carry the owner's confirmation (MP203-06)")
+    dist = at(trial, "rules_proper_score", "distribution_targets")
+    require(dist.startswith("owner_selected_2026-11-24 (MP203-05") and records["MP203-05"] in dist
+            and "ADM-09's yes each time stays for event" in dist,
+            "distribution targets do not carry the owner's standing rule (MP203-05)")
+    long_horizons = at(docs["protocol"], "probation_and_slip", "long_horizons")
+    require(long_horizons.startswith("6 and 12 months: probation checks clean running only (OWN-27")
+            and records["MP203-04"] in long_horizons and "minimum count stays open in SCI-D07" in long_horizons,
+            "3-month probation does not carry the owner's pick (MP203-04)")
+    require("Settled on 24 November 2026 (MP203-04" in at(choices["SCI-D07"], "still_open"),
+            "SCI-D07 does not hold the owner's 3-month answer (MP203-04)")
+    d08 = at(choices["SCI-D08"], "still_open")
+    require("Still open:" in d08, "SCI-D08 does not say what stays open")
+    settled, open_part = d08.split("Still open:", 1)
+    require(OWNER["bar_days_phrase"] in settled and "a missing bar is recorded as missing, never filled" in settled,
+            "SCI-D08 does not hold the owner's calendar answer (MP203-10)")
+    require("calendar" not in open_part.lower(), "SCI-D08 still lists the calendar as open")
+    for key in OWNER["d08_open_2026_11_24"]:
+        require(key in open_part, "SCI-D08 does not hold what stays open: " + key)
+    note = at(docs["tasks"], "price_type_note_commodities")
+    require(at(source["MP203-10"], "read") in note and OWNER["bar_days_phrase"] in note,
+            "task catalogue does not carry the owner's calendar answer (MP203-10)")
+    items = [i for i in at(docs["tasks"], "forecast_universe_and_ranking", "open") if i.startswith("SCI-D08")]
+    require("Still open (SCI-D08):" in note and len(items) == 1 and "still open:" in items[0]
+            and "calendar" not in note.split("Still open (SCI-D08):", 1)[1].lower()
+            and "calendar" not in items[0].split("still open:", 1)[1].lower(),
+            "task catalogue still lists the gold and silver calendar as open")
+    require(records["MP203-09"] in at(docs["model"], "event_module_proposed", "event_wave_rules", "source_gaps"),
+            "event wave does not carry the owner's pick (MP203-09)")
+    fixed = at(docs["fixed"], "forecasts", "owner_answers_2026_11_24")
+    for key, pick in OWNER["fixed_2026_11_24"].items():
+        require(at(fixed, key) == records[pick], "fixed policies do not carry the 24 Nov 2026 pick word for word: " + key)
+    spec = " ".join(docs["spec"].split())
+    for pick, text in records.items():
+        require(text in spec, "owner's 24 Nov 2026 pick is not one phrase across spec and records: " + pick)
+    require(OWNER["bar_days_phrase"] in spec, "owner's 24 Nov 2026 pick is not one phrase across spec and records: bar days")
+    live = {
+        "spec": spec,
+        "protocol": json.dumps(without_any_superseded(docs["protocol"])),
+        "open-decisions": json.dumps(without_any_superseded(docs["decisions"])),
+        "task-catalogue": json.dumps(without_any_superseded(docs["tasks"])),
+    }
+    for name, text in live.items():
+        for pattern in STALE_PICK_PHRASINGS_2026_11_24:
+            require(not pattern.search(text), "a 24 Nov 2026 pick still presented as open in " + name + ": " + pattern.pattern)
+    return (len(records) * 2 + 9 + len(OWNER["d08_open_2026_11_24"]) + len(OWNER["fixed_2026_11_24"]) + len(records) + 1
+            + len(live) * len(STALE_PICK_PHRASINGS_2026_11_24))
+
+
 def trial_result(trial: dict, case: dict) -> str:
     """Count trial weeks: only the owner's reasons pause; maturity delays the verdict, not the count."""
     reasons = at(trial, "unscoreable_week_reasons")
@@ -588,7 +695,11 @@ def verify_policy_cases(docs: dict) -> int:
 
 def verify_policy_contracts(docs: dict = None) -> dict:
     docs = docs if docs is not None else load_docs()
-    return {"owner_number_checks": verify_owner_numbers(docs), "policy_cases": verify_policy_cases(docs)}
+    return {
+        "owner_number_checks": verify_owner_numbers(docs),
+        "picks_2026_11_24_checks": verify_picks_2026_11_24(docs),
+        "policy_cases": verify_policy_cases(docs),
+    }
 
 
 def _kind(docs: dict, kind_id: str) -> dict:
@@ -597,6 +708,14 @@ def _kind(docs: dict, kind_id: str) -> dict:
 
 def _choice(docs: dict, choice_id: str) -> dict:
     return next(c for c in docs["decisions"]["material_choices"] if c["id"] == choice_id)
+
+
+def _answer24(docs: dict, pick: str) -> dict:
+    return next(a for a in docs["decisions"]["owner_answers_2026_11_24"] if a["id"] == pick)
+
+
+def _source24(docs: dict, pick: str) -> dict:
+    return next(a for a in docs["pack_2026_11_24"]["answers"] if a["id"] == pick)
 
 
 def _fixed(docs: dict) -> dict:
@@ -732,11 +851,12 @@ DOCUMENT_MUTATIONS = (
     ("rules proper score settled", lambda d: d["protocol"]["live_trial"]["rules_proper_score"].update(status="settled"),
      "rules proper score presented as settled"),
     # MP-192: the owner's picks of 5 Nov 2026.
-    ("beat meaning back to proposed", lambda d: d["protocol"]["live_trial"].update(
-        beat_meaning=d["protocol"]["live_trial"]["superseded_2026_11_05_mp192"]["beat_meaning_was"]),
-     "beat meaning does not carry the owner's pick (OWN-33)"),
+    # MP-203: this case runs first; "back to proposed" is now also refused by the MP203-06 check.
     ("beat meaning loses the option text", lambda d: d["protocol"]["live_trial"].update(
         beat_meaning=d["protocol"]["live_trial"]["beat_meaning"].replace("Rules are scored through the frozen mapping.", "")),
+     "beat meaning does not carry the owner's pick (OWN-33)"),
+    ("beat meaning back to proposed", lambda d: d["protocol"]["live_trial"].update(
+        beat_meaning=d["protocol"]["live_trial"]["superseded_2026_11_05_mp192"]["beat_meaning_was"]),
      "beat meaning does not carry the owner's pick (OWN-33)"),
     ("OWN-33 receipt dropped", lambda d: d["decisions"]["owner_answers_2026_11_05"].remove(
         next(a for a in d["decisions"]["owner_answers_2026_11_05"] if a["id"] == "OWN-33")), "owner answer of 5 Nov 2026 missing: OWN-33"),
@@ -757,7 +877,8 @@ DOCUMENT_MUTATIONS = (
      "SCI-D08 does not hold what stays open: unavailable_with_reason"),
     ("SCI-D08 loses the calendar question", lambda d: _choice(d, "SCI-D08").update(
         still_open=_choice(d, "SCI-D08")["still_open"].replace("calendar of valuation days", "calendar")),
-     "SCI-D08 does not hold what stays open: calendar of valuation days"),
+     # MP-203: MP203-10 answered the calendar, so this case now refuses the lost answer instead of the lost question.
+     "SCI-D08 does not hold the owner's calendar answer (MP203-10)"),
     ("trial hurdle question back in SCI-D03", lambda d: _choice(d, "SCI-D03").update(
         still_open=_choice(d, "SCI-D03")["still_open"] + " Also whether that hurdle also applies to the trial."),
      "a 5 Nov 2026 pick still presented as open in open-decisions"),
@@ -769,6 +890,78 @@ DOCUMENT_MUTATIONS = (
      "probation reading does not carry the owner's pick (OWN-27)"),
     ("spec loses OWN-33's option text", lambda d: d.update(spec=d["spec"].replace("Rules are scored through the frozen mapping.", "")),
      "owner's pick is not one phrase across spec and protocol"),
+    # MP-203: the owner's picks of 24 Nov 2026.
+    ("MP203-04 receipt dropped", lambda d: d["decisions"]["owner_answers_2026_11_24"].remove(
+        _answer24(d, "MP203-04")), "owner answer of 24 Nov 2026 missing: MP203-04"),
+    ("MP203-10 receipt decides nothing", lambda d: _answer24(d, "MP203-10").update(decides=[]),
+     "owner answer of 24 Nov 2026 missing: MP203-10"),
+    ("MP203-09 receipt dropped", lambda d: d["decisions"]["owner_answers_2026_11_24"].remove(
+        _answer24(d, "MP203-09")), "owner answer of 24 Nov 2026 missing: MP203-09"),
+    ("MP203-05 receipt paraphrased", lambda d: _answer24(d, "MP203-05").update(record="MP203-05: one approval for range tasks."),
+     "owner answer of 24 Nov 2026 is not the pick word for word: MP203-05"),
+    ("MP203-06 receipt says chat", lambda d: _answer24(d, "MP203-06").update(
+        record=_answer24(d, "MP203-06")["record"].replace("(pressed on the page)", "(on a question card in chat)")),
+     "owner answer of 24 Nov 2026 is not the pick word for word: MP203-06"),
+    ("answers file read drifts from the records", lambda d: _source24(d, "MP203-10").update(
+        read=_source24(d, "MP203-10")["read"].replace("never filled", "filled from the last bar")),
+     "owner answer of 24 Nov 2026 is not the pick word for word: MP203-10"),
+    ("answers file names an unknown way of answering", lambda d: _source24(d, "MP203-04").update(how="email"),
+     "missing record field: email"),
+    ("MP203-04 dropped from SCI-D07", lambda d: _choice(d, "SCI-D07")["answered_by"].remove("MP203-04"),
+     "owner answer not recorded on SCI-D07: MP203-04"),
+    ("MP203-06 dropped from SCI-D03", lambda d: _choice(d, "SCI-D03")["answered_by"].remove("MP203-06"),
+     "owner answer not recorded on SCI-D03: MP203-06"),
+    ("beat meaning loses MP203-06", lambda d: d["protocol"]["live_trial"].update(
+        beat_meaning=d["protocol"]["live_trial"]["superseded_2026_11_24_mp203"]["beat_meaning_was"]),
+     "beat meaning does not carry the owner's confirmation (MP203-06)"),
+    ("distribution targets back to an open question", lambda d: d["protocol"]["live_trial"]["rules_proper_score"].update(
+        distribution_targets=d["protocol"]["live_trial"]["superseded_2026_11_24_mp203"]["distribution_targets_was"]),
+     "distribution targets do not carry the owner's standing rule (MP203-05)"),
+    ("range stand-in needs a yes each time", lambda d: d["protocol"]["live_trial"]["rules_proper_score"].update(
+        distribution_targets=d["protocol"]["live_trial"]["rules_proper_score"]["distribution_targets"].replace(
+            "ADM-09's yes each time stays for event (probability) tasks without a qualified rules mapping",
+            "ADM-09's yes each time applies here too")),
+     "distribution targets do not carry the owner's standing rule (MP203-05)"),
+    ("3-month probation back to an open question", lambda d: d["protocol"]["probation_and_slip"].update(
+        long_horizons=d["protocol"]["probation_and_slip"]["superseded_2026_11_24_mp203"]["long_horizons_was"]),
+     "3-month probation does not carry the owner's pick (MP203-04)"),
+    ("3-month probation loses its open minimum count", lambda d: d["protocol"]["probation_and_slip"].update(
+        long_horizons=d["protocol"]["probation_and_slip"]["long_horizons"].replace(", and the minimum count stays open in SCI-D07", "")),
+     "3-month probation does not carry the owner's pick (MP203-04)"),
+    ("SCI-D07 loses the 3-month answer", lambda d: _choice(d, "SCI-D07").update(
+        still_open=_choice(d, "SCI-D07")["superseded_2026_11_24_mp203"]["still_open_was"]),
+     "SCI-D07 does not hold the owner's 3-month answer (MP203-04)"),
+    ("SCI-D08 calendar back in still open", lambda d: _choice(d, "SCI-D08").update(
+        still_open=_choice(d, "SCI-D08")["still_open"].replace("and whether a new price type", "the Calendar; and whether a new price type")),
+     "SCI-D08 still lists the calendar as open"),
+    ("SCI-D08 back to its 5 Nov text", lambda d: _choice(d, "SCI-D08").update(
+        still_open=_choice(d, "SCI-D08")["superseded_2026_11_24_mp203"]["still_open_was"]),
+     "SCI-D08 does not hold the owner's calendar answer (MP203-10)"),
+    ("missing bar filled", lambda d: d["tasks"].update(price_type_note_commodities=d["tasks"]["price_type_note_commodities"].replace(
+        "recorded as missing, never filled.\" So", "recorded as missing, filled from the last bar.\" So")),
+     "task catalogue does not carry the owner's calendar answer (MP203-10)"),
+    ("task catalogue lists the calendar open", lambda d: d["tasks"]["forecast_universe_and_ranking"]["open"].__setitem__(
+        0, d["tasks"]["forecast_universe_and_ranking"]["open"][0].replace("and the price type", "the price type and the calendar")),
+     "task catalogue still lists the gold and silver calendar as open"),
+    ("task catalogue note lists the calendar open", lambda d: d["tasks"].update(price_type_note_commodities=d["tasks"][
+        "price_type_note_commodities"].replace("the GBP rate pinned at that time and the price type", "the pinned GBP rate, the price type and the calendar")),
+     "task catalogue still lists the gold and silver calendar as open"),
+    ("event source gaps dropped", lambda d: d["model"]["event_module_proposed"]["event_wave_rules"].pop("source_gaps"),
+     "missing record field: event_module_proposed/event_wave_rules/source_gaps"),
+    ("fixed policies paraphrase MP203-10", lambda d: d["fixed"]["forecasts"]["owner_answers_2026_11_24"].update(
+        metals_valuation_days="the provider's bar days"), "fixed policies do not carry the 24 Nov 2026 pick word for word: metals_valuation_days"),
+    ("spec loses MP203-05's record", lambda d: d.update(spec=d["spec"].replace("Each promotion screen names it, and you still", "You still")),
+     "owner's 24 Nov 2026 pick is not one phrase across spec and records: MP203-05"),
+    ("spec says the pick does not name 3 months", lambda d: d.update(spec=d["spec"] + " The pick does not name 3 months (an open question for the owner)."),
+     "a 24 Nov 2026 pick still presented as open in spec"),
+    ("spec says ADM-09 applies there too", lambda d: d.update(spec=d["spec"] + " ADM-09's yes each time applies there too."),
+     "a 24 Nov 2026 pick still presented as open in spec"),
+    ("open-decisions call the calendar open again", lambda d: _choice(d, "SCI-D02").update(
+        still_open=_choice(d, "SCI-D02")["still_open"] + " For gold and silver the calendar of valuation days stays open."),
+     "a 24 Nov 2026 pick still presented as open in open-decisions"),
+    ("protocol keeps the unpicked option's reading", lambda d: d["protocol"]["live_trial"].update(
+        long_horizons=d["protocol"]["live_trial"]["long_horizons"] + " (the other option would have added both)"),
+     "a 24 Nov 2026 pick still presented as open in protocol"),
     ("old SCI-D05 recommendation restored", lambda d: _choice(d, "SCI-D05").update(
         recommendation=_choice(d, "SCI-D05")["superseded_2026_11_03"]["recommendation_was"]), "SCI-D05 still recommends"),
     ("SCI-D10 dropped", lambda d: d["decisions"]["material_choices"].pop(), "not SCI-D01 to SCI-D10"),
@@ -816,12 +1009,23 @@ GATE_MUTANTS = (
     ("OWN-33 beat-meaning check removed",
      '            "beat meaning does not carry the owner\'s pick (OWN-33)")\n',
      '            "beat meaning does not carry the owner\'s pick (OWN-33)") if False else None\n',
-     "selftest mutation accepted: beat meaning back to proposed"),
+     "selftest mutation accepted: beat meaning loses the option text"),
     ("5 Nov picks check removed", "    return 11 + verify_picks_2026_11_05(docs, choices)\n", "    return 11\n",
      "selftest mutation accepted: OWN-33 receipt dropped"),
     ("5 Nov stale-phrasing sweep removed",
      '            require(not pattern.search(text), "a 5 Nov 2026 pick still presented as open in " + name + ": " + pattern.pattern)\n',
      "            pass\n", "selftest mutation accepted: trial hurdle question back in SCI-D03"),
+    ("24 Nov picks check removed", '        "picks_2026_11_24_checks": verify_picks_2026_11_24(docs),\n',
+     '        "picks_2026_11_24_checks": 0,\n', "selftest mutation accepted: SCI-D08 loses the calendar question"),
+    ("24 Nov word-for-word check removed",
+     '        require(at(answers[pick], "record") == records[pick] and at(answers[pick], "pick") == at(source[pick], "pick"),\n',
+     '        require(True or records,\n', "selftest mutation accepted: MP203-05 receipt paraphrased"),
+    ("SCI-D08 calendar-open check removed",
+     '    require("calendar" not in open_part.lower(), "SCI-D08 still lists the calendar as open")\n', "    pass\n",
+     "selftest mutation accepted: SCI-D08 calendar back in still open"),
+    ("24 Nov stale-phrasing sweep removed",
+     '            require(not pattern.search(text), "a 24 Nov 2026 pick still presented as open in " + name + ": " + pattern.pattern)\n',
+     "            pass\n", "selftest mutation accepted: spec says the pick does not name 3 months"),
 )
 
 

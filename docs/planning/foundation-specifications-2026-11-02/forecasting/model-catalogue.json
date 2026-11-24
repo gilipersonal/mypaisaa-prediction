@@ -510,7 +510,8 @@
       "unscheduled_kinds": "no prerelease mode: no public schedule exists before the cutoff",
       "claude_role": "ARC-06b: Haiku triage and extraction; Opus analysis of at most three material events a day; typed dated factors, never price truth; historical extraction defaults to prospective_only",
       "capacity": "qualification staged inside two campaigns a month (POLICY-008) and the ARC-05 order; all seven in scope, none informs a forecast before its own evidence passes",
-      "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md: event and analog answers"
+      "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md: event and analog answers",
+      "source_gaps": "owner_selected_2026-11-24 (MP203-09): MP203-09, 24 November 2026 (MP-203): the owner picked \"All seven, gaps shown\" (pressed on the page). The option read: \"All seven stay the target. A kind that no checked source covers shows as no source yet, and informs no forecast until one qualifies.\" So all seven kinds stay the target of the first event wave; a kind that no checked source covers shows as no source yet and informs no forecast until a source qualifies"
     }
   }
 }

@@ -182,14 +182,14 @@
       "base_rate",
       "current_rules"
     ],
-    "beat_meaning": "owner_selected_2026-11-05 (OWN-33, \"A lower score is enough\"): the option read \"The model must score better on average than each comparator on the same forecasts. Rules are scored through the frozen mapping.\" and its cost read \"A small lead counts, and the 2% hurdle applies only to the earlier walk-forward test.\" So: a lower mean primary proper score (SCI-06) than each comparator on the trial's paired origins once they mature, with no 2% hurdle and no 95% interval in the trial (the other option, \"Add the 2% hurdle\", would have added both); the base rate has a proper score directly, the current rules only through rules_proper_score",
+    "beat_meaning": "owner_selected_2026-11-05 (OWN-33, \"A lower score is enough\"): the option read \"The model must score better on average than each comparator on the same forecasts. Rules are scored through the frozen mapping.\" and its cost read \"A small lead counts, and the 2% hurdle applies only to the earlier walk-forward test.\" So: a lower mean primary proper score (SCI-06) than each comparator on the trial's paired origins once they mature, with no 2% hurdle and no 95% interval in the trial, which the owner confirmed on 24 November 2026: MP203-06, 24 November 2026 (MP-203): the owner picked \"Confirm: no hurdle, no interval\" (pressed on the page). The option read: \"A lower average score than each comparator on the same matured forecasts is enough in the trial. The 2% hurdle and the 95% interval stay in the walk-forward test only.\"; the base rate has a proper score directly, the current rules only through rules_proper_score",
     "rules_proper_score": {
       "status": "proposed_open_in_SCI-D03",
       "why": "the rules produce only labelled heuristic strength (SCI-04), and only an independently qualified probability mapping may turn rule outputs into probabilities",
       "proposal": "R0-RULEMAP: a monotone sigmoid mapping from a rules version's heuristic strength to the task's event probability, fitted only on the purged chronological calibration block before the trial starts, then frozen and versioned; it must pass the SCI-05 calibration checks before it can stand as the rules comparator",
       "rules_changes": "the proposed and the current rules each get their own frozen mapping fitted on the same pre-trial block",
       "no_qualified_mapping": "owner_selected_2026-11-05 (ADM-09, \"Use the best simple baseline\"): the option read \"For that task, the strongest simple baseline stands in for the rules, with your yes each time.\" So for that task the strongest simple baseline stands in for the rules, with the owner's yes each time; the rules are never given a fabricated probability",
-      "distribution_targets": "rules give no quantiles, so for pinball-scored targets the strongest eligible R0 distribution baseline stands in for the rules; proposed reading, an open question for the owner: ADM-09 applies here too, so this stand-in also needs the owner's yes each time"
+      "distribution_targets": "owner_selected_2026-11-24 (MP203-05): MP203-05, 24 November 2026 (MP-203): the owner picked \"Once, as a standing rule\" (pressed on the page). The option read: \"You approve once that for range tasks the strongest simple range baseline stands in for the rules. Each promotion screen names it, and you still approve every promotion.\" So for pinball-scored (range) targets, where the rules give no quantiles, the strongest eligible R0 distribution baseline stands in for the rules under the owner's one standing approval; each promotion screen names it, and the owner still approves every promotion. ADM-09's yes each time stays for event (probability) tasks without a qualified rules mapping"
     },
     "unscoreable_week": "A week that cannot be scored (a data outage, a holiday week) pauses the 8-week trial count; the trial still needs 8 scored weeks.",
     "unscoreable_week_reasons": [
@@ -217,6 +217,17 @@
       "no_qualified_mapping_was": "the rules comparison for that task is not scoreable and the trial cannot complete for it until the owner decides; the rules are never given a fabricated probability",
       "distribution_targets_was": "rules give no quantiles, so for pinball-scored targets the strongest eligible R0 distribution baseline stands in for the rules",
       "kept": "rules_proper_score stays proposed and open in SCI-D03; scored_week_by_horizon and long_horizon_calibration_check stay open in SCI-D03"
+    },
+    "superseded_2026_11_24_mp203": {
+      "date": "2026-11-24",
+      "by": "MP203-05 and MP203-06: docs/planning/owner-question-pack-2026-11-24/answers.json (MP-203)",
+      "beat_meaning_was": "owner_selected_2026-11-05 (OWN-33, \"A lower score is enough\"): the option read \"The model must score better on average than each comparator on the same forecasts. Rules are scored through the frozen mapping.\" and its cost read \"A small lead counts, and the 2% hurdle applies only to the earlier walk-forward test.\" So: a lower mean primary proper score (SCI-06) than each comparator on the trial's paired origins once they mature, with no 2% hurdle and no 95% interval in the trial (the other option, \"Add the 2% hurdle\", would have added both); the base rate has a proper score directly, the current rules only through rules_proper_score",
+      "distribution_targets_was": "rules give no quantiles, so for pinball-scored targets the strongest eligible R0 distribution baseline stands in for the rules; proposed reading, an open question for the owner: ADM-09 applies here too, so this stand-in also needs the owner's yes each time",
+      "superseded": [
+        "the trial's no 2% hurdle and no 95% interval as a reading from the option not picked: the owner confirmed it (MP203-06)",
+        "the range-target stand-in as an open question needing the owner's yes each time: one standing approval, named on each promotion screen (MP203-05)"
+      ],
+      "kept": "rules_proper_score stays proposed and open in SCI-D03 (how the rules mapping is fitted and qualified); ADM-09's yes each time stays for event tasks without a qualified rules mapping; scored_week_by_horizon and long_horizon_calibration_check stay open in SCI-D03"
     }
   },
   "probation_and_slip": {
@@ -235,7 +246,7 @@
     "switch_forward": "owner's yes; it must start applying within 15 minutes, or the owner approves again (OWN-21, \"15 minutes, as drawn\", owner-selected 2026-11-05)",
     "restart_after_pause": "owner's yes (POLICY-003 stands). Owner-selected 2026-11-05 (OWN-28, \"Cause cleared, fresh approval\"): the option read \"Code shows why it paused, that the cause is gone and that the model passes today's checks. Your yes renews its approval for that scope only.\" The yes must start applying within 15 minutes, or the owner approves again (OWN-21)",
     "unscoreable_week_in_run": "neither counts towards nor breaks a run (proposed)",
-    "long_horizons": "6 and 12 months: probation checks clean running only (OWN-27, owner-selected 2026-11-05). 3 months: the pick does not name it, so the earlier proposal stands as written, rarely scoreable within probation and relying on the clean-running and calibration check; an open question for the owner",
+    "long_horizons": "6 and 12 months: probation checks clean running only (OWN-27, owner-selected 2026-11-05). 3 months: owner_selected_2026-11-24 (MP203-04): MP203-04, 24 November 2026 (MP-203): the owner picked \"Pairs when there are any\" (pressed on the page). The option read: \"A 3-month model is judged on any pairs that mature in its 4 weeks, from forecasts it made in shadow, and is checked for clean running too. With no pairs, clean running only.\" So a 3-month model on probation is judged on any paired forecasts that mature within its 4 probation weeks, from forecasts it made in shadow, and is checked for clean running too; with no matured pairs, clean running only. Proposed: those pairs are judged by the OWN-27 bad-week rule, and the minimum count stays open in SCI-D07",
     "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md: 3 Nov round items 6, 14, 15 and 18",
     "superseded_2026_11_05_mp192": {
       "date": "2026-11-05",
@@ -246,6 +257,15 @@
       "long_horizons_was": "rarely scoreable within probation; rely on the clean-running and calibration check",
       "switch_forward_was": "owner's yes",
       "restart_after_pause_was": "owner's yes (POLICY-003 stands)"
+    },
+    "superseded_2026_11_24_mp203": {
+      "date": "2026-11-24",
+      "by": "MP203-04: docs/planning/owner-question-pack-2026-11-24/answers.json (MP-203)",
+      "long_horizons_was": "6 and 12 months: probation checks clean running only (OWN-27, owner-selected 2026-11-05). 3 months: the pick does not name it, so the earlier proposal stands as written, rarely scoreable within probation and relying on the clean-running and calibration check; an open question for the owner",
+      "superseded": [
+        "3 months as an open question for the owner: judged on any pairs that mature in its 4 weeks, with clean running only when there are none (MP203-04)"
+      ],
+      "kept": "6 and 12 months: probation checks clean running only (OWN-27)"
     }
   },
   "live_display_policies": {

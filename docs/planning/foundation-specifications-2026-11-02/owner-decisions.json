@@ -68,14 +68,18 @@
         "date": "2026-11-03",
         "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-in-the-3-november-2026-decision-round-mp-39",
         "items": "1 to 21",
-        "summary": "Data: segments, additions from chat, the ~150-name universe, UK and Indian funds, Yahoo kept for India, the scan up to 5 GBP (items 1 to 3, 8, 9, 12, 19). Forecasting: bands, trial, revert, slipping, restart, unscored weeks, rules changes, probation, contribution split, F7 (items 4 to 6, 11, 13 to 18, 20). Release workflow only the owner can start (7). Apple not for now (10). One-pass consolidation with review round 1 before the owner signs (21).",
+        "summary": "Data: segments, additions from chat, the ~150-name universe, UK and Indian funds, Yahoo kept for India, the scan up to 5 GBP (items 1 to 3, 8, 9, 12, 19). Forecasting: bands, trial, revert, slipping, restart, unscored weeks, rules changes, probation, contribution split, F7 (items 4 to 6, 11, 13 to 18, 20). Release workflow only the owner can start (7; replaced on 24 November 2026 by MP203-08). Apple not for now (10). One-pass consolidation with review round 1 before the owner signs (21).",
         "folded_into": [
           "data/",
           "fixed-policies.json",
           "selected-directions.json",
           "work-state.json",
           "README.md"
-        ]
+        ],
+        "superseded_2026_11_24_mp203": {
+          "summary_was": "Data: segments, additions from chat, the ~150-name universe, UK and Indian funds, Yahoo kept for India, the scan up to 5 GBP (items 1 to 3, 8, 9, 12, 19). Forecasting: bands, trial, revert, slipping, restart, unscored weeks, rules changes, probation, contribution split, F7 (items 4 to 6, 11, 13 to 18, 20). Release workflow only the owner can start (7). Apple not for now (10). One-pass consolidation with review round 1 before the owner signs (21).",
+          "superseded": "item 7's release workflow only the owner can start: a merge to main starts the release, which waits in the GitHub production environment for the owner's approval (MP203-08)"
+        }
       },
       {
         "date": "2026-11-05",
@@ -89,6 +93,18 @@
           "forecasting/",
           "fixed-policies.json",
           "integration-specification.md",
+          "README.md"
+        ]
+      },
+      {
+        "date": "2026-11-24",
+        "source": "docs/planning/owner-question-pack-2026-11-24/answers.json",
+        "issue": "MP-203",
+        "summary": "Owner picks from the MP-203 question pack that touch this pack: a browser's saved copy follows the same rule and time-out as the Apple app, the value still the owner's to set (MP203-01); no investment alert breaks quiet hours (MP203-02), and only a critical fault on a short named list may (MP203-03); a 3-month model on probation is judged on any pairs that mature in its 4 weeks, with clean running only when there are none (MP203-04); on range targets the strongest simple range baseline stands in for the rules under one standing approval, and every promotion is still the owner's (MP203-05); no 2% hurdle and no 95% interval in the trial, confirmed (MP203-06); a merge to main starts the production release, which waits in the GitHub production environment for the owner's approval, replacing the 3 November route A (MP203-08); all seven event kinds stay the target, a kind no checked source covers shown as no source yet (MP203-09); the gold and silver valuation days are the provider's bar days, a missing bar recorded as missing (MP203-10); the Apple app's build and unit tests run in CI (MP203-11). SCI-D03, SCI-D07 and SCI-D08 stay partly answered; every value a pick leaves open stays open.",
+        "folded_into": [
+          "forecasting/",
+          "fixed-policies.json",
+          "selected-directions.json",
           "README.md"
         ]
       }
