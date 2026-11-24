@@ -144,7 +144,7 @@
      "Redistribution, and display or export to anyone but the owner, stay denied; an unknown scope blocks the use (DATA-AT-02)."
     ],
     "recovery": [
-     "When a scope is withdrawn or a plan ends, new use stops at once, cached projections and affected derivations become unavailable for that use, and stored data, backups and models follow the treatment the owner approves under DATA-DEC-04 (DATA-AT-12).",
+     "When a scope is withdrawn or a plan ends, new use stops at once, cached projections and affected derivations become unavailable for that use, and stored data, backups and models follow the treatment the owner approves under DATA-DEC-04 (DATA-AT-12). Yahoo-derived values already sent to Claude cannot be recalled: MP records what was sent and says so, and Claude text built on them stays, labelled. ADM-07, 5 November 2026 (MP-184): the owner picked \"Record it, keep the outputs\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"MP records what was sent and says it cannot recall it. Claude text built on it stays, labelled.\" How long Anthropic holds them is unverified, and the treatment of Grow 55 values on withdrawal stays open (DATA-DEC-04).",
      "If the gate cannot read the scope table it fails closed and records why; nothing proceeds on a cached allow."
     ]
    },
@@ -219,7 +219,7 @@
     ],
     "recovery": [
      "A probe that times out keeps its credit reservation as ambiguous until reconciled, and the proposal shows as not yet checked; the owner can run it again.",
-     "A confirmation against a stale proposal (the probe result or catalogue version changed since it was shown) is refused and a fresh proposal is shown."
+     "A proposal expires the same day at 18:00, or sooner if its check changes. MP40-Q9, 5 November 2026 (MP-184): the owner picked \"Same day, as drawn\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"A proposal expires the same day, at 18:00 as drawn, or sooner if its check changes.\" A confirmation against an expired or stale proposal (the probe result or catalogue version changed since it was shown) is refused and a fresh proposal is shown."
     ]
    },
    "contracts": [
@@ -247,7 +247,8 @@
     "covered and affordable, awaiting confirmation",
     "refused (unsupported, over the minute cap or needs a higher tier)",
     "confirmed (new catalogue version)",
-    "stale proposal (superseded before confirmation)"
+    "stale proposal (superseded before confirmation)",
+    "expired (18:00 the same day)"
    ],
    "depends_on": {
     "stories": [
@@ -261,12 +262,10 @@
      "FC-15",
      "PL-13"
     ],
-    "owner_questions": [
-     "MP40-Q9"
-    ],
+    "owner_questions": [],
     "external": []
    },
-   "blocked_on_owner": true,
+   "blocked_on_owner": false,
    "evidence": [
     "DATA-AT-14 passes with all four of its cases.",
     "DATA-AT-13 passes for the probe's own reservations.",
@@ -472,13 +471,13 @@
      "role": "validates"
     }
    ],
-   "authority": "Data worker code writes FX and action records; nobody edits them in place. The owner chooses FX freshness tolerances (DATA-DEC-02). Claude routes have no write access.",
+   "authority": "Data worker code writes FX and action records; nobody edits them in place. FX may be 24 hours old under the freshness limits the owner approved. OWN-07, 5 November 2026 (MP-184): the owner picked \"Approve the proposed limits now\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). Claude routes have no write access.",
    "states": [
     "applied",
     "announced, not yet effective",
     "missing (adjusted series ineligible)",
     "restated (new revision)",
-    "FX stale (older than its tolerance)",
+    "FX stale (older than 24 hours)",
     "unsupported (no action endpoint on this plan)"
    ],
    "depends_on": {
@@ -525,7 +524,7 @@
     ],
     "recovery": [
      "A NAV published late is admitted only from its known_at; an origin that waited records waiting_data, never a backdated value.",
-     "A NAV overdue past its publication deadline plus the approved grace shows overdue and keeps the last trusted value with its date."
+     "A NAV still missing 60 minutes after its publication deadline shows overdue and keeps the last trusted value with its date. OWN-07, 5 November 2026 (MP-184): the owner picked \"Approve the proposed limits now\" (by the owner's words in chat, \"for the remaining pick up recommended options\")."
     ]
    },
    "contracts": [
@@ -666,7 +665,7 @@
    ],
    "acceptance": {
     "positive": [
-     "For each eligible close on the listing's versioned calendar, collection starts at +15 minutes, one missing-close retry at +40 and the cutoff freezes at +60, leaving issuance to complete by +75 and strictly before the next eligible open (POLICY-002, DATA-06).",
+     "For each eligible close on the listing's versioned calendar, collection starts at +15 minutes, one missing-close retry at +40 and the cutoff freezes at +60, leaving issuance to complete by +75 and strictly before the next eligible open (POLICY-002, DATA-06). The +40 retry is the only automatic one; a late price stays a data quality incident, and a newer price arrives at the next check. ADM-06, 5 November 2026 (MP-184): the owner picked \"No, keep it apart\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"A late price stays a data quality incident. The +40 retry is the only automatic one, and a newer price arrives at the next check.\"",
      "The US, UK and India run separately with local holidays, half-days and DST from versioned calendars; the 07:30 briefing reads the latest stored origin per market rather than pretending they closed together.",
      "Each market run records its watermark, last success and next due time, so a missed run is visible.",
      "The daily run covers about 180 end-of-day listings (the ~150-name discovery universe plus holdings and watch-only listings), with bars and retries fitting the +15 to +60 window at 45 credits a minute."
@@ -747,7 +746,7 @@
    ],
    "acceptance": {
     "positive": [
-     "During each eligible listing's regular session, from the next half-hour boundary after the open, checks read Twelve Data quotes for US listings and Yahoo delayed intraday prices for UK and India listings, each labelled with its source and delay (DATA-06, DATA-DEC-06).",
+     "During each eligible listing's regular session, from the next half-hour boundary after the open, checks read Twelve Data quotes for US listings and Yahoo delayed intraday prices for UK and India listings, each labelled with its source and delay (DATA-06, DATA-DEC-06). A quote is fresh to its interval end plus its delay plus 5 minutes. OWN-07, 5 November 2026 (MP-184): the owner picked \"Approve the proposed limits now\" (by the owner's words in chat, \"for the remaining pick up recommended options\").",
      "A daily-only listing shows daily status, and a fund gets NAV publication monitoring instead.",
      "Checks update quote and risk facts and may hand a risk notice to the alerting path; they never produce a formal forecast or rerun any horizon."
     ],
@@ -784,7 +783,7 @@
     "delayed quote, labelled",
     "daily status only",
     "market closed",
-    "stale (beyond the freshness tolerance)",
+    "stale (past its interval end plus its delay plus 5 minutes)",
     "circuit open",
     "unsupported"
    ],
@@ -1047,7 +1046,7 @@
      "Covariance uses synchronised GBP total returns over a 126-session window with at least 100 common observations, plus a 252-session sensitivity, once FIN-OD-06 is approved."
     ],
     "negative": [
-     "Stale or missing fund holdings are labelled provisional proxy or missing, never zero exposure; fund holdings have no accepted source scope today (DATA-02), so look-through stays missing until one exists.",
+     "Stale or missing fund holdings are labelled provisional proxy or missing, never zero exposure. Look-through holdings come from dated fund factsheets the owner adds through the import route, and MP shows the shares they list plus what is left unknown. MP40-Q8, 5 November 2026 (MP-184): the owner picked \"Factsheets you supply\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"You add dated fund factsheets through the import route, and MP shows the shares they list plus what is left unknown.\" Factsheet detail and use rights are unverified and no accepted source scope covers them today (DATA-02), so look-through stays missing until a factsheet is imported under an accepted scope (proposed).",
      "No zero return is invented for an open but missing day, and an incomplete or unstable covariance matrix withholds volatility and correlation claims.",
      "Scenario facts use only dated evidence."
     ],
@@ -1092,11 +1091,10 @@
      "FC-11"
     ],
     "owner_questions": [
-     "FIN-OD-06",
-     "MP40-Q8"
+     "FIN-OD-06"
     ],
     "external": [
-     "PH-05: dated fund-holding and exposure evidence with rights (L5-S01)"
+     "PH-01: dated fund factsheets the owner adds through the import route, read into dated fund holdings with rights (MP40-Q8)"
     ]
    },
    "blocked_on_owner": true,

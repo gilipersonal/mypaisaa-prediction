@@ -62,7 +62,8 @@
      "Terraform in infra/terraform/, plan-only until the owner asks for an apply in the running prompt, defines one Cognito user pool per account (dev and prod) in us-east-1 on a tier that supports passkeys (Essentials or Plus), with Google as a provider and passkeys enabled.",
      "Linking a Google identity to the owner uses the provider's stable subject after a fresh sign-in with both identities.",
      "The API accepts only tokens from its own environment's pool and app client: a dev token is refused by prod, a prod token by dev, and any other user's token everywhere.",
-     "Sign-in and link events are written to the audit with opaque references only."
+     "Sign-in and link events are written to the audit with opaque references only.",
+     "A passkey may be enrolled in a phone's browser once a test proves that Cognito passkeys work there without Apple's paid programme; until that test (MP-197) passes, phone web offers no enrolment. ADM-04, 5 November 2026 (MP-184): the owner picked \"Allowed in the browser\" (pressed on the page). The option read: \"The bar covers the Apple app only, so Phone web may enrol a passkey once a test proves it works.\""
     ],
     "negative": [
      "Email equality alone never links or merges identities.",
@@ -128,8 +129,8 @@
    "acceptance": {
     "positive": [
      "A recovery inventory (CT-17) holds at least two independent recovery paths, for example passkeys on two separate devices plus the verified Google link, and is shown to the owner.",
-     "Revoking a session or device ends its refresh tokens and closes its live streams within the revocation time the owner approves (CT-17).",
-     "Lost device: from another path the owner signs in with step-up, revokes the lost device and enrols a replacement passkey; each step is audited.",
+     "Revoking a session or device ends its refresh tokens, closes its live streams and removes any passkey held on that device, so the path count drops by one, within the revocation time the owner approves (CT-17). ADM-02, 5 November 2026 (MP-184): the owner picked \"Revoke removes it too\" (pressed on the page). The option read: \"Revoking a device also removes any passkey held on it, and your path count drops by one.\" Whether Cognito can remove a passkey this way, and whether a passkey synced across the owner's Apple devices ends on those too, are unverified until MP-197 tests them. The revocation time is set from measured proof before the identity phase ends and is not set yet. OWN-39, 5 November 2026 (MP-184): the owner picked \"Anything that writes or widens\" (by the owner's words in chat, \"for the remaining pick up recommended options\").",
+     "Lost device: from any healthy path, passkey or Google, the owner signs in fresh, revokes the lost device and enrols a replacement passkey; each step is audited. ADM-03, 5 November 2026 (MP-184): the owner picked \"Any healthy path\" (pressed on the page). The option read: \"A fresh sign-in on any healthy path, passkey or Google, can revoke, and Privacy's button changes to match.\" With the Mac lost, the replacement passkey is enrolled in the phone's browser if browser passkeys are allowed; the iPhone app cannot do this step until the Developer Program is bought. ADM-15, 5 November 2026 (MP-184): the owner picked \"Finish in the phone browser\" (pressed on the page). The option read: \"You enrol the replacement passkey in the phone's browser, if you allow browser passkeys.\" The browser step rests on the MP-197 test; if it fails, recovery ends on one path (proposed).",
      "A loss-of-all-devices procedure is written and rehearsed on dev, recovering through the remaining provider path."
     ],
     "negative": [
@@ -154,7 +155,7 @@
      "role": "writes"
     }
    ],
-   "authority": "Only the owner links, unlinks, revokes or enrols, each with step-up. No admin role recovers the account on the owner's behalf. Claude routes and workers have no access to identity operations.",
+   "authority": "Only the owner links, unlinks, revokes or enrols, each with step-up; a revoke accepts a fresh sign-in on any healthy path, passkey or Google (ADM-03). No admin role recovers the account on the owner's behalf. Claude routes and workers have no access to identity operations.",
    "states": [
     "two or more paths healthy",
     "one path left: warning shown",
@@ -194,9 +195,9 @@
    ],
    "acceptance": {
     "positive": [
-     "A sensitive-action matrix (CT-01) covers import confirmation and corrections, deletion, replay, identity linking and recovery, budget expansion and model promotion, each with its required assurance and freshness.",
+     "Every act that changes a record, widens what MP may do or opens an original needs a fresh sign-in; reading and stopping do not. OWN-39, 5 November 2026 (MP-184): the owner picked \"Anything that writes or widens\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Every act that changes a record, widens what MP may do or opens an original needs a fresh sign-in; reading and stopping do not. Both times are set from measured proof before the identity phase ends.\" The sensitive-action matrix (CT-01) lists each such act, including import confirmation and corrections, deletion, replay, identity linking and recovery, budget expansion and model promotion, with its required assurance and freshness; the freshness time and the revocation time are not set yet.",
      "The backend checks Cognito authentication strength and freshness per action and asks for step-up when the evidence is not enough (ARC-07); if Cognito cannot give that assurance, a verified fresh sign-in path meets the same policy.",
-     "An approval binds owner, environment, action, payload sha256, expected record or configuration version and expiry; a financial approval allows 15 minutes to start the exact commit (POLICY-001).",
+     "An approval binds owner, environment, action, payload sha256, expected record or configuration version and expiry; a financial approval allows 15 minutes to start the exact commit (POLICY-001). Other proposals keep their own wait by kind; a replay's wait is not yet agreed. OWN-08, 5 November 2026 (MP-184): the owner picked \"By kind, as drawn\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Each kind keeps its own wait: days for a promotion or a setting, none for a restart.\"",
      "At execution, including after a durable wait, the backend rechecks authority, expiry and the expected version."
     ],
     "negative": [
@@ -268,7 +269,7 @@
    "acceptance": {
     "positive": [
      "Terraform in infra/terraform/, plan-only until the owner asks for an apply in the running prompt, defines AWS Organizations with all features, a management account that runs no workloads, and dev and prod member accounts in us-east-1 (ARC-11, MP-29).",
-     "The cost-guard SCP denies NAT gateways, interface endpoints, VPNs, load balancers, SageMaker endpoints and GPU instances until an ADR lifts it; the other SCPs the MP-29 pack proposed (keep CloudTrail on, deny root actions, forbid leaving the organisation) are added only if the owner approves them.",
+     "The cost-guard SCP denies NAT gateways, interface endpoints, VPNs, load balancers, SageMaker endpoints and GPU instances until an ADR lifts it. Beside it, three further SCPs keep CloudTrail on, deny root actions and forbid leaving the organisation, binding the dev and prod accounts. MP40-Q4, 5 November 2026 (MP-184): the owner picked \"Add all three\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"The three policies join the cost guard in Terraform, and they bind the dev and prod accounts.\"",
      "State lives in a versioned, encrypted S3 bucket per account with S3 native locking, made by a bootstrap configuration that starts on local state and migrates into the bucket it creates.",
      "GitHub OIDC deploy roles, one per account; the prod role trusts only the release workflow the owner starts (PH08-S01).",
      "Plan-only CI on every PR: terraform fmt -check, terraform validate, TFLint and Checkov, with no AWS access; the Terraform CLI and AWS provider are pinned in the lock file.",
@@ -295,7 +296,7 @@
     "planned and reviewed",
     "applied to dev at the owner's request",
     "drifted: a plan shows a change nobody made in Terraform",
-    "denied by the cost-guard SCP"
+    "denied by the cost-guard SCP or one of the three further SCPs"
    ],
    "depends_on": {
     "stories": [
@@ -305,17 +306,16 @@
      "PL-10",
      "PL-11"
     ],
-    "owner_questions": [
-     "MP40-Q4"
-    ],
+    "owner_questions": [],
     "external": []
    },
    "evidence": [
     "fmt, validate, TFLint and Checkov pass in CI",
     "A reviewed plan for the organisation, accounts, SCP and state",
-    "A policy test showing the cost-guard SCP denies creating a NAT gateway"
+    "A policy test showing the cost-guard SCP denies creating a NAT gateway",
+    "A policy test for each of the three further SCPs showing it denies its action"
    ],
-   "blocked_on_owner": true
+   "blocked_on_owner": false
   },
   {
    "id": "PH02-S05",
@@ -473,7 +473,7 @@
    "acceptance": {
     "positive": [
      "The prod billing collector assumes the read-only Cost Explorer role in the management account (owner, 3 November 2026) once a day, covers both accounts, and stays within the 120-page monthly cap.",
-     "Anthropic usage and cost are collected every six hours, through an Anthropic admin key only if the owner adopts one (the boundary matrix says \"if adopted\"); until then that collection shows as unavailable.",
+     "Anthropic usage and cost are collected every six hours through an Anthropic admin key that only the prod collector reads, from secure storage. MP40-Q5, 5 November 2026 (MP-184): the owner picked \"Adopt the key\" (pressed on the page). The option read: \"The prod collector alone reads it from secure storage every six hours and fills the Claude line. Ready stands.\" The key's price and whether the account can have one are unverified, and any charge counts against the £100 ceiling; until a key exists, that collection shows as unavailable.",
      "Each collection stores the source time, the collected time and estimate or reconciled status, and upserts idempotently by period.",
      "The dashboard reads cached aggregates only: refreshing it 100 times makes no billing API call (COST-AT-08)."
     ],
@@ -518,16 +518,14 @@
      "PL-13",
      "PL-12"
     ],
-    "owner_questions": [
-     "MP40-Q5"
-    ],
+    "owner_questions": [],
     "external": []
    },
    "evidence": [
     "Offline tests with recorded responses for pagination caps, failures and staleness",
     "COST-AT-08, COST-AT-09 and COST-AT-13 run as offline tests"
    ],
-   "blocked_on_owner": true
+   "blocked_on_owner": false
   },
   {
    "id": "PH02-S08",
@@ -607,7 +605,7 @@
      "Reservations move only through reserved, dispatched, ambiguous, settled, cancel_pending and released as the contract defines, and settlement replaces the reservation, never adds to it."
     ],
     "negative": [
-     "With no verified credit allocation, optional Claude calls are refused whatever the cash headroom; admissible credit is zero today (COST-AT-05).",
+     "With no verified credit allocation, optional Claude calls are refused whatever the cash headroom until the owner gives the explicit word that starts paid use; admissible credit is zero today (COST-AT-05). OWN-04, 5 November 2026 (MP-184): the owner picked \"Approve paid Claude at launch\" (pressed on the page). The option read: \"You approve paid use, so chat, research and explanations can run from day one, each route after passing its evaluation.\" Picking it does not turn paid calls on: they still need the owner's explicit word when the time comes.",
      "No paid fallback switches on by itself."
     ],
     "recovery": [
@@ -667,11 +665,11 @@
    ],
    "acceptance": {
     "positive": [
-     "Admission checks the month's forecast cash against £60 (warn), £75 (reduce optional backfills, challenger models and Claude jobs) and £85 (pause new optional paid work), inside the £100 ceiling and the £70 plan with £30 reserve; the allocations are data £30, AWS £22, Claude and evaluations £15 and uncertainty £3 (COST-Q1).",
+     "Admission checks the month's forecast cash against £60 (warn), £75 (reduce optional work in a set order: backfills first, then challenger models, then Claude jobs, saying which step it reached) and £85 (pause new optional paid work, while daily forecasts carry on), inside the £100 ceiling and the £70 plan with £30 reserve; the allocations are data £30, AWS £22, Claude and evaluations £15 and uncertainty £3 (COST-Q1). OWN-36, 5 November 2026 (MP-184): the owner picked \"Cut in a set order\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Code cuts backfills first, then challenger models, then Claude jobs, and says which step it reached.\" OWN-25, 5 November 2026 (MP-184): the owner picked \"Daily forecasts keep running\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"At £85 optional paid work stops and daily forecasts carry on. Cost paused shows only where a forecast needs that paid work.\"",
      "The top-5 scan spends at most £5 a month, a reservation that would cross that cap is refused (COST-AT-18), and a scan overrun stops at the Claude cap.",
      "In an Apple fee month, if the owner ever buys the Developer Program, optional work is admitted on the month without the fee (COST-Q4) and the full-month flags stay recorded.",
-     "Sign-in, ledger reads, audit and recovery stay available at every threshold.",
-     "AWS billing older than 36 hours blocks the relevant optional admission until reconciled (proposed in COST-07, waiting for the owner's approval under CT-13)."
+     "Sign-in, ledger reads, audit, recovery and daily forecasts stay available at every threshold, inside the £15 kept above the £85 pause. MP40-Q6, 5 November 2026 (MP-184): the owner picked \"Approve all three\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Past 36 hours relevant optional work waits. Credit counts only with proof under 30 minutes old. The £15 above the £85 pause stays for sign-in, ledger reads, audit and recovery.\" Asked whether daily forecasts run inside that £15, the owner said \"Yes, add them\" (5 November 2026).",
+     "AWS billing older than 36 hours blocks the relevant optional admission until reconciled, and credit counts only with proof under 30 minutes old (COST-07, CT-13). MP40-Q6, 5 November 2026 (MP-184): the owner picked \"Approve all three\" (by the owner's words in chat, \"for the remaining pick up recommended options\")."
     ],
     "negative": [
      "The thresholds are never described as an instant AWS shut-off; hard caps on requests, concurrency, timeouts and retention back them.",
@@ -695,7 +693,7 @@
      "role": "writes"
     }
    ],
-   "authority": "Code applies the thresholds. Only the owner changes a threshold or an allocation, with step-up. No agent can change, bypass or pause them.",
+   "authority": "Code applies the thresholds. Only the owner changes a threshold or an allocation, with step-up. No agent can change, bypass or pause them. When a line is close, code may draft an exact raise for the owner's queue, with cost and rollback, which the owner approves with a fresh sign-in; a raise never takes the month past £100. OWN-35, 5 November 2026 (MP-184): the owner picked \"Code may draft one\" (pressed on the page). The option read: \"When a line is close, code drafts an exact raise for your queue, with cost and rollback, and you approve it with a fresh sign-in.\"",
    "states": [
     "normal",
     "warning",
@@ -713,16 +711,14 @@
      "CT-13",
      "PL-13"
     ],
-    "owner_questions": [
-     "MP40-Q6"
-    ],
+    "owner_questions": [],
     "external": []
    },
    "evidence": [
     "Admission state-table tests for every threshold",
     "COST-AT-10, 15 and 17 run as offline tests, with the full-workload stress budget"
    ],
-   "blocked_on_owner": true
+   "blocked_on_owner": false
   },
   {
    "id": "PH02-S11",

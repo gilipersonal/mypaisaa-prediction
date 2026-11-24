@@ -50,7 +50,9 @@
     "positive": [
      "React Native owns cross-platform navigation and the bridge contracts only; Swift and SwiftUI own the iOS and iPadOS screens, persistence, widgets, Keychain and notifications.",
      "The bridge schema is versioned and tested on both sides, with a typed payload and a typed error for every message.",
-     "Deep links route through the shell to the native screen that opens the durable record."
+     "Deep links route through the shell to the native screen that opens the durable record.",
+     "The app supports and is tested on the owner's own iPhone and iPad, at the iOS they run, with the models the owner gives. MP40-Q12a, 5 November 2026 (MP-184): the owner picked \"Your own devices only\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Support and test the iPhone and iPad you own, at the iOS they run. You give the models.\"",
+     "The app lays out by window width, so a narrow iPad window uses the phone layout. MP40-Q12b, 5 November 2026 (MP-184): the owner picked \"Any window width\" (pressed on the page). The option read: \"The Apple app lays out by window width, so a narrow iPad window uses the phone layout.\""
     ],
     "negative": [
      "A message with an unknown version or an invalid payload is refused with a typed error, never coerced.",
@@ -87,14 +89,12 @@
     "gaps": [
      "PL-14"
     ],
-    "owner_questions": [
-     "MP40-Q12"
-    ],
+    "owner_questions": [],
     "external": [
      "UX: native navigation (Apple)"
     ]
    },
-   "blocked_on_owner": true,
+   "blocked_on_owner": false,
    "evidence": [
     "Bridge contract tests on the Swift and React Native sides",
     "Version-mismatch and invalid-payload cases",
@@ -189,11 +189,11 @@
    "acceptance": {
     "positive": [
      "The app is signed with a free personal team and installed on the owner's iPhone and iPad from the owner's Mac; each install records its expiry seven days later.",
-     "XCTest and the Maestro CLI run on simulators on the owner's Mac against the agreed device and OS matrix.",
+     "XCTest and the Maestro CLI run on simulators on the owner's Mac against the owner's own iPhone and iPad at the iOS they run, including a narrow iPad window that uses the phone layout. MP40-Q12a, 5 November 2026 (MP-184): the owner picked \"Your own devices only\" (by the owner's words in chat, \"for the remaining pick up recommended options\").",
      "Sign-in in the app uses Cognito with Google through the system browser with PKCE, and tokens are kept in the Keychain."
     ],
     "negative": [
-     "No TestFlight, Apple push, Sign in with Apple or on-device passkeys is used until the Developer Program is bought (owner, 4 November 2026: \"The purchase (Recommended)\", MP-179).",
+     "No TestFlight, Apple push, Sign in with Apple or on-device passkeys is used until the Developer Program is bought (owner, 4 November 2026: \"The purchase (Recommended)\", MP-179). The bar covers the Apple app only; a phone's browser may enrol a passkey once a test proves it works. ADM-04, 5 November 2026 (MP-184): the owner picked \"Allowed in the browser\" (pressed on the page).",
      "No build is distributed to anyone else, and CI does not sign Apple builds."
     ],
     "recovery": [
@@ -253,13 +253,13 @@
    ],
    "acceptance": {
     "positive": [
-     "Only approved data classes are cached, encrypted with iOS Data Protection and a Keychain-held key.",
+     "Only the five data kinds the offline screens show (holdings, prices, forecasts, notices and cost) are cached, each with its age, encrypted with iOS Data Protection and a Keychain-held key; a browser keeps the same five. MP40-Q12c, 5 November 2026 (MP-184): the owner picked \"Both keep the five\" (pressed on the page).",
      "Every cached record shows its age, and the app refetches on reconnect.",
      "Sign-out, session revocation and an account change clear the cache."
     ],
     "negative": [
      "No financial write (an approval, an import, a settings change or a confirm) is accepted offline; it is refused with its reason.",
-     "A cached record is never shown as fresh, and a revoked session's cache cannot be read."
+     "A cached record is never shown as fresh. A revoked device's copy clears on its next connection, and the app also stops showing its copy after a set time without reaching the server; the owner chooses that time, and it is not set yet. OWN-37, 5 November 2026 (MP-184): the owner picked \"Saved copy also times out\" (pressed on the page). The option read: \"The copy clears on the next connection, and the app also stops showing it after a set time without reaching the server. You choose the time.\" How well an offline app can enforce this is unverified."
     ],
     "recovery": [
      "On reconnect, stale records are replaced; a corrupt cache is discarded and rebuilt from the server."
@@ -285,7 +285,8 @@
     "cached_aged",
     "offline",
     "revoked_cleared",
-    "corrupt_rebuilt"
+    "corrupt_rebuilt",
+    "timed_out (no server contact within the set time)"
    ],
    "depends_on": {
     "stories": [
@@ -295,12 +296,10 @@
      "PL-14",
      "CT-04"
     ],
-    "owner_questions": [
-     "MP40-Q12"
-    ],
+    "owner_questions": [],
     "external": []
    },
-   "blocked_on_owner": true,
+   "blocked_on_owner": false,
    "evidence": [
     "Offline, reconnect and revoked-session tests",
     "An offline write-refusal case for every write journey",
@@ -445,7 +444,7 @@
      "The PWA asks for notification permission only after an owner action and stores one push subscription per device, owner and environment.",
      "Notices leave from a durable outbox with a dedup key; each attempt and the push service's acceptance are recorded as delivery attempts, not as read.",
      "Payloads are neutral; a tap opens a deep link that re-reads durable state after sign-in.",
-     "Quiet hours (22:00 to 07:00 Europe/London) apply, and held notices arrive with the 07:30 brief.",
+     "Quiet hours (22:00 to 07:00 Europe/London) apply, and held notices arrive with the 07:30 brief on weekdays; with no brief on Saturday or Sunday, held alerts land in the in-app inbox at 07:30 (proposed). MP40-Q11b, 5 November 2026 (MP-184): the owner picked \"Weekdays only\" (by the owner's words in chat, \"for the remaining pick up recommended options\").",
      "Web Push support on the owner's iPhone and iPad (as a home-screen web app) and browsers is verified before it is relied on."
     ],
     "negative": [
@@ -593,7 +592,7 @@
     "positive": [
      "The table lists widgets, share-sheet statement intake, Spotlight search and deep links, Siri and App Intents, Live Activities for long jobs, Apple push, Sign in with Apple, on-device passkeys and TestFlight, each with its privacy, availability, cost and fallback.",
      "Capabilities that need the paid Apple Developer Program are marked later until the Developer Program is bought (MP-179), with today's fallback (Web Push, Google sign-in, local builds).",
-     "Each row becomes launch-required or later only by the owner's explicit choice, recorded with its date and words."
+     "Each row becomes launch-required or later only by the owner's explicit choice, recorded with its date and words. The owner's choice is recorded: widgets and statement sharing come at launch, and Spotlight, Siri and Live Activities are recorded as later. MP40-Q13, 5 November 2026 (MP-184): the owner picked \"Widgets and share first\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Widgets and statement sharing come at launch, and Spotlight, Siri and Live Activities are recorded as later.\" Whether widgets and sharing work on free seven-day builds is unverified; if either does not, it moves to later (proposed)."
     ],
     "negative": [
      "No capability is removed without an owner decision record.",
@@ -626,12 +625,10 @@
     "gaps": [
      "PL-14"
     ],
-    "owner_questions": [
-     "MP40-Q13"
-    ],
+    "owner_questions": [],
     "external": []
    },
-   "blocked_on_owner": true,
+   "blocked_on_owner": false,
    "evidence": [
     "The capability decision table with the owner's recorded choices",
     "Platform fallback and privacy examples for each capability"

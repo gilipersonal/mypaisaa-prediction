@@ -70,7 +70,8 @@
      "Each captured item stores its publisher and URL or filing id, its content SHA-256, its published, updated, retrieved and ingested times, a conservative known-at time, the rights record it was collected under and its entity-link confidence.",
      "An item seen again with the same content hash is deduplicated to the existing record; an updated version is a new revision linked to the first, never an overwrite.",
      "Every item lands in quarantine with no tools attached; only schema-validated fields with provenance leave quarantine as an evidence bundle that triage and event analysis may read.",
-     "Calendar items cover all seven first-wave event kinds (rate surprises, inflation surprises, tariffs, conflict, earnings, OPEC+ decisions and elections) for the US, UK and India, each dated by when it became known."
+     "Calendar items cover all seven first-wave event kinds (rate surprises, inflation surprises, tariffs, conflict, earnings, OPEC+ decisions and elections) for the US, UK and India, each dated by when it became known.",
+     "Intake starts from public official pages such as central banks, statistics offices, exchanges and regulators, and each source is checked before use. MP40-Q10, 5 November 2026 (MP-184): the owner picked \"Official sources first\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Start from public official pages such as central banks, statistics offices, exchanges and regulators. Each is then checked before use.\" Their coverage, use rights and any fee are unverified until each check is done."
     ],
     "negative": [
      "An item whose source has no rights record allowing storage, or whose rights were withdrawn, is refused at intake with reason rights_blocked and only the refusal receipt is kept.",
@@ -129,12 +130,10 @@
      "FC-13",
      "FC-01"
     ],
-    "owner_questions": [
-     "MP40-Q10"
-    ],
+    "owner_questions": [],
     "external": []
    },
-   "blocked_on_owner": true,
+   "blocked_on_owner": false,
    "evidence": [
     "pytest cases for duplicate, revision, missing known-at, rights_blocked and withdrawn items",
     "Poisoned PDF, HTML and calendar fixtures that try to instruct a route, ending with no tool call, disclosure or record change",
@@ -326,7 +325,7 @@
     ],
     "recovery": [
      "If the batch misses the cutoff, the forecast uses the previous frozen factor set labelled with its age, or abstains from the factor; the late factors are kept for the next origin.",
-     "A withdrawn factor version leaves future origins; past predictions that used it keep their original input references."
+     "A factor version is withdrawn by code on a trigger the owner approved in advance, which tells the owner, or by the owner by hand with a fresh sign-in. ADM-08, 5 November 2026 (MP-184): the owner picked \"Code on trigger, or you\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). A withdrawn factor version leaves future origins; past predictions that used it keep their original input references."
     ]
    },
    "contracts": [
@@ -398,7 +397,7 @@
      "The batch lane reserves a batch's maximum cost first, matches results by custom_id and leaves the last dated evidence in place when a request expires or fails."
     ],
     "negative": [
-     "No call is made until the shared Claude credit is verified, and no paid fallback switches on by itself.",
+     "No call is made until the shared Claude credit is verified or the owner gives the explicit word that starts paid use, and no paid fallback switches on by itself. OWN-04, 5 November 2026 (MP-184): the owner picked \"Approve paid Claude at launch\" (pressed on the page). Picking it does not turn paid calls on.",
      "A call whose reservation would cross the £15 Claude and evaluations allocation or the £85 pause threshold is refused before it starts.",
      "A cache prefix never spans owners or environments, context is bounded per route, and no cache-warming request is sent.",
      "The runner reads only its own route's Anthropic key parameter and never logs prompt text or provider values."
@@ -432,7 +431,7 @@
    ],
    "authority": "Only runner code calls the Anthropic API. A route cannot raise its own caps. The owner sets budgets and decides any refusal-fallback or model change. No Claude route may trade, write the ledger, publish or change a forecast, promote a model, change model weights or read secrets.",
    "states": [
-    "credit_unverified (every call refused)",
+    "credit_unverified (every call refused until credit is verified or paid use is started)",
     "admitted",
     "running",
     "interrupted",
@@ -576,7 +575,7 @@
      "role": "reads"
     }
    ],
-   "authority": "Code workers only; Terraform defines roles and queues. Nothing changes a role or queue outside Terraform, and the owner approves any apply. No Claude route may trade, write the ledger, publish or change a forecast, promote a model, change model weights or read secrets.",
+   "authority": "Code workers only, and only code cancels a run. ADM-20, 5 November 2026 (MP-184): the owner picked \"Code cancels, orphans yours\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Only code cancels a run. You record what happens to each orphan, as drawn.\" Terraform defines roles and queues. Nothing changes a role or queue outside Terraform, and the owner approves any apply. No Claude route may trade, write the ledger, publish or change a forecast, promote a model, change model weights or read secrets.",
    "states": [
     "idle",
     "queued",
@@ -855,7 +854,7 @@
      "Claude cannot add, enable or remove a listing, change a segment or start a backfill."
     ],
     "recovery": [
-     "A confirm that arrives after the proposal expired, or after the catalogue changed, is refused and the check is run again for a fresh proposal.",
+     "A proposal expires the same day at 18:00, or sooner if its check changes. MP40-Q9, 5 November 2026 (MP-184): the owner picked \"Same day, as drawn\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). A confirm that arrives after the proposal expired, or after the catalogue changed, is refused and the check is run again for a fresh proposal.",
      "A failed catalogue write leaves the previous version current and the proposal confirmed but not applied, for retry; there is never a half-added listing."
     ]
    },
@@ -1081,11 +1080,12 @@
     "positive": [
      "Each setting has a versioned schema with allowed ranges; a proposed change shows its expected impact, evidence, cost and how to roll it back.",
      "A sensitive change needs a fresh step-up approval bound to the exact owner, environment, setting, value, current version and expiry, rechecked when it is applied.",
-     "The self-correction bands (a forecast's probabilities at most 5 percentage points a week, a signal's weight at most 10% a month) are settings the owner approves in advance; the deterministic calibrator reads them and cannot change them."
+     "The self-correction bands (a forecast's probabilities at most 5 percentage points a week, a signal's weight at most 10% a month) are settings the owner approves in advance; the deterministic calibrator reads them and cannot change them.",
+     "When a cost line is close, code may draft an exact raise for the owner's queue, with cost and rollback, and the owner approves it with a fresh sign-in; the raise still fits under the £100 ceiling. OWN-35, 5 November 2026 (MP-184): the owner picked \"Code may draft one\" (pressed on the page)."
     ],
     "negative": [
      "A stale, replayed or expired approval is refused; a denied request cannot be retried endlessly and backs off with a visible reason.",
-     "No settings change can grant a route a new tool, source, budget, infrastructure permission or approval authority.",
+     "No settings change can grant a route a new tool, source, infrastructure permission or approval authority; a budget line changes only when the owner approves an exact raise, never past the £100 ceiling.",
      "A memory note, chat message or agent proposal can draft a change but never apply one."
     ],
     "recovery": [

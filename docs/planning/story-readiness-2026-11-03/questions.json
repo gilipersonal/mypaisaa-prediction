@@ -3,21 +3,27 @@
  "questions": [
   {
    "id": "MP40-Q1",
-   "status": "owner_pending",
+   "status": "owner_confirmed",
    "question": "What upload limits apply to an import: maximum file size, pages, image pixels and parser runtime?",
    "decides": "Whether a large statement is refused, split or processed; until the owner records values, no limit is treated as approved and oversize files are held for review.",
    "stories": [
     "PH01-S06"
-   ]
+   ],
+   "answer": "Set from your real statements",
+   "answered_on": "2026-11-05",
+   "source": "docs/planning/owner-question-pack-2026-11-05/answers.json"
   },
   {
    "id": "MP40-Q2",
-   "status": "owner_pending",
+   "status": "owner_confirmed",
    "question": "How should an encrypted PDF statement be unlocked: on the owner's device before upload, or by entering the password in a local-only step?",
    "decides": "Whether MP ever handles a statement password; until answered, an encrypted PDF is held as needing unlock and its password is never logged or sent to a model.",
    "stories": [
     "PH01-S07"
-   ]
+   ],
+   "answer": "Local unlock step",
+   "answered_on": "2026-11-05",
+   "source": "docs/planning/owner-question-pack-2026-11-05/answers.json"
   },
   {
    "id": "MP40-Q3",
@@ -37,95 +43,125 @@
   },
   {
    "id": "MP40-Q4",
-   "status": "owner_pending",
+   "status": "owner_confirmed",
    "question": "Add the three further service control policies MP-29 proposed (keep CloudTrail on, deny root actions, forbid leaving the organisation) beside the cost-guard SCP?",
    "decides": "Whether the guard rails stop those actions by policy or only by IAM and alarms; the owner adopted Organizations and the cost-guard SCP and rejected the Region allowlist and RCPs, but did not answer these three.",
    "stories": [
     "PH02-S04"
-   ]
+   ],
+   "answer": "Add all three",
+   "answered_on": "2026-11-05",
+   "source": "docs/planning/owner-question-pack-2026-11-05/answers.json"
   },
   {
    "id": "MP40-Q5",
-   "status": "owner_pending",
+   "status": "owner_confirmed",
    "question": "Adopt an Anthropic admin key so the prod billing collector can read Claude usage and cost?",
    "decides": "Whether Claude spend is collected automatically or shown as unavailable; the key would be held in SSM and read only by the collector.",
    "stories": [
     "PH02-S07"
-   ]
+   ],
+   "answer": "Adopt the key",
+   "answered_on": "2026-11-05",
+   "source": "docs/planning/owner-question-pack-2026-11-05/answers.json"
   },
   {
    "id": "MP40-Q6",
-   "status": "owner_pending",
+   "status": "owner_confirmed",
    "question": "Approve the cost freshness rules: AWS billing data older than 36 hours blocks optional work, credit proof must be under 30 minutes old, and a £15 emergency window?",
    "decides": "When stale cost data stops optional work (gap CT-13); until approved, optional paid work waits for fresh cost data.",
    "stories": [
     "PH02-S10"
-   ]
+   ],
+   "answer": "Approve all three",
+   "answered_on": "2026-11-05",
+   "source": "docs/planning/owner-question-pack-2026-11-05/answers.json"
   },
   {
    "id": "MP40-Q7",
-   "status": "owner_pending",
+   "status": "owner_confirmed",
    "question": "At PH-08, keep N0 (no VPC) or take a lockdown step (L1 to L4), each costed on the perimeter page?",
    "decides": "The network for the personal launch; the decision log says it is decided at PH-08, and every paid step overruns the £22 AWS share.",
    "stories": [
     "PH08-S10"
-   ]
+   ],
+   "answer": "Stay with no private network",
+   "answered_on": "2026-11-05",
+   "source": "docs/planning/owner-question-pack-2026-11-05/answers.json"
   },
   {
    "id": "MP40-Q8",
-   "status": "owner_pending",
+   "status": "owner_confirmed",
    "question": "Which source, if any, should supply fund look-through holdings for exposure and overlap (fund factsheets, provider holdings data or none)?",
    "decides": "Whether fund exposure looks through to the underlying shares; no fund-holding source has an accepted risk scope, so look-through stays shown as missing until the owner chooses.",
    "stories": [
     "PH03-S14"
-   ]
+   ],
+   "answer": "Factsheets you supply",
+   "answered_on": "2026-11-05",
+   "source": "docs/planning/owner-question-pack-2026-11-05/answers.json"
   },
   {
    "id": "MP40-Q9",
-   "status": "owner_pending",
+   "status": "owner_confirmed",
    "question": "How long may a chat-proposed catalogue change (a new market, segment or watch-only listing) wait for the owner's confirm before it expires?",
    "decides": "When a stale proposal is refused (gap CT-02); POLICY-001's 15 minutes covers financial writes only, so until answered a proposal is refused once its coverage check is no longer current.",
    "stories": [
     "PH03-S03"
-   ]
+   ],
+   "answer": "Same day, as drawn",
+   "answered_on": "2026-11-05",
+   "source": "docs/planning/owner-question-pack-2026-11-05/answers.json"
   },
   {
    "id": "MP40-Q10",
-   "status": "owner_pending",
+   "status": "owner_confirmed",
    "question": "Which news, filings and economic-calendar sources should MP read for the seven event kinds?",
    "decides": "What the event pipeline can see; no source is selected and their use rights are unverified, so intake stays off until the owner chooses.",
    "stories": [
     "PH05-S01"
-   ]
+   ],
+   "answer": "Official sources first",
+   "answered_on": "2026-11-05",
+   "source": "docs/planning/owner-question-pack-2026-11-05/answers.json"
   },
   {
    "id": "MP40-Q11",
-   "status": "owner_pending",
+   "status": "owner_confirmed",
    "question": "What makes a risk alert material or critical, and is there a weekend brief?",
    "decides": "How often the owner is alerted and on what (gap CT-18); until answered, alerts use the proposed thresholds and are labelled proposed.",
    "stories": [
     "PH06-S11",
     "PH06-S12"
-   ]
+   ],
+   "answer": "MP40-Q11a: Your lines, no investment wake-ups; MP40-Q11b: Weekdays only",
+   "answered_on": "2026-11-05",
+   "source": "docs/planning/owner-question-pack-2026-11-05/answers.json"
   },
   {
    "id": "MP40-Q12",
-   "status": "owner_pending",
+   "status": "owner_confirmed",
    "question": "Which iPhones, iPads and iOS versions are supported, what 'Duo' means, and which data the app may keep offline?",
    "decides": "The device test matrix and the offline cache contents (gap PL-14).",
    "stories": [
     "PH07-S01",
     "PH07-S04"
-   ]
+   ],
+   "answer": "MP40-Q12a: Your own devices only; MP40-Q12b: Any window width; MP40-Q12c: Both keep the five",
+   "answered_on": "2026-11-05",
+   "source": "docs/planning/owner-question-pack-2026-11-05/answers.json"
   },
   {
    "id": "MP40-Q13",
-   "status": "owner_pending",
+   "status": "owner_confirmed",
    "question": "For each native capability (widgets, Spotlight search, share, Siri and App Intents, Live Activities), launch or later?",
    "decides": "Which native features the first Apple build includes; none is silently dropped.",
    "stories": [
     "PH07-S09"
-   ]
+   ],
+   "answer": "Widgets and share first",
+   "answered_on": "2026-11-05",
+   "source": "docs/planning/owner-question-pack-2026-11-05/answers.json"
   },
   {
    "id": "MP40-Q14",

@@ -90,7 +90,7 @@
     "negative": [
      "Changing any task field creates a new version; a prediction cannot move to a different task.",
      "Calendar months are never treated as 63, 126 or 252 sessions, and native and GBP variants are different tasks.",
-     "Gold and silver tasks stay unavailable_with_reason until SCI-D08 sets their valuation instant; tasks that need a threshold or benchmark stay unavailable until SCI-D02 is answered."
+     "Gold and silver tasks stay unavailable_with_reason until the first month proves Twelve Data's cover and bar time; each day's value is then the provider's daily bar, with its boundary recorded, and the GBP rate pinned at that time and any new price type stay open (SCI-D08). OWN-26, 5 November 2026 (MP-184): the owner picked \"Use the provider's daily bar\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Each day's value is the provider's daily bar, with its boundary recorded, once the first month proves cover.\" Tasks that need a threshold or benchmark stay unavailable until SCI-D02 is answered."
     ],
     "recovery": [
      "A calendar correction appends an amendment and leaves the original maturity on earlier predictions (SCI-01-AC10).",
@@ -318,7 +318,7 @@
     "positive": [
      "Three templates plus custom assumptions for 3 and 5 years, with explicit nominal return, inflation, FX, contributions, fees and dividend treatment (POLICY-004, SCI-08).",
      "Paths are deterministic arithmetic, and contribution timing follows the financial lane's cash-flow conventions.",
-     "Template values are versioned and run only after the owner approves them."
+     "Template values are versioned and run only after the owner approves them. A separate piece of work proposes each template value with its evidence, and the owner approves them. OWN-10, 5 November 2026 (MP-184): the owner picked \"Sourced proposal, then approve\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"A separate piece of work proposes each template value with its evidence, and you approve them.\" The values themselves stay open (SCI-D06)."
     ],
     "negative": [
      "No likelihood is shown, and central is never called most likely (SCI-08-AC01).",
@@ -395,7 +395,7 @@
     ],
     "recovery": [
      "Missing inputs give insufficient_data, never a default signal.",
-     "A faulty rules version is withdrawn by returning to the previous approved rules version, with its history kept."
+     "A faulty rules version is withdrawn by returning to the previous approved rules version, with its history kept: code withdraws it on a trigger the owner approved in advance and tells the owner, or the owner withdraws it by hand with a fresh sign-in. ADM-08, 5 November 2026 (MP-184): the owner picked \"Code on trigger, or you\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Code withdraws on a trigger you approved in advance and tells you, and you can withdraw by hand with a fresh sign-in.\" The triggers are still to be listed and approved."
     ]
    },
    "contracts": [
@@ -412,7 +412,7 @@
      "role": "writes"
     }
    ],
-   "authority": "Code computes the rules. Only the owner approves a rules version. Bounded self-correction cannot change rules, and no agent can.",
+   "authority": "Code computes the rules. Only the owner approves a rules version; code may withdraw one only on a trigger the owner approved in advance. Bounded self-correction cannot change rules, and no agent can.",
    "states": [
     "signal with heuristic strength",
     "no_clear_view",
@@ -454,7 +454,7 @@
     "positive": [
      "R0 baselines are zero return, trailing event rate, constant base rate and historical empirical and block-path distributions over 252 and 756 eligible observations, with a seeded, reproducible bootstrap (SCI-04).",
      "Baselines run on the same eligible dates as every candidate and are the mandatory comparators.",
-     "The rules-to-probability mapping (R0-RULEMAP) is fitted on the pre-trial calibration block and qualified per rules version; without a qualified mapping the rules comparison is reported as not scoreable."
+     "The rules-to-probability mapping (R0-RULEMAP) is fitted on the pre-trial calibration block and qualified per rules version; without a qualified mapping the rules comparison is reported as not scoreable. Rules are scored through the frozen mapping. OWN-33, 5 November 2026 (MP-184): the owner picked \"A lower score is enough\" (by the owner's words in chat, \"for the remaining pick up recommended options\")."
     ],
     "negative": [
      "A historical empirical forecast is never called calibrated without evidence.",
@@ -463,7 +463,7 @@
     ],
     "recovery": [
      "A rerun with the same seed and manifest reproduces identical outputs; a mismatch fails the run.",
-     "A failed mapping qualification leaves the rules unscored and that task's trial waiting for the owner."
+     "A failed mapping qualification leaves the rules unscored; for that task, the strongest simple baseline stands in for the rules, with the owner's yes each time. ADM-09, 5 November 2026 (MP-184): the owner picked \"Use the best simple baseline\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"For that task, the strongest simple baseline stands in for the rules, with your yes each time.\""
     ]
    },
    "contracts": [
@@ -488,7 +488,7 @@
      "role": "writes"
     }
    ],
-   "authority": "Code computes baselines and fits the mapping inside its calibration block. The owner decides what happens when no mapping qualifies. No agent can change a baseline.",
+   "authority": "Code computes baselines and fits the mapping inside its calibration block. When no mapping qualifies, the owner gives a yes each time the strongest simple baseline stands in for the rules. No agent can change a baseline.",
    "states": [
     "eligible baseline",
     "insufficient_history",
@@ -1335,7 +1335,7 @@
    ],
    "acceptance": {
     "positive": [
-     "A candidate runs in shadow, writing immutable prospective predictions with no action authority, for 8 scored weeks, and must beat both the base rate and the current rules (SCI-OA-04).",
+     "A candidate runs in shadow, writing immutable prospective predictions with no action authority, for 8 scored weeks, and must beat both the base rate and the current rules (SCI-OA-04). To beat a comparator, the model must score better on average than it on the same forecasts, with the rules scored through the frozen mapping; the option's cost note says the 2% hurdle applies only to the earlier walk-forward test. OWN-33, 5 November 2026 (MP-184): the owner picked \"A lower score is enough\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"The model must score better on average than each comparator on the same forecasts. Rules are scored through the frozen mapping.\" Where no mapping qualifies, the strongest simple baseline stands in for the rules, with the owner's yes each time. ADM-09, 5 November 2026 (MP-184): the owner picked \"Use the best simple baseline\" (by the owner's words in chat, \"for the remaining pick up recommended options\").",
      "A week that cannot be scored (a data outage, a holiday week) pauses the count; for 3, 6 and 12 months the 8 weeks check clean running and calibration on what has matured, and walk-forward history carries the accuracy evidence.",
      "The owner's approval binds the exact artefact, calibrator, tasks, scope, evidence hash, limits, expiry and previous safe version; states run candidate, offline_qualified, shadow, owner_approved, probation, active, with rejected, paused and rolled_back.",
      "A rules change takes the same trial against the current rules."
@@ -1416,19 +1416,20 @@
    ],
    "acceptance": {
     "positive": [
-     "A newly promoted model is on probation for 4 live weeks and reverts after 2 bad weeks; after that, 4 weeks running worse than the previous approved model on matured forecasts reverts it automatically (SCI-OA-05, SCI-OA-06).",
+     "A newly promoted model is on probation for 4 live weeks and reverts after 2 bad weeks; after that, 4 weeks running worse than the previous approved model on matured forecasts reverts it automatically (SCI-OA-05, SCI-OA-06). A bad week scores strictly worse than the previous model on that week's matured pairs. OWN-27, 5 November 2026 (MP-184): the owner picked \"As proposed\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"A bad week scores strictly worse than the previous model on that week's matured pairs. Two must run together. At 6 and 12 months probation checks clean running only.\" The minimum count, the exact safety triggers for advance approval, and the comparator and revert target at a first promotion stay open (SCI-D07).",
      "A revert appends PromotionRecords (the slipping model rolled_back, the previous model active under its own unexpired approval) and notifies the owner.",
      "An advance-approved safety trigger pauses only the affected scope and notifies the owner; invalid outputs stay withheld (POLICY-003).",
      "The previous approved model keeps issuing shadow forecasts, so comparisons are paired."
     ],
     "negative": [
      "If the previous model is ineligible (revoked rights, expired approval, invalid hash), the scope pauses instead of reverting.",
-     "Switching forward again, or restarting a paused scope, needs the owner's yes; nothing restarts itself.",
+     "Switching forward again, or restarting a paused scope, needs the owner's yes; nothing restarts itself. Before a restart, code shows why the scope paused, that the cause is gone and that the model passes today's checks, and the owner's yes renews its approval for that scope only. OWN-28, 5 November 2026 (MP-184): the owner picked \"Cause cleared, fresh approval\" (pressed on the page). The option read: \"Code shows why it paused, that the cause is gone and that the model passes today's checks. Your yes renews its approval for that scope only.\" The yes must start applying within 15 minutes, or the owner approves again. OWN-21, 5 November 2026 (MP-184): the owner picked \"15 minutes, as drawn\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Your yes must start applying within 15 minutes, or you approve again.\"",
      "A week with no matured paired forecasts neither counts toward nor breaks a run."
     ],
     "recovery": [
      "A revert interrupted part-way completes idempotently from its records.",
-     "A failed notification is retried; the revert or pause stands meanwhile."
+     "A failed notification is retried; the revert or pause stands meanwhile.",
+     "A paused scope's restart stays with what waits on the owner, with no expiry, until the owner restarts. OWN-29, 5 November 2026 (MP-184): the owner picked \"It stays, undated\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"It stays with what waits on you, with no expiry, until you restart.\""
     ]
    },
    "contracts": [
@@ -1460,7 +1461,7 @@
     "slipping (bad-week run in progress)",
     "reverted",
     "paused",
-    "awaiting the owner's restart"
+    "awaiting the owner's restart (no expiry)"
    ],
    "depends_on": {
     "stories": [
