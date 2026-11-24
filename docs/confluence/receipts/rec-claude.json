@@ -1,13 +1,13 @@
 {
  "slug": "rec-claude",
  "page_id": "6127762",
- "version": 2,
- "sent_sha256": "999480222d811785216b689ecb313ec058a91007182e598a57a342f2cdae2432",
- "readback_sha256": "13d8a4f4c3b9f590fe2005405c14848244c4c87c365c85406862d82202556141",
- "canonical_sha256": "3e21758cb927b24d974089c269650fdc5a35d040a113419d1f6d223f80537676",
+ "version": 3,
+ "sent_sha256": "501dd5b00365a7b638ea9992948031c2e1545efc322f9829a9d8149e2fe3b499",
+ "readback_sha256": "9ff5662bed92a9627fd62d193e32687378b49e7302be244b399353d75d867b0d",
+ "canonical_sha256": "962042707c6228828624a2cf4b636b823bfb4200c2c981b8ff7384f98dcd3626",
  "parts": 176,
  "verdict": "match",
  "differences": [],
  "id_checked": true,
- "read_at": "2026-11-02T18:45:36Z"
+ "read_at": "2026-11-24T11:09:46Z"
 }

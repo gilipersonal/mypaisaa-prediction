@@ -2025,7 +2025,9 @@
     "docs/planning/aws-options-2026-11-01/README.md",
     "docs/planning/retired-facts.json",
     "docs/planning/trace.json",
-    "review/MP-20/fixed.json"
+    "review/MP-20/fixed.json",
+    "docs/confluence/confluence.json",
+    "docs/confluence/receipts/"
    ]
   },
   {

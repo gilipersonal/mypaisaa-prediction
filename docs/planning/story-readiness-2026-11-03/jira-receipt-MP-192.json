@@ -1,0 +1,557 @@
+{
+ "issue": "MP-192",
+ "what": "Jira story descriptions regenerated with stories.py body and sent after the owner's \"Publish and update all\" (24 November 2026). Each was read before the edit and matched the description rendered from main at 3c91998, so nothing written outside the repo was overwritten; each was read back after the edit and compared word for word, ignoring the markdown punctuation Jira rewrites (bullets, bold, backslash escapes).",
+ "repo_commit_rendered": "b26b73b",
+ "stories": [
+  {
+   "key": "MP-62",
+   "story": "PH00-S05",
+   "before_matched_repo": true,
+   "sent_sha256": "84d3167638d3e64c0883e44ead8379813014929df551fbe82de07119dba1363f",
+   "readback_sha256": "40bfd89b1ef0b9a1ae8de74fca79ab468df281307de09fbab7a7d72e4f365207",
+   "words": 606,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:50Z"
+  },
+  {
+   "key": "MP-45",
+   "story": "PH01-S05",
+   "before_matched_repo": true,
+   "sent_sha256": "7f665a805a0a8b6c9057e08f0637522403784d6b0cd4a19c1f6be3b41143fcd6",
+   "readback_sha256": "2ac426fa0890308bbaa02d16b377ff7da9885a01a606aa9344a0692cef727980",
+   "words": 388,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:50Z"
+  },
+  {
+   "key": "MP-46",
+   "story": "PH01-S06",
+   "before_matched_repo": true,
+   "sent_sha256": "84ddbcaa00fc706318df869e15c8100436a9caff44515313485bbb7517a5346b",
+   "readback_sha256": "670a901e956faf37bc4aa70d18c51edb3945adf9a819ddba94dc176815996756",
+   "words": 487,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:50Z"
+  },
+  {
+   "key": "MP-47",
+   "story": "PH01-S07",
+   "before_matched_repo": true,
+   "sent_sha256": "2c82c3892909c2638e07496ff41716135daf74f382128481d0cb6090bd2c8d92",
+   "readback_sha256": "0baf8c85de841210623064fa5dc98f5002bd1521d0d9d15c46167629b7432e8d",
+   "words": 484,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:50Z"
+  },
+  {
+   "key": "MP-55",
+   "story": "PH01-S14",
+   "before_matched_repo": true,
+   "sent_sha256": "f08fddd23ce0937de9a836dfdbf3a0fa3f98c2a058d6074e6cddf463cc6549d7",
+   "readback_sha256": "c4cbc6b436fb068566904b782be3b749fa4fdd722a75f3de7f7fe67421a4b9ff",
+   "words": 389,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:50Z"
+  },
+  {
+   "key": "MP-65",
+   "story": "PH01-S17",
+   "before_matched_repo": true,
+   "sent_sha256": "5580686d805feb27cf3d34d8fad6236151f8efce4f1a32519ac3491264416bde",
+   "readback_sha256": "8b08363bf13deea63d0fc230ee0b3344f2fc0b854543b465b1f0b266c46abd6e",
+   "words": 513,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:50Z"
+  },
+  {
+   "key": "MP-68",
+   "story": "PH01-S18",
+   "before_matched_repo": true,
+   "sent_sha256": "d43bf4f5b8179944f84be16c0cd18292b7bf5d588cc33ca966f69633b14d7506",
+   "readback_sha256": "4da1ca802ecfa58ad64d636ae125ad757536e637de1767a1a13456425dbca2da",
+   "words": 412,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:50Z"
+  },
+  {
+   "key": "MP-72",
+   "story": "PH01-S20",
+   "before_matched_repo": true,
+   "sent_sha256": "a02c3bcb436b3ac79e58e94919e55ad4a97ec015aca319d726771bab994d9960",
+   "readback_sha256": "6d5f84decd98b5049c3e5b0c0c48772cc70545f06ee7ba2d0a87733fe2710936",
+   "words": 443,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:50Z"
+  },
+  {
+   "key": "MP-84",
+   "story": "PH01-S23",
+   "before_matched_repo": true,
+   "sent_sha256": "43eb00a0ace367b301b7e529ddec2e0dddb8faa5944beee6cb009816099ec018",
+   "readback_sha256": "c94f99cbbecff9b17d06fc253d269cef19f7c10a42295b199aa239468a1fb045",
+   "words": 367,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:50Z"
+  },
+  {
+   "key": "MP-73",
+   "story": "PH02-S01",
+   "before_matched_repo": true,
+   "sent_sha256": "96bc2de431a9fc9e427e4406564f6383cd5404420df5b96d2e8d2ae8f8c6ce35",
+   "readback_sha256": "78e36bbbeeeda0b72296aa960681b48d1b1b483e7c3a074591f2b1353aea5897",
+   "words": 454,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:50Z"
+  },
+  {
+   "key": "MP-87",
+   "story": "PH02-S02",
+   "before_matched_repo": true,
+   "sent_sha256": "a44c08cb9f496f55c3b41a2c9ed7add6d6e5f1fee96068e2624edf15b282fe5c",
+   "readback_sha256": "42185aae9443db65ca18ea903668ef68eb039f1849c341211ff17430b5957958",
+   "words": 591,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:51Z"
+  },
+  {
+   "key": "MP-78",
+   "story": "PH02-S03",
+   "before_matched_repo": true,
+   "sent_sha256": "a15da1e15ab8b9fba3920155c19236e3f9f78b1a704a87e714ac2f2cc3689e98",
+   "readback_sha256": "aa541a4009b932fa6368ad6d7985c5843ca4a8387baa2881e585d79dcc8313e3",
+   "words": 534,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:51Z"
+  },
+  {
+   "key": "MP-71",
+   "story": "PH02-S04",
+   "before_matched_repo": true,
+   "sent_sha256": "f42ccb1a5cba0e3e71179df51f9bbccba1631fde56825f82241a601b0adc2529",
+   "readback_sha256": "c0b7ea7067210d4757928f0b6a252a2ad83509edd4fa25395056b2402d1e192f",
+   "words": 518,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:51Z"
+  },
+  {
+   "key": "MP-89",
+   "story": "PH02-S07",
+   "before_matched_repo": true,
+   "sent_sha256": "1cd181afc20c6be95552ee3b5ea50646303596e8f41bf3dead8ca769d4275e80",
+   "readback_sha256": "2f54ea2e270ae5ad31541a5f79db480026204c715da20693857fe5d144cbf5b9",
+   "words": 399,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:51Z"
+  },
+  {
+   "key": "MP-90",
+   "story": "PH02-S09",
+   "before_matched_repo": true,
+   "sent_sha256": "064643496606d126e06baeefb28c9526a9c260103cb653152126e160abee4631",
+   "readback_sha256": "f8f5bbe14703f00e2263c04eca4b7d6127c696ffbee88836f43f431e4c894ce8",
+   "words": 379,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:51Z"
+  },
+  {
+   "key": "MP-103",
+   "story": "PH02-S10",
+   "before_matched_repo": true,
+   "sent_sha256": "069f26453d03d8de11d746a1e420bb458ae188701c51f858673d78292b1f25c8",
+   "readback_sha256": "8d352e369048de10b723a7b1094f025720b848bcb6911f18c77935cb6766a81d",
+   "words": 680,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:51Z"
+  },
+  {
+   "key": "MP-63",
+   "story": "PH03-S02",
+   "before_matched_repo": true,
+   "sent_sha256": "52f0066a6061fd1beeea17f5b4ed053bbdbd962604f2156b8191526a6ae855fc",
+   "readback_sha256": "3e875097fce3193402a81ab2c6eecf87209ac2abf1381bd6a2dba25d4bb767f5",
+   "words": 606,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:51Z"
+  },
+  {
+   "key": "MP-74",
+   "story": "PH03-S03",
+   "before_matched_repo": true,
+   "sent_sha256": "b17e27652ca12812f769267a6bda14db877e263eaca3deb5fe0a376a4511404e",
+   "readback_sha256": "761526c0fb8e8efd5058b765385887d7c7d7277cf92d3757f421d3d4ef2b53c5",
+   "words": 508,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:51Z"
+  },
+  {
+   "key": "MP-77",
+   "story": "PH03-S06",
+   "before_matched_repo": true,
+   "sent_sha256": "882787a943c877fa4e4ace92c4e9324bb7955b1b6d06ce2bc2c70c3b97f0d0f9",
+   "readback_sha256": "1158f088e4b48b1dda1744f39757bdcd4b8bec9f5ba65cd8a99891f7397ef4aa",
+   "words": 452,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:51Z"
+  },
+  {
+   "key": "MP-82",
+   "story": "PH03-S07",
+   "before_matched_repo": true,
+   "sent_sha256": "e0cef7fc5c960c0ec8d4b0912ebb5a624ba340cc03fa5bac54a6fe28e4d8773f",
+   "readback_sha256": "d8662aebb969023f672318ea8fd18c35ac866fca4e5a0a1d23e36e5f24eeff23",
+   "words": 401,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:51Z"
+  },
+  {
+   "key": "MP-91",
+   "story": "PH03-S09",
+   "before_matched_repo": true,
+   "sent_sha256": "6d86a9db26b3e78bebd017600c824f117d4c5b2a9a294726188f7c3b8516d495",
+   "readback_sha256": "8cf0b16aa88879ca4cca90b3b686884a0a4204c029927b39a268fcf3dea1e824",
+   "words": 545,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:51Z"
+  },
+  {
+   "key": "MP-95",
+   "story": "PH03-S10",
+   "before_matched_repo": true,
+   "sent_sha256": "61c6619ae9834608f4d0179b8075e81afcf1f3d3754334a9d623aa8842f4abd6",
+   "readback_sha256": "5e7cccddc545f797ba084aa9ad31c31fc7f77e29852c0d32b3722bd70c07aea9",
+   "words": 447,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:51Z"
+  },
+  {
+   "key": "MP-107",
+   "story": "PH03-S14",
+   "before_matched_repo": true,
+   "sent_sha256": "dbc3099864a5d48daa21b83160df3892bd04ce8bf751f6de19004dc30bbe6b4a",
+   "readback_sha256": "77a7593b4a76f266791cafbd2bcdb0d8bfc368484541821ef984ad142876b93f",
+   "words": 461,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:51Z"
+  },
+  {
+   "key": "MP-113",
+   "story": "PH04-S01",
+   "before_matched_repo": true,
+   "sent_sha256": "77f976d45cc27e9793e2d842c42a431720e117855d241899ce2d64efe77480ab",
+   "readback_sha256": "b9ec8bcf579dd0e89febeb0938fc76c17b5d3b28d2785470953110628b880890",
+   "words": 479,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:51Z"
+  },
+  {
+   "key": "MP-132",
+   "story": "PH04-S04",
+   "before_matched_repo": true,
+   "sent_sha256": "256216df8e6351b2405859063a7f7804c9cb6a33f863da9ec10f9a9e98644221",
+   "readback_sha256": "f6aa1fd4b0fcfb2774702ecabea03021015c3ee7b5185d7222c378a3429a9e04",
+   "words": 343,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:51Z"
+  },
+  {
+   "key": "MP-120",
+   "story": "PH04-S05",
+   "before_matched_repo": true,
+   "sent_sha256": "11f55837215f90de0c8621d32e58a57502107e100f12390ce935223166bad8c5",
+   "readback_sha256": "806a73d413a993861942ad509b9433c3ae5cb77c27c8001e22f9ee7afe2aa772",
+   "words": 402,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:51Z"
+  },
+  {
+   "key": "MP-124",
+   "story": "PH04-S06",
+   "before_matched_repo": true,
+   "sent_sha256": "0ac78509835c68d78dbd716a6fb6d4d0c5722ae7fa1f2dd7cadf661938df9635",
+   "readback_sha256": "06ed5e6e1fd662735e3d7880e6b0e59ecb08445e769610640f2c8bb9c862070e",
+   "words": 411,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:51Z"
+  },
+  {
+   "key": "MP-156",
+   "story": "PH04-S18",
+   "before_matched_repo": true,
+   "sent_sha256": "f2caf584911b56062036bababcaa4157b904a44667d2c450c06e20d2fe3a7e02",
+   "readback_sha256": "8befa18acc5f49c08f40df522ca77a51cdcd41ee8f80e7bb1522ce9003d63229",
+   "words": 528,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:51Z"
+  },
+  {
+   "key": "MP-159",
+   "story": "PH04-S19",
+   "before_matched_repo": true,
+   "sent_sha256": "0cebb1dc8b9d8b334c9dd646e239906765b38dd3f37f9e0424733aa27fa7c550",
+   "readback_sha256": "36b33484fb97cd834590027b796777c6530e6461a321cfb08b3de1604978ce0a",
+   "words": 628,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:51Z"
+  },
+  {
+   "key": "MP-81",
+   "story": "PH05-S01",
+   "before_matched_repo": true,
+   "sent_sha256": "e0b79a68d8590182f6a1fa69b2a13d206e6af586a86bc6d56f8c3d40c4a8a052",
+   "readback_sha256": "b032fc9f57052a4c6427d94e421567e36665e8fa6212beaa56bb1c2f6a62d6af",
+   "words": 572,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:51Z"
+  },
+  {
+   "key": "MP-97",
+   "story": "PH05-S04",
+   "before_matched_repo": true,
+   "sent_sha256": "f1f6ececdec9ba0eada108080a1b4c9ee8ee9a898a8c70d725808b5a2fa73d8d",
+   "readback_sha256": "bb45023878b2c9c4daa084c105bf93fe01f33f082303baf135b1a02221ca1d6c",
+   "words": 447,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:51Z"
+  },
+  {
+   "key": "MP-101",
+   "story": "PH05-S05",
+   "before_matched_repo": true,
+   "sent_sha256": "1aa796dc4796d64e31e37c2fcdcdd683169194ae7ef5d56b62f3ead64d0be415",
+   "readback_sha256": "f44f81012ef9bea41cccd9944e8dd5f1f12789fcab94ca4b64d86311d7938668",
+   "words": 556,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:51Z"
+  },
+  {
+   "key": "MP-109",
+   "story": "PH05-S07",
+   "before_matched_repo": true,
+   "sent_sha256": "1c31507d3895b2e2958220d0ea50e423b9d7076fc501a963afad1e75bdbcb460",
+   "readback_sha256": "f1a76d6de9f5fbf2975b398e1ff34a6739aa879881292e7fa45ad874e081bbb9",
+   "words": 415,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:51Z"
+  },
+  {
+   "key": "MP-131",
+   "story": "PH05-S11",
+   "before_matched_repo": true,
+   "sent_sha256": "d870a7df195d8fc32a058dbd0d6146c4d0cd8af33c90ba8d7d0be94be3a6f8e3",
+   "readback_sha256": "9f2fbc0c9a4c3123cfabaccc1f9c130c5c4a0f1abb10c7110fa55b8c9ff940e7",
+   "words": 471,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:51Z"
+  },
+  {
+   "key": "MP-114",
+   "story": "PH05-S14",
+   "before_matched_repo": true,
+   "sent_sha256": "c58862eedcf8f8a342487e00c2addc5bcac87f41542b504049cd2978641e0f04",
+   "readback_sha256": "29e580450cd2a8ba1f538c54d91e22be3e10b37652967fcf1a590a6123fe3cc4",
+   "words": 425,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:51Z"
+  },
+  {
+   "key": "MP-153",
+   "story": "PH06-S01",
+   "before_matched_repo": true,
+   "sent_sha256": "ef0c165ad904c90e4d34579083f9ff6f4dd9c9b3bbef14e28e047f42af9e1dd1",
+   "readback_sha256": "da1b165c9df89779591d30e9991ea1c3cad8fa814bd77eac0c4d5e7d957de48b",
+   "words": 539,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:51Z"
+  },
+  {
+   "key": "MP-134",
+   "story": "PH06-S04",
+   "before_matched_repo": true,
+   "sent_sha256": "531b612fc3cbe2a10e725f4233566cb5d5a1ddd3358326852f5164b16f5268c3",
+   "readback_sha256": "5a89488c326f43b64235740108bb20467b53c12b4e17719eaf03413fdbd3f800",
+   "words": 430,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:52Z"
+  },
+  {
+   "key": "MP-135",
+   "story": "PH06-S05",
+   "before_matched_repo": true,
+   "sent_sha256": "d146d3ba4157bd837c5d52b147fea023983caeb91efc16a85b94680f0a8c15f7",
+   "readback_sha256": "ec0a7b1f32934e4473bce61dc60436a6405bc49da92c05092bbdae71362cff0a",
+   "words": 592,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:52Z"
+  },
+  {
+   "key": "MP-144",
+   "story": "PH06-S06",
+   "before_matched_repo": true,
+   "sent_sha256": "36d746e13249e528a4b9b21255e164912fe7b697afde4c9f085c4038465c08b8",
+   "readback_sha256": "041e37dca54975a9756e32c6754c195ae64a2b8ea00dc2f72d0afdbb91fa1861",
+   "words": 533,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:52Z"
+  },
+  {
+   "key": "MP-145",
+   "story": "PH06-S08",
+   "before_matched_repo": true,
+   "sent_sha256": "b4af3a7e15ca1bfec4976e66333a8288277e197c4c4b2d1c9c9259d68d612317",
+   "readback_sha256": "403b0b3d0b0b3d69d484a48a9355bb00a903e074db6428dc306126a76d0c7144",
+   "words": 390,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:52Z"
+  },
+  {
+   "key": "MP-137",
+   "story": "PH06-S10",
+   "before_matched_repo": true,
+   "sent_sha256": "a9e8ae57c0dff90640fb6842dad137c55fe71700af324179c9de056cb1bcf4e9",
+   "readback_sha256": "0d4bc939cacfdabc303d63926db9f614d849a58362893eb3ef682b9a61c7a691",
+   "words": 309,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:52Z"
+  },
+  {
+   "key": "MP-148",
+   "story": "PH06-S11",
+   "before_matched_repo": true,
+   "sent_sha256": "26e41968316456a79beb28a4a192d563a552e5878be2e718e382ed8a5255a0b5",
+   "readback_sha256": "186ffbc3f06a70b484fcb751ecf1d252f1151b1574c5fe939701bcfdc925f434",
+   "words": 365,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:52Z"
+  },
+  {
+   "key": "MP-138",
+   "story": "PH06-S12",
+   "before_matched_repo": true,
+   "sent_sha256": "215457a452405d2a29a1ec5765006863ebcfb47ec8bcfdb50de5fe953cbf1fd5",
+   "readback_sha256": "d63d2f63124ecb8a9aaf3b0ffcb99b715d8dde4c56813ca2dcb55ccfcf9031c8",
+   "words": 519,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:52Z"
+  },
+  {
+   "key": "MP-158",
+   "story": "PH06-S13",
+   "before_matched_repo": true,
+   "sent_sha256": "0ba915f5a1ed0e1ce0ba27b41b949327dc54ecdb0d8569770d6b6736a3e76cf8",
+   "readback_sha256": "5dd6fcbde4e636eca0f9d1feac7e78d4bb6afc90f63710061e876686c1b2d5a8",
+   "words": 304,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:52Z"
+  },
+  {
+   "key": "MP-160",
+   "story": "PH07-S01",
+   "before_matched_repo": true,
+   "sent_sha256": "af8bf2fd1522b9cae81e853fb52eeec3664ce44a3cc4710a1910063b0638f905",
+   "readback_sha256": "f327d7b8ce5b4d2d23e5a23357893fce19ace1b783e5ec002a00dc1d5a2a401f",
+   "words": 391,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:52Z"
+  },
+  {
+   "key": "MP-164",
+   "story": "PH07-S03",
+   "before_matched_repo": true,
+   "sent_sha256": "4f6d7179397eec9973db771fedc175fc6f838be992e737f80f58ef690dad1643",
+   "readback_sha256": "fb646fe9144f689ebf11413c9df5bd50249eb6571c07c4f9c0ec472bfbd1e44d",
+   "words": 394,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:52Z"
+  },
+  {
+   "key": "MP-165",
+   "story": "PH07-S04",
+   "before_matched_repo": true,
+   "sent_sha256": "394dbdd5a059a41690cf5639b61b076fbaf5a7bfcfae3b9b2b1b0994131e44cd",
+   "readback_sha256": "99792d291dcb482d825f5db15b4df1ca11000182341dbf6f41d5c5666de687a9",
+   "words": 376,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:52Z"
+  },
+  {
+   "key": "MP-167",
+   "story": "PH07-S07",
+   "before_matched_repo": true,
+   "sent_sha256": "0cc0a48ec068e42ec4be02c9928160b0e85c3f0fe57d019021c5c4754b568624",
+   "readback_sha256": "e9262488e629e019fe0b06d1df88224dee8be1a4c91346a8bcddf5d6214ca67a",
+   "words": 413,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:52Z"
+  },
+  {
+   "key": "MP-163",
+   "story": "PH07-S09",
+   "before_matched_repo": true,
+   "sent_sha256": "7443c35138c5962e52adb3aa5e256c86c504f0ce4f12040c3112c7c20db54c81",
+   "readback_sha256": "323ddb0660ca6479509d459d52c2d2cfad5141a14ccb5e9324c8dd1a3d742a28",
+   "words": 371,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:52Z"
+  },
+  {
+   "key": "MP-108",
+   "story": "PH08-S03",
+   "before_matched_repo": true,
+   "sent_sha256": "4efc796df3c6fb40168073c3afc77d1cf47bcfeff7d60a2d5cafb6a3d75939ab",
+   "readback_sha256": "92f227e4d93939a59aca0bf99ad9292782b2b43a30c455a6c5c2af13e675ed08",
+   "words": 443,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:52Z"
+  },
+  {
+   "key": "MP-118",
+   "story": "PH08-S04",
+   "before_matched_repo": true,
+   "sent_sha256": "09cb5bba587401c60963c6fffc489aaef1fedec4115dd7ba72e1ce86238e36aa",
+   "readback_sha256": "6d1362b28e7d01ca34d985c886315552891a91b3dd705a1a0843f8e55c9c2803",
+   "words": 310,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:52Z"
+  },
+  {
+   "key": "MP-110",
+   "story": "PH08-S05",
+   "before_matched_repo": true,
+   "sent_sha256": "041bd39b9c019f39ab242a4465a3142ab14e244beaeb08bcccac41fae6468a07",
+   "readback_sha256": "9d292429624f703879fbd6c0cd2195e4ef5dc161759a6e8fa77f218ebbf658c4",
+   "words": 363,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:52Z"
+  },
+  {
+   "key": "MP-119",
+   "story": "PH08-S06",
+   "before_matched_repo": true,
+   "sent_sha256": "5318150936ca502c31429e6bc596e726f2d57ad58a186c8edcaba709bf77cef2",
+   "readback_sha256": "8b2fea7159795770b6cd7fd89b8ab36b15d9914637d9079180e8d0011fef85c8",
+   "words": 318,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:52Z"
+  },
+  {
+   "key": "MP-126",
+   "story": "PH08-S09",
+   "before_matched_repo": true,
+   "sent_sha256": "2da1569e06b67840b6091c39edc84e3e544ae76023bdf8c846d4b38af2ca2c76",
+   "readback_sha256": "48c4decdfc28a5c83221dffeaf9995b32fa00baad2630b5ce82badfb604df7db",
+   "words": 318,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:52Z"
+  },
+  {
+   "key": "MP-123",
+   "story": "PH08-S10",
+   "before_matched_repo": true,
+   "sent_sha256": "1f70554f576aac712a8531af7770fc9b0dea0fcecde03a289f42c2ae8d0df64d",
+   "readback_sha256": "e4edee83f8d4516e079d2121a3194cc68c4ad1e4dd0c7fdff94d72c43eae232e",
+   "words": 315,
+   "verdict": "match",
+   "read_at": "2026-11-24T11:13:52Z"
+  }
+ ]
+}

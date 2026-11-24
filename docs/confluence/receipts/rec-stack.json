@@ -1,13 +1,13 @@
 {
  "slug": "rec-stack",
  "page_id": "6128065",
- "version": 3,
- "sent_sha256": "03b287e57d5c52489075bed935244ef8aca60bcbfd1627f38b11124fdcf80a9a",
- "readback_sha256": "b83622a001593e98a19b2167a6aaa446aea8676728120a4cb415df8f3faebfb4",
- "canonical_sha256": "923288969394a18cf73961b59ae61cafd253956e6baee5830c478e3206c0018f",
- "parts": 758,
+ "version": 4,
+ "sent_sha256": "a42e87235fe7ef914ba23524842c646cb8509ce774da9a2a76690cbff4e37143",
+ "readback_sha256": "4e2aaf7258a2537aca9d962a711e764bbc1731b2cbdb9c7e72bf333fa973bec9",
+ "canonical_sha256": "b28cb4c8a703fc2e981e08f7a638d766e73910d183dd81c7e4ab43bdaebd09bb",
+ "parts": 763,
  "verdict": "match",
  "differences": [],
  "id_checked": true,
- "read_at": "2026-11-03T10:21:33Z"
+ "read_at": "2026-11-24T11:09:46Z"
 }
