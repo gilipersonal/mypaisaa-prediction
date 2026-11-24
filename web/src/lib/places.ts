@@ -4,7 +4,8 @@
  * and Imports sit under Settings ("Add them to the sidebar", OWN-02, 5 November 2026). Data sources sits under Settings.
  */
 export type Icon =
-  | 'home' | 'fan' | 'grid' | 'target' | 'search' | 'shield' | 'layers' | 'db' | 'sliders' | 'chev-r' | 'info' | 'clock';
+  | 'home' | 'fan' | 'grid' | 'target' | 'search' | 'shield' | 'layers' | 'db' | 'sliders' | 'chev-r' | 'info' | 'clock'
+  | 'person' | 'lock' | 'alert' | 'wifi-off' | 'split' | 'ban';
 
 export interface Place {
   id: string;

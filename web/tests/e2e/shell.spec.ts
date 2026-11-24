@@ -1,5 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
+import { signIn } from './helpers';
 
 const PLACES = [
   ['/', 'Portfolio'], ['/forecasts', 'Forecasts'], ['/segments', 'Segments'], ['/record', 'Track record'], ['/research', 'Research'],
@@ -7,6 +8,8 @@ const PLACES = [
 ] as const;
 const TABS = ['Portfolio', 'Forecasts', 'Segments', 'Record', 'Settings'];
 const wide = (page: Page) => (page.viewportSize()?.width ?? 0) >= 1024;
+
+test.beforeEach(async ({ page }) => signIn(page));
 
 test.describe('navigation', () => {
   test('the sidebar on desktop, the tab bar on a phone, never both', async ({ page }) => {
@@ -16,7 +19,7 @@ test.describe('navigation', () => {
     if (wide(page)) {
       await expect(side).toBeVisible();
       await expect(tabs).toBeHidden();
-      await expect(side.getByRole('link')).toHaveText(['Mypaisaa', ...PLACES.map(([, l]) => l)]);
+      await expect(side.getByRole('link')).toHaveText(['MyPrediction', ...PLACES.map(([, l]) => l)]);
     } else {
       await expect(side).toBeHidden();
       await expect(tabs).toBeVisible();

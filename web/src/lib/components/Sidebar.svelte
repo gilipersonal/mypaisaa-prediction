@@ -6,8 +6,8 @@
 
 <nav class="side-nav" aria-label="Places">
   <a class="brand" href="/">
-    <img src="/brand/mark-icon.svg" alt="" width="28" height="28" />
-    <span>Mypaisaa</span>
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span>MyPrediction</span>
   </a>
   <ul class="side">
     {#each PLACES as p (p.id)}
@@ -23,6 +23,5 @@
 <style>
   .side-nav { position: sticky; top: 0; height: 100dvh; overflow-y: auto; background: var(--ground-2); box-shadow: inset -1px 0 0 var(--hairline); }
   .brand { display: flex; align-items: center; gap: 10px; min-height: var(--tap); padding: 16px 22px 4px; color: var(--ink); font: 700 17px/22px var(--font-text); letter-spacing: -0.01em; text-decoration: none; }
-  .brand img { border-radius: 8px; }
   .side a { text-decoration: none; }
 </style>
