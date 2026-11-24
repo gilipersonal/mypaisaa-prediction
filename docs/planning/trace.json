@@ -2196,7 +2196,8 @@
     "docs/design/question-pack/",
     "docs/design/artifacts.json",
     "scripts/question_pack.py",
-    "docs/planning/trace.json"
+    "docs/planning/trace.json",
+    "docs/planning/ma-reconciliation-2026-11-02/decision-log.md"
    ]
   }
  ]

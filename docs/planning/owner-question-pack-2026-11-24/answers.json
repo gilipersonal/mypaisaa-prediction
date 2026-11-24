@@ -1,0 +1,189 @@
+{
+ "as_of": "2026-11-24",
+ "issue": "MP-203",
+ "note": "Option text is what each option read, not the owner's reasoning (lesson 42). None is applied yet.",
+ "answers": [
+  {
+   "id": "MP203-01",
+   "title": "Does a browser's saved copy also time out?",
+   "tier": "before_approval",
+   "pick": "Same rule, same time",
+   "recommended": true,
+   "how": "page",
+   "owner_words": "pressed \"Same rule, same time\" on the page",
+   "at": "2026-11-24T12:53:25.902Z",
+   "read": "The browser's copy clears on its next connection and stops showing after the same time-out as the Apple app. One value, which you still set.",
+   "ids": [
+    "OWN-37",
+    "MP40-Q12c",
+    "MP-165"
+   ]
+  },
+  {
+   "id": "MP203-04",
+   "title": "Is a 3-month model on probation judged like the 6 and 12-month ones?",
+   "tier": "before_approval",
+   "pick": "Pairs when there are any",
+   "recommended": true,
+   "how": "page",
+   "owner_words": "pressed \"Pairs when there are any\" on the page",
+   "at": "2026-11-24T12:53:42.964Z",
+   "read": "A 3-month model is judged on any pairs that mature in its 4 weeks, from forecasts it made in shadow, and is checked for clean running too. With no pairs, clean running only.",
+   "ids": [
+    "OWN-27",
+    "SCI-D07",
+    "MP-159"
+   ]
+  },
+  {
+   "id": "MP203-02",
+   "title": "May an investment alert ever break quiet hours?",
+   "tier": "before_build",
+   "pick": "Never for investment alerts",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "picked \"Never for investment alerts (Recommended)\" on the question card in chat",
+   "at": "2026-11-24T13:04:00Z",
+   "read": "An approved exception can only be one of the critical security or service faults. Every investment alert waits for 07:30, and MP-138 says so.",
+   "ids": [
+    "MP40-Q11a",
+    "MP-138",
+    "CT-18",
+    "DEC-033"
+   ]
+  },
+  {
+   "id": "MP203-03",
+   "title": "Which faults are critical enough to break quiet hours?",
+   "tier": "before_build",
+   "pick": "A short named list",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "picked \"A short named list (Recommended)\" on the question card in chat",
+   "at": "2026-11-24T13:04:00Z",
+   "read": "Proposed: a sign-in, passkey or recovery you did not start; a device revoke that fails; production lost (ADM-05); and a failed backup or ledger write. Everything else, such as a missed run or a stalled collector, waits for 07:30.",
+   "ids": [
+    "MP40-Q11a",
+    "MP-138",
+    "MP-110",
+    "CT-18"
+   ]
+  },
+  {
+   "id": "MP203-05",
+   "title": "For range forecasts, does the baseline stand in for the rules without a yes each time?",
+   "tier": "before_build",
+   "pick": "Once, as a standing rule",
+   "recommended": true,
+   "how": "page",
+   "owner_words": "pressed \"Once, as a standing rule\" on the page",
+   "at": "2026-11-24T12:54:03.972Z",
+   "read": "You approve once that for range tasks the strongest simple range baseline stands in for the rules. Each promotion screen names it, and you still approve every promotion.",
+   "ids": [
+    "ADM-09",
+    "MP-124",
+    "SCI-D03"
+   ]
+  },
+  {
+   "id": "MP203-06",
+   "title": "Does a model's live trial need no 2% lead and no 95% interval?",
+   "tier": "before_build",
+   "pick": "Confirm: no hurdle, no interval",
+   "recommended": true,
+   "how": "page",
+   "owner_words": "pressed \"Confirm: no hurdle, no interval\" on the page",
+   "at": "2026-11-24T12:54:07.732Z",
+   "read": "A lower average score than each comparator on the same matured forecasts is enough in the trial. The 2% hurdle and the 95% interval stay in the walk-forward test only.",
+   "ids": [
+    "OWN-33",
+    "MP-124",
+    "SCI-D03"
+   ]
+  },
+  {
+   "id": "MP203-07",
+   "title": "How should the three builds your picks added be carried in the stories?",
+   "tier": "before_build",
+   "pick": "Widen three existing stories",
+   "recommended": false,
+   "how": "page",
+   "owner_words": "pressed \"Widen three existing stories\" on the page",
+   "at": "2026-11-24T12:54:16.860Z",
+   "read": "MP-47 gains the unlock step, MP-107 the factsheet reader and MP-163 the two builds.",
+   "ids": [
+    "MP40-Q2",
+    "MP40-Q8",
+    "MP40-Q13",
+    "MP-47",
+    "MP-107",
+    "MP-163"
+   ]
+  },
+  {
+   "id": "MP203-08",
+   "title": "Now that the repository is public, does route A stand for production releases?",
+   "tier": "before_build",
+   "pick": "An environment replaces route A",
+   "recommended": false,
+   "how": "page",
+   "owner_words": "pressed \"An environment replaces route A\" on the page",
+   "at": "2026-11-24T12:55:00.781Z",
+   "read": "A merge to main starts the release, which waits in the production environment for your approval.",
+   "ids": [
+    "PL-11",
+    "MP-199",
+    "MP-30"
+   ]
+  },
+  {
+   "id": "MP203-09",
+   "title": "Must the first event wave cover all seven kinds, or only what official sources cover?",
+   "tier": "later",
+   "pick": "All seven, gaps shown",
+   "recommended": true,
+   "how": "page",
+   "owner_words": "pressed \"All seven, gaps shown\" on the page",
+   "at": "2026-11-24T12:55:14.385Z",
+   "read": "All seven stay the target. A kind that no checked source covers shows as no source yet, and informs no forecast until one qualifies.",
+   "ids": [
+    "MP40-Q10",
+    "MP-81",
+    "SCI-OA-01"
+   ]
+  },
+  {
+   "id": "MP203-10",
+   "title": "Which days are valuation days for gold and silver?",
+   "tier": "later",
+   "pick": "The provider's bar days",
+   "recommended": true,
+   "how": "page",
+   "owner_words": "pressed \"The provider's bar days\" on the page",
+   "at": "2026-11-24T12:55:22.256Z",
+   "read": "Each day the provider publishes a daily bar is a valuation day. A missing bar is recorded as missing, never filled.",
+   "ids": [
+    "OWN-26",
+    "SCI-D08",
+    "MP-113",
+    "MP-135"
+   ]
+  },
+  {
+   "id": "MP203-11",
+   "title": "Should Apple builds and simulator runs move to GitHub's free macOS runners?",
+   "tier": "later",
+   "pick": "Build and unit tests in CI",
+   "recommended": true,
+   "how": "page",
+   "owner_words": "pressed \"Build and unit tests in CI\" on the page",
+   "at": "2026-11-24T12:55:39.396Z",
+   "read": "Each pull request that touches the Apple app builds it and runs XCTest on a free macOS runner. Maestro journeys and real-device builds stay on your Mac.",
+   "ids": [
+    "MP-199",
+    "PL-11",
+    "MP-36"
+   ]
+  }
+ ]
+}

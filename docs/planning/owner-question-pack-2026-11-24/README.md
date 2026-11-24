@@ -1,10 +1,14 @@
 # The owner's question pack, round 2 (MP-203)
 
 The questions the owner's 5 November picks (MP-184) left open, found while MP-192 brought the records into line with
-those picks, and the two MP-199 left open. As of `4df40d6`, 24 November 2026. **None is answered yet.**
+those picks, and the two MP-199 left open. As of `4df40d6`, 24 November 2026. **All 11 are answered**, on 24 November
+2026, in `answers.json`: nine pressed on the page and two (MP203-02, MP203-03) picked on a question card in chat. Nine
+are the Recommended option; MP203-07 "Widen three existing stories" and MP203-08 "An environment replaces route A" are
+not. None is applied yet.
 
 | File | What it holds |
 | --- | --- |
+| `answers.json` | The owner's answer to each question, how it was given, and what the option read |
 | `pack.json` | Every entry: its status, tier, what it decides, its cost against the £100 ceiling, the owner's earlier words, options, evidence, and the question as MP-203 or the records put it |
 | `docs/design/question-pack/index.html` | The page the owner picks on, the same page and artifact as round 1, built from this pack; round 1's answers are kept under their own tab |
 | `scripts/question_pack.py` | The gate: every question MP-203 names and both MP-199 questions are carried, no id repeats round 1's, and each entry has real options, one reasoned recommendation, what it decides, its cost and the owner's earlier words |

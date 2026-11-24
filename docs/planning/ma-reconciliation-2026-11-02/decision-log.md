@@ -298,6 +298,24 @@ On the question those picks left open, whether daily forecasts may spend inside 
 
 Applied to the written records on 24 November 2026 (MP-192): the story pack (55 stories, and the 12 questions MP40-Q1, Q2 and Q4 to Q13 marked answered), the foundation specifications' open decisions (SCI-D07, SCI-D08 and FIN-OD-04 now partly answered; SCI-D03, SCI-D06, FIN-OD-03 and FIN-OD-07 record the picks and keep what stays open), the gap register, the root documents and the Confluence generator. A pick that chooses a rule and leaves a value open (the price grace, the reconciliation limit, the alert lines, the upload limits, the offline time-out, the fresh sign-in and revocation times, a replay's wait) is recorded with the value still open. The daily forecasts inside the £15 are recorded too. The screens' open lists and Proposed labels are not part of this change, and Jira descriptions and Confluence pages follow only with the owner's yes for each.
 
+## 24 November 2026: the questions the 5 November picks left open (MP-203)
+
+Round 2 of the owner's question pack, on the same page as round 1: eleven questions MP-192 and MP-199 left open. Nine were pressed on the page; MP203-02 and MP203-03 were picked on a question card in chat. Nine are the Recommended option; the owner chose otherwise on MP203-07, "Widen three existing stories", and MP203-08, "An environment replaces route A". Each answer and what its option read is in [round 2's answers](../owner-question-pack-2026-11-24/answers.json). A pick's option text is not the owner's own reasoning (lesson 42), and none is applied yet.
+
+- MP203-01 (OWN-37), "Same rule, same time": a browser's saved copy clears on its next connection and stops showing after the same time-out as the Apple app.
+- MP203-02 (MP40-Q11a), "Never for investment alerts": an approved quiet-hour exception can only be a critical security or service fault.
+- MP203-03 (MP40-Q11a), "A short named list": the option read "a sign-in, passkey or recovery you did not start; a device revoke that fails; production lost (ADM-05); and a failed backup or ledger write".
+- MP203-04 (OWN-27), "Pairs when there are any": a 3-month model on probation is judged on any pairs that mature in its 4 weeks, and checked for clean running.
+- MP203-05 (ADM-09), "Once, as a standing rule": for range tasks the strongest simple range baseline stands in for the rules by one approval; the owner still approves every promotion.
+- MP203-06 (OWN-33), "Confirm: no hurdle, no interval": the 2% hurdle and the 95% interval stay in the walk-forward test only.
+- MP203-07, "Widen three existing stories": MP-47 gains the local unlock step, MP-107 the factsheet reader and MP-163 the widget and share-sheet builds.
+- MP203-08 (MP-199), "An environment replaces route A": a merge to main starts the release, which waits in the production environment for the owner's approval. This replaces the 3 November route A (item 7 above).
+- MP203-09 (MP40-Q10), "All seven, gaps shown": a kind no checked source covers shows as no source yet.
+- MP203-10 (OWN-26), "The provider's bar days": each day the provider publishes a daily bar is a gold and silver valuation day.
+- MP203-11 (MP-199), "Build and unit tests in CI": pull requests that touch the Apple app build it and run XCTest on a free macOS runner; Maestro journeys and real-device builds stay on the owner's Mac.
+
+MP40-Q7 was not asked again: it was asked "At PH-08, keep N0 (no VPC) or take a lockdown step", and PH-08 is the launch phase.
+
 ## 23 November 2026: Twelve Data and Yahoo kept after a second look (MP-196)
 
 The owner asked whether to use EODHD, its API and its MCP server, for all trade and market data, then what Twelve Data's Pro 610 plan with 500 WebSocket credits would allow. After the research the owner said: "ok lets stick to Twelve Data + YahooFinance combination", and asked for it to be recorded: "Yes, record it". ARC-01 stands as confirmed on 2 November: Yahoo Finance plus Twelve Data Grow 55 for production, and Basic for development. Nothing is bought, no vendor is contacted, and no cost figure changes.

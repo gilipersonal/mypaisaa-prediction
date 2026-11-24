@@ -25,6 +25,7 @@ STATUS = {"decide", "answered", "duplicate", "not_owner"}
 # Round 2 (MP-203): the questions MP-192 found the 5 November picks left open, word for word from MP-203, and the two MP-199
 # left open, word for word from the records that state them (ARCHITECTURE.md, Confluence, TECH-STACK.md). Each must be carried.
 ROUND2 = ROOT / "docs/planning/owner-question-pack-2026-11-24/pack.json"
+ROUND2_ANSWERS = ROOT / "docs/planning/owner-question-pack-2026-11-24/answers.json"   # absent until the owner answers
 ROUND2_ASKED = (
     'MP-81 (MP40-Q10, "Official sources first"): must calendar items cover all seven event kinds, or only what the official sources cover?',
     'MP-138 (MP40-Q11a, "Your lines, no investment wake-ups"): can a quiet-hour exception still be approved for investment alerts, and which faults count as critical?',
@@ -141,28 +142,36 @@ def problems(pack: dict, src: dict, answers: list | None = None) -> list:
             out.append(f"{k}: its question no longer matches any open row")
         out.extend(item_problems(i, by))
     if answers:
-        decide = {i["id"]: i for i in items if i.get("status") == "decide"}
-        seen = [x.get("id") for x in answers]
-        for k in sorted(set(decide) - set(seen)):
-            out.append(f"{k}: no answer recorded")
-        for k in sorted({x for x in seen if seen.count(x) > 1}):
-            out.append(f"{k}: two answers")
-        for x in answers:
-            i = decide.get(x.get("id"))
-            if not i:
-                out.append(f"{x.get('id')}: an answer to no open question")
-                continue
-            rec = next((o["label"] for o in i["options"] if o.get("rec")), None)
-            if x.get("pick") != "Something else" and x.get("pick") not in [o["label"] for o in i["options"]]:
-                out.append(f"{x['id']}: the pick is not one of its options")
-            if x.get("recommended") != (x.get("pick") == rec):
-                out.append(f"{x['id']}: says Recommended wrongly")
-            if x.get("how") not in ("page", "chat") or not x.get("owner_words"):
-                out.append(f"{x['id']}: no record of how the owner answered")
+        out.extend(answer_problems(items, answers))
     return out
 
 
-def round2_problems(pack: dict, first: dict) -> list:
+def answer_problems(items: list, answers: list) -> list:
+    """Every open question has one answer, each pick is one of its options or Something else, the Recommended mark is
+    true, and how the owner answered is recorded."""
+    out = []
+    decide = {i["id"]: i for i in items if i.get("status") == "decide"}
+    seen = [x.get("id") for x in answers]
+    for k in sorted(set(decide) - set(seen)):
+        out.append(f"{k}: no answer recorded")
+    for k in sorted({x for x in seen if seen.count(x) > 1}):
+        out.append(f"{k}: two answers")
+    for x in answers:
+        i = decide.get(x.get("id"))
+        if not i:
+            out.append(f"{x.get('id')}: an answer to no open question")
+            continue
+        rec = next((o["label"] for o in i["options"] if o.get("rec")), None)
+        if x.get("pick") != "Something else" and x.get("pick") not in [o["label"] for o in i["options"]]:
+            out.append(f"{x['id']}: the pick is not one of its options")
+        if x.get("recommended") != (x.get("pick") == rec):
+            out.append(f"{x['id']}: says Recommended wrongly")
+        if x.get("how") not in ("page", "chat") or not x.get("owner_words"):
+            out.append(f"{x['id']}: no record of how the owner answered")
+    return out
+
+
+def round2_problems(pack: dict, first: dict, answers: list | None = None) -> list:
     """Round 2 carries every question it was asked to carry, each as often as it holds questions, never reuses an id
     from an earlier round (the picks share one collection), and gives each pick its record: what it decides, the cost
     against the ceiling, and the owner's earlier words quoted."""
@@ -193,7 +202,18 @@ def round2_problems(pack: dict, first: dict) -> list:
                 out.append(f"{k}: no cost against the £100 ceiling")
             if not i.get("earlier") or any(not w.get("words") or not w.get("how") for w in i["earlier"]):
                 out.append(f"{k}: the owner's earlier words are not quoted")
+    if answers is not None:
+        out.extend(answer_problems(items, answers))
     return out
+
+
+def load_round2_answers() -> list | None:
+    if not ROUND2_ANSWERS.exists():
+        return None
+    try:
+        return json.loads(ROUND2_ANSWERS.read_text())["answers"]
+    except (OSError, ValueError, KeyError) as e:
+        raise SystemExit(f"FAIL cannot read {ROUND2_ANSWERS.relative_to(ROOT)}: {e}")
 
 
 def load_answers() -> list:
@@ -215,7 +235,8 @@ def check() -> int:
     except (OSError, ValueError) as e:
         print(f"FAIL cannot read {ROUND2.relative_to(ROOT)}: {e}")
         return 2
-    bad += round2_problems(second, pack)
+    answers2 = load_round2_answers()
+    bad += round2_problems(second, pack, answers2)
     for b in bad:
         print(f"FAIL {b}")
     if bad:
@@ -223,7 +244,7 @@ def check() -> int:
     d = [i for i in pack["items"] if i["status"] == "decide"]
     print(f"question-pack: {len(pack['items'])} entries, {len(d)} to decide, {sum(i['tier'] == 'before_approval' for i in d)} before approval; every open question is carried")
     d2 = [i for i in second["items"] if i["status"] == "decide"]
-    print(f"question-pack round 2 ({second['issue']}): {len(second['items'])} entries, {len(d2)} to decide, {sum(i['tier'] == 'before_approval' for i in d2)} before approval; all {len(ROUND2_ASKED)} questions carried")
+    print(f"question-pack round 2 ({second['issue']}): {len(second['items'])} entries, {len(d2)} to decide, {sum(i['tier'] == 'before_approval' for i in d2)} before approval; all {len(ROUND2_ASKED)} questions carried; {len(answers2) if answers2 is not None else 'no'} answers recorded")
     return 0
 
 
@@ -293,8 +314,9 @@ def selftest() -> int:
             print(f"selftest: FAIL {name}: expected {expect!r}, got {found[:2]}")
             bad += 1
     second = json.loads(ROUND2.read_text())
-    if round2_problems(second, good):
-        print(f"selftest: FAIL the real round 2 is refused: {round2_problems(second, good)[:2]}")
+    real2 = load_round2_answers()
+    if round2_problems(second, good, real2):
+        print(f"selftest: FAIL the real round 2 is refused: {round2_problems(second, good, real2)[:2]}")
         return 1
     r2 = next(i for i in second["items"] if i["status"] == "decide")
 
@@ -323,7 +345,20 @@ def selftest() -> int:
         if not any(expect in f for f in found):
             print(f"selftest: FAIL {name}: expected {expect!r}, got {found[:2]}")
             bad += 1
-    total = len(cases) + len(answer_cases) + len(round2_cases) + 1
+    round2_answer_cases = {} if real2 is None else {
+        "a round 2 answer missing": (lambda a: a.pop(0), "no answer recorded"),
+        "a round 2 pick that is no option": (lambda a: a[0].update(pick="Made up"), "not one of its options"),
+        "a wrong Recommended mark in round 2": (lambda a: a[0].update(recommended=not a[0]["recommended"]), "says Recommended wrongly"),
+        "a round 2 answer with no record of how": (lambda a: a[0].update(how="email"), "no record of how"),
+    }
+    for name, (mutate, expect) in round2_answer_cases.items():
+        a = copy.deepcopy(real2)
+        mutate(a)
+        found = round2_problems(second, good, a)
+        if not any(expect in f for f in found):
+            print(f"selftest: FAIL {name}: expected {expect!r}, got {found[:2]}")
+            bad += 1
+    total = len(cases) + len(answer_cases) + len(round2_cases) + len(round2_answer_cases) + 1
     print(f"selftest: {total - bad} of {total} faults refused for their reason")
     return 1 if bad else 0
 
