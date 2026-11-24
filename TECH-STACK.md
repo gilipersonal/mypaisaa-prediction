@@ -94,7 +94,9 @@ The React and Vite project in `site/` is a documentation presentation, not the p
 | --- | --- | --- | --- |
 | Screens | Swift and SwiftUI on iOS and iPadOS | Native feel, widgets, Keychain, notifications, large screens | Owner-selected |
 | Shell | React Native | Shared navigation and typed bridges, room for other platforms | Owner-selected |
-| Device matrix | Still to agree | Versions, foldables and offline behaviour need design first | Open |
+| Device matrix | MP40-Q12a "Your own devices only": the option read "Support and test the iPhone and iPad you own, at the iOS they run. You give the models." MP40-Q12b "Any window width": the option read "The Apple app lays out by window width, so a narrow iPad window uses the phone layout." | No foldable is promised (the option's cost) | Owner-selected 5 Nov 2026 (MP-184); the models are not yet given |
+| Offline copy | MP40-Q12c "Both keep the five": the option read "A browser keeps the same five kinds, each with its age, as the web frames draw now." OWN-37 "Saved copy also times out": the option read "The copy clears on the next connection, and the app also stops showing it after a set time without reaching the server. You choose the time." | The five kinds as the frames draw them: holdings, prices, forecasts, notices and cost | Owner-selected 5 Nov 2026 (MP-184); the time is not yet set, and how a browser protects its copy is unverified and needs an architecture answer before build |
+| Native features | MP40-Q13 "Widgets and share first": the option read "Widgets and statement sharing come at launch, and Spotlight, Siri and Live Activities are recorded as later." | Unverified that both work on free seven-day builds; if either does not, it moves to later (the option's cost) | Owner-selected 5 Nov 2026 (MP-184) |
 | Testing | XCTest and the Maestro CLI on simulators, on the owner's Mac; free local builds on the owner's iPhone and iPad (7-day expiry) for real devices; TestFlight later, only if the owner joins the Developer Program | Free | Proposed (MP-36); free local builds owner-selected 3 Nov 2026 |
 
 ## 6. AWS services
@@ -116,9 +118,9 @@ The React and Vite project in `site/` is a documentation presentation, not the p
 | Telemetry budget | 14-day JSON logs, a small set of custom metrics and alarms: about $4.94 a month, already inside the AWS estimate | Proposed (MP-36) |
 | SSM Parameter Store (SecureString) | Provider and Anthropic keys; no per-secret fee | Owner-selected 3 Nov 2026 (MP-29) |
 | Two accounts | Dev and prod, same shape, one bill | Owner-selected (ARC-11) |
-| AWS Organizations (all features) and a cost-guard SCP | Guard rails across the dev and prod accounts; the management account runs nothing. Resource control policies and a Region allowlist were not adopted | Owner-selected 3 Nov 2026 (MP-29) |
+| AWS Organizations (all features) and a cost-guard SCP | Guard rails across the dev and prod accounts; the management account runs nothing. Resource control policies and a Region allowlist were not adopted. Three more policies (keep CloudTrail on, deny root actions, forbid leaving the organisation): MP40-Q4 "Add all three": the option read "The three policies join the cost guard in Terraform, and they bind the dev and prod accounts." | Owner-selected 3 Nov 2026 (MP-29); the three added 5 Nov 2026 (MP-184) |
 | KMS, S3 Block Public Access, IAM Access Analyzer (external access) | A customer key per account; no public buckets; outside sharing flagged | Proposed (MP-36) |
-| VPC lockdown | None by default; optional private subnets and endpoints, costed and decided at PH-08 | Proposed (MP-36) |
+| VPC lockdown | None at launch: MP40-Q7 "Stay with no private network": the option read "Sign-in, permissions and each worker's allowed hosts stay the controls, with no VPC." The optional steps stay costed on the perimeter page | Owner-selected 5 Nov 2026 (MP-184) |
 
 Not in the plan without a costed ADR: NAT Gateway, load balancers, RDS, GPUs, always-on endpoints.
 
@@ -126,13 +128,13 @@ Not in the plan without a costed ADR: NAT Gateway, load balancers, RDS, GPUs, al
 
 | Service | Role | Status |
 | --- | --- | --- |
-| Anthropic API | Claude models | Owner-selected; the shared $200 credit is unverified |
+| Anthropic API | Claude models | Owner-selected; the shared $200 credit is unverified. Paid use: OWN-04 "Approve paid Claude at launch": the option read "You approve paid use, so chat, research and explanations can run from day one, each route after passing its evaluation." Picking it does not turn Claude on: paid calls still need the owner's explicit word when the time comes. Usage and cost: MP40-Q5 "Adopt the key": the option read "The prod collector alone reads it from secure storage every six hours and fills the Claude line. Ready stands." The key's price, and whether the account can have one, are unverified (5 Nov 2026, MP-184) |
 | Yahoo Finance | Prices and history | Owner-selected (ARC-01), confirmed 2 Nov 2026 for personal hobby use; the owner accepts that its published terms forbid automated collection ([MP-10 findings](docs/planning/source-rights-2026-11-02/README.md)) |
 | Twelve Data Grow | Prices across US, UK and India | Owner-selected (ARC-01), confirmed 2 Nov 2026; Grow 55 ($29 a month) for prod and Basic ($0) for dev, owner-selected 2 Nov 2026; nothing bought. The owner accepts that Grow is labelled view-only |
 | GitHub and Actions | Code, pull requests, CI | Implemented |
 | Jira and Confluence | Work tracking and published plans | Implemented |
 | Lucidchart | Architecture diagrams | Implemented |
-| Apple Developer Program | TestFlight, push, Sign in with Apple and passkeys on a device | Not for now (owner, 3 Nov 2026): free local builds that expire after 7 days; phone notifications through the web app's Web Push until the Developer Program is bought (MP-179) |
+| Apple Developer Program | TestFlight, push, Sign in with Apple and passkeys on a device. The bar covers the Apple app only: ADM-04 "Allowed in the browser": the option read "The bar covers the Apple app only, so Phone web may enrol a passkey once a test proves it works." (5 Nov 2026, MP-184; MP-197 tests it) | Not for now (owner, 3 Nov 2026): free local builds that expire after 7 days; phone notifications through the web app's Web Push until the Developer Program is bought (MP-179) |
 
 ## 8. Quality and delivery
 
@@ -161,8 +163,9 @@ Not in the plan without a costed ADR: NAT Gateway, load balancers, RDS, GPUs, al
 </div>
 
 **The ceiling** is £100 a month all-in: dev and prod AWS, market data, Claude and evaluations. It is planned as £70 of
-operation and £30 of reserve. Optional work gets a warning at £60, is reduced at £75 and paused at £85, keeping a small
-window for sign-in, ledger reads, audit and recovery.
+operation and £30 of reserve. Optional work gets a warning at £60, is reduced at £75 and paused at £85.
+The owner's picks of 5 November 2026 (MP-184): OWN-36 "Cut in a set order": the option read "Code cuts backfills first, then challenger models, then Claude jobs, and says which step it reached." OWN-25 "Daily forecasts keep running": the option read "At £85 optional paid work stops and daily forecasts carry on. Cost paused shows only where a forecast needs that paid work." MP40-Q6 "Approve all three": the option read "Past 36 hours relevant optional work waits. Credit counts only with proof under 30 minutes old. The £15 above the £85 pause stays for sign-in, ledger reads, audit and recovery."
+The owner, 5 November 2026 (MP-184), asked whether daily forecasts run inside the £15 kept above £85: "Yes, add them". The list of what the £15 covers now also holds daily forecasts.
 
 **The proposed split of the £70** (ceilings, not separate pots):
 
@@ -195,7 +198,10 @@ workload ([cost specification](docs/planning/foundation-specifications-2026-11-0
 - **Claude.** With the chosen models (ARC-06b) a normal month is about $8.59 (£8.24): Opus event analysis is about
   $5 of it, kept there by a cap of three a day. Live chat moves it most in a busy month. The top-5 scan may add up to
   £5 (owner, 3 November 2026), about £13.24 in all, inside the £15 Claude allocation the owner chose that day (with £3
-  left for forecast and price uncertainty); a scan overrun stops at the Claude cap.
+  left for forecast and price uncertainty); a scan overrun stops at the Claude cap. Paid use at launch: OWN-04
+  "Approve paid Claude at launch" (5 November 2026, MP-184), whose cost read "£54.73 an ordinary month, £59.73 with the
+  top-5 scan at its £5 cap. That is inside the £70 plan, but only 27p under the £60 warning, and £64.89 at adverse
+  rates." Picking it does not turn Claude on: paid calls still need the owner's explicit word when the time comes.
 - **Streaming.** One held SSE connection for a month costs about $21.60 of Lambda time before requests; design for
   short streams and re-reads.
 - **Training.** Capped by campaign, fit count and instance-hours, and admitted against the budget before it starts.

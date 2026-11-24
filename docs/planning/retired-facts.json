@@ -198,6 +198,20 @@
     "docs/design/admin/src/journeys/*",
     "docs/design/journeys/README.md"
    ]
+  },
+  {
+   "pattern": "\\bbuy\\s+or\\s+(a\\s+)?watch\\b|\\bbuy\\s*/\\s*watch\\b",
+   "why": "a listing the owner does not hold reads Watch, and MP-144 drops the word buy (owner, 5 Nov 2026, \"Watch only\", OWN-03, MP-192)",
+   "paths": [
+    "README.md",
+    "ARCHITECTURE.md",
+    "TECH-STACK.md",
+    "docs/planning/story-readiness-2026-11-03/stories/*.json",
+    "docs/planning/foundation-specifications-2026-11-02/*/*.md",
+    "docs/confluence/build_pages.py",
+    "docs/design/journeys/src/journeys/*",
+    "docs/design/admin/src/journeys/*"
+   ]
   }
  ]
 }

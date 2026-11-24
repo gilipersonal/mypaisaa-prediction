@@ -204,7 +204,7 @@ budget.
 
 **Models per route (ARC-06b, Owner-selected 2 November 2026):** Haiku 5.5 triages every news, filing and calendar
 item and prepares model inputs; Opus 5.5 analyses at most three material events a day; Sonnet 5.5 answers chat, writes
-explanations and the 07:30 briefing, and grades evaluations. Triage, event analysis, model inputs and eval grading run
+explanations and the 07:30 briefing (on weekdays: MP40-Q11b "Weekdays only", 5 November 2026), and grades evaluations. Triage, event analysis, model inputs and eval grading run
 overnight through the Message Batches API at half price; anything a person waits for runs live. Each route must pass
 its evaluation before it is switched on, and Opus keeps event analysis only if it beats Sonnet there.
 [The card](docs/planning/claude-models-and-batching-2026-11-02.md) has the costs and rules.
@@ -249,7 +249,8 @@ durable replay. Proposed (MP-36): every error response carries a code, a message
 
 - **Sign-in:** Cognito with Google and passkeys, verified owner linking and two independent recovery paths. Sign in
   with Apple waits for the paid Apple Developer Program, which the owner has not bought for now (3 November 2026).
-  Sensitive actions need a fresh, strong sign-in (ARC-07).
+  Sensitive actions need a fresh, strong sign-in (ARC-07). Which acts, 5 November 2026 (MP-184): OWN-39 "Anything that writes or widens": the option read "Every act that changes a record, widens what MP may do or opens an original needs a fresh sign-in; reading and stopping do not. Both times are set from measured proof before the identity phase ends." Both times (how recent a sign-in must be, and how fast a revoke works) stay
+  open until then.
 - **Approvals:** a financial approval allows 15 minutes to start the exact commit; an export link allows new
   downloads for one hour.
 - **Secrets:** in SSM Parameter Store (SecureString) or the iOS Keychain only; never in git, logs, fixtures, screenshots or errors.
@@ -272,13 +273,17 @@ concurrency, timeouts and retention back them. With the owner's choices a month 
 plus up to £5 for the top-5 scan (at most £59.73);
 [TECH-STACK.md](TECH-STACK.md#9-monthly-cost) shows the earlier drafts and why Grow 55 fits.
 
-**Proposed (MP-36):** no customer VPC by default; an optional VPC lockdown is costed on the perimeter page and decided
-at PH-08. GitHub's Free plan could not enforce a prod approval while the repository was private, so the owner chose
+**The owner's cost picks, 5 November 2026 (MP-184):** OWN-36 "Cut in a set order": the option read "Code cuts backfills first, then challenger models, then Claude jobs, and says which step it reached." OWN-25 "Daily forecasts keep running": the option read "At £85 optional paid work stops and daily forecasts carry on. Cost paused shows only where a forecast needs that paid work." MP40-Q6 "Approve all three": the option read "Past 36 hours relevant optional work waits. Credit counts only with proof under 30 minutes old. The £15 above the £85 pause stays for sign-in, ledger reads, audit and recovery." The owner, 5 November 2026 (MP-184), asked whether daily forecasts run inside the £15 kept above £85: "Yes, add them". The list of what the £15 covers now also holds daily forecasts.
+OWN-04 "Approve paid Claude at launch": the option read "You approve paid use, so chat, research and explanations can run from day one, each route after passing its evaluation." Picking it does not turn Claude on: paid calls still need the owner's explicit word when the time comes. MP40-Q5 "Adopt the key": the option read "The prod collector alone reads it from secure storage every six hours and fills the Claude line. Ready stands." The key's price, and whether the account can have one, are unverified.
+
+**No customer VPC at launch (5 November 2026, MP-184):** MP40-Q7 "Stay with no private network": the option read "Sign-in, permissions and each worker's allowed hosts stay the controls, with no VPC." The optional lockdown steps stay costed on the
+perimeter page. GitHub's Free plan could not enforce a prod approval while the repository was private, so the owner chose
 (3 November 2026) a release workflow only the owner can start (PL-11, MP-30). The repository is public since
 24 November 2026, where GitHub Free offers environments with required reviewers; whether route A stands, or a protected environment replaces or joins it, is open for the owner (MP-199).
 
 **MP-29 (2 November 2026):** Virginia (us-east-1) is owner-selected. On 3 November 2026 the owner chose Terraform for every AWS change,
-SSM Parameter Store for secrets, and Organizations with all features plus a cost-guard SCP. The owner also approved N0 (no VPC, with an empty
+SSM Parameter Store for secrets, and Organizations with all features plus a cost-guard SCP. On 5 November 2026 (MP-184) three
+more policies joined it (keep CloudTrail on, deny root actions, forbid leaving the organisation): MP40-Q4 "Add all three": the option read "The three policies join the cost guard in Terraform, and they bind the dev and prod accounts." The owner also approved N0 (no VPC, with an empty
 N1 scope), a read-only management-account role for the cost collector, global Claude inference at the standard price,
 and the existing domain, mypaisapp.com. Proposed: a boundary matrix for every role
 ([region, network and envelope](docs/planning/region-network-2026-11-03/README.md)).
@@ -293,6 +298,9 @@ and the existing domain, mypaisapp.com. Proposed: a boundary matrix for every ro
   authenticated FastAPI (ARC-10). Holdings first, with the top 5 per segment below (owner, 3 November 2026), chat to explain.
 - **Apple:** SwiftUI owns the iOS and iPadOS screens, persistence, widgets, Keychain and notifications. The React
   Native shell owns cross-platform navigation and typed bridge contracts only.
+- **Owner decisions, 5 November 2026 (MP-184):** MP40-Q12a "Your own devices only": the option read "Support and test the iPhone and iPad you own, at the iOS they run. You give the models." MP40-Q12b "Any window width": the option read "The Apple app lays out by window width, so a narrow iPad window uses the phone layout." MP40-Q13 "Widgets and share first": the option read "Widgets and statement sharing come at launch, and Spotlight, Siri and Live Activities are recorded as later."
+  MP40-Q12c "Both keep the five": the option read "A browser keeps the same five kinds, each with its age, as the web frames draw now." OWN-37 "Saved copy also times out": the option read "The copy clears on the next connection, and the app also stops showing it after a set time without reaching the server. You choose the time." Still open: the models, the time-out, how a browser protects its offline copy
+  (it needs an architecture answer before build), and whether widgets and statement sharing work on free seven-day builds.
 - **Owner decisions, 3 November 2026 (MP-39):** the owner's holdings plus the top 5 per segment (US large caps and
   tech, India Nifty 50 and midcap, ETFs as one top 5 each for the US, UK and India, gold and silver) from a curated
   universe of about 150; new markets and
@@ -325,7 +333,8 @@ The [decision log](docs/planning/ma-reconciliation-2026-11-02/decision-log.md) h
 
 - **52 gaps** in the [gap register](docs/planning/ma-reconciliation-2026-11-02/gap-register.json). The 64 local story
   drafts are now 136 ready Jira stories ([MP-40](docs/planning/story-readiness-2026-11-03/README.md)), awaiting the
-  owner's acceptance, with 14 new owner questions they wait on (MP40-Q1 to Q14).
+  owner's acceptance, with 14 new owner questions (MP40-Q1 to Q14): Q3 and Q14 answered on 3 November 2026, the rest on
+  5 November 2026 (MP-184), with the values below still open.
 - **Source rights (MP-10):** on published terms, Yahoo forbids automated collection and Twelve Data labels Grow
   view-only. On 2 November 2026 the owner confirmed ARC-01 for personal hobby use and accepted that risk, with
   Twelve Data Grow 55 ($29) alongside Yahoo ([MP-10 findings](docs/planning/source-rights-2026-11-02/README.md)). The Region is Virginia
@@ -334,11 +343,18 @@ The [decision log](docs/planning/ma-reconciliation-2026-11-02/decision-log.md) h
 - **Cost fit:** on the owner's selected inputs (Grow 55 at $29, Virginia) every month fits £100, and £70 with Claude
   on and the top-5 scan at its cap, except the one allowed Apple fee month. It stays conditional on the Grow 55
   checkout price, listing rights and the measured workload; Claude spend is credit-funded, or cash only with the
-  owner's paid approval. The domain line is out of the cost model (MP-20); the cost questions still open are in the
+  owner's paid approval. Paid use at launch: OWN-04 "Approve paid Claude at launch" (5 November 2026, MP-184). Picking it does not turn Claude on: paid calls still need the owner's explicit word when the time comes. The domain line is out of the cost model (MP-20); the cost questions still open are in the
   [sign-off pack](docs/planning/baseline-signoff-2026-11-03/README.md).
 - **Apple Developer Program:** not bought for now; the owner will say when. Until then no TestFlight, Apple push or
   Sign in with Apple.
-- **VPC lockdown:** off by default (N0); whether any lockdown step is needed is decided at PH-08.
+- **VPC lockdown:** none at launch: MP40-Q7 "Stay with no private network" (5 November 2026, MP-184).
+- **Values the owner's picks of 5 November 2026 leave open (MP-184):** how recent a fresh sign-in must be and how fast
+  a revoke works (OWN-39); the time after which a saved copy stops showing offline (OWN-37); the iPhone and iPad
+  models (MP40-Q12a); each alert line's value (MP40-Q11a); the four upload limits, set from the owner's real
+  statements when they arrive (MP40-Q1); the price grace (OWN-07); the reconciliation limit (OWN-31); a replay's wait
+  (OWN-08). Unproved: passkeys in a phone's browser and a revoke removing a passkey (MP-197), browser storage of the
+  offline copy, the Anthropic admin key's price and availability, factsheet rights, official-source coverage, and
+  widgets and statement sharing on free seven-day builds.
 - **Proofs:** DynamoDB ledger atomicity, durable-function replay, streaming through API Gateway, Cognito tier and
   recovery, and listing coverage per market.
 - **Claude:** the refusal-fallback choice, per-route chat caps, the measured event-analysis volume in the cost

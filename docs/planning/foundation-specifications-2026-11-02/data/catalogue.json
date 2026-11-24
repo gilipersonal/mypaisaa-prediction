@@ -846,7 +846,15 @@
       "id": "DATA-DEC-02",
       "status": "proposed",
       "decision": "Approve proposed close/NAV/FX freshness and cache/retry tolerances.",
-      "note": "Decides when a close, NAV, FX rate or 30-minute quote may be shown or used as current. Until the owner approves the proposed tolerances in DATA-06 and the cache/retry rules in DATA-07, none is used live. Evidence to check them against: the delays Grow 55 and Yahoo actually show in Grow 55's first month."
+      "note": "Decides when a close, NAV, FX rate or 30-minute quote may be shown or used as current. Until the owner approves the proposed tolerances in DATA-06 and the cache/retry rules in DATA-07, none is used live. Evidence to check them against: the delays Grow 55 and Yahoo actually show in Grow 55's first month. Answered in part on 5 November 2026 (OWN-07, \"Approve the proposed limits now\", MP-184): the owner approved the proposed freshness tolerances in DATA-06; the option read \"A quote is fresh to its interval end plus its delay plus 5 minutes. A close is fresh to the next expected close plus a grace. A fund price is overdue 60 minutes after its deadline. FX may be 24 hours old.\" Its cost read \"The grace has no figure yet. The limits may move after Grow 55's first month, which would change what shows as late.\" So the close grace has no figure yet and stays open, and the cache/retry rules in DATA-07 are not covered by the pick and stay proposed. The status stays proposed because this catalogue has no partly answered value; read it as partly answered.",
+      "answered_2026_11_05": {
+        "record": "OWN-07, 5 November 2026 (MP-184): the owner picked \"Approve the proposed limits now\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"A quote is fresh to its interval end plus its delay plus 5 minutes. A close is fresh to the next expected close plus a grace. A fund price is overdue 60 minutes after its deadline. FX may be 24 hours old.\"",
+        "source": "docs/planning/owner-question-pack-2026-11-05/answers.json",
+        "still_open": [
+          "the close grace figure",
+          "the cache/retry rules (DATA-07)"
+        ]
+      }
     },
     {
       "id": "DATA-DEC-03",
@@ -858,7 +866,14 @@
       "id": "DATA-DEC-04",
       "status": "proposed",
       "decision": "Approve grant withdrawal treatment for datasets, backups, trained models and reproducibility records.",
-      "note": "Twelve Data's terms make a customer delete all data within 30 days of cancelling (terms 12.5(b), 16.2), keep audit-trail data for compliance and leave derived data with the customer (6.2); no vendor is asked to confirm how that applies to MP. The owner's answer decides what happens to stored bars, backups, trained models, forecasts and their audit records if Grow 55 ends (proposed: DATA-08 withdrawal treatment)."
+      "note": "Twelve Data's terms make a customer delete all data within 30 days of cancelling (terms 12.5(b), 16.2), keep audit-trail data for compliance and leave derived data with the customer (6.2); no vendor is asked to confirm how that applies to MP. The owner's answer decides what happens to stored bars, backups, trained models, forecasts and their audit records if Grow 55 ends (proposed: DATA-08 withdrawal treatment). One part was settled on 5 November 2026 (ADM-07, \"Record it, keep the outputs\", MP-184): for Yahoo-derived values already sent to Claude, the option read \"MP records what was sent and says it cannot recall it. Claude text built on it stays, labelled.\" Its cost read \"Values stay wherever Anthropic holds them. How long is unverified.\" The Grow 55 withdrawal treatment (stored bars, backups, trained models, forecasts and their audit records) stays open.",
+      "answered_2026_11_05": {
+        "record": "ADM-07, 5 November 2026 (MP-184): the owner picked \"Record it, keep the outputs\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"MP records what was sent and says it cannot recall it. Claude text built on it stays, labelled.\"",
+        "source": "docs/planning/owner-question-pack-2026-11-05/answers.json",
+        "still_open": [
+          "the Grow 55 withdrawal treatment (DATA-08)"
+        ]
+      }
     },
     {
       "id": "DATA-DEC-05",

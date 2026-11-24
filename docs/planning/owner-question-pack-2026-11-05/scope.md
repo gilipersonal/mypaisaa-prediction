@@ -2,7 +2,7 @@
 
 All 64 questions are answered: 23 pressed on the page, and 41 by the owner's words in chat, "for the remaining pick up recommended options". The 41 are recorded as the Recommended option because that is what those words chose. 61 of the 64 are the Recommended option. `answers.json` holds each one.
 
-Answering is not applying. Each pick is recorded here and in the decision log; an issue's section says when its picks are drawn. MP-185's, MP-191's, MP-186's, MP-188's, MP-189's and MP-190's are drawn; the rest are not yet. UX approval (MP-66) waits on the first seven issues. Permission to build is separate.
+Answering is not applying. Each pick is recorded here and in the decision log; an issue's section says when its picks are drawn. MP-185's, MP-191's, MP-186's, MP-188's, MP-189's, MP-190's and MP-187's are drawn, and MP-192's are recorded in the written records; the screen labels MP-192 also carries are not done yet. UX approval (MP-66) waits on the first seven issues. Permission to build is separate.
 
 ## Answered after the pack
 
@@ -132,6 +132,8 @@ Drawn on branch `MP-191-decision-rules` (23 November 2026), in the Journeys and 
 | OWN-32 | Conflict at every long horizon | in chat | Screens redrawn |
 
 ### MP-192: Bring labels, stories and specifications into line with the owner's picks
+
+Recorded on branch `MP-192-records-follow-picks` (24 November 2026), in the written records: the story pack, the foundation specifications, the gap register and planning pack, the root documents and the Confluence generator. The records also follow the picks MP-188, MP-189, MP-190 and MP-191 drew (MP-114, MP-103, MP-145, MP-158, MP-135, MP-144, MP-84 among them). Values a pick leaves open are recorded as open. Not yet done: the open lists and Proposed labels on the Journeys and Admin pages, the Jira descriptions of the changed stories, and the Confluence pages; each waits on its own yes.
 
 | Id | The pick | How | Effect |
 | --- | --- | --- | --- |

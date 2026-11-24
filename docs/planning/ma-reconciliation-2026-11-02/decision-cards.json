@@ -15,7 +15,7 @@
     "SvelteKit3adaptive PWA and Swift/SwiftUI inside RN shell; Apple/Google/passkeys through Cognito.",
     "Owner approval before live model promotion; separate rules/ML/research views, disagreement and abstention.",
     "Confirmed ranking weights35%growth/40%protection/25%opportunity remain, with eligibility/normalisation still to specify.",
-    "07:30Europe/London briefing;22:00–07:00quiet hours with explicitly approved critical exceptions.",
+    "07:30Europe/London briefing;22:00–07:00quiet hours with explicitly approved critical exceptions. Answered: MP40-Q11a, 5 November 2026 (MP-184): the owner picked \"Your lines, no investment wake-ups\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Material means a line you set is crossed on exposure, price move, volatility or an event flag. Critical covers security and service faults only, so investment alerts wait for 07:30.\" MP40-Q11b, 5 November 2026 (MP-184): the owner picked \"Weekdays only\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"No brief on Saturday or Sunday. Home says why, and held alerts land in your inbox at 07:30 (proposed).\" The value of each line stays open.",
     "Private encrypted original archive with renewable24-month default/owner deletion; operational logs14days/traces30days/run summaries90days; monthly/change-triggered exercises.",
     "Cost visibility by environment/agent/model/feature directly in the main app; live estimates and delayed Anthropic6-hour/AWSdaily collection.",
     "Actual holdings/samples arrive progressively; synthetic real-ID local/dev fixtures support planning now. No AWSdev loading now.",
@@ -536,7 +536,7 @@
       },
       "gates": {
         "before_ux": [
-          "Choose the protected-action mechanism under MP-11 and approve sensitive-action classes, verified account linking and recovery journeys. Apple, Google, passkeys and the agreed recovery redundancy remain required in both options."
+          "Choose the protected-action mechanism under MP-11 and approve sensitive-action classes, verified account linking and recovery journeys. Apple, Google, passkeys and the agreed recovery redundancy remain required in both options. Answered: OWN-39, 5 November 2026 (MP-184): the owner picked \"Anything that writes or widens\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Every act that changes a record, widens what MP may do or opens an original needs a fresh sign-in; reading and stopping do not. Both times are set from measured proof before the identity phase ends.\" Both times (how recent a sign-in must be, and how fast a revoke works) stay open until then."
         ],
         "before_build": [
           "Define cookie/CSRF versus native PKCE/secure-storage boundaries, account linking by verified control, session/device revocation and approval payload/version binding. Local biometric unlock alone grants no server authority."
@@ -780,7 +780,7 @@
       },
       "gates": {
         "before_ux": [
-          "Select rendering mode and freeze typed API/event/action/error/proof contracts plus supported web/Apple device capabilities, including a precise interpretation of Duo. Both options retain SvelteKit3 and Swift/SwiftUI+RN as requested."
+          "Select rendering mode and freeze typed API/event/action/error/proof contracts plus supported web/Apple device capabilities, including a precise interpretation of Duo. Both options retain SvelteKit3 and Swift/SwiftUI+RN as requested. Answered: MP40-Q12b, 5 November 2026 (MP-184): the owner picked \"Any window width\" (pressed on the page). The option read: \"The Apple app lays out by window width, so a narrow iPad window uses the phone layout.\" MP40-Q12a, 5 November 2026 (MP-184): the owner picked \"Your own devices only\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Support and test the iPhone and iPad you own, at the iOS they run. You give the models.\" The models are not yet given."
         ],
         "before_build": [
           "Define offline privacy/clearance, stale/unavailable/in-practice states, resumable SSE/auth refresh, service-worker/app updates, push and native bridge versioning. Separate shared contracts from separate web/native implementation stories."

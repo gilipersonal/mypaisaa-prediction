@@ -90,5 +90,16 @@
       "python3 docs/planning/foundation-specifications-2026-11-02/costs/validate_specifications.py",
       "uv run --no-project --with jsonschema==4.25.1 python docs/planning/foundation-specifications-2026-11-02/validate.py"
     ]
+  },
+  "mp192_owner_picks": {
+    "date": "2026-11-24",
+    "issue": "MP-192",
+    "status": "maker_checked_not_independently_reviewed",
+    "note": "MP-192: owner picks of 5 Nov 2026 (MP-184) recorded: OWN-07 on DATA-DEC-02 (the proposed DATA-06 tolerances approved; the close grace figure and the DATA-07 cache/retry rules stay open; status kept 'proposed' because this catalogue has no partly answered value), ADM-07 on DATA-DEC-04 (Yahoo values already sent to Claude; the Grow 55 withdrawal treatment stays open), ADM-06 and OWN-26 in specification.md. This data area pins no file hashes.",
+    "commands": [
+      "python3 docs/planning/foundation-specifications-2026-11-02/costs/validate_specifications.py",
+      "python3 docs/planning/foundation-specifications-2026-11-02/costs/check_cash_timing.py --self-test",
+      "uv run --no-project --with jsonschema==4.25.1 python docs/planning/foundation-specifications-2026-11-02/validate.py"
+    ]
   }
 }

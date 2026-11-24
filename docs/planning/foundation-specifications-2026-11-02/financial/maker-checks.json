@@ -100,10 +100,10 @@
     "contracts.schema.json": "628a0d2c3214049bceb25b2fa38fa08230e7e6a5433a7c69ae6e4ff6699352ae",
     "hash-contract.json": "0bd7f366cbc692c046bfc606644d7a272d1049f9c12bb613ce1edd5878ffc3c3",
     "hash-graph-example.json": "070ba4c88b8b7110e4bb0feff738950146bb54d79f8c6f35aabedee7b1514fac",
-    "open-decisions.json": "24f60f8cc7a551ac40d03a94c79b0e8879e089ef99a8870459247c60ff990b00",
-    "policies.json": "784d2defccc72f6fb4b6bfc4ebe407dfc935985090a586245e260fec6f5a7af6",
+    "open-decisions.json": "14600bb0f6c55d39d73ddac3ed1f167b82a7716f45d5d1b22c598911ae7c8f6b",
+    "policies.json": "46e165751dcf51230612c6976d3e6d7ea33ea42b4bbe1fc3a1dc91b9d6aef488",
     "research.json": "552d1a0dbfb16418b336925c332fc781b93098cc2b5bd30cdbda3af6f1f45e5d",
-    "specification.md": "1d4e82c3e64932541f870c70afd70e04e5599b047b4c97a5609dd52a4909290f",
+    "specification.md": "84a77c601c799bdf93356888fbf1bbd4011d54e15407b7c5a3a1642ba21e3e85",
     "verify_hash_contract.py": "e3d4a087e554a85996edc4ffba8458e1ecf4b726f4a39e151ab35cc32d563e72",
     "worked-examples.json": "667b7c867918fb6d3a214bbcbc61ff438d52a66354ba39b69064beb443c9e3a1"
   },
@@ -116,6 +116,17 @@
       "verify_hash_contract.py"
     ],
     "results": "verify_hash_contract.py passed; --mutation-selftest killed both gate mutants (also under python -O); ruff F passed",
+    "status": "maker_checks_rerun_not_independent_review"
+  },
+  "mp192_owner_picks": {
+    "date": "2026-11-24",
+    "note": "MP-192: owner picks of 5 Nov 2026 (MP-184) recorded. FIN-OD-04 partly_answered by OWN-14 (how a found but unproved rate is shown; the solver policy stays open); FIN-OD-03 gains OWN-19 and OWN-31 (the material-difference limit stays open with FIN-OD-01); FIN-OD-07 gains OWN-09, OWN-15, OWN-17, OWN-20 and OWN-32 (normalisation, comparability, tie handling and threshold values stay open); OWN-18, ADM-20 and MP40-Q8 recorded in specification.md and policies.json. Hashes refreshed. Maker checks only. The MP-20 ledger check R2-p1 pins the 2 Nov answered_by lists and FIN-OD-04 as owner_pending, so it now fails and needs narrowing by the ledger's owner.",
+    "refreshed_files": [
+      "open-decisions.json",
+      "policies.json",
+      "specification.md"
+    ],
+    "results": "verify_hash_contract.py passed; validate.py passed",
     "status": "maker_checks_rerun_not_independent_review"
   }
 }

@@ -55,7 +55,7 @@
    "phase": "PH-06",
    "epic": "MP-7",
    "title": "Holdings-first home with the top 5 per segment",
-   "story": "As the owner, I want a home view that shows my holdings and the five best-ranked listings in each segment, each with its range, uncertainty and freshness, so that I see what I own and what else is worth watching in one place.",
+   "story": "As the owner, I want a home view that shows my holdings and the five best-ranked listings in each segment with their freshness, each one's range and uncertainty one tap in on its segment list, so that I see what I own and what else is worth watching in one place.",
    "from_drafts": [
     "L6-S01"
    ],
@@ -63,8 +63,8 @@
     "positive": [
      "The home view shows the owner's holdings first, with their ranges, and the top 5 per segment below (owner, 3 November 2026, MP-177).",
      "Each holding shows its value in GBP with its local currency, its latest forecast range for the chosen horizon, its suggested action with reasons, and how fresh its price is.",
-     "Each segment shows its top 5 from the versioned ranking (PH06-S05): US large caps, US tech, India Nifty 50, India midcap, US ETFs, UK ETFs, India ETFs, and gold and silver; there is no UK FTSE segment, and UK holdings still appear.",
-     "Every row shows its data freshness and provider status, and the cost view is one tap away (PH06-S03).",
+     "Each segment shows its top 5 from the versioned ranking (PH06-S05): US large caps, US tech, India Nifty 50, India midcap, US ETFs, UK ETFs, India ETFs, and gold and silver; there is no UK FTSE segment, and UK holdings still appear. Each listing's range sits on its segment list, one tap in from the home view. OWN-22, 5 November 2026 (MP-184): the owner picked \"One tap in, reword MP-153\" (pressed on the page). The option read: \"Home A keeps its tiles, Home B keeps its rows, and MP-153 says the range sits on the segment list.\"",
+     "Every row shows its data freshness and provider status, and the cost view is one tap away (PH06-S03). Freshness is measured against the limits the owner approved; the close grace has no figure yet. OWN-07, 5 November 2026 (MP-184): the owner picked \"Approve the proposed limits now\" (by the owner's words in chat, \"for the remaining pick up recommended options\").",
      "The view reads one published version of holdings, forecasts and rankings, so every row agrees."
     ],
     "negative": [
@@ -284,7 +284,7 @@
    "acceptance": {
     "positive": [
      "The shell is a prebuilt static SvelteKit PWA served by CloudFront from a private S3 origin with origin access control; private data and commands go through the authenticated FastAPI under /api/v1.",
-     "The service worker caches only the shell and approved non-sensitive assets; private responses are cached only as the offline policy allows and are cleared on sign-out, session expiry and account change.",
+     "The service worker caches only the shell and approved non-sensitive assets; private responses are cached only as the offline policy allows and are cleared on sign-out, session expiry and account change. A browser keeps the same five kinds of data as the Apple app, each with its age. MP40-Q12c, 5 November 2026 (MP-184): the owner picked \"Both keep the five\" (pressed on the page). The option read: \"A browser keeps the same five kinds, each with its age, as the web frames draw now.\" How a browser would protect them is unverified and needs an architecture answer before build.",
      "Typed API clients are generated from FastAPI's OpenAPI schema, and every error carries a code, a message, the request_id and the trace_id.",
      "First paint and time to interactive are measured against agreed budgets."
     ],
@@ -359,13 +359,13 @@
      "A ranking policy version holds the component definitions, normalisation, the weights (growth 35, protection 40, opportunity 25), the tie-break and the action bands.",
      "Eligibility and abstention run before combination, and the combined score exists only when all three components are eligible (POLICY-006).",
      "After each daily issuance, code ranks each segment's eligible listings and stores the top 5 as a versioned view, with one list each for US, UK and India ETFs (owner, 3 November 2026).",
-     "Growth and protection come from the 3, 6 and 12-month forecasts and only the opportunity component uses shorter horizons; the lists are re-ranked daily after issuance (owner, 3 November 2026, MP-177).",
+     "Growth and protection come from the 3, 6 and 12-month forecasts and only the opportunity component uses shorter horizons; the lists are re-ranked daily after issuance (owner, 3 November 2026, MP-177). Any missing or split 3, 6 or 12-month forecast takes both growth and protection, so the listing is not ranked. OWN-17, 5 November 2026 (MP-184): the owner picked \"Both parts go\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Any missing or split 3, 6 or 12-month forecast takes both growth and protection, so the name is not ranked.\"",
      "Deterministic reference outputs for a synthetic universe reproduce exactly."
     ],
     "negative": [
-     "A missing component is never zero and never reweighted; that listing is not ranked.",
-     "Gold and silver stay unavailable for formal tasks, with a reason, until their valuation conventions are decided (SCI-D08).",
-     "No action band classifies a listing until normalisation, ties and thresholds are approved (FIN-OD-07).",
+     "A missing component is never zero and never reweighted; that listing is not ranked. A listing not ranked shows no action until it can be ranked again, with the reason. OWN-20, 5 November 2026 (MP-184): the owner picked \"No score, no action\" (by the owner's words in chat, \"for the remaining pick up recommended options\").",
+     "Gold and silver stay unavailable for formal tasks, with a reason, until the first month proves Twelve Data's cover and bar time; each day's value is then the provider's daily bar, with its boundary recorded (SCI-D08). OWN-26, 5 November 2026 (MP-184): the owner picked \"Use the provider's daily bar\" (by the owner's words in chat, \"for the remaining pick up recommended options\").",
+     "No action band classifies a listing until evaluation supports the thresholds and the owner approves a ranking policy version; normalisation, ties and the threshold values stay open (FIN-OD-07). OWN-09, 5 November 2026 (MP-184): the owner picked \"Evidence first\" (pressed on the page).",
      "A 1 to 20-session forecast never feeds the growth or protection component."
     ],
     "recovery": [
@@ -434,18 +434,21 @@
    "phase": "PH-06",
    "epic": "MP-7",
    "title": "Suggested actions with reasons, uncertainty, portfolio impact and horizon",
-   "story": "As the owner, I want each holding and candidate to carry a suggested action (add, hold, pause, trim or rebalance for a holding; buy or watch for a candidate) with its reasons, uncertainty, portfolio impact and horizon, so that I can decide with the evidence in front of me.",
+   "story": "As the owner, I want each holding and candidate to carry a suggested action (add, hold, pause, trim or rebalance for a holding; watch for a candidate) with its reasons, uncertainty, portfolio impact and horizon, so that I can decide with the evidence in front of me.",
    "from_drafts": [
     "L6-S02"
    ],
    "acceptance": {
     "positive": [
      "Holdings and candidates are visibly distinct; each action shows its reasons, uncertainty and horizon and the counterfactual change to concentration and risk, computed by code.",
-     "Each action names the policy version, components, sources and model versions behind it."
+     "Each action names the policy version, components, sources and model versions behind it.",
+     "Every candidate reads Watch, and the word buy is not used. OWN-03, 5 November 2026 (MP-184): the owner picked \"Watch only\" (pressed on the page). The option read: \"Every candidate reads Watch, and MP-144 drops the word buy.\""
     ],
     "negative": [
      "No action executes a trade, places an order, assumes a tax rule or changes contributions, and there is no sell-everything instruction.",
-     "Until FIN-OD-07's thresholds are approved, a listing shows its component evidence and no action label rather than a guessed one."
+     "No action label appears until evaluation supports the thresholds and the owner approves a ranking policy version; until then a listing shows its component evidence and no action label rather than a guessed one (FIN-OD-07). OWN-09, 5 November 2026 (MP-184): the owner picked \"Evidence first\" (pressed on the page). The option read: \"No label appears until evaluation supports the thresholds and you approve a ranking policy version.\"",
+     "A holding not ranked shows no action until it can be ranked again, with the reason. OWN-20, 5 November 2026 (MP-184): the owner picked \"No score, no action\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"A holding not ranked shows no action until it can be ranked again, with the reason.\"",
+     "Wherever the rules and the model point different ways at 3, 6 or 12 months, that horizon is conflicted and no action is ranked there. OWN-32, 5 November 2026 (MP-184): the owner picked \"Conflict at every long horizon\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Wherever the rules and the model point different ways at 3, 6 or 12 months, that horizon is conflicted and no action is ranked there.\""
     ],
     "recovery": [
      "When an input becomes stale or ineligible after publication, the action is marked stale with its reason until the next ranking run."
@@ -471,7 +474,8 @@
     "unclassified (thresholds pending)",
     "stale",
     "ineligible",
-    "conflicted (rules and models disagree, shown)"
+    "conflicted (rules and model point different ways at 3, 6 or 12 months; no action at that horizon)",
+    "not_ranked (no action, with the reason)"
    ],
    "depends_on": {
     "stories": [
@@ -585,7 +589,8 @@
     "positive": [
      "Sections cover the next day; 5, 10 and 20 trading days; and 3, 6 and 12 calendar months, each with as-of time, data cutoff, target, range or probability, calibration, model version and evidence.",
      "Every number identifies its task, as-of time, source and model, and says whether it is evaluated, illustrative or a scenario.",
-     "Range and fan charts have text alternatives, and both the simple and the technical mode keep material uncertainty."
+     "Range and fan charts have text alternatives, and both the simple and the technical mode keep material uncertainty.",
+     "Daily forecasts carry on past the £85 line; cost_paused shows only where a forecast needs the optional paid work that stopped. OWN-25, 5 November 2026 (MP-184): the owner picked \"Daily forecasts keep running\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"At £85 optional paid work stops and daily forecasts carry on. Cost paused shows only where a forecast needs that paid work.\""
     ],
     "negative": [
      "A horizon with no qualified model is never removed and never given a made-up probability; it shows the rules with their heuristic strength, in_practice, or unavailable with reasons.",
@@ -622,7 +627,7 @@
     "insufficient_history",
     "stale_input",
     "model_paused",
-    "cost_paused",
+    "cost_paused (only where a forecast needs optional paid work stopped at £85)",
     "unavailable"
    ],
    "depends_on": {
@@ -739,7 +744,7 @@
     ],
     "negative": [
      "No scenario carries a probability, and 'central' never means most likely.",
-     "Template values are not used until the owner approves them (SCI-D06).",
+     "Template values are not used until the owner approves them (SCI-D06). A separate piece of work proposes each template value with its evidence, and the owner approves them. OWN-10, 5 November 2026 (MP-184): the owner picked \"Sourced proposal, then approve\" (by the owner's words in chat, \"for the remaining pick up recommended options\").",
      "No 12-month model output is extrapolated to make a scenario."
     ],
     "recovery": [
@@ -801,9 +806,10 @@
    ],
    "acceptance": {
     "positive": [
-     "The brief is issued at 07:30 Europe/London, moving with daylight saving, and leads with actions, then risks, changes and upcoming events.",
+     "The brief is issued on weekdays at 07:30 Europe/London, moving with daylight saving, and leads with actions, then risks, changes and upcoming events.",
      "It reads the stored latest eligible origin for each market and shows India, UK and US timestamps separately.",
-     "It is delivered in the app and announced by a neutral Web Push notice (PH07-S07); alerts held overnight arrive with it."
+     "It is delivered in the app and announced by a neutral Web Push notice (PH07-S07); alerts held overnight arrive with it, and on Saturday and Sunday held alerts land in the in-app inbox at 07:30 (proposed).",
+     "No brief is issued on Saturday or Sunday, and Home says why. MP40-Q11b, 5 November 2026 (MP-184): the owner picked \"Weekdays only\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"No brief on Saturday or Sunday. Home says why, and held alerts land in your inbox at 07:30 (proposed).\""
     ],
     "negative": [
      "The brief never depends on a batch submitted that morning, and never presents the US and India as having closed at the same time.",
@@ -838,7 +844,7 @@
     "issued_deterministic",
     "late",
     "pending_evidence",
-    "skipped_by_policy (weekend, once that policy is approved)"
+    "skipped_by_policy (Saturday or Sunday, Home says why)"
    ],
    "depends_on": {
     "stories": [
@@ -849,14 +855,12 @@
      "CT-18",
      "PL-03"
     ],
-    "owner_questions": [
-     "MP40-Q11"
-    ],
+    "owner_questions": [],
     "external": [
      "UX: daily brief"
     ]
    },
-   "blocked_on_owner": true,
+   "blocked_on_owner": false,
    "evidence": [
     "DST-change and per-market timestamp cases",
     "A missed-batch morning and a late-recovery morning, each issued once",
@@ -875,9 +879,9 @@
    ],
    "acceptance": {
     "positive": [
-     "A material or critical risk condition found on eligible as-of data, by the 30-minute checks or the daily run, creates one notification intent; immediate means right after detection at the cadence the data allows.",
+     "A material risk condition found on eligible as-of data, by the 30-minute checks or the daily run, creates one notification intent; immediate means right after detection at the cadence the data allows. Material means a line the owner sets is crossed on exposure, price move, volatility or an event flag; critical covers security and service faults only, so investment alerts wait for 07:30. MP40-Q11a, 5 November 2026 (MP-184): the owner picked \"Your lines, no investment wake-ups\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Material means a line you set is crossed on exposure, price move, volatility or an event flag. Critical covers security and service faults only, so investment alerts wait for 07:30.\" Each line still needs a value from the owner before build.",
      "Quiet hours run 22:00 to 07:00 Europe/London; alerts in that window wait for the 07:30 brief unless an approved exception applies.",
-     "Cooldown and a dedup key group repeats into one alert, and denied push falls back to the in-app inbox (PH07-S08).",
+     "One push per holding, rule and severity in 24 hours, sooner only if it worsens or the cause is new; a dedup key groups repeats into one alert, every event stays in the app, and denied push falls back to the in-app inbox (PH07-S08). OWN-34, 5 November 2026 (MP-184): the owner picked \"Once in 24 hours\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"One push per holding, rule and severity in 24 hours, sooner only if it worsens or the cause is new. Every event stays in the app.\"",
      "Investment risk alerts are a separate class from operational incidents."
     ],
     "negative": [
@@ -907,13 +911,13 @@
      "role": "reads"
     }
    ],
-   "authority": "Code detects, groups and routes alerts. The owner approves the material and critical thresholds and any quiet-hour exception. No agent can raise or silence an alert.",
+   "authority": "Code detects, groups and routes alerts. The owner sets the value of each material line and approves any quiet-hour exception; critical covers security and service faults only. No agent can raise or silence an alert.",
    "states": [
     "detected",
     "held_quiet_hours",
     "sent",
     "deduplicated",
-    "cooled_down",
+    "cooled_down (24 hours per holding, rule and severity)",
     "in_app_only (push denied)",
     "source_unavailable"
    ],
@@ -925,8 +929,7 @@
      "CT-18"
     ],
     "owner_questions": [
-     "DATA-DEC-02",
-     "MP40-Q11"
+     "DATA-DEC-02"
     ],
     "external": [
      "UX: alerts and notices"
@@ -951,7 +954,7 @@
    ],
    "acceptance": {
     "positive": [
-     "The owner records 'I acted' or 'I chose not to' against the exact action, evidence and policy version shown.",
+     "The owner records 'I acted' or 'I chose not to' against the exact action, evidence and policy version shown. When no action is ranked, the owner can save an entry against the evidence on screen whenever it shows, and the entry records why none was. OWN-15, 5 November 2026 (MP-184): the owner picked \"Any time evidence shows\" (pressed on the page). The option read: \"You can save an entry against the evidence on screen whenever no action is ranked, and the entry records why none was.\"",
      "Entries are append-only and later joined to the matured outcomes of the forecasts they cite.",
      "A weekly wrap-up lists the week's entries and their outcomes so far."
     ],
@@ -983,7 +986,8 @@
     "saved",
     "outcome_pending",
     "linked_to_outcome",
-    "save_failed"
+    "save_failed",
+    "saved_without_action (records why none was ranked)"
    ],
    "depends_on": {
     "stories": [

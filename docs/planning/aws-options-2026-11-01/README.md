@@ -42,7 +42,7 @@ Plan A makes the same predictions with less managed ML machinery. The earlier Ag
 
 **Forecast frequency is not forecast horizon.** Proposed v1: publish the formal next-day/5-day/20-day forecasts after each instrument's daily data is complete; refresh quotes and deterministic risk alerts every 30 minutes while its market is open. If you want the probability forecasts themselves recomputed every 30 minutes, that is an additional requirement: the model must be trained and validated using equivalent intraday information, not daily-close features applied mid-session. Every new forecast gets its own immutable timestamp and outcome record.
 
-“Duo” is treated as an adaptive window/foldable layout requirement, consistent with the reference project's design explanation. Exact device, OS floor and supported simulator matrix remain to be confirmed; the plan does not depend on an assumed Apple hardware specification.
+“Duo” is treated as an adaptive window/foldable layout requirement, consistent with the reference project's design explanation. Exact device, OS floor and supported simulator matrix remain to be confirmed; the plan does not depend on an assumed Apple hardware specification. Answered 5 November 2026 (MP-184): MP40-Q12b "Any window width" and MP40-Q12a "Your own devices only"; the current record is [TECH-STACK.md](../../../TECH-STACK.md).
 
 ## 2. What to carry over from mypaisa-agent
 

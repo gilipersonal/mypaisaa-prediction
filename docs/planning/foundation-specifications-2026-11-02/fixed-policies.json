@@ -6,6 +6,7 @@
   "precedence": [
     "The owner's recorded answers come first; the root documents follow them and win over every other record. The full order is in docs/planning/baseline-signoff-2026-11-03/README.md (MP-20, 3 Nov 2026); the lines below rank records inside this pack.",
     "Current explicit owner foundation replies",
+    "Owner picks of 5 Nov 2026 (MP-184, docs/planning/owner-question-pack-2026-11-05/answers.json; recorded by MP-192) supersede earlier proposals and pending values in this snapshot",
     "Owner answers of 2 and 3 Nov 2026 in decision-log.md and the ARC-06b card (folded in by the MP-20 consolidation, 3 Nov 2026) supersede earlier proposals in this snapshot",
     "Twelve selected architecture directions",
     "Later DEC023–041 supersede earlier embedded pending values",
@@ -59,7 +60,25 @@
         "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-for-mp-29-3-november-2026",
         "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-in-the-3-november-2026-decision-round-mp-39"
       ]
-    }
+    },
+    "owner_answers_2026_11_05": {
+      "source": "docs/planning/owner-question-pack-2026-11-05/answers.json",
+      "paid_claude_at_launch": "OWN-04, 5 November 2026 (MP-184): the owner picked \"Approve paid Claude at launch\" (pressed on the page). The option read: \"You approve paid use, so chat, research and explanations can run from day one, each route after passing its evaluation.\" Not turned on: picking it does not turn it on: paid calls still need the owner's explicit word when the time comes (AGENTS.md).",
+      "anthropic_admin_key": "MP40-Q5, 5 November 2026 (MP-184): the owner picked \"Adopt the key\" (pressed on the page). The option read: \"The prod collector alone reads it from secure storage every six hours and fills the Claude line. Ready stands.\" Price and availability unverified.",
+      "cost_freshness_rules": "MP40-Q6, 5 November 2026 (MP-184): the owner picked \"Approve all three\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Past 36 hours relevant optional work waits. Credit counts only with proof under 30 minutes old. The £15 above the £85 pause stays for sign-in, ledger reads, audit and recovery.\"",
+      "kept_window_covers": [
+        "sign-in",
+        "ledger reads",
+        "audit",
+        "recovery",
+        "daily forecasts"
+      ],
+      "kept_window_follow_up": "Owner, 5 Nov 2026, asked \"May daily forecasts spend inside the GBP15 kept above GBP85?\": \"Yes, add them\"",
+      "daily_forecasts_past_85": "OWN-25, 5 November 2026 (MP-184): the owner picked \"Daily forecasts keep running\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"At £85 optional paid work stops and daily forecasts carry on. Cost paused shows only where a forecast needs that paid work.\"",
+      "reduce_order_at_75": "OWN-36, 5 November 2026 (MP-184): the owner picked \"Cut in a set order\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Code cuts backfills first, then challenger models, then Claude jobs, and says which step it reached.\"",
+      "budget_raise_proposals": "OWN-35, 5 November 2026 (MP-184): the owner picked \"Code may draft one\" (pressed on the page). The option read: \"When a line is close, code drafts an exact raise for your queue, with cost and rollback, and you approve it with a fresh sign-in.\""
+    },
+    "uncovered_calls_note_2026_11_05": "Still refused until the owner turns paid use on (OWN-04 approved paid Claude at launch; picking it does not turn it on: paid calls still need the owner's explicit word when the time comes (AGENTS.md))."
   },
   "cost_collection": {
     "internal_usage_estimates": "live",
@@ -156,7 +175,13 @@
       "DEC-032",
       "DEC-033"
     ],
-    "owner_answers_2026_11_03": "No paid Apple Developer Program for now: free builds cannot use Apple push, so phone notifications come through the PWA Web Push until the owner buys it (docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-in-the-3-november-2026-decision-round-mp-39, item 10)."
+    "owner_answers_2026_11_03": "No paid Apple Developer Program for now: free builds cannot use Apple push, so phone notifications come through the PWA Web Push until the owner buys it (docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-in-the-3-november-2026-decision-round-mp-39, item 10).",
+    "owner_answers_2026_11_05": {
+      "source": "docs/planning/owner-question-pack-2026-11-05/answers.json",
+      "material_and_critical": "MP40-Q11a, 5 November 2026 (MP-184): the owner picked \"Your lines, no investment wake-ups\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Material means a line you set is crossed on exposure, price move, volatility or an event flag. Critical covers security and service faults only, so investment alerts wait for 07:30.\" Each line still needs a value from the owner before build.",
+      "weekend_brief": "MP40-Q11b, 5 November 2026 (MP-184): the owner picked \"Weekdays only\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"No brief on Saturday or Sunday. Home says why, and held alerts land in your inbox at 07:30 (proposed).\"",
+      "risk_alert_cooldown": "OWN-34, 5 November 2026 (MP-184): the owner picked \"Once in 24 hours\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"One push per holding, rule and severity in 24 hours, sooner only if it worsens or the cause is new. Every event stays in the app.\""
+    }
   },
   "retention": {
     "original_archive_months": 24,
@@ -171,7 +196,11 @@
       "DEC-034",
       "DEC-035",
       "DEC-036"
-    ]
+    ],
+    "owner_answers_2026_11_05": {
+      "source": "docs/planning/owner-question-pack-2026-11-05/answers.json",
+      "exercise_overdue": "ADM-24, 5 November 2026 (MP-184): the owner picked \"Tie to month and release\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Overdue means a month ended with no exercise, or a change has none by the next release.\""
+    }
   },
   "identity": {
     "managed_Cognito": [
@@ -186,7 +215,22 @@
       "DEC-037",
       "DEC-038"
     ],
-    "owner_answers_2026_11_03": "Free Apple builds cannot use Sign in with Apple; Apple sign-in for the native app waits for the paid program (item 10)."
+    "owner_answers_2026_11_03": "Free Apple builds cannot use Sign in with Apple; Apple sign-in for the native app waits for the paid program (item 10).",
+    "protected_actions_note_2026_11_05": "Which acts need a fresh sign-in is answered (OWN-39); the fresh sign-in and revocation times stay open, set from measured proof before the identity phase ends.",
+    "owner_answers_2026_11_05": {
+      "source": "docs/planning/owner-question-pack-2026-11-05/answers.json",
+      "fresh_sign_in_acts": "OWN-39, 5 November 2026 (MP-184): the owner picked \"Anything that writes or widens\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Every act that changes a record, widens what MP may do or opens an original needs a fresh sign-in; reading and stopping do not. Both times are set from measured proof before the identity phase ends.\"",
+      "revoke_an_approval": "OWN-16, 5 November 2026 (MP-184): the owner picked \"An open session is enough\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Any live signed-in session can revoke at once, and a signed-out device signs in first as usual.\"",
+      "revoke_a_device": "ADM-03, 5 November 2026 (MP-184): the owner picked \"Any healthy path\" (pressed on the page). The option read: \"A fresh sign-in on any healthy path, passkey or Google, can revoke, and Privacy's button changes to match.\"",
+      "revoke_removes_passkey": "ADM-02, 5 November 2026 (MP-184): the owner picked \"Revoke removes it too\" (pressed on the page). The option read: \"Revoking a device also removes any passkey held on it, and your path count drops by one.\" Unverified until tested (MP-197): whether Cognito can remove one this way, and whether a synced passkey ends on the other devices.",
+      "phone_browser_passkey": "ADM-04, 5 November 2026 (MP-184): the owner picked \"Allowed in the browser\" (pressed on the page). The option read: \"The bar covers the Apple app only, so Phone web may enrol a passkey once a test proves it works.\" Unverified until tested (MP-197): that Cognito passkeys work in a phone browser without the paid programme.",
+      "offline_saved_copy": "OWN-37, 5 November 2026 (MP-184): the owner picked \"Saved copy also times out\" (pressed on the page). The option read: \"The copy clears on the next connection, and the app also stops showing it after a set time without reaching the server. You choose the time.\" The time-out value is not set yet.",
+      "still_open": [
+        "the fresh sign-in time",
+        "the revocation time",
+        "the offline time-out"
+      ]
+    }
   },
   "import_and_inputs": {
     "methods": [
@@ -204,7 +248,13 @@
       "DEC-014",
       "DEC-039",
       "DEC-041"
-    ]
+    ],
+    "owner_answers_2026_11_05": {
+      "source": "docs/planning/owner-question-pack-2026-11-05/answers.json",
+      "upload_limits": "MP40-Q1, 5 November 2026 (MP-184): the owner picked \"Set from your real statements\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Oversized files stay held as drawn, and the four limits are set from your largest real statements, with a margin, when they arrive.\" The four limits are not set yet.",
+      "password_protected_pdf": "MP40-Q2, 5 November 2026 (MP-184): the owner picked \"Local unlock step\" (pressed on the page). The option read: \"You type the password in a step on your device, which opens the PDF there and uploads the unlocked copy.\"",
+      "fund_look_through": "MP40-Q8, 5 November 2026 (MP-184): the owner picked \"Factsheets you supply\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"You add dated fund factsheets through the import route, and MP shows the shares they list plus what is left unknown.\" Factsheet detail and use rights stay unverified."
+    }
   },
   "forecasts": {
     "formal_frequency": "daily",
@@ -275,6 +325,18 @@
         "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-on-event-and-analog-research-3-november-2026",
         "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-in-the-3-november-2026-decision-round-mp-39"
       ]
+    },
+    "owner_answers_2026_11_05": {
+      "source": "docs/planning/owner-question-pack-2026-11-05/answers.json",
+      "trial_beat": "OWN-33, 5 November 2026 (MP-184): the owner picked \"A lower score is enough\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"The model must score better on average than each comparator on the same forecasts. Rules are scored through the frozen mapping.\"",
+      "rules_without_fair_score": "ADM-09, 5 November 2026 (MP-184): the owner picked \"Use the best simple baseline\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"For that task, the strongest simple baseline stands in for the rules, with your yes each time.\"",
+      "probation_bad_week": "OWN-27, 5 November 2026 (MP-184): the owner picked \"As proposed\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"A bad week scores strictly worse than the previous model on that week's matured pairs. Two must run together. At 6 and 12 months probation checks clean running only.\"",
+      "restart_evidence": "OWN-28, 5 November 2026 (MP-184): the owner picked \"Cause cleared, fresh approval\" (pressed on the page). The option read: \"Code shows why it paused, that the cause is gone and that the model passes today's checks. Your yes renews its approval for that scope only.\"",
+      "approval_window": "OWN-21, 5 November 2026 (MP-184): the owner picked \"15 minutes, as drawn\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Your yes must start applying within 15 minutes, or you approve again.\"",
+      "withdrawal": "ADM-08, 5 November 2026 (MP-184): the owner picked \"Code on trigger, or you\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Code withdraws on a trigger you approved in advance and tells you, and you can withdraw by hand with a fresh sign-in.\"",
+      "metals_daily_value": "OWN-26, 5 November 2026 (MP-184): the owner picked \"Use the provider's daily bar\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Each day's value is the provider's daily bar, with its boundary recorded, once the first month proves cover.\"",
+      "scenario_templates": "OWN-10, 5 November 2026 (MP-184): the owner picked \"Sourced proposal, then approve\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"A separate piece of work proposes each template value with its evidence, and you approve them.\"",
+      "still_open": "SCI-D03, SCI-D06, SCI-D07 and SCI-D08 stay partly answered; forecasting/open-decisions.json names what each leaves open"
     }
   },
   "not_approved": [
@@ -317,7 +379,13 @@
       "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-after-the-mp-10-source-rights-research-2-november-2026",
       "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-in-the-3-november-2026-decision-round-mp-39",
       "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-on-next-steps-3-november-2026-mp-20"
-    ]
+    ],
+    "owner_answers_2026_11_05": {
+      "source": "docs/planning/owner-question-pack-2026-11-05/answers.json",
+      "freshness_limits": "OWN-07, 5 November 2026 (MP-184): the owner picked \"Approve the proposed limits now\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"A quote is fresh to its interval end plus its delay plus 5 minutes. A close is fresh to the next expected close plus a grace. A fund price is overdue 60 minutes after its deadline. FX may be 24 hours old.\" The close grace has no figure yet; the DATA-07 cache/retry rules are not covered.",
+      "late_price": "ADM-06, 5 November 2026 (MP-184): the owner picked \"No, keep it apart\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"A late price stays a data quality incident. The +40 retry is the only automatic one, and a newer price arrives at the next check.\"",
+      "yahoo_values_sent_to_claude_on_withdrawal": "ADM-07, 5 November 2026 (MP-184): the owner picked \"Record it, keep the outputs\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"MP records what was sent and says it cannot recall it. Claude text built on it stays, labelled.\" The Grow 55 withdrawal treatment stays open (DATA-DEC-04)."
+    }
   },
   "infrastructure": {
     "status": "owner_confirmed_nothing_applied",
@@ -341,10 +409,11 @@
     "opus": "event analysis, at most 3 a day, batched",
     "sonnet": "chat, explanations, briefing, evaluation judges",
     "agents": "7 Claude route agents and 5 code workers with no model",
-    "activation": "each route passes its evaluation; zero calls until the shared credit is verified; no paid fallback",
+    "activation": "each route passes its evaluation; paid Claude approved for launch (OWN-04, 5 Nov 2026), but picking it does not turn it on: paid calls still need the owner's explicit word when the time comes (AGENTS.md); until then zero calls unless the shared credit is verified",
     "sources": [
       "docs/planning/claude-models-and-batching-2026-11-02.md",
       "docs/architecture-explainer/index.html"
-    ]
+    ],
+    "activation_superseded_2026_11_05": "each route passes its evaluation; zero calls until the shared credit is verified; no paid fallback"
   }
 }

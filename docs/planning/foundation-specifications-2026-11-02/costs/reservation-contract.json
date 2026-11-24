@@ -48,7 +48,7 @@
   },
   "invariants": [
     "Global, environment and route reservations change atomically under concurrency.",
-    "Without sufficient verified credit, refuse optional Claude regardless of cash headroom.",
+    "Without sufficient verified credit, refuse optional Claude regardless of cash headroom, until the owner's explicit word turns paid use on (paid Claude approved for launch, OWN-04, 2026-11-05).",
     "Cross-application exclusion of consumed, reserved and uncertain credits is a required organisation-wide cooperative/enforceable capability, currently unproven. MP-local reservations alone cannot provide it; without trustworthy allocation and freshness proof, refuse optional Claude dispatch.",
     "Settlement replaces reservation liability; it does not double-count the same expense.",
     "Fixed subscriptions remain committed until cancellation is effective.",
@@ -68,7 +68,8 @@
     "other_projects_changed": false,
     "anthropic_usage_billing_collection_hours": 6,
     "proposed_credit_allocation_proof_max_age_minutes": 30,
-    "distinction": "Usage/billing collection cadence is separate from the proposed admission-proof freshness bound. If trustworthy proof cannot be obtained, deny dispatch."
+    "distinction": "Usage/billing collection cadence is separate from the admission-proof freshness bound (30 minutes, approved by the owner, MP40-Q6, 2026-11-05). If trustworthy proof cannot be obtained, no credit counts and dispatch is denied until paid use is turned on.",
+    "credit_allocation_proof_max_age_status": "owner_approved_2026-11-05 (MP40-Q6, \"Approve all three\"); the key name keeps the word proposed because the checkers read it"
   },
   "cash_admission": {
     "basis": "invoice_month_cash",

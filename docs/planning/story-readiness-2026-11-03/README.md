@@ -89,24 +89,26 @@ Cross-phase dependencies point at story ids. The few that stay as text name work
 (`UX: ...`), MP-40 itself, a purchase or activation step, or a need no story delivers yet (fund look-through
 holdings, MP40-Q8).
 
+As of 24 November 2026 (MP-192), every question below is answered, and the stories follow the answers: 61 stories still wait on an open owner question (PH-00 1, PH-01 13, PH-02 2, PH-03 11, PH-04 18, PH-05 7, PH-06 5, PH-07 0, PH-08 3, PH-09 1). The answers to MP40-Q1, Q2 and Q4 to Q13 are the owner's picks of 5 November 2026 in the [question pack](../owner-question-pack-2026-11-05/answers.json) (MP-184); a pick that leaves a value open (the upload limits, the alert lines, the offline time-out) is recorded in its story as not set yet.
+
 ## Owner questions found while drafting
 
 No earlier record held these. Each has an id the stories cite, and the gate checks both directions
 ([questions.json](questions.json)).
 
-| Id | Question | Blocks |
-| --- | --- | --- |
-| MP40-Q1 | What upload limits apply to an import: maximum file size, pages, image pixels and parser runtime? | PH01-S06 |
-| MP40-Q2 | How should an encrypted PDF statement be unlocked: on the owner's device before upload, or by entering the password in a local-only step? | PH01-S07 |
-| MP40-Q3 | Is WCAG 2.2 Level AA MP's accessibility standard for the web app and the Apple app's equivalent checks? | PH00-S05, PH01-S23, PH06-S04, PH07-S06, PH08-S07 |
-| MP40-Q4 | Add the three further service control policies MP-29 proposed (keep CloudTrail on, deny root actions, forbid leaving the organisation) beside the cost-guard SCP? | PH02-S04 |
-| MP40-Q5 | Adopt an Anthropic admin key so the prod billing collector can read Claude usage and cost? | PH02-S07 |
-| MP40-Q6 | Approve the cost freshness rules: AWS billing data older than 36 hours blocks optional work, credit proof must be under 30 minutes old, and a £15 emergency window? | PH02-S10 |
-| MP40-Q7 | At PH-08, keep N0 (no VPC) or take a lockdown step (L1 to L4), each costed on the perimeter page? | PH08-S10 |
-| MP40-Q8 | Which source, if any, should supply fund look-through holdings for exposure and overlap (fund factsheets, provider holdings data or none)? | PH03-S14 |
-| MP40-Q9 | How long may a chat-proposed catalogue change (a new market, segment or watch-only listing) wait for the owner's confirm before it expires? | PH03-S03 |
-| MP40-Q10 | Which news, filings and economic-calendar sources should MP read for the seven event kinds? | PH05-S01 |
-| MP40-Q11 | What makes a risk alert material or critical, and is there a weekend brief? | PH06-S11, PH06-S12 |
-| MP40-Q12 | Which iPhones, iPads and iOS versions are supported, what 'Duo' means, and which data the app may keep offline? | PH07-S01, PH07-S04 |
-| MP40-Q13 | For each native capability (widgets, Spotlight search, share, Siri and App Intents, Live Activities), launch or later? | PH07-S09 |
-| MP40-Q14 | On the home screen, should holdings come first with the top 5 per segment below, or market discovery first with holdings a tap away? | PH06-S01, PH00-S05 |
+| Id | Question | Blocks | Answer |
+| --- | --- | --- | --- |
+| MP40-Q1 | What upload limits apply to an import: maximum file size, pages, image pixels and parser runtime? | PH01-S06 | "Set from your real statements" (2026-11-05) |
+| MP40-Q2 | How should an encrypted PDF statement be unlocked: on the owner's device before upload, or by entering the password in a local-only step? | PH01-S07 | "Local unlock step" (2026-11-05) |
+| MP40-Q3 | Is WCAG 2.2 Level AA MP's accessibility standard for the web app and the Apple app's equivalent checks? | PH00-S05, PH01-S23, PH06-S04, PH07-S06, PH08-S07 | "WCAG 2.2 AA (Recommended)" (2026-11-03) |
+| MP40-Q4 | Add the three further service control policies MP-29 proposed (keep CloudTrail on, deny root actions, forbid leaving the organisation) beside the cost-guard SCP? | PH02-S04 | "Add all three" (2026-11-05) |
+| MP40-Q5 | Adopt an Anthropic admin key so the prod billing collector can read Claude usage and cost? | PH02-S07 | "Adopt the key" (2026-11-05) |
+| MP40-Q6 | Approve the cost freshness rules: AWS billing data older than 36 hours blocks optional work, credit proof must be under 30 minutes old, and a £15 emergency window? | PH02-S10 | "Approve all three" (2026-11-05) |
+| MP40-Q7 | At PH-08, keep N0 (no VPC) or take a lockdown step (L1 to L4), each costed on the perimeter page? | PH08-S10 | "Stay with no private network" (2026-11-05) |
+| MP40-Q8 | Which source, if any, should supply fund look-through holdings for exposure and overlap (fund factsheets, provider holdings data or none)? | PH03-S14 | "Factsheets you supply" (2026-11-05) |
+| MP40-Q9 | How long may a chat-proposed catalogue change (a new market, segment or watch-only listing) wait for the owner's confirm before it expires? | PH03-S03 | "Same day, as drawn" (2026-11-05) |
+| MP40-Q10 | Which news, filings and economic-calendar sources should MP read for the seven event kinds? | PH05-S01 | "Official sources first" (2026-11-05) |
+| MP40-Q11 | What makes a risk alert material or critical, and is there a weekend brief? | PH06-S11, PH06-S12 | "MP40-Q11a: Your lines, no investment wake-ups; MP40-Q11b: Weekdays only" (2026-11-05) |
+| MP40-Q12 | Which iPhones, iPads and iOS versions are supported, what 'Duo' means, and which data the app may keep offline? | PH07-S01, PH07-S04 | "MP40-Q12a: Your own devices only; MP40-Q12b: Any window width; MP40-Q12c: Both keep the five" (2026-11-05) |
+| MP40-Q13 | For each native capability (widgets, Spotlight search, share, Siri and App Intents, Live Activities), launch or later? | PH07-S09 | "Widgets and share first" (2026-11-05) |
+| MP40-Q14 | On the home screen, should holdings come first with the top 5 per segment below, or market discovery first with holdings a tap away? | PH06-S01, PH00-S05 | "Holdings first (Recommended)" (2026-11-03) |

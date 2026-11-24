@@ -52,8 +52,8 @@
   },
   "rec-rules": {
    "id": "6291509",
-   "version": 2,
-   "sha256": "d03c067ca0b22dadc5aeed5141032d752af55200f482fdbcaa9befa0e57d9331"
+   "version": 3,
+   "sha256": "d274b5533ad43d266e072d88ae09b61f5da98cdb3c70b9be64fd0c6d14d9f68e"
   },
   "rec-system": {
    "id": "6389796",
@@ -77,13 +77,13 @@
   },
   "rec-claude": {
    "id": "6127762",
-   "version": 2,
-   "sha256": "999480222d811785216b689ecb313ec058a91007182e598a57a342f2cdae2432"
+   "version": 3,
+   "sha256": "501dd5b00365a7b638ea9992948031c2e1545efc322f9829a9d8149e2fe3b499"
   },
   "rec-identity": {
    "id": "6389836",
-   "version": 3,
-   "sha256": "b6cac59b69ce6c6db6ba71d15acc9396536585fd69a2fee13b26071558ada52f"
+   "version": 4,
+   "sha256": "7ac1fbcde3beba273d00a677488be0e5dbb51e7b35dd28254ba8073b5ec473aa"
   },
   "rec-admin": {
    "id": "6357055",
@@ -107,13 +107,13 @@
   },
   "rec-cost": {
    "id": "6291529",
-   "version": 8,
-   "sha256": "6bbde18929a9a9e171b981c1de4a82e4ff48f9524b42c9246f58459eddc20b82"
+   "version": 9,
+   "sha256": "9b79f36d4bad9bf5b60423974847a6bf27938bf5138bcb928ece1ed1c762c269"
   },
   "rec-observability": {
    "id": "6357075",
-   "version": 5,
-   "sha256": "f818fd88005e2a6e513d0c5d82db73ad50d62af41dd198b64ac1387b6bc9816e"
+   "version": 6,
+   "sha256": "ce667819b16f93dd1675aa673618b75ca9e4fafb4818d6d2f259cf25c874c4f0"
   },
   "rec-decisions": {
    "id": "6357095",
@@ -122,48 +122,48 @@
   },
   "ph-00": {
    "id": "6488129",
-   "version": 5,
-   "sha256": "25f26d1b722cdeb33b466b37a39af003e744e3f45a70d038cbe9ce7819d7968c"
+   "version": 6,
+   "sha256": "165b54b1fcf11541227245938b71f42ae446e402ce06653c946a8b3ffa6b2589"
   },
   "ph-01": {
    "id": "6357115",
-   "version": 4,
-   "sha256": "6a35f25044c82c8302d6457c879f72ed322f16961c9e77d39d9f4945cb3c6448"
+   "version": 5,
+   "sha256": "e5381ab775afeaaab4b2b6f6d0d46c0d1787b7083990d2b8153c0ba5162a686f"
   },
   "ph-02": {
    "id": "6094901",
-   "version": 4,
-   "sha256": "d5739a0c5914870f6c39f41384be5926ff118c38f8632559e36bb8221ea8062f"
+   "version": 5,
+   "sha256": "5bbfd944f25c1dbd9fe819f54c9c2cd133a14f02300cb2083f16dd47669ac21d"
   },
   "ph-03": {
    "id": "6291549",
-   "version": 4,
-   "sha256": "cd5f9ad143a61b40201679e811f3f505dffb524f7717d0277186869ee9969ac7"
+   "version": 5,
+   "sha256": "ab81303d2510130c96801887c83d762fe4e68b291ace520b3d8027bb63890078"
   },
   "ph-04": {
    "id": "6127802",
-   "version": 3,
-   "sha256": "033076695e7b82504c6532f969bbd06fce54619ef678d0fa112994ae1d4d79dc"
+   "version": 4,
+   "sha256": "9236cb5ff49cc847459f105d048d13f2ba9e6ebee036b21ae148ab1841e0294c"
   },
   "ph-05": {
    "id": "6291569",
-   "version": 3,
-   "sha256": "50297054b63c86b6101e3bf0a64a7c889f8e38d17bc0d4949fd3e6d78ca5b794"
+   "version": 4,
+   "sha256": "13e1b2665923202c7ed1897f8ef31089c60bea157bd94ff5a2836867531dbace"
   },
   "ph-06": {
    "id": "6389856",
-   "version": 4,
-   "sha256": "313d94d3bb417c5ad57687c5fbd2fec8cd78b05cb0e96ca44e04d647eb0cb765"
+   "version": 5,
+   "sha256": "f5c22300228a6f2c12fec6cc2f1150aca06acda265db607c8c99e1d4a782e91e"
   },
   "ph-07": {
    "id": "6291589",
-   "version": 6,
-   "sha256": "296277094913b6ca57224edfdbc6d46a4d6bd5a36f70ebbc2d315ff5086b6ce3"
+   "version": 7,
+   "sha256": "1da6dceb2d5ea4a7e958327e0cd3c82f5d515536e444c110a19b3b8d47cad477"
   },
   "ph-08": {
    "id": "6291609",
-   "version": 4,
-   "sha256": "51c9d43e85ed46dba7739ac1101a98020384459747a08be927ed68ab6a727c48"
+   "version": 5,
+   "sha256": "07145a49d1aa09f206dc483c7aff16c82391ba246beb58127916262040792f0c"
   },
   "ph-09": {
    "id": "6094921",
@@ -172,8 +172,8 @@
   },
   "rec-stack": {
    "id": "6128065",
-   "version": 3,
-   "sha256": "03b287e57d5c52489075bed935244ef8aca60bcbfd1627f38b11124fdcf80a9a"
+   "version": 4,
+   "sha256": "a42e87235fe7ef914ba23524842c646cb8509ce774da9a2a76690cbff4e37143"
   },
   "rec-testing": {
    "id": "6291936",
@@ -182,13 +182,13 @@
   },
   "rec-apple-testing": {
    "id": "6291956",
-   "version": 9,
-   "sha256": "c536ea13e9ecf5fa34e40e507c3617aaf58fd2680e514de87948b7a48982de56"
+   "version": 10,
+   "sha256": "cf1d318086dcd6010f80bd0c555275cb7b7f79e8a0f2ee9891c87286b4d5494f"
   },
   "rec-perimeter": {
    "id": "6390123",
-   "version": 6,
-   "sha256": "8bcf49a8dc27795185dd9920510dc646aa745c367f583f301bcc8fd621d2711e"
+   "version": 7,
+   "sha256": "298a70c1ad17c5f38fdfc0800c4eb8d338939eb2a3538c023c10ac1b2383059b"
   },
   "rec-web-quality": {
    "id": "6095187",

@@ -95,8 +95,8 @@ cannot change a number, publish a forecast, move money or trade.
 | **Coverage** | 20 to 30 shares and ETFs to start, from your holdings and a watchlist | Yahoo Finance and Twelve Data Grow, each listing checked for rights and freshness. More markets later through adapters. |
 | **Forecasts** | Ranges for 1 day, 5, 10 and 20 trading days, and 3, 6 and 12 months | Baselines first, then bounded challengers, each qualified per task and horizon on walk-forward evidence. |
 | **Scenarios** | 3 and 5 year downside, central and upside cases | Templates with assumptions you can edit. "Central" claims no likelihood. |
-| **Monitoring** | Quote and risk checks every 30 minutes and a 07:30 briefing | Push to the app and the PWA, with quiet hours from 22:00 to 07:00. |
-| **Recommendations** | Add, hold, pause, trim or rebalance, with reasons and uncertainty | Where the rules, the models and the research disagree, MP shows it, and it abstains when the evidence is thin. |
+| **Monitoring** | Quote and risk checks every 30 minutes and a 07:30 briefing on weekdays (MP40-Q11b, "Weekdays only") | Push to the app and the PWA, with quiet hours from 22:00 to 07:00. Critical covers security and service faults only, so investment alerts wait for 07:30 (MP40-Q11a, "Your lines, no investment wake-ups"). |
+| **Recommendations** | Add, hold, pause, trim or rebalance, with reasons and uncertainty | Where the rules, the models and the research disagree, MP shows it, and it abstains when the evidence is thin. No label appears until evaluation supports the thresholds and you approve a ranking policy version (OWN-09, "Evidence first"). |
 | **Chat** | Ask why about any recommendation | Claude answers from cited, versioned evidence through read-only tools. |
 
 ## Where it stands

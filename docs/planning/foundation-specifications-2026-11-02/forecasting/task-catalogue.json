@@ -225,7 +225,7 @@
     "pending_outcome_maturity",
     "unavailable_with_reason"
   ],
-  "price_type_note_commodities": "XAU/USD and XAG/USD (owner, 2026-11-03) are spot quotes without an exchange close; their daily valuation time, price type and calendar stay open (SCI-D08). The price_type enum is not extended until then.",
+  "price_type_note_commodities": "XAU/USD and XAG/USD (owner, 2026-11-03) are spot quotes without an exchange close. Owner, 2026-11-05 (OWN-26, \"Use the provider's daily bar\"): the option read \"Each day's value is the provider's daily bar, with its boundary recorded, once the first month proves cover.\" Still open (SCI-D08): Twelve Data's cover and bar time, the GBP rate pinned at that time, the price type and the calendar of valuation days. The price_type enum is not extended until then, and the listings stay unavailable_with_reason for formal tasks until cover is proven.",
   "forecast_universe_and_ranking": {
     "status": "owner_selected_2026-11-03; screens wait for UX after the architecture sign-off",
     "forecast_set": [
@@ -335,7 +335,7 @@
     "additions_from_chat": "Claude proposes; code checks coverage with the data provider (Twelve Data or Yahoo) and the credit cost; the owner confirms in the app before anything is added",
     "claude_explanation_cost": "top-5 explanations may add up to GBP 5 a month, batched where possible (costs lane)",
     "open": [
-      "SCI-D08: gold and silver daily valuation time, price type and calendar",
+      "SCI-D08: gold and silver, partly answered (OWN-26: the provider's daily bar, with its boundary recorded, once the first month proves cover); still open: cover and bar time, the pinned GBP rate, the price type and the calendar",
       "FIN-OD-07: the combined score's normalisation, comparability and validated tie handling, including how each component combines its horizons"
     ],
     "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md: event and analog answers (top 5 per segment) and 3 Nov round items 1, 2, 3 and 19; Owner answers on next steps (3 November 2026, MP-20), item 2; Owner answers that unblock the UX design (3 November 2026, MP-177), items 3 and 4",
@@ -351,5 +351,6 @@
         "SEG-ETF-IN"
       ]
     }
-  }
+  },
+  "price_type_note_commodities_superseded_2026_11_05_mp192": "XAU/USD and XAG/USD (owner, 2026-11-03) are spot quotes without an exchange close; their daily valuation time, price type and calendar stay open (SCI-D08). The price_type enum is not extended until then."
 }

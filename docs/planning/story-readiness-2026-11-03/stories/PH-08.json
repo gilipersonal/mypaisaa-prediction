@@ -193,7 +193,7 @@
    "acceptance": {
     "positive": [
      "Recovery point and recovery time objectives are agreed and recorded per record class: ledger, audit, approvals, originals, forecasts and outcomes, model pointers.",
-     "Every month, and after any storage, import or audit change, those records are restored into an isolated recovery target and reconciled by counts, hashes and financial balances.",
+     "Every month, and after any storage, import or audit change, those records are restored into an isolated recovery target and reconciled by counts, hashes and financial balances. An exercise is overdue when a month ends with none, or a change has none by the next release. ADM-24, 5 November 2026 (MP-184): the owner picked \"Tie to month and release\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Overdue means a month ended with no exercise, or a change has none by the next release.\"",
      "Each exercise writes a RecoveryExercise record with its result."
     ],
     "negative": [
@@ -218,14 +218,14 @@
      "role": "reads"
     }
    ],
-   "authority": "A scheduled code job runs the exercise in an isolated target. Only the owner approves switching authority to a restored copy. No agent restores data.",
+   "authority": "A scheduled code job runs the exercise in an isolated target. Only the owner approves switching authority to a restored copy. No agent restores data. Code opens the incident when production stops answering its checks, and the owner records production lost with a fresh sign-in. ADM-05, 5 November 2026 (MP-184): the owner picked \"Code flags, you confirm\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Code opens the incident when production stops answering its checks, and you record it lost with a fresh sign-in.\" What counts as lost, and where that record lives while MP is down, are not yet specified.",
    "states": [
     "scheduled",
     "running",
     "reconciled",
     "mismatch",
     "failed",
-    "overdue"
+    "overdue (a month ended with no exercise, or a change has none by the next release)"
    ],
    "depends_on": {
     "stories": [
@@ -266,7 +266,7 @@
     "positive": [
      "On dev, rehearse: an app rollback by Lambda alias, a contract rollback where the old reader still works, a model and calibration revert to the previous approved model with the owner notified, and a failed import reversal.",
      "The automatic model revert rules (owner, 3 November 2026: 4 bad weeks running, or 2 during the 4-week probation) are exercised with synthetic scores.",
-     "Each rehearsal writes a RecoveryExercise record."
+     "Each rehearsal writes a RecoveryExercise record. A rehearsal is overdue when a month ends with none, or a change has none by the next release. ADM-24, 5 November 2026 (MP-184): the owner picked \"Tie to month and release\" (by the owner's words in chat, \"for the remaining pick up recommended options\")."
     ],
     "negative": [
      "A rollback never deletes a forecast, an outcome or an audit record, and switching forward again needs the owner's yes.",
@@ -295,7 +295,7 @@
     "passed",
     "partial",
     "failed",
-    "overdue"
+    "overdue (a month ended with no exercise, or a change has none by the next release)"
    ],
    "depends_on": {
     "stories": [
@@ -331,7 +331,8 @@
      "Alert classes stay separate: financial risk, system security, data quality, billing and job failure (CT-18), each with deduplication and correlation.",
      "Each incident links alert, run, source and model evidence by id.",
      "Alerts exist for a missed forecast run, a stalled collector, stale billing, dead-letter queue depth, expired source access and out-of-order conversation events.",
-     "Phone notifications go through the web app's Web Push until the owner buys the Apple Developer Program (owner, 3 November 2026)."
+     "Phone notifications go through the web app's Web Push until the owner buys the Apple Developer Program (owner, 3 November 2026).",
+     "When production stops answering its checks, code opens the incident and the owner records production lost with a fresh sign-in. ADM-05, 5 November 2026 (MP-184): the owner picked \"Code flags, you confirm\" (by the owner's words in chat, \"for the remaining pick up recommended options\")."
     ],
     "negative": [
      "A health endpoint that reports OK while a dead-letter queue holds items or a daily run was missed fails its test.",
@@ -355,7 +356,7 @@
      "role": "reads"
     }
    ],
-   "authority": "Code opens incidents. The owner acknowledges and resolves them. Agents cannot close an incident.",
+   "authority": "Code opens incidents, and marks one mitigated when its checks show the fault has stopped. The owner acknowledges and resolves them. Agents cannot close an incident. ADM-23, 5 November 2026 (MP-184): the owner picked \"Code marks it\" (pressed on the page). The option read: \"Code marks it mitigated when its checks show the fault has stopped. You still acknowledge and resolve.\"",
    "states": [
     "open",
     "acknowledged",
@@ -394,7 +395,7 @@
    ],
    "acceptance": {
     "positive": [
-     "An allowlist of automatic recovery actions: retry an idempotent job within its bounds, replay a dead-letter item up to a limit, re-run a missed collection, resume a durable workflow.",
+     "An allowlist of automatic recovery actions: retry an idempotent job within its bounds, replay a dead-letter item up to a limit, re-run a missed collection, resume a durable workflow. A late price is not a missed collection: it stays a data quality incident, and a newer price arrives at the next check. ADM-06, 5 November 2026 (MP-184): the owner picked \"No, keep it apart\" (by the owner's words in chat, \"for the remaining pick up recommended options\").",
      "A ReplayRequest records scope, reason, items, idempotency keys and, where needed, the owner's approval.",
      "Failure injection covers queue and dead-letter limits, out-of-order conversation events, a market outage, a missed forecast, expired source access and a stalled collector; each recovers or escalates as designed."
     ],
@@ -593,7 +594,7 @@
    ],
    "acceptance": {
     "positive": [
-     "The runbook covers pause switches (optional work, a forecast scope under POLICY-003, a feature), incident escalation, the monthly evidence review, recovery, release and rollback.",
+     "The runbook covers pause switches the owner works by hand on iPad or desktop, each kept in the record (optional work, one forecast scope under POLICY-003, one feature), incident escalation, the monthly evidence review, recovery, release and rollback. ADM-19, 5 November 2026 (MP-184): the owner picked \"All three, as drawn\" (pressed on the page). The option read: \"You can pause optional work, one forecast scope or one feature by hand, on iPad or desktop, each kept in the record.\" What counts as a feature, and each switch's own rule, are still to be listed.",
      "A walkthrough on dev with synthetic data shows every launch admin control from the approved admin journeys working: uploads and versions, ledger updates, runs and tools, models and evaluations, health, cost and approvals.",
      "Main-dashboard cost visibility and the critical recovery controls are in the launch UX, not deferred."
     ],
@@ -657,7 +658,7 @@
    "acceptance": {
     "positive": [
      "Each lockdown step from the perimeter page (MP-36) is listed with its monthly cost against the £22 AWS allocation, what it protects and what it cannot.",
-     "The owner's choice is recorded; a chosen step is written in Terraform, plan-only until the owner asks for an apply, with a revised cost model and an ADR that lifts the cost-guard SCP for that step only."
+     "The owner's choice is recorded: no lockdown step at launch, and sign-in, permissions and each worker's allowed hosts stay the controls, with no VPC. MP40-Q7, 5 November 2026 (MP-184): the owner picked \"Stay with no private network\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Sign-in, permissions and each worker's allowed hosts stay the controls, with no VPC.\" A later step is a new owner choice, written in Terraform, plan-only until the owner asks for an apply, with a revised cost model and an ADR that lifts the cost-guard SCP for that step only."
     ],
     "negative": [
      "No NAT gateway, interface endpoint, VPN or proxy is added without that ADR and the owner's yes.",
@@ -693,9 +694,7 @@
     "gaps": [
      "PL-10"
     ],
-    "owner_questions": [
-     "MP40-Q7"
-    ],
+    "owner_questions": [],
     "external": []
    },
    "evidence": [
@@ -703,7 +702,7 @@
     "The decision record with the owner's words",
     "A Terraform plan for any chosen step"
    ],
-   "blocked_on_owner": true
+   "blocked_on_owner": false
   }
  ]
 }

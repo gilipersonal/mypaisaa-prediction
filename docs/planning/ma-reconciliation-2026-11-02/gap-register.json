@@ -389,7 +389,7 @@
       "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md CAP-08; L3-S04 and L6-S02 are broad drafts.",
       "disposition": "adapt_and_specify",
       "recommendation": "Define portfolio snapshots, weight basis, partial coverage, cash and cross-listed exposure before ranking. Separate instrument trading currency from underlying economic exposure and hedging. Estimate correlations/covariance on aligned eligible data with declared shrinkage/missingness and stress alternatives.",
-      "decision_needed": "Approve exposure completeness thresholds, risk windows and benchmark/weight conventions.",
+      "decision_needed": "Approve exposure completeness thresholds, risk windows and benchmark/weight conventions. The look-through source is chosen (MP40-Q8, 5 November 2026, MP-184); factsheet detail and use rights are unverified.",
       "acceptance_criteria": [
         "Double-listed securities and fund overlap do not double-count underlying economic risk.",
         "Coverage residual and source age visible; absent exposure is not zero.",
@@ -416,7 +416,10 @@
         }
       ],
       "planning_group": "portfolio",
-      "jira_key": "MP-22"
+      "jira_key": "MP-22",
+      "owner_picks": [
+        "MP40-Q8, 5 November 2026 (MP-184): the owner picked \"Factsheets you supply\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"You add dated fund factsheets through the import route, and MP shows the shares they list plus what is left unknown.\""
+      ]
     },
     {
       "id": "FC-12",
@@ -425,7 +428,7 @@
       "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md CAP-03/CAP-09; owner weights growth35/protection40/opportunity25; detailed mapping open.",
       "disposition": "adapt_and_specify",
       "recommendation": "Define component eligibility/scaling and action semantics before combining scores. Growth/risk/benchmark evidence must be comparable or explicitly unavailable. Distinguish forecast probability, preference-weighted ranking and portfolio constraint; explain conflicts and ask owner for any change.",
-      "decision_needed": "Approve score normalisation, abstention/conflict policy, concentration/contribution constraints and recommendation wording.",
+      "decision_needed": "Remaining after the owner's picks of 5 November 2026 (MP-184), listed in owner_picks: score normalisation, tie handling, the action threshold values and concentration/contribution constraints.",
       "acceptance_criteria": [
         "Show component scores/weights/source/version and counterfactual portfolio impact.",
         "Missing component does not silently earn neutral/full score; disclose approved renormalisation policy.",
@@ -452,7 +455,14 @@
         }
       ],
       "planning_group": "portfolio",
-      "jira_key": "MP-22"
+      "jira_key": "MP-22",
+      "owner_picks": [
+        "OWN-03, 5 November 2026 (MP-184): the owner picked \"Watch only\" (pressed on the page). The option read: \"Every candidate reads Watch, and MP-144 drops the word buy.\"",
+        "OWN-09, 5 November 2026 (MP-184): the owner picked \"Evidence first\" (pressed on the page). The option read: \"No label appears until evaluation supports the thresholds and you approve a ranking policy version.\"",
+        "OWN-17, 5 November 2026 (MP-184): the owner picked \"Both parts go\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Any missing or split 3, 6 or 12-month forecast takes both growth and protection, so the name is not ranked.\"",
+        "OWN-20, 5 November 2026 (MP-184): the owner picked \"No score, no action\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"A holding not ranked shows no action until it can be ranked again, with the reason.\"",
+        "OWN-32, 5 November 2026 (MP-184): the owner picked \"Conflict at every long horizon\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Wherever the rules and the model point different ways at 3, 6 or 12 months, that horizon is conflicted and no action is ranked there.\""
+      ]
     },
     {
       "id": "FC-13",
@@ -922,7 +932,7 @@
       "mp_evidence": "MP owner chose Apple, Google and passkeys with managed sign-in; recovery, federation linking, reauthentication and token/session architecture remain open.",
       "disposition": "adapt_and_specify",
       "recommendation": "Use Cognito managed sign-in and explicit verified linking to an owner identity; never merge users from email equality alone. Keep browser cookie/CSRF and native PKCE/token storage designs separate. Bind a fresh step-up proof to a specific sensitive action and its proposed values, with expiry and server checks.",
-      "decision_needed": "Resolve under MP-11: linking enrolment/recovery, step-up proof, devices, token revocation and two independent passkey recovery paths.",
+      "decision_needed": "Remaining under MP-11 after the owner's picks of 5 November 2026 (MP-184), listed in owner_picks: linking enrolment and recovery, the step-up proof mechanism, the token revocation time (OWN-39: set from measured proof before the identity phase ends), and proof that a phone's browser can enrol a passkey and that a revoke removes one (MP-197).",
       "acceptance_criteria": [
         "Document sign-in/link/recovery/revoke sequences for Apple, Google and local passkey identities, including lost-device/account cases.",
         "Admin approvals bind owner, environment, action, payload hash and expiry; a generic logged-in session is insufficient.",
@@ -950,7 +960,12 @@
         }
       ],
       "planning_group": "identity",
-      "jira_key": "MP-11"
+      "jira_key": "MP-11",
+      "owner_picks": [
+        "ADM-02, 5 November 2026 (MP-184): the owner picked \"Revoke removes it too\" (pressed on the page). The option read: \"Revoking a device also removes any passkey held on it, and your path count drops by one.\"",
+        "ADM-04, 5 November 2026 (MP-184): the owner picked \"Allowed in the browser\" (pressed on the page). The option read: \"The bar covers the Apple app only, so Phone web may enrol a passkey once a test proves it works.\"",
+        "OWN-39, 5 November 2026 (MP-184): the owner picked \"Anything that writes or widens\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Every act that changes a record, widens what MP may do or opens an original needs a fresh sign-in; reading and stopping do not. Both times are set from measured proof before the identity phase ends.\""
+      ]
     },
     {
       "id": "PL-10",
@@ -959,7 +974,7 @@
       "mp_evidence": "MP still has N0/N1/N1-E alternatives, cheapest-suitable-region preference and no selected accounts/region/IaC.",
       "disposition": "adapt_and_specify",
       "recommendation": "Recommend N0 for external Anthropic/data-facing Lambdas initially and only a justified N1 private job scope. Compare cheapest suitable regions on all required services, data residency and total egress/telemetry charges. Compare separate dev/prod accounts against strict same-account isolation without duplicating MA domains, CIDRs or proxies.",
-      "decision_needed": "Approve accounts, region, IaC and network option; VPN remains optional and does not substitute for auth.",
+      "decision_needed": "Remaining after MP40-Q4 and MP40-Q7 (5 November 2026, MP-184): the boundary matrix for every role, and one customer managed key per account or AWS keys only. Accounts, the Region and Terraform were owner-selected on 2 and 3 November 2026 (decision log). VPN remains optional and does not substitute for auth.",
       "acceptance_criteria": [
         "A boundary matrix identifies IAM principals and permitted resources/actions per env and function.",
         "Gateway endpoints are not an Anthropic internet path; public-subnet attachment alone gives Lambda neither public IP nor internet access.",
@@ -986,7 +1001,11 @@
         }
       ],
       "planning_group": "cloud",
-      "jira_key": "MP-29"
+      "jira_key": "MP-29",
+      "owner_picks": [
+        "MP40-Q4, 5 November 2026 (MP-184): the owner picked \"Add all three\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"The three policies join the cost guard in Terraform, and they bind the dev and prod accounts.\"",
+        "MP40-Q7, 5 November 2026 (MP-184): the owner picked \"Stay with no private network\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Sign-in, permissions and each worker's allowed hosts stay the controls, with no VPC.\""
+      ]
     },
     {
       "id": "PL-11",
@@ -1127,7 +1146,7 @@
       "mp_evidence": "MP retained Swift/SwiftUI plus RN shell but has no approved bridge/runtime/device matrix; requested SvelteKit3 is not the existing React architecture Site.",
       "disposition": "adapt_and_specify",
       "recommendation": "Recommend static SvelteKit PWA shell on S3/CloudFront with authenticated API data; add SSR only for a demonstrated need. Honour MP Swift ownership of native surfaces/cache/secure-device integration while RN owns navigation/bridge contracts. Define privacy-safe offline scope and durable reconnect independently for each platform.",
-      "decision_needed": "Approve supported OS/devices (including what Duo means), cache/offline/push capabilities, bridge ownership and exact compatible stack; defer visual design until these contracts are settled.",
+      "decision_needed": "Remaining after the owner's picks of 5 November 2026 (MP-184), listed in owner_picks: the iPhone and iPad models, which the owner gives (MP40-Q12a); the time after which a saved copy stops showing offline, which the owner chooses (OWN-37); how a browser protects its offline copy, which needs an architecture answer before build (MP40-Q12c); whether widgets and statement sharing work on free seven-day builds, and if either does not it moves to later (MP40-Q13); push capabilities, bridge ownership and the exact compatible stack. Visual design follows the UX approval (MP-66).",
       "acceptance_criteria": [
         "S3 static output does not imply SvelteKit server sessions/actions exist; session architecture is explicit.",
         "Offline owner/data clearance, logout, expiry, stale results and app/service-worker update cases are specified.",
@@ -1155,7 +1174,14 @@
         }
       ],
       "planning_group": "delivery",
-      "jira_key": "MP-30"
+      "jira_key": "MP-30",
+      "owner_picks": [
+        "MP40-Q12a, 5 November 2026 (MP-184): the owner picked \"Your own devices only\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Support and test the iPhone and iPad you own, at the iOS they run. You give the models.\"",
+        "MP40-Q12b, 5 November 2026 (MP-184): the owner picked \"Any window width\" (pressed on the page). The option read: \"The Apple app lays out by window width, so a narrow iPad window uses the phone layout.\"",
+        "MP40-Q12c, 5 November 2026 (MP-184): the owner picked \"Both keep the five\" (pressed on the page). The option read: \"A browser keeps the same five kinds, each with its age, as the web frames draw now.\"",
+        "MP40-Q13, 5 November 2026 (MP-184): the owner picked \"Widgets and share first\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Widgets and statement sharing come at launch, and Spotlight, Siri and Live Activities are recorded as later.\"",
+        "OWN-37, 5 November 2026 (MP-184): the owner picked \"Saved copy also times out\" (pressed on the page). The option read: \"The copy clears on the next connection, and the app also stops showing it after a set time without reaching the server. You choose the time.\""
+      ]
     },
     {
       "id": "CT-01",
@@ -1165,7 +1191,7 @@
       "coverage": "partial_specification",
       "disposition": "adapt_concept_research_and_owner_decision",
       "recommendation": "Keep the agreed Cognito managed sign-in. Propose recent server-verified authentication for record-affecting import confirmation, deletion, replay, credential linking/recovery, budget expansion and model promotion. Verify actual Cognito step-up availability and plan before deciding the mechanism; a local biometric unlock grants no server authority.",
-      "decision_needed": "Owner approves the sensitive-action matrix, freshness window, assurance requirements and recovery fallback.",
+      "decision_needed": "Remaining after the owner's picks of 5 November 2026 (MP-184), listed in owner_picks: how recent a fresh sign-in must be (set from measured proof before the identity phase ends, then approved by the owner), the assurance requirements and the recovery fallback. Whether acknowledging an incident needs a fresh sign-in under OWN-39 stays open for the owner.",
       "acceptance_criteria": [
         "Action matrix names read, propose, approve and execute permissions for every admin operation.",
         "Server checks owner, environment, session status, assurance and authentication age immediately before execution.",
@@ -1192,7 +1218,13 @@
         }
       ],
       "planning_group": "identity",
-      "jira_key": "MP-11"
+      "jira_key": "MP-11",
+      "owner_picks": [
+        "ADM-03, 5 November 2026 (MP-184): the owner picked \"Any healthy path\" (pressed on the page). The option read: \"A fresh sign-in on any healthy path, passkey or Google, can revoke, and Privacy's button changes to match.\"",
+        "OWN-35, 5 November 2026 (MP-184): the owner picked \"Code may draft one\" (pressed on the page). The option read: \"When a line is close, code drafts an exact raise for your queue, with cost and rollback, and you approve it with a fresh sign-in.\"",
+        "OWN-16, 5 November 2026 (MP-184): the owner picked \"An open session is enough\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Any live signed-in session can revoke at once, and a signed-out device signs in first as usual.\"",
+        "OWN-39, 5 November 2026 (MP-184): the owner picked \"Anything that writes or widens\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Every act that changes a record, widens what MP may do or opens an original needs a fresh sign-in; reading and stopping do not. Both times are set from measured proof before the identity phase ends.\""
+      ]
     },
     {
       "id": "CT-02",
@@ -1202,7 +1234,7 @@
       "coverage": "partial_specification",
       "disposition": "adapt_concept_research_and_owner_decision",
       "recommendation": "Use draft → validated → awaiting_owner → approved → executing → succeeded/failed/reconcile_required. Rejected, expired or cancelled proposals terminate without execution. Pin the exact proposal and expected prior config/ledger version; separate viewing a card, approving it and completing the operation.",
-      "decision_needed": "Approve proposal expiry, allowed bounded automatic adjustments, rollback policy and which operations require a second confirmation.",
+      "decision_needed": "Remaining after the owner's picks of 5 November 2026 (MP-184), listed in owner_picks: how many days a promotion or a setting waits (the drawn expiries are illustrative), a replay's wait, the allowed bounded automatic adjustments, the rollback policy and which operations require a second confirmation.",
       "acceptance_criteria": [
         "Approval evidence includes actor, target environment, prior/new version, payload hash, reason, affected forecasts, cost estimate and rollback plan.",
         "Changed inputs or stale prior version invalidate approval and require a new proposal.",
@@ -1240,7 +1272,14 @@
         }
       ],
       "planning_group": "admin",
-      "jira_key": "MP-28"
+      "jira_key": "MP-28",
+      "owner_picks": [
+        "OWN-35, 5 November 2026 (MP-184): the owner picked \"Code may draft one\" (pressed on the page). The option read: \"When a line is close, code drafts an exact raise for your queue, with cost and rollback, and you approve it with a fresh sign-in.\"",
+        "OWN-08, 5 November 2026 (MP-184): the owner picked \"By kind, as drawn\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Each kind keeps its own wait: days for a promotion or a setting, none for a restart.\"",
+        "OWN-21, 5 November 2026 (MP-184): the owner picked \"15 minutes, as drawn\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Your yes must start applying within 15 minutes, or you approve again.\"",
+        "OWN-29, 5 November 2026 (MP-184): the owner picked \"It stays, undated\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"It stays with what waits on you, with no expiry, until you restart.\"",
+        "MP40-Q9, 5 November 2026 (MP-184): the owner picked \"Same day, as drawn\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"A proposal expires the same day, at 18:00 as drawn, or sooner if its check changes.\""
+      ]
     },
     {
       "id": "CT-03",
@@ -1293,7 +1332,7 @@
       "coverage": "partial_specification",
       "disposition": "adapt_concept_research_and_owner_decision",
       "recommendation": "Retain MP owner deletion rights rather than MA permanent-file assumptions. Specify S3 versions, parsed derivatives, caches, model-training datasets, evaluation labels, backups and provider batches independently. Restore must reapply deletion tombstones before data is made available.",
-      "decision_needed": "Approve record-class duration, backup expiry/deletion limits, retained minimal tombstone data and policy for models trained on deleted sources.",
+      "decision_needed": "Approve record-class duration, backup expiry/deletion limits, retained minimal tombstone data and policy for models trained on deleted sources. Also open after MP40-Q12c (5 November 2026, MP-184): how a browser protects the five kinds it keeps offline. No record covers it and encrypting them there is unverified, so it needs an architecture answer before build.",
       "acceptance_criteria": [
         "Deleting a versioned original checks/removes the intended versions rather than only a delete marker.",
         "Portal reports requested/in_progress/completed/partially_failed with affected stores and unavoidable residual retention.",
@@ -1323,7 +1362,10 @@
         }
       ],
       "planning_group": "recovery",
-      "jira_key": "MP-13"
+      "jira_key": "MP-13",
+      "owner_picks": [
+        "MP40-Q12c, 5 November 2026 (MP-184): the owner picked \"Both keep the five\" (pressed on the page). The option read: \"A browser keeps the same five kinds, each with its age, as the web frames draw now.\""
+      ]
     },
     {
       "id": "CT-05",
@@ -1649,7 +1691,7 @@
       "coverage": "partial_specification",
       "disposition": "adapt_concept_research_and_owner_decision",
       "recommendation": "Preserve confirmed£100all-in,£70operation+£30reserve and£60/75/85cash thresholds. Allocate evals, monitors, retries, cache writes and batches within the same envelope. Reserve before external work, carry ambiguous liabilities and distinguish pre-credit reported cost from cash/verified credit.",
-      "decision_needed": "Approve feature/environment/eval suballocations, stale/unknown-credit thresholds and emergency minimum functions; resolve conflicting root rules.",
+      "decision_needed": "Remaining after the owner's picks of 5 November 2026 (MP-184), listed in owner_picks: the feature, environment and evaluation suballocations, and the conflicting root rules. Unverified: the Anthropic admin key's price and whether the account can have one (MP40-Q5). Picking it does not turn Claude on: paid calls still need the owner's explicit word when the time comes.",
       "acceptance_criteria": [
         "Shared credits are counted once and cannot be assumed available to MP merely because the account has promotional entitlement.",
         "Two concurrent requests cannot each spend the same remaining allowance.",
@@ -1681,7 +1723,15 @@
         }
       ],
       "planning_group": "operations",
-      "jira_key": "MP-27"
+      "jira_key": "MP-27",
+      "owner_picks": [
+        "OWN-04, 5 November 2026 (MP-184): the owner picked \"Approve paid Claude at launch\" (pressed on the page). The option read: \"You approve paid use, so chat, research and explanations can run from day one, each route after passing its evaluation.\"",
+        "MP40-Q5, 5 November 2026 (MP-184): the owner picked \"Adopt the key\" (pressed on the page). The option read: \"The prod collector alone reads it from secure storage every six hours and fills the Claude line. Ready stands.\"",
+        "MP40-Q6, 5 November 2026 (MP-184): the owner picked \"Approve all three\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Past 36 hours relevant optional work waits. Credit counts only with proof under 30 minutes old. The £15 above the £85 pause stays for sign-in, ledger reads, audit and recovery.\"",
+        "OWN-25, 5 November 2026 (MP-184): the owner picked \"Daily forecasts keep running\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"At £85 optional paid work stops and daily forecasts carry on. Cost paused shows only where a forecast needs that paid work.\"",
+        "OWN-36, 5 November 2026 (MP-184): the owner picked \"Cut in a set order\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Code cuts backfills first, then challenger models, then Claude jobs, and says which step it reached.\"",
+        "The owner, 5 November 2026 (MP-184), asked whether daily forecasts run inside the £15 kept above £85: \"Yes, add them\". The list of what the £15 covers now also holds daily forecasts."
+      ]
     },
     {
       "id": "CT-14",
@@ -1691,7 +1741,7 @@
       "coverage": "partial_specification",
       "disposition": "adapt_concept_research_and_owner_decision",
       "recommendation": "Automatically retry only explicitly idempotent work within approved bounds. New external calls, financial reprocessing, broad replay, deleting evidence or increasing spend require current policy/approval. Use isolated restore plus reconciliation before switching authority.",
-      "decision_needed": "Approve incident classes, automatic recovery allowlist, replay limits, RPO/RTO and operator escalation path.",
+      "decision_needed": "Remaining after the owner's picks of 5 November 2026 (MP-184), listed in owner_picks: the incident classes, including what counts as production lost and where that record lives when MP is down (ADM-05); the rest of the automatic recovery allowlist; replay limits; RPO/RTO; the operator escalation path; and what counts as a feature for the hand pause switch (ADM-19).",
       "acceptance_criteria": [
         "Replay preserves original business id and generates new attempt/trace links; duplicates cannot double-commit or double-notify.",
         "Replays recheck current owner permissions, source retention/deletion and latest applicable config.",
@@ -1724,7 +1774,14 @@
         }
       ],
       "planning_group": "workflows",
-      "jira_key": "MP-23"
+      "jira_key": "MP-23",
+      "owner_picks": [
+        "ADM-05, 5 November 2026 (MP-184): the owner picked \"Code flags, you confirm\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Code opens the incident when production stops answering its checks, and you record it lost with a fresh sign-in.\"",
+        "ADM-06, 5 November 2026 (MP-184): the owner picked \"No, keep it apart\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"A late price stays a data quality incident. The +40 retry is the only automatic one, and a newer price arrives at the next check.\"",
+        "ADM-19, 5 November 2026 (MP-184): the owner picked \"All three, as drawn\" (pressed on the page). The option read: \"You can pause optional work, one forecast scope or one feature by hand, on iPad or desktop, each kept in the record.\"",
+        "ADM-23, 5 November 2026 (MP-184): the owner picked \"Code marks it\" (pressed on the page). The option read: \"Code marks it mitigated when its checks show the fault has stopped. You still acknowledge and resolve.\"",
+        "ADM-24, 5 November 2026 (MP-184): the owner picked \"Tie to month and release\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Overdue means a month ended with no exercise, or a change has none by the next release.\""
+      ]
     },
     {
       "id": "CT-15",
@@ -1777,7 +1834,7 @@
       "coverage": "partial_specification",
       "disposition": "adapt_concept_research_and_owner_decision",
       "recommendation": "Prepare an MP admin domain map covering Files/Imports, Audit, Runs/Health, Agents/Models/Evals, Approvals/Config, Costs/Budgets, Incidents/Recovery, Identity/Devices. Keep owner-only personal scope; do not import household-member administration or copy MA board styling.",
-      "decision_needed": "Approve launch-minimum versus later depth, navigation/domain boundaries and action permissions before screen design.",
+      "decision_needed": "Remaining after the owner's answers of 4 November 2026 and ADM-19 of 5 November 2026 (MP-184): the rest of the phone split, launch-minimum versus later depth, and what counts as a feature for the feature pause switch.",
       "acceptance_criteria": [
         "Every launch-sensitive action has a defined path, observable pending/failure/cancel/rejected state and evidence drill-down.",
         "Read-only cost/audit access is distinct from controls that change budgets, data or model state.",
@@ -1817,7 +1874,10 @@
       ],
       "planning_group": "admin",
       "jira_key": "MP-28",
-      "owner_answer": "Owner, 4 November 2026 (MP-64): \"Under Settings, phones read only\", from an option that read \"Changes happen on iPad or desktop; phones can read and acknowledge\". \"Yes, recovery only (Recommended)\", to a question about revoking a lost device and enrolling a replacement when other devices are gone. \"In admin, under Settings (Recommended)\" for budget changes. \"Keep nine (Recommended)\", so Agents is its own journey. \"Yes, acknowledge only (Recommended)\" and \"Account recovery only (Recommended)\". The rest of the phone split, launch depth and the pause switches stay open."
+      "owner_answer": "Owner, 4 November 2026 (MP-64): \"Under Settings, phones read only\", from an option that read \"Changes happen on iPad or desktop; phones can read and acknowledge\". \"Yes, recovery only (Recommended)\", to a question about revoking a lost device and enrolling a replacement when other devices are gone. \"In admin, under Settings (Recommended)\" for budget changes. \"Keep nine (Recommended)\", so Agents is its own journey. \"Yes, acknowledge only (Recommended)\" and \"Account recovery only (Recommended)\". The rest of the phone split, launch depth and the pause switches stay open.",
+      "owner_picks": [
+        "ADM-19, 5 November 2026 (MP-184): the owner picked \"All three, as drawn\" (pressed on the page). The option read: \"You can pause optional work, one forecast scope or one feature by hand, on iPad or desktop, each kept in the record.\""
+      ]
     },
     {
       "id": "CT-17",
@@ -1827,7 +1887,7 @@
       "coverage": "partial_specification",
       "disposition": "adapt_concept_research_and_owner_decision",
       "recommendation": "Design personal-owner recovery rather than household invites. Link only after verified control of both identities, use stable provider subjects rather than email equality and avoid unlinking the final usable path. Define web cookies/native secure storage and live-stream reauthorization.",
-      "decision_needed": "Approve trusted origins/RP IDs, recovery inventory, session/stream revocation latency and loss-of-all-devices procedure.",
+      "decision_needed": "Remaining after the owner's picks of 5 November 2026 (MP-184), listed in owner_picks: trusted origins and RP IDs; the session and stream revocation time, set from measured proof before the identity phase ends and then approved by the owner (OWN-39); and the time after which a device's saved copy stops showing offline, which the owner chooses (OWN-37). Unproved until MP-197 tests them: enrolling a passkey in a phone's browser (ADM-04, ADM-15) and whether a revoke can remove a passkey, including one synced across Apple devices (ADM-02).",
       "acceptance_criteria": [
         "Email collision cannot merge identities or grant access; linking/recovery changes require current owner authorization.",
         "Revoked sessions cannot keep an SSE connection/data link indefinitely; explicit maximum delay is tested.",
@@ -1859,7 +1919,16 @@
         }
       ],
       "planning_group": "identity",
-      "jira_key": "MP-11"
+      "jira_key": "MP-11",
+      "owner_picks": [
+        "ADM-02, 5 November 2026 (MP-184): the owner picked \"Revoke removes it too\" (pressed on the page). The option read: \"Revoking a device also removes any passkey held on it, and your path count drops by one.\"",
+        "ADM-03, 5 November 2026 (MP-184): the owner picked \"Any healthy path\" (pressed on the page). The option read: \"A fresh sign-in on any healthy path, passkey or Google, can revoke, and Privacy's button changes to match.\"",
+        "ADM-04, 5 November 2026 (MP-184): the owner picked \"Allowed in the browser\" (pressed on the page). The option read: \"The bar covers the Apple app only, so Phone web may enrol a passkey once a test proves it works.\"",
+        "ADM-13, 5 November 2026 (MP-184): the owner picked \"Redraw Privacy now\" (pressed on the page). The option read: \"Privacy shows today's truth: two usable paths, the replacement on the Mac, and the iPhone row waiting on the purchase.\"",
+        "ADM-15, 5 November 2026 (MP-184): the owner picked \"Finish in the phone browser\" (pressed on the page). The option read: \"You enrol the replacement passkey in the phone's browser, if you allow browser passkeys.\"",
+        "OWN-37, 5 November 2026 (MP-184): the owner picked \"Saved copy also times out\" (pressed on the page). The option read: \"The copy clears on the next connection, and the app also stops showing it after a set time without reaching the server. You choose the time.\"",
+        "OWN-39, 5 November 2026 (MP-184): the owner picked \"Anything that writes or widens\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Every act that changes a record, widens what MP may do or opens an original needs a fresh sign-in; reading and stopping do not. Both times are set from measured proof before the identity phase ends.\""
+      ]
     },
     {
       "id": "CT-18",
@@ -1869,7 +1938,7 @@
       "coverage": "partial_specification",
       "disposition": "adapt_concept_research_and_owner_decision",
       "recommendation": "Maintain separate financial-risk, system-security, data-quality, billing and job-failure alert classes with correlation/dedup, explicit evidence and recovery state. Product push channels remain native/PWA plus app/chat; additional operator email is a choice.",
-      "decision_needed": "Approve material/critical conditions, quiet-hour exceptions, grouping/cooldowns, emergency channel and weekend briefing.",
+      "decision_needed": "Remaining after the owner's picks of 5 November 2026 (MP-184), listed in owner_picks: the value of each material line, which the owner gives before build (MP40-Q11a); which security and service faults count as critical, which no record lists; and the operations emergency channel.",
       "acceptance_criteria": [
         "A downstream outage produces one incident with linked symptoms rather than one push per failed component.",
         "Risk alerts use eligible as-of data; unavailable providers cannot generate a confident all-clear.",
@@ -1901,7 +1970,12 @@
         }
       ],
       "planning_group": "delivery",
-      "jira_key": "MP-30"
+      "jira_key": "MP-30",
+      "owner_picks": [
+        "MP40-Q11a, 5 November 2026 (MP-184): the owner picked \"Your lines, no investment wake-ups\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Material means a line you set is crossed on exposure, price move, volatility or an event flag. Critical covers security and service faults only, so investment alerts wait for 07:30.\"",
+        "MP40-Q11b, 5 November 2026 (MP-184): the owner picked \"Weekdays only\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"No brief on Saturday or Sunday. Home says why, and held alerts land in your inbox at 07:30 (proposed).\"",
+        "OWN-34, 5 November 2026 (MP-184): the owner picked \"Once in 24 hours\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"One push per holding, rule and severity in 24 hours, sooner only if it worsens or the cause is new. Every event stays in the app.\""
+      ]
     },
     {
       "id": "CD-01",

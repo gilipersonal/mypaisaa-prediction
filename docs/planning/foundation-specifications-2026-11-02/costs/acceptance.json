@@ -61,7 +61,8 @@
       "task_refs": [
         "MP-27",
         "MP-29"
-      ]
+      ],
+      "owner_answer_2026_11_05": "Holds while paid use is not turned on. Paid Claude is approved for launch (OWN-04), but picking it does not turn it on: paid calls still need the owner's explicit word when the time comes (AGENTS.md). Proposed: once turned on, an uncovered call is admitted as cash under COST-06, and admissible credit still stays zero without proof."
     },
     {
       "id": "COST-AT-06",
@@ -103,13 +104,16 @@
       "id": "COST-AT-09",
       "spec_id": "COST-07",
       "given": "The report is 48 hours old and credit evidence 31 minutes old.",
-      "expected": "Show source and collection ages. A six-hour Anthropic usage report cannot establish a realtime credit balance or satisfy the separate proposed 30-minute allocation-proof requirement. Refuse optional credit-dependent admission without trustworthy proof.",
+      "expected": "Show source and collection ages. A six-hour Anthropic usage report cannot establish a realtime credit balance or satisfy the separate 30-minute allocation-proof requirement (approved, MP40-Q6, 2026-11-05). Refuse optional credit-dependent admission without trustworthy proof.",
       "evidence_kind": "offline",
       "status": "proposed",
       "task_refs": [
         "MP-27",
         "MP-29"
-      ]
+      ],
+      "superseded_2026_11_05": {
+        "expected": "Show source and collection ages. A six-hour Anthropic usage report cannot establish a realtime credit balance or satisfy the separate proposed 30-minute allocation-proof requirement. Refuse optional credit-dependent admission without trustworthy proof."
+      }
     },
     {
       "id": "COST-AT-10",
@@ -176,7 +180,8 @@
       "task_refs": [
         "MP-27",
         "MP-29"
-      ]
+      ],
+      "owner_answer_2026_11_05": "Holds while paid use is not turned on. Paid Claude is approved for launch (OWN-04), but picking it does not turn it on: paid calls still need the owner's explicit word when the time comes (AGENTS.md). Proposed: once turned on, an uncovered call is admitted as cash under COST-06, and admissible credit still stays zero without proof."
     },
     {
       "id": "COST-AT-15",
@@ -227,13 +232,16 @@
       "id": "COST-AT-18",
       "spec_id": "COST-06",
       "given": "Top-5 scan work would take the month's scan spend from GBP4.90 to GBP5.20.",
-      "expected": "Refuse the reservation that crosses the GBP5 scan cap; the cap is part of the same aggregate month, and Claude work in the scan still needs verified credit or the owner's paid approval. The scan sits inside the GBP15 Claude and evaluations allocation (owner, 3 Nov 2026, COST-Q1; was GBP10, with uncertainty cut from GBP8 to GBP3): option A plus the scan at its cap is GBP13.24 at central FX, and a scan overrun stops at the Claude cap.",
+      "expected": "Refuse the reservation that crosses the GBP5 scan cap; the cap is part of the same aggregate month, and Claude work in the scan still needs verified credit or paid use turned on by the owner's explicit word (approved for launch, OWN-04, 2026-11-05). The scan sits inside the GBP15 Claude and evaluations allocation (owner, 3 Nov 2026, COST-Q1; was GBP10, with uncertainty cut from GBP8 to GBP3): option A plus the scan at its cap is GBP13.24 at central FX, and a scan overrun stops at the Claude cap.",
       "evidence_kind": "offline",
       "status": "proposed",
       "task_refs": [
         "MP-20",
         "MP-39"
-      ]
+      ],
+      "superseded_2026_11_05": {
+        "expected": "Refuse the reservation that crosses the GBP5 scan cap; the cap is part of the same aggregate month, and Claude work in the scan still needs verified credit or the owner's paid approval. The scan sits inside the GBP15 Claude and evaluations allocation (owner, 3 Nov 2026, COST-Q1; was GBP10, with uncertainty cut from GBP8 to GBP3): option A plus the scan at its cap is GBP13.24 at central FX, and a scan overrun stops at the Claude cap."
+      }
     },
     {
       "id": "COST-AT-19",

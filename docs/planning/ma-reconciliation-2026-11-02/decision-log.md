@@ -98,7 +98,7 @@ The owner selected option A: **Static SvelteKit PWA + authenticated FastAPI.** S
 
 Retain adaptive web, native Swift/SwiftUI within RN, shared typed API/event/action/error/proof contracts, live updates and bounded SSE. The architecture Site is a documentation artifact, not the product PWA. Static hosting does not prove private-cache behaviour or fast startup; measure first paint/interactive budgets, choose suitable non-sensitive prerendering and specify loading/stale/unauthorised/offline states.
 
-Session/cookie/CSRF/native PKCE boundaries, cache/service-worker privacy and logout clearing, reconnect/expiry/replay, app updates/push, bridge/device/Duo compatibility and accessibility remain open. This choice starts no UI implementation, hosting setup, runtime installation or cloud deployment and does not approve the complete baseline.
+Session/cookie/CSRF/native PKCE boundaries, cache/service-worker privacy and logout clearing, reconnect/expiry/replay, app updates/push, bridge/device/Duo compatibility and accessibility remain open. (Duo answered 5 November 2026, MP-184: "Any window width", MP40-Q12b; the devices: "Your own devices only", MP40-Q12a. See the question pack below.) This choice starts no UI implementation, hosting setup, runtime installation or cloud deployment and does not approve the complete baseline.
 
 ## ARC-11: separate dev and production AWS workload accounts
 
@@ -147,10 +147,12 @@ The owner answered the questions in [the MP-29 pack](../region-network-2026-11-0
 - **Secrets:** SSM Parameter Store SecureString.
 - **Guard rails:** AWS Organizations with all features, and the cost-guard SCP. That SCP denies NAT, interface endpoints,
   VPNs, load balancers, SageMaker endpoints and GPUs until an ADR lifts it. The Region allowlist SCP and the resource
-  control policies are not adopted.
+  control policies are not adopted. (5 November 2026, MP-184: the owner picked "Add all three" for MP-29's three further
+  policies, MP40-Q4. See the question pack below.)
 - **Domain:** the owner's existing domain, mypaisapp.com, renewed outside MP, so the cost model's domain line comes out.
 - **Network: N0.** No VPC for any Lambda; SageMaker training runs with network isolation; no NAT, interface endpoint,
-  proxy or VPN. The optional lockdown is decided at PH-08.
+  proxy or VPN. The optional lockdown is decided at PH-08. (5 November 2026, MP-184: for launch the owner picked "Stay
+  with no private network", MP40-Q7. See the question pack below.)
 - **Cost collector:** a read-only Cost Explorer role in the management account, assumed by the prod collector.
 - **Claude inference:** global, at the standard price.
 
@@ -293,6 +295,8 @@ iPhone passkey against MP-164: "I'll join the Developer Program". Nothing is bou
 The owner's question pack, 5 November 2026 (MP-184): 64 open questions answered. 23 were pressed on the page, and 41 by the owner's words in chat, "for the remaining pick up recommended options", so those carry the Recommended option. 61 are the Recommended option; the owner chose otherwise on: MP40-Q12c, "Both keep the five"; MP40-Q2, "Local unlock step"; OWN-35, "Code may draft one". Each answer is in [the pack's answers](../owner-question-pack-2026-11-05/answers.json), and what each changes is in [its scope](../owner-question-pack-2026-11-05/scope.md). A pick's option text is not the owner's own reasoning (lesson 42), and none is applied yet.
 
 On the question those picks left open, whether daily forecasts may spend inside the £15 kept above £85, the owner answered "Yes, add them", 5 November 2026. The list of what the £15 covers now also holds daily forecasts, and that too is not applied yet.
+
+Applied to the written records on 24 November 2026 (MP-192): the story pack (55 stories, and the 12 questions MP40-Q1, Q2 and Q4 to Q13 marked answered), the foundation specifications' open decisions (SCI-D07, SCI-D08 and FIN-OD-04 now partly answered; SCI-D03, SCI-D06, FIN-OD-03 and FIN-OD-07 record the picks and keep what stays open), the gap register, the root documents and the Confluence generator. A pick that chooses a rule and leaves a value open (the price grace, the reconciliation limit, the alert lines, the upload limits, the offline time-out, the fresh sign-in and revocation times, a replay's wait) is recorded with the value still open. The daily forecasts inside the £15 are recorded too. The screens' open lists and Proposed labels are not part of this change, and Jira descriptions and Confluence pages follow only with the owner's yes for each.
 
 ## 23 November 2026: Twelve Data and Yahoo kept after a second look (MP-196)
 

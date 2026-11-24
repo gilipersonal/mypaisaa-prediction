@@ -418,7 +418,7 @@
     "negative": [
      "A backup restore cannot resurrect a deleted original or its derived text; tombstones are applied before restored content is readable.",
      "Deletion never removes ledger history or audit records; it removes content only.",
-     "An orphaned object is not deleted automatically; it follows a recorded disposition."
+     "An orphaned object is not deleted automatically; the owner records what happens to each orphan, and it follows that recorded disposition. ADM-20, 5 November 2026 (MP-184): the owner picked \"Code cancels, orphans yours\" (by the owner's words in chat, \"for the remaining pick up recommended options\")."
     ],
     "recovery": [
      "A deletion interrupted midway resumes from its tombstone and reports any copy it could not yet remove.",
@@ -488,10 +488,10 @@
     "negative": [
      "An object-created notification never marks an import committed or creates a ledger effect.",
      "Upload authorisation is scoped to owner, environment and one upload intent, is short-lived, and single use is enforced by the app rather than assumed from a signed URL.",
-     "Originals are never public. No limit value is treated as approved until the owner records it; the intake policy version marks unapproved values."
+     "Originals are never public. MP40-Q1, 5 November 2026 (MP-184): the owner picked \"Set from your real statements\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Oversized files stay held as drawn, and the four limits are set from your largest real statements, with a margin, when they arrive.\" Until those limits are set from the owner's real statements and approved, no limit value is treated as approved, an oversized file is held for review, and the intake policy version marks unapproved values."
     ],
     "recovery": [
-     "Repeated or out-of-order notifications resolve to the same receipt; an object without a receipt is quarantined as an orphan, and a receipt with a missing or wrong object is blocked (FIN-AC-15).",
+     "Repeated or out-of-order notifications resolve to the same receipt; an object without a receipt is quarantined as an orphan, and a receipt with a missing or wrong object is blocked (FIN-AC-15). The owner records what happens to each orphan. ADM-20, 5 November 2026 (MP-184): the owner picked \"Code cancels, orphans yours\" (by the owner's words in chat, \"for the remaining pick up recommended options\").",
      "A failed validation needs a new processing revision; the original bytes are never replaced."
     ]
    },
@@ -516,7 +516,8 @@
     "Validation failed, with reason",
     "Orphan object quarantined",
     "Receipt blocked for a missing or wrong object",
-    "Upload link expired"
+    "Upload link expired",
+    "Held for review: oversized, limits not yet set"
    ],
    "depends_on": {
     "stories": [
@@ -530,12 +531,10 @@
      "CT-03",
      "PL-08"
     ],
-    "owner_questions": [
-     "MP40-Q1"
-    ],
+    "owner_questions": [],
     "external": []
    },
-   "blocked_on_owner": true,
+   "blocked_on_owner": false,
    "evidence": [
     "FIN-AC-15 passes",
     "A hostile-file set (oversized, wrong magic type, archive bomb, too many pages) is refused before extraction in tests",
@@ -557,12 +556,13 @@
     "positive": [
      "Supported CSV, Excel and text-PDF layouts in the versioned layout register produce DraftRows whose every field records the raw literal, the normalised value, the parser and schema version, and a row and column, sheet and cell, or page and region locator.",
      "Missing data stays missing: an absent fee or date is recorded as absent, never as zero or a default.",
-     "Generic synthetic fixtures are labelled generic and kept distinct from layouts validated on real broker samples."
+     "Generic synthetic fixtures are labelled generic and kept distinct from layouts validated on real broker samples.",
+     "A PDF unlocked in the local step on the owner's device arrives as an unlocked copy through the validated upload intake (PH01-S06) and is parsed like any other text PDF (proposed)."
     ],
     "negative": [
      "Cell formulas, macros, links and embedded text are data only; no formula, script or network call runs to import a workbook, and instruction-like text changes nothing.",
      "An unsupported layout is reported as unsupported with the evidence of why, never guessed into rows.",
-     "An encrypted PDF is held as needing unlock and is not parsed; no password is logged or sent to a model. The unlock flow itself waits on an owner decision that no record yet holds."
+     "An encrypted PDF is held as needing unlock and is not parsed; no password is logged or sent to a model. MP40-Q2, 5 November 2026 (MP-184): the owner picked \"Local unlock step\" (pressed on the page). The option read: \"You type the password in a step on your device, which opens the PDF there and uploads the unlocked copy.\" The password stays on the owner's device and never reaches MP's servers (proposed)."
     ],
     "recovery": [
      "A parser failure moves the source to extraction_failed with a retry disposition; reprocessing with a new parser version creates a new draft revision and keeps the old one.",
@@ -601,12 +601,10 @@
     "gaps": [
      "CT-03"
     ],
-    "owner_questions": [
-     "MP40-Q2"
-    ],
+    "owner_questions": [],
     "external": []
    },
-   "blocked_on_owner": true,
+   "blocked_on_owner": false,
    "evidence": [
     "The CSV, Excel and PDF paths of FIN-AC-05 pass on synthetic fixtures",
     "A hostile workbook with formulas, macros and external links imports with no execution and no network call, asserted in a test",
@@ -1053,7 +1051,7 @@
     "positive": [
      "An approval binds owner, environment, operation, draft revision, canonical payload hash, selected-rows hash, expected ledger revision, assurance policy version and an expiry 15 minutes after approval (POLICY-001).",
      "Approval needs a server-verified sign-in fresh enough for a sensitive action; otherwise the owner is asked to step up.",
-     "Revoking or cancelling an approval before commit submission stops it from activating."
+     "Revoking or cancelling an approval before commit submission stops it from activating; any live signed-in session can revoke at once, and a signed-out device signs in first as usual. OWN-16, 5 November 2026 (MP-184): the owner picked \"An open session is enough\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Any live signed-in session can revoke at once, and a signed-out device signs in first as usual.\""
     ],
     "negative": [
      "A matching hash alone, a local Face ID unlock or an open session alone cannot authenticate an approval.",
@@ -1300,11 +1298,11 @@
     ],
     "negative": [
      "No plug trade or silent overwrite clears an unexplained difference.",
-     "A price or FX rate with unknown use rights, or older than the freshness policy allows, is not used in a total, and the reason is shown.",
+     "A price or FX rate with unknown use rights, or older than the freshness policy allows, is not used in a total, and the reason is shown. OWN-07, 5 November 2026 (MP-184): the owner picked \"Approve the proposed limits now\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"A quote is fresh to its interval end plus its delay plus 5 minutes. A close is fresh to the next expected close plus a grace. A fund price is overdue 60 minutes after its deadline. FX may be 24 hours old.\" The close grace has no figure yet (DATA-DEC-02).",
      "Funds valued from the owner's statements (DATA-DEC-07, DATA-DEC-08) carry their statement date and are never shown as daily prices."
     ],
     "recovery": [
-     "An open difference stays open and visible across sessions, and reconciliation reruns when new evidence arrives.",
+     "An open difference stays open and visible across sessions, and reconciliation reruns when new evidence arrives. A small open cash difference leaves the account's return showing and flagged; above a limit the owner approves, the return is withheld. OWN-31, 5 November 2026 (MP-184): the owner picked \"Withhold only if material\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"A small difference leaves the return showing and flagged. Above a limit you approve, the return is withheld.\" That limit is not set yet; it is set with the reconciliation limits (FIN-OD-01).",
      "When a missing price arrives later, the total is recomputed as a new result and the earlier partial result remains."
     ]
    },
@@ -1332,7 +1330,8 @@
     "Difference open",
     "Resolved by the owner, with reason",
     "Partial total with missing coverage",
-    "Stale price or FX"
+    "Stale price or FX",
+    "Return withheld: open cash difference above the approved limit"
    ],
    "depends_on": {
     "stories": [
@@ -1369,7 +1368,7 @@
     "positive": [
      "A correction commits a linked inverse of every original leg together with its replacement, and the original persists (FIN-AC-16: cash 798, units 2).",
      "An import-level reversal is its own preview and approval, and dependent later events and observations are checked first (FIN-AC-17).",
-     "When a later upload fills history behind a snapshot, a versioned rebuild proposal shows the reconciliation and performance effects; after exact approval the opening baseline is retired at a cutover in a new generation, two units and not four (POLICY-012)."
+     "When a later upload fills history behind a snapshot, a versioned rebuild proposal shows the reconciliation and performance effects; after exact approval the opening baseline is retired at a cutover in a new generation, two units and not four (POLICY-012). A rebuild can be approved only when statements cover every unit, and a partial one stays held and visible. OWN-19, 5 November 2026 (MP-184): the owner picked \"Whole history only\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"A rebuild can be approved only when statements cover every unit. A part one stays held and visible.\""
     ],
     "negative": [
      "A bulk delete cannot leave impossible quantities or remove audit history; an inconsistent reversal is refused unless its dependent corrections are approved together.",
@@ -1414,7 +1413,8 @@
     "Published",
     "Reversal refused for dependencies",
     "Rebuild proposal ready",
-    "Generation superseded"
+    "Generation superseded",
+    "Rebuild held: statements cover only part of the holding"
    ],
    "depends_on": {
     "stories": [
@@ -1523,8 +1523,9 @@
     ],
     "negative": [
      "All-zero, one-sign, same-day-only, unknown-date and nonconventional schedules return a specific unavailable, ambiguous or nonconvergent status, never NaN or zero (FIN-AC-20).",
-     "A root is never picked by guess, and a missing bracket is not reported as proof that no root exists.",
-     "A later-known or inverted FX rate is refused."
+     "A root is never picked by guess, and a missing bracket is not reported as proof that no root exists. A rate found but not proved appears in the note beside the status, never as the headline. OWN-14, 5 November 2026 (MP-184): the owner picked \"Show it, not picked\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"The found rate appears in the note beside the status, never as the headline.\" The solver policy stays open (FIN-OD-04).",
+     "A later-known or inverted FX rate is refused.",
+     "An account's return shows flagged while a small cash difference is open, and is withheld above the limit the owner approves (PH01-S17). OWN-31, 5 November 2026 (MP-184): the owner picked \"Withhold only if material\" (by the owner's words in chat, \"for the remaining pick up recommended options\")."
     ],
     "recovery": [
      "Exhausting the iteration budget returns nonconvergent with diagnostics; a rerun on the same inputs gives the same result."
@@ -1554,7 +1555,8 @@
     "Ambiguous, with candidate roots",
     "Nonconvergent",
     "Unavailable for insufficient flows",
-    "Estimated FX, labelled"
+    "Estimated FX, labelled",
+    "Withheld: open cash difference above the approved limit"
    ],
    "depends_on": {
     "stories": [
@@ -1736,7 +1738,7 @@
    ],
    "acceptance": {
     "positive": [
-     "Holdings, cash and import screens show values only after authenticated reads, with a privacy mode that masks amounts.",
+     "Holdings, cash and import screens show values only after authenticated reads, with a privacy mode that masks money and units, while percentages stay. OWN-18, 5 November 2026 (MP-184): the owner picked \"Mask units too\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Hide amounts masks money and units, and percentages stay.\"",
      "Every screen has a specified state for loading, empty, partial, stale source, insufficient evidence, permission denied, step-up required, approval expired, offline and reconnecting.",
      "The web screens work by keyboard and screen reader with responsive layouts, and the same contracts serve SwiftUI with VoiceOver and iPad layouts."
     ],
