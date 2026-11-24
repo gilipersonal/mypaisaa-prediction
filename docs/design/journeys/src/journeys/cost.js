@@ -277,6 +277,20 @@
   /* the pill on Home is the shell's (OWN-06), told this journey's own month, so every Home and Cost say the same */
   const pill = ctx => { const m = month(ctx); return costPillOf(ctx, [m.so, m.word, m.st[1], m.fc]); };
   const INC = [.7, .9, 1.1, .8, 1.6, .9, .7, 1.2, 1, .9, 1.4, 1.1, .8, 1.3, 1, 1.2, 1, 1.3, 1.4, 1.8, 2.4, 3, 3.4, 2.6, 2, 1.6, 1.2, 1];
+  /* The chart's bottom labels: 1 Nov, the day under the now line, 30 Nov. No two may touch, on any device or state (MP-183).
+     A width is estimated at 7.2 px a character plus the 3 px outline, wider than 12 px text draws in the system font, so a
+     guess errs towards space. The day sits centred on its line, else just left or right of it; only when it still cannot fit
+     does it name the month's length and take the place of the date at that end. */
+  const AX_W = t => t.length * 7.2 + 3;
+  function axisLabels(xNow, day, left, right) {
+    const L = '1 Nov', R = '30 Nov', gap = 6, lEnd = left + AX_W(L), rStart = right - AX_W(R);
+    if (day <= 1) return [[L, left, 'start'], [R, right, 'end']];
+    const t = `Day ${day}`, w = AX_W(t), fits = (a, b) => a >= lEnd + gap && b <= rStart - gap;
+    const at = [[xNow, 'middle', xNow - w / 2, xNow + w / 2], [xNow - 4, 'end', xNow - 4 - w, xNow - 4], [xNow + 4, 'start', xNow + 4, xNow + 4 + w]].find(([, , a, b]) => fits(a, b));
+    if (at) return [[L, left, 'start'], [t, at[0], at[1]], [R, right, 'end']];
+    const long = `Day ${day} of 30`;
+    return xNow > (left + right) / 2 ? [[L, left, 'start'], [long, right, 'end']] : [[long, left, 'start'], [R, right, 'end']];
+  }
   function burn(ctx, W = 326, Ht = 220, m = month(ctx)) {
     const s = ctx.state, ml = 8, mr = 70, mt = 12, mb = 22;
     const X = d => ml + ((d - 1) / 29) * (W - ml - mr), Y = v => mt + (1 - v / 100) * (Ht - mt - mb);
@@ -295,7 +309,7 @@
       <g data-mo="draw">${fan}<line class="now" x1="${X(last[0])}" x2="${X(last[0])}" y1="${mt}" y2="${Ht - mb}"/>
       <path class="hist" d="${line(known.length > 1 ? known : pts)}"/>${tail.length > 1 ? `<path class="hist" stroke-dasharray="2 3" d="${line(tail)}"/>` : ''}</g>
       <g data-mo="dot"><circle class="nowdot" cx="${X(last[0])}" cy="${Y(last[1])}" r="4.5"/></g>
-      <text x="${X(1) + 2}" y="${Y(27.84) + 18}">Invoice £27.84</text><text x="${ml}" y="${Ht - 6}">1 Nov</text><text x="${X(last[0])}" y="${Ht - 6}" text-anchor="middle">${last[0] === 1 ? '' : `Day ${last[0]}`}</text><text x="${X(30)}" y="${Ht - 6}" text-anchor="end">30 Nov</text>
+      <text x="${X(1) + 2}" y="${Y(27.84) + 18}">Invoice £27.84</text>${axisLabels(X(last[0]), last[0], ml, X(30)).map(([t, x, a]) => `<text x="${(+x).toFixed(1)}" y="${Ht - 6}"${a === 'start' ? '' : ` text-anchor="${a}"`}>${t}</text>`).join('')}
     </svg>`;
   }
   const burnKey = () => `<div class="legend" style="margin-top:0"><span><i class="lg-hist"></i>Committed</span><span><i class="lg-scen"></i>Not yet billed</span><span><i class="lg-80"></i>Forecast range</span><span><i class="lg-med"></i>Forecast</span></div>`;
