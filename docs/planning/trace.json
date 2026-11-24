@@ -2317,7 +2317,7 @@
    "key": "MP-205",
    "summary": "Build the read-only web screens on sample data: Home with the cost pill, Holdings, Settings and privacy, and the Journal",
    "type": "Task",
-   "status": "In Progress",
+   "status": "Done",
    "parent": "MP-7",
    "code": [
     "web/",
