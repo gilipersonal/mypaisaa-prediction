@@ -19,7 +19,9 @@ const LATER = { 'MP-187': 'A · Scorecard' };
 export const SETTLED_IDS = ['MP40-Q5', 'OWN-28', 'ADM-19', 'OWN-04', 'OWN-07', 'OWN-14', 'OWN-19', 'OWN-26', 'OWN-27', 'OWN-31', 'MP40-Q1', 'MP40-Q13',
   'OWN-08', 'OWN-21', 'OWN-29', 'ADM-05', 'ADM-20', 'MP40-Q6', 'MP40-Q9', 'OWN-22', 'OWN-03', 'OWN-10', 'OWN-33'];
 export const RETIRED_RECORD_LABELS = ['DATA-DEC-02', 'SCI-D07', 'SCI-D08', 'FIN-OD-03', 'POLICY-003'];
-const any = (ids) => new RegExp(`Proposed · (${ids.map((x) => x.replace(/[-]/g, '\\-')).join('|')})(?![\\w-])`);
+// every regex metacharacter in an id is escaped, backslash included (CodeQL js/incomplete-sanitization)
+const esc = (x) => x.replace(/[\\^$.*+?()[\]{}|-]/g, '\\$&');
+const any = (ids) => new RegExp(`Proposed · (${ids.map(esc).join('|')})(?![\\w-])`);
 
 const arg = (flag) => { const i = process.argv.indexOf(flag); return i >= 0 ? resolve(process.argv[i + 1]) : null; };
 const table = (src, name) => {
