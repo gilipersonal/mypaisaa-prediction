@@ -65,18 +65,18 @@
    "jira": "MP-198"
   },
   {
-   "slug": "ds-journeys",
-   "source": "docs/design/journeys/index.html",
-   "artifact_url": "https://claude.ai/artifact/UXvLXTKyH9zd1r7CtXG2Kq",
-   "published_sha256": "9c7980463c53f4dcc54629059733d2539b2b05ec65d6aa5ebf797068b2fc7136",
+   "slug": "ds-admin",
+   "source": "docs/design/admin/index.html",
+   "artifact_url": "https://claude.ai/artifact/TSrmRb5RpjhGE1iqrZkejf",
+   "published_sha256": "e6657df2f2ea222f45ae689df927a6869e13cd4e4f23e4abca964aa6cdffa45f",
    "published_at": "2026-11-24",
    "jira": "MP-198"
   },
   {
-   "slug": "ds-admin",
-   "source": "docs/design/admin/index.html",
-   "artifact_url": "https://claude.ai/artifact/TSrmRb5RpjhGE1iqrZkejf",
-   "published_sha256": "1d0847e855c06ba5eee15daea075c95932d2998739b74be0b7180610cf9f41b1",
+   "slug": "ds-journeys",
+   "source": "docs/design/journeys/index.html",
+   "artifact_url": "https://claude.ai/artifact/UXvLXTKyH9zd1r7CtXG2Kq",
+   "published_sha256": "99b3510137d5ab384f40195184145e1f110c61e66ae5657fb1ccd302ca604f18",
    "published_at": "2026-11-24",
    "jira": "MP-198"
   }

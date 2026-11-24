@@ -181,6 +181,10 @@ function frame(ctx, spec) {
    HTML, so text written into the page or into storage never does (MP-198, CodeQL js/xss-through-dom). */
 const FRAME_HZ = ['0', '1', '2'], FRAME_MODE = ['0', '1'];
 const frameExtra = e => ({ hz: FRAME_HZ.find(x => x === String(e.hz)), mode: FRAME_MODE.find(x => x === String(e.mode)), t: (byT[e.t] || {}).t });
+/* The page's theme reaches the HTML only as the code's own 'light' or 'dark', never as the data-theme attribute's text
+   (MP-198, CodeQL js/xss-through-dom). Unset or unknown follows the system, as before. */
+const SCHEMES_OK = ['light', 'dark'];
+const schemeNow = () => SCHEMES_OK.find(x => x === root.getAttribute('data-theme')) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
 /* ---------- the registry ---------- */
 const J = {
   /* J.add({ id, title, stories: ['MP-153'], summary, options: [{ id: 'a', name, rec: true, why, cost, screens: [{ id, title, note, na: { noModel: 'reason' }, render: ctx => frame(ctx, {...}) }] }] }) */
@@ -262,7 +266,7 @@ function show() {
   const naAll = k => k !== 'default' && o.screens.every(s => (s.na || {})[k]);
   chips($('#jstate'), STATES.map(([k, t]) => [k, t, naAll(k) ? 'Does not apply to this journey' : '']), sum.at.st, k => { sum.at.st = k; show(); });
   $('#jwhy').innerHTML = `<p><b>${o.rec ? 'Why it starts here.' : 'What this view does.'}</b> ${o.why}</p>${o.cost ? `<p><b>What it costs.</b> ${o.cost}</p>` : ''}`;
-  const scheme = () => { const t = root.getAttribute('data-theme'); return t || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); };
+  const scheme = schemeNow;
   const row = $('#jrow');
   row.classList.toggle('wide', surf[2] !== 'phone');
   /* A slot remembers the side it is on and the state it turned in, and stays turned until it is turned back. In another state a turned
