@@ -2063,9 +2063,18 @@
    "key": "MP-194",
    "summary": "Move the unclassified action case out of the No model state",
    "type": "Task",
-   "status": "To Do",
+   "status": "In Progress",
    "parent": "MP-4",
-   "code": []
+   "code": [
+    "docs/design/journeys/src/journeys/home.js",
+    "docs/design/journeys/src/journeys/journal.js",
+    "docs/design/journeys/src/shell.js",
+    "docs/design/journeys/index.html",
+    "docs/design/artifacts.json",
+    "docs/planning/trace.json",
+    "tests/journey_facts/",
+    "review/MP-194/"
+   ]
   },
   {
    "key": "MP-195",
@@ -2132,7 +2141,7 @@
    "key": "MP-199",
    "summary": "Show CodeQL code scanning and the repository's visibility in the drawings, Confluence and the site",
    "type": "Task",
-   "status": "In Progress",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     "ARCHITECTURE.md",
@@ -2159,7 +2168,7 @@
    "key": "MP-200",
    "summary": "Update pytest to 9.0.3 to clear Dependabot alert 1",
    "type": "Task",
-   "status": "In Progress",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     "backend/pyproject.toml",
@@ -2169,10 +2178,18 @@
    ]
   },
   {
+   "key": "MP-201",
+   "summary": "The admin facts selftest sometimes crashes with a segmentation fault and blocks a PR",
+   "type": "Bug",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
    "key": "MP-202",
    "summary": "Draw the owner's act to record production lost on Admin",
    "type": "Task",
-   "status": "In Progress",
+   "status": "In Review",
    "parent": "MP-4",
    "code": [
     "docs/design/admin/",
@@ -2182,6 +2199,14 @@
     "tests/admin_facts/s.mjs",
     "docs/planning/trace.json"
    ]
+  },
+  {
+   "key": "MP-203",
+   "summary": "Put the questions the owner's 5 November picks left open to the owner",
+   "type": "Task",
+   "status": "In Progress",
+   "parent": "MP-4",
+   "code": []
   }
  ]
 }
