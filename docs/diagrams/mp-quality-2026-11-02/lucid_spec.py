@@ -413,7 +413,7 @@ def page_delivery() -> dict:
     s.append(heading("gh_h", 60, 146, 600, "GITHUB, OUTSIDE AWS"))
     rowy = 385  # the row's centre line
     s.append(box("pr", 60, rowy - 55, 200, 110, "1 Pull request", "to main: [MP-&lt;n&gt;] title, Jira key", "blue", "impl", size=14))
-    ph = 500  # the notes sit straight under the boxes; ten checks take a fourth row (MP-199)
+    ph = 510  # the notes sit straight under the boxes; ten checks and seven scans each take a fourth row (MP-199)
     s.append(panel("checks", 310, 180, 580, ph, "2 Ten checks on every PR"))
     for k, name in enumerate(CHECKS):
         r, c = divmod(k, 3)
@@ -426,7 +426,7 @@ def page_delivery() -> dict:
     for k, (name, detail, st) in enumerate(SCANS):
         r, c = divmod(k, 2)
         s.append(box(f"sc{k}", 960 + c * 280, 230 + r * 86, 260, 76, name, detail, "amber", st, size=13))
-    s.append(text("scan_n", 960, 486, 540, 104,
+    s.append(text("scan_n", 960, 576, 540, 104,
                   f'<p style="font-size:12px;text-align:left">A High or Critical finding with a fix blocks the merge; an exception names its owner, reason and '
                   f'expiry; a weekly sweep catches later advisories {tag("prop")}.<br>CodeQL and GitHub secret scanning are free on a public repo and run today '
                   f'{tag("impl")}.</p>'))
