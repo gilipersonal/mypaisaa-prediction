@@ -94,7 +94,7 @@ function pTr(h, o = {}) {
 const noLabel = '<span class="small muted">No label</span>';
 const noneNR = (st, t) => ({ act: '<span class="small muted">None</span><div class="small muted" style="font-size:12px;line-height:16px">Not ranked</div>', actP: '<span class="small muted">None</span>', chip: `<span class="chip">${ic('ban', 's14')}Not ranked · no action</span><span class="home-sub">${NRWHY[st][t]}</span>` });
 const flagged = {
-  noModel: t => (t === 'RELIANCE' || t === 'NIFTYBEES' ? { fl: '<span class="chip proposed"><span class="dot"></span>No approved model · no action</span>', flP: 'No approved model · no action', flS: 'No model', flT: 'No model · no action', act: '<span class="small muted">None</span>' } : t === 'NVDA' ? { act: noLabel } : {}),
+  noModel: t => (t === 'RELIANCE' || t === 'NIFTYBEES' ? { fl: '<span class="chip proposed"><span class="dot"></span>No approved model · no action</span>', flP: 'No approved model · no action', flS: 'No model', flT: 'No model · no action', act: '<span class="small muted">None</span>' } : {}),   /* only India's listings: NVIDIA keeps its label like every covered row (OWN-30, MP-194) */
   disagreement: (t, hz) => (isOut('disagreement', t, hz) ? { split: true, chip: `<span class="chip">${ic('split', 's14')}${t === 'RELIANCE' ? 'Rules and models disagree' : 'Models split'} · no action</span>`, flS: 'Split', flT: t === 'RELIANCE' ? 'Disagree · no action' : 'Split · no action', act: '<span class="small muted">None</span>' } : unranked('disagreement', t) ? noneNR('disagreement', t) : {}),
   abstention: (t, hz) => (isOut('abstention', t, hz) ? { fl: `<span class="chip">${ic('ban', 's14')}Abstained · no range shown</span>`, flS: 'Abstained', flT: 'Abstained · no range', act: '<span class="small muted">None</span>' } : unranked('abstention', t) ? noneNR('abstention', t) : {})
 };
@@ -180,6 +180,7 @@ const stamps = () => `<div class="home-stamps">${['US closed Mon 21:00', 'UK clo
 const ACTS = [['NVDA', 'Trim', () => 'Widest 80% range of the holdings, and 12.6% of the portfolio.'], ['SPY', 'Add', () => 'Among the narrowest 80% ranges of the holdings: −7.1% to +15.2%.'], ['HSBA', 'Pause', st => `${st === 'stale' ? 'Last price 14:10, past the freshness limit. Out of the total until its price returns.' : 'Last price 14:10, before the 16:35 UK close. Late but inside the limit, so its forecast is held.'} ${qLate}`]];
 /* the names a state leaves with no action this morning, each with its reason (OWN-17, OWN-20, OWN-32) */
 const OUTACT = {
+  noModel: [['RELIANCE', 'cube', 'None', 'No approved model covers India, so Reliance has no range and carries no action until one does.'], ['NIFTYBEES', 'cube', 'None', 'No approved model covers India, so the Nifty ETF has no range and carries no action until one does.']],
   disagreement: [['RELIANCE', 'split', 'Split', 'Rules and models disagree at 3, 6 and 12 months, so no action is ranked.'], ['AAPL', 'split', 'None', 'The models split at 3 months, so Apple is not ranked and carries no action until it can be ranked again.']],
   abstention: [['AZN', 'ban', 'None', 'The model abstained at 6 months, so AstraZeneca is not ranked and carries no action until it qualifies again.'], ['AAPL', 'ban', 'None', 'The model abstained at 12 months, so Apple is not ranked and carries no action until it qualifies again.']]
 };
@@ -361,7 +362,8 @@ function segRail(ctx, k = 'ustech') {
 }
 
 /* ---------- a suggested action ---------- */
-const sheetT = st => ({ stale: 'HSBA', disagreement: 'RELIANCE', abstention: 'AZN' }[st] || 'NVDA');
+/* No model opens India's case, its real subject; the unclassified case lives on the launch screens (OWN-30, MP-194) */
+const sheetT = st => ({ stale: 'HSBA', disagreement: 'RELIANCE', noModel: 'RELIANCE', abstention: 'AZN' }[st] || 'NVDA');
 function actionSheet(ctx) {
   const st = ctx.state, n = byT.NVDA, hs = byT.HSBA, rel = byT.RELIANCE;
   const shell = (head, html, foot = true) => `<div class="sheet home-sheet" role="dialog" aria-label="Suggested action" data-mo="rise"><div class="grabber"></div>${head}${html}${foot ? `<div class="acts"><button class="btn sm btn-tinted" type="button">Not now</button><button class="btn sm btn-primary" type="button">Record your decision</button></div>` : ''}</div>`;
@@ -371,7 +373,7 @@ function actionSheet(ctx) {
   const cf = `<span class="lab">If it were 10% smaller (computed by code, total unchanged)</span><div class="home-kv"><span>NVIDIA share</span><b>12.6% to 11.4%</b><span>US tech share</span><b>29.1% to 27.8%</b><span>Width of the portfolio's 80% range, 6M</span><b>23.2 to 22.5 pts</b></div>`;
   const ids = (who = 'Growth 88, Protection 52, Opportunity 78 · ') => `<p class="home-sub" style="color:var(--ink);margin-top:10px">Policy v1 · R2-HGB v3 · ${who}3 sources. Illustrative. No trade is placed.</p>`;
   const body = why + unc + cf + ids();
-  const noLabel = `<span class="lab">Component evidence</span><div class="home-kv"><span>Growth</span><b>88</b><span>Protection</span><b>52</b><span>Opportunity</span><b>78</b><span>Combined score</span><b>71</b></div>`;
+  const india = `<span class="lab">What stays</span><div class="home-kv"><span>Value</span><b>£${rel.val}</b><span>Range, 3 to 12 months</span><b>None</b><span>Action</span><b>None</b></div>`;
   const azn = `<span class="lab">Component evidence</span><div class="home-kv"><span>Growth</span><b>Missing</b><span>Protection</span><b>Missing</b><span>Opportunity</span><b>58</b><span>Combined score</span><b>Withheld</b></div>`;
   return shell(...({
     loading: [head(`<span class="sk" style="height:26px;width:72px"></span>`), `<span class="lab">Reading the last published ranking</span><span class="sk" style="height:14px;width:90%;margin-top:8px"></span><span class="sk" style="height:14px;width:70%;margin-top:6px"></span><p class="home-sub" style="margin-top:10px;color:var(--ink)">Last good 22:15. Its reasons load here, and nothing is guessed.</p>`, false],
@@ -379,7 +381,7 @@ function actionSheet(ctx) {
     error: [head(badge('Trim')), banner('fall', 'Reasons did not load.', 'Last good run Mon 22:15 · cutoff 22:00. The action comes from that run. Its reasons stay hidden rather than guessed.', 'alert') + `<div class="acts"><button class="btn sm btn-tinted" type="button">${ic('refresh', 's16')}Try again</button><button class="btn sm btn-tinted" type="button">Not now</button></div>`, false],
     stale: [head(`<span class="chip stale">${ic('clock', 's14')}Stale</span>`, 'HSBC'), banner('warn', 'This action is stale.', `HSBC's last price is 14:10, past the freshness limit. Pause is held, not current, until its price returns. ${qLate}`, 'clock') + `<span class="lab">Why, at 6 months</span><ul class="home-ul"><li>Last forecast issued: median ${pct(hs.med)}, 80% range ${pct(hs.lo)} to ${pct(hs.hi)}.</li><li>Out of the total: £84,051.05 known, 6 of 7 priced.</li></ul>` + ids(''), false],
     offline: [head(badge('Trim')), banner('', 'Offline.', `Saved at 22:15. Recording a decision waits until you reconnect.${q12(ctx)}`, 'wifi-off') + why + cf, false],
-    noModel: [head(`<span class="chip proposed"><span class="dot"></span>Unclassified</span>`), `<p class="lead">Action thresholds are not approved yet (FIN-OD-07), so this shows its evidence and no label, rather than a guess.</p>` + noLabel + ids(), false],
+    noModel: [head(`<span class="chip">${ic('cube', 's14')}No approved model</span>`, 'Reliance'), `<p class="lead">No approved model covers India yet, so Reliance has no range and no action at 3, 6 or 12 months. Its value and price stay.</p>` + india + `<p class="home-sub" style="color:var(--ink);margin-top:10px">No model version applies. Illustrative. No trade is placed.</p>`, false],
     disagreement: [head(`<span class="chip">${ic('split', 's14')}Conflicted</span>`, 'Reliance'), `<span class="lab">Each side</span><div class="home-kv"><span>Rules, heuristic strength</span><b>Pause · moderate</b><span>R2-HGB v3, 80% range, 6M</span><b>${pct(rel.lo)} to ${pct(rel.hi)}</b></div><p class="lead">Rules and models disagree at 3, 6 and 12 months, so no action is ranked at any of them. Both stay on the forecast.</p>` + ids(''), false],
     abstention: [head(`<span class="chip">${ic('ban', 's14')}Ineligible</span>`, 'AstraZeneca'), `<p class="lead">The model abstained at 6 months, so growth and protection are both missing. AstraZeneca is not ranked, and carries no action at any horizon until the model qualifies again.</p>` + azn, false]
   }[st] || [head(badge('Trim')), body]));
@@ -579,7 +581,7 @@ J.add({
       ...(k === 'metals' ? { na: naMetals } : {}),
       render: ctx => segFrame(ctx, k)
     })), {
-      id: 'a-action', title: 'Suggested action', note: `What a holding's action opens: reasons, uncertainty, what would change, and the versions behind it. Recording goes to the journal; nothing acts on it. Labels read as after a ranking policy is approved; Portfolio at launch draws the time before it (OWN-09). No model shows the unclassified case. ${EMPTY.band}`,
+      id: 'a-action', title: 'Suggested action', note: `What a holding's action opens: reasons, uncertainty, what would change, and the versions behind it. Recording goes to the journal; nothing acts on it. Labels read as after a ranking policy is approved; Portfolio at launch draws the time before it (OWN-09). No model shows India's case: no range and no action until a model covers it. ${EMPTY.band}`,
       render: ctx => { const base = ctx.state === 'empty' ? { ...ctx, state: 'default' } : ctx; return frame(base, { tab: 0, title: 'Portfolio', ...homeActs(base), body: `${value(base)}${ledger({ ...base, over: sheetOver(ctx.state) })}`, sheet: actionSheet(ctx) }); }
     }, {
       id: 'a-brief', title: 'Daily brief', note: `Actions, then risks, changes and upcoming events, with each market on its own clock. ${EMPTY.brief}`,

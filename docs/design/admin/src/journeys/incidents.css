@@ -42,4 +42,7 @@
 
 .aincidents-field { display: block; width: 100%; min-height: 72px; padding: 10px 12px; border: 0; border-radius: var(--r-sm); background: var(--surface); box-shadow: inset 0 0 0 1px var(--hairline-2); font: 400 15px/20px var(--font-text); letter-spacing: -.01em; color: var(--ink); resize: vertical; }
 .aincidents-fieldl { display: grid; gap: 6px; }
+.aincidents-sheet { display: grid; gap: 10px; }
+.aincidents-sheet > .card { box-shadow: inset 0 0 0 1px var(--hairline); }
+.aincidents-sheet > .aact { justify-self: start; }
 .aincidents-bind { padding: 12px; border-radius: var(--r-sm); background: var(--surface-2); min-width: 0; }

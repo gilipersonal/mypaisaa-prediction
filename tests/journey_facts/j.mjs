@@ -286,7 +286,9 @@ export default {
   },
   'R1-j9': ({ each, has, lacks }) => {
     for (const s of ['a-one', 'b-one']) each({ journey: 'journal', screen: s, state: 'default' }, (v, at) => { has(v.text, /R2-HGB v2/, `${s} ${at.surface}: the entry cites today's model`); has(v.text, /The model today/, `${s} ${at.surface}: the proof is not labelled`); });
-    for (const s of ['a-record', 'a-pick', 'a-list', 'a-one', 'b-decide', 'b-one']) each({ journey: 'journal', screen: s, state: 'noModel' }, (v, at) => lacks(v.text, /Approved 1 Oct 2026/, `${s} ${at.surface}: proof of an approved model under No model`));
+    // narrowed in MP-194: No model is about India alone (OWN-30), so NVIDIA's scored entry on a-one and b-one keeps the proof of NVIDIA's
+    // approved model (MP194-journal); the screens on Reliance, which no approved model covers, still show none
+    for (const s of ['a-record', 'a-pick', 'a-list', 'b-decide']) each({ journey: 'journal', screen: s, state: 'noModel' }, (v, at) => lacks(v.text, /Approved 1 Oct 2026/, `${s} ${at.surface}: proof of an approved model under No model`));
   },
   'R1-j10': ({ each, has, lacks }) => {
     // narrowed in MP-191: the owner picked "Any time evidence shows" (OWN-15), so an abstention is recordable against the evidence, the entry says why no action was ranked, and MP-158 carries no Proposed label
@@ -737,7 +739,8 @@ export default {
   },
   'R3-j15': ({ each, has, lacks }) => {
     for (const s of ['a-list', 'b-board', 'a-differ', 'b-differ']) each({ journey: 'journal', screen: s, state: 'error' }, (v, at) => { lacks(v.text, /as of Mon/, `${s} ${at.surface}: Monday's read beside today's entry`); has(v.text, /as of 21:05 today/, `${s} ${at.surface}: no time`); });
-    each({ journey: 'journal', screen: 'a-record', state: 'noModel' }, (v, at) => { has(v.text, /today’s included/, `${at.surface}: today's entry is not explained`); has(v.text, /Your entries on NVIDIA/, `${at.surface}: no entries`); has(v.text, /NVIDIA Today/, `${at.surface}: one of two entries`); has(v.text, /NVIDIA 28 Apr 2026/, `${at.surface}: one of two entries`); });
+    // narrowed in MP-194: No model's record is on Reliance, India's case (OWN-30), so the entries beside it are Reliance's own; NVIDIA is not in No model
+    each({ journey: 'journal', screen: 'a-record', state: 'noModel' }, (v, at) => { has(v.text, /Your entries keep what they cited/, `${at.surface}: past entries are not explained`); has(v.text, /Your entries on Reliance/, `${at.surface}: no entries`); has(v.text, /Reliance 2 Jun 2026/, `${at.surface}: Reliance's entry`); lacks(v.text, /NVIDIA Today|Your entries on NVIDIA/, `${at.surface}: NVIDIA's entries beside India's record`); });
   },
   'R3-j16': importLine,
   'R3-j17': ({ each, has }) => {

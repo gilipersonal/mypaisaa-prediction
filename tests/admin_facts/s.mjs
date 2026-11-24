@@ -220,11 +220,13 @@ export default {
   // narrowed in MP-192: the owner picked "Code flags, you confirm" (ADM-05), so production recorded lost carries Settled · ADM-05 where it carried Proposed · CT-14
   'R3-s5': ({ view, each, must, has, lacks }) => {
     for (const [o, s] of [['a', 'a-list'], ['b', 'b-runbook']]) for (const kind of ALL) { const t = view('incidents', o, s, kind, 'conflict').text; has(t, /Production recorded lost/); has(t, /inc_0014/); has(t, /Settled · ADM-05/); }
-    has(view('incidents', 'a', 'a-list', 'web', 'conflict').text, /Not classed\s*1 open · inc_0014/);
+    // narrowed in MP-202: you acknowledge inc_0014 before you record it lost ("Code flags, you confirm", ADM-05), so it is counted as acknowledged
+    has(view('incidents', 'a', 'a-list', 'web', 'conflict').text, /Not classed\s*1 acknowledged · inc_0014/);
     for (const [o, s] of [['a', 'a-list'], ['b', 'b-runbook']]) has(view('incidents', o, s, 'web', 'conflict').text, /Production\s*Recorded lost · inc_0014/);
     has(view('incidents', 'b', 'b-runbook', 'web', 'conflict').text, /Production is also recorded lost/);
     must(live(view('incidents', 'a', 'a-recovery', 'web', 'conflict').html, 'A42'), 'the switch left the state production is lost');
-    each({ journey: 'incidents', state: STATES.filter((x) => x !== 'conflict') }, (v) => lacks(v.text, /inc_0014/));
+    // narrowed in MP-202: the Record production lost sheet is drawn on inc_0014 before the record, and its states are the act's own, as Identity's revoke sheet is (MP202-record-sheet holds it)
+    each({ journey: 'incidents', state: STATES.filter((x) => x !== 'conflict') }, (v, at) => { if (!['a-lost', 'b-lost'].includes(at.screen)) lacks(v.text, /inc_0014/); });
   },
   'R3-s7': ({ view, must, has, perms }) => {
     must(/^Mac only/.test(perms.actions.find((p) => p.id === 'A46').phone_note), 'A46 has no Mac note');
@@ -262,7 +264,8 @@ export default {
         const v = view('incidents', o, s, kind, 'conflict');
         has(v.text, /Production recorded lost[\s\S]*Incident\s*inc_0014\s*Class\s*Not classed/);
         has(v.text, /Settled · ADM-05/);
-        must(live(v.html, 'A40'), `no live acknowledge for inc_0014 on ${s} ${kind}`);
+        // narrowed in MP-202: you acknowledged inc_0014, then recorded it lost (ADM-05), so its timeline shows both done where a live acknowledge stood
+        has(v.text, /Acknowledged?\s*(You\s*)?You · Wed 11:05[\s\S]*(Recorded lost|Record production lost)\s*(You\s*)?You · Wed 11:31 · on iPad, with a fresh sign-in/, `inc_0014 on ${s} ${kind} does not show it acknowledged and recorded lost`);
         has(v.text, /Switch in Recovery/);
         has(v.text, /inc_0012/);
         has(v.text, /Reopened/);
