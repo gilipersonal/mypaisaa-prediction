@@ -11,3 +11,6 @@ main { display: block; max-width: 960px; margin: 0 auto; padding: env(safe-area-
   main { padding: 24px 32px 48px; }
 }
 a { color: var(--link); }
+@media (prefers-reduced-motion: no-preference) {
+  .spin { animation: spin 800ms linear infinite; }
+}

@@ -1,6 +1,6 @@
 {
-  "name": "Mypaisaa Prediction",
-  "short_name": "Mypaisaa",
+  "name": "MyPrediction",
+  "short_name": "MyPrediction",
   "description": "Private research and decision support. It never trades or gives personalised financial advice.",
   "start_url": "/",
   "scope": "/",

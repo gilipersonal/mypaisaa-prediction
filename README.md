@@ -39,8 +39,8 @@ Code does the maths, models forecast with honest ranges, Claude explains the evi
 > **Status: planning.** The owner signed off the architecture baseline on 3 November 2026 (MP-20,
 > [sign-off pack](docs/planning/baseline-signoff-2026-11-03/README.md)): the twelve directions as refined, the order in
 > which records win, and the phase-to-story map. Its open items stay open. What runs today is a FastAPI starter with a
-> health route and a sample SSE stream, the web app's shell on sample data (MP-134), the synthetic test-data tools, and
-> CI. Nothing is deployed, no live data is fetched and no model is called. On 24 November 2026 the owner started the
+> health route and a sample SSE stream, the web app's shell and its sign-in screens on sample data and a pretend sign-in
+> (MP-134, MP-73), the synthetic test-data tools, and CI. Nothing is deployed, no live data is fetched and no model is called. On 24 November 2026 the owner started the
 > build in small steps before approving the whole UX ([decision log](docs/planning/ma-reconciliation-2026-11-02/decision-log.md)):
 > the web shell, then the sign-in screens, then the screens that only show data, then a local read API, all on
 > synthetic data. Whole-product UX approval (MP-66) is still open.
@@ -106,7 +106,7 @@ cannot change a number, publish a forecast, move money or trade.
 
 | Status | What |
 | --- | --- |
-| **Runs today** | FastAPI starter (`/api/v1/health` and a sample SSE stream), the web app's shell on sample data (`web/`, MP-134), synthetic market and document fixtures, nine CI checks and CodeQL code scanning |
+| **Runs today** | FastAPI starter (`/api/v1/health` and a sample SSE stream), the web app's shell and sign-in screens on sample data and a pretend sign-in (`web/`, MP-134, MP-73), synthetic market and document fixtures, nine CI checks and CodeQL code scanning |
 | **Approved architecture** | The baseline's structure, the twelve directions (ARC-01 to ARC-12) as refined by the owner's later answers, the precedence order and the phase-to-story map (owner sign-off, 3 November 2026) |
 | **Owner-selected** | The horizons, twelve policy answers from 2 November 2026, the answers of 2 and 3 November, and the question packs answered on 5 November (MP-184) and 24 November 2026 (MP-203), in the [decision log](docs/planning/ma-reconciliation-2026-11-02/decision-log.md) |
 | **Draft** | Data, financial and forecast contracts, the phase and story baseline (PH-00 to PH-09), cost scenarios, the admin journeys |
@@ -162,7 +162,7 @@ Ten phases, each with a gate. These are planning layers, not dates.
 | [`scripts/`](scripts/) · [`tests/`](tests/) | Synthetic-data generators, review and PR tooling, and their tests. |
 | [`site/`](site/) | A static concept and architecture presentation. It is documentation, not the product app. |
 | [`review/`](review/) | Independent-review findings, the fixed-findings ledger and round state. |
-| [`web/`](web/) | The web app: a static SvelteKit PWA built on Prism (MP-134). Step 1 is the shell, its nine places and a sample total from a fake data source; nothing in it is the owner's data. |
+| [`web/`](web/) | The web app: a static SvelteKit PWA built on Prism (MP-134). Step 1 is the shell, its nine places and a sample total from a fake data source; step 2 adds the sign-in screens with a pretend, Cognito-shaped sign-in that holds no token. Nothing in it is the owner's data. |
 | `mobile/`, `infra/` | Reserved for the Apple app and infrastructure. Empty: the owner's 24 November permission covers web screens and a local API only. |
 
 ## Run the starter
@@ -196,7 +196,8 @@ npm --prefix web ci
 npm --prefix web run dev
 ```
 
-Then open [`localhost:5173`](http://localhost:5173). `npm --prefix web run check`, `test`, `build` and `e2e` run its
+Then open [`localhost:5173`](http://localhost:5173) and sign in with the pretend passkey or Google. Adding
+`?pretend=new-device`, `google-down`, `wrong-account`, `paused` or `expired` to the sign-in address shows that state. `npm --prefix web run check`, `test`, `build` and `e2e` run its
 type checks, unit tests, build inspection and browser tests; the browser tests use the installed Chrome.
 
 ## Checks

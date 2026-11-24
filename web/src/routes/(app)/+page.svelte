@@ -10,7 +10,7 @@
 <SampleTotal />
 <PlaceLinks places={childrenOf('portfolio')} label="More from Portfolio" />
 <div class="gap"></div>
-<NotBuilt what="Home, holdings first, with the cost pill" step="step 3" />
+<NotBuilt what="Home, holdings first, with the cost pill" step="step 3" detail="Until then this page shows only the sample total above." />
 
 <style>
   .gap { height: 16px; }

@@ -2,10 +2,10 @@ import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'nod
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { problems } from '../../scripts/prism-components.mjs';
+import { problems, SOURCES } from '../../scripts/prism-components.mjs';
 import { inspect, PLACES } from '../../scripts/check-build.mjs';
 
-const prism = readFileSync(new URL('../../../docs/design/prism/index.html', import.meta.url), 'utf8');
+const prism = (SOURCES as string[][]).map((p) => readFileSync(new URL(`../../../${p.join('/')}`, import.meta.url), 'utf8')).join('\n');
 const css = readFileSync(new URL('../../src/lib/prism/components.css', import.meta.url), 'utf8');
 
 function cleanBuild(): string {
@@ -24,6 +24,12 @@ describe('the Prism drift gate bites', () => {
     expect(problems(changed, prism)).toHaveLength(1);
   });
   it('refuses an added rule', () => expect(problems(css + '\n.new { color: red; }\n', prism)).toHaveLength(1));
+  it('refuses a line from a journey the gate does not read', () => {
+    const home = readFileSync(new URL('../../../docs/design/journeys/src/journeys/home.css', import.meta.url), 'utf8');
+    const line = home.split('\n').find((l) => l.startsWith('.') && !prism.includes(l.trim()));
+    expect(line).toBeTruthy();
+    expect(problems(css + '\n' + line + '\n', prism)).toHaveLength(1);
+  });
   it('refuses an empty file', () => expect(problems('/* nothing */\n', prism)).toEqual(['components.css holds no rules']));
 });
 

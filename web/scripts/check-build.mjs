@@ -16,7 +16,7 @@ export const FORBIDDEN = [
   [/MP_[A-Z_]*(SECRET|TOKEN|PASSWORD)/, 'a private environment variable name'],
   [/"synthetic"\s*:\s*false|synthetic:\s*!1|synthetic:\s*false/, 'data that is not marked synthetic']
 ];
-export const PLACES = ['index.html', 'forecasts.html', 'segments.html', 'record.html', 'research.html', 'approvals.html', 'imports.html', 'sources.html', 'settings.html'];
+export const PLACES = ['index.html', 'forecasts.html', 'segments.html', 'record.html', 'research.html', 'approvals.html', 'imports.html', 'sources.html', 'settings.html', 'signin.html'];
 
 /** @param {string} dir @returns {string[]} */
 function walk(dir) {
