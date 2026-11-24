@@ -212,6 +212,26 @@
     "docs/design/journeys/src/journeys/*",
     "docs/design/admin/src/journeys/*"
    ]
+  },
+  {
+   "pattern": "\\bonly\\s+the\\s+owner\\s+can\\s+start\\b|\\bonly\\s+you\\s+can\\s+start\\b|\\bno\\s+Mac\\s+CI\\s+minutes\\b",
+   "why": "a merge to main starts the release, which waits in the GitHub production environment for the owner's approval, replacing route A (owner, 24 Nov 2026, \"An environment replaces route A\", MP203-08); pull requests that touch the Apple app build it and run XCTest on a free macOS runner (owner, 24 Nov 2026, \"Build and unit tests in CI\", MP203-11). History and superseded records keep the old route; these current statements may not",
+   "paths": [
+    "README.md",
+    "ARCHITECTURE.md",
+    "TECH-STACK.md",
+    ".claude/rules/aws-changes.md",
+    "docs/planning/story-readiness-2026-11-03/stories/*.json",
+    "docs/confluence/build_pages.py",
+    "docs/design/journeys/src/journeys/*",
+    "docs/design/admin/src/journeys/*",
+    "docs/design/admin/permissions.json",
+    "docs/diagrams/mp-quality-2026-11-02/lucid_spec.py",
+    "docs/diagrams/mp-architecture-2026-11-02/lucid_spec.py",
+    "docs/motion/build_motion.py",
+    "docs/architecture-explainer/index.html",
+    "docs/market-agent/index.html"
+   ]
   }
  ]
 }

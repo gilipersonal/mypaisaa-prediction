@@ -8,7 +8,7 @@
   "jira": "MP-34",
   "status": "Owner-selected directions (ARC-01 to ARC-12, ARC-06b) and policy answers drawn as proposed design; pages 2, 8 and 9 are PROPOSED. Nothing is deployed: only the FastAPI health/SSE starter and CI exist",
   "source": "lucid_spec.py writes spec.json (Lucid Standard Import, created with use_assisted_layout false); regenerate and re-import rather than editing exports",
-  "spec_sha256": "cdbd97e81cfd3057d2f4b81b171f98d27339a7dc67a4c4fb2b95b26457c2e712",
+  "spec_sha256": "c2efbbb1825c203b8b73c77904d2244604d08559df1ffd4cc4e65458ca749917",
   "refresh_2026_11_03": "MP-20 refresh: pages 1 and 7 edited in place in the same Lucid document (URL unchanged) to match lucid_spec.py: page 1 Secrets Manager icon replaced by SSM Parameter Store (ResAWSSystemsManagerParameterStoreAWS2024); page 7 Infrastructure as code now 'Terraform only (owner, 3 Nov 2026)' and Region 'Virginia (us-east-1), owner-selected 2 November 2026'. Only 01-system-on-aws.png and 07-environments-delivery.png were re-exported; the other seven PNGs are unchanged from version 388. MP-20 round 2 fix (R2-d8): page 7 edited in place again with Lucid's script API (URL unchanged, version 590): the CI table lists the nine required checks in .github/main-protection.json (Plan sync and Confluence receipts added), connector 3 reads 'run 9 checks', Infrastructure as code moved left of main's column, and a new route main to 'Release workflow only the owner can start (OWNER-SELECTED 3 Nov 2026)' to prod (connectors 8 and 9). Only 07-environments-delivery.png was re-exported.",
   "supersedes": [
     {
@@ -40,6 +40,10 @@
     {
       "document_id": "3c9cd986-10ed-40ff-9730-89e3cd7bee3e",
       "reason": "second import: page 1 labels crossed by the account border, page 7 line grazing a label; renamed SUPERSEDED draft"
+    },
+    {
+      "document_id": "3a7df418-73f3-4401-88e7-c4adb5d5ca0c",
+      "reason": "page 7 from 24 Nov 2026 (MP-199, version 72): 'Release workflow only the owner can start' and connector 'owner starts' (route A); replaced by 3164e576 in MP-203 (MP203-08); not edited"
     }
   ],
   "pages": [
@@ -144,11 +148,11 @@
         2030,
         1626
       ],
-      "sha256": "275ec08a5452457439e12ef9707a59867d6278cec17aaf21980d953a730f73e7",
-      "bytes": 209553,
+      "sha256": "377879f491c5fbf94020056d4532039ec760365aec5d62feb70f8e5ec872f31e",
+      "bytes": 212223,
       "status": "Owner-selected directions, drawn as proposed design",
-      "document_id": "3a7df418-73f3-4401-88e7-c4adb5d5ca0c",
-      "document_url": "https://lucid.app/lucidchart/3a7df418-73f3-4401-88e7-c4adb5d5ca0c/edit",
+      "document_id": "3164e576-4540-41df-ba13-fb90c852ed1d",
+      "document_url": "https://lucid.app/lucidchart/3164e576-4540-41df-ba13-fb90c852ed1d/edit",
       "document_version": 72,
       "export_date_utc": "2026-11-24"
     },
@@ -184,5 +188,5 @@
     }
   ],
   "sync": "manual: exports are snapshots of the Lucid document at the version above; Lucid edits do not reach the repo until re-exported",
-  "refresh_2026_11_24": "MP-199: page 7 now lives in its own Lucid document, 3a7df418-73f3-4401-88e7-c4adb5d5ca0c (version 72), created from `lucid_spec.py --page 7` because the Lucid connector refused in-place edits (read access only); owner: \"editing existing may not work, try recreating\". The table lists the ten required checks (CodeQL added) and connector 3 reads 'run 10 checks'. Pages 1-6, 8 and 9 stay in 65667c0c-9413-4c63-863d-a60b6e67ba26 at version 590, whose own page 7 is now superseded and was not edited."
+  "refresh_2026_11_24": "MP-199: page 7 now lives in its own Lucid document, 3a7df418-73f3-4401-88e7-c4adb5d5ca0c (version 72), created from `lucid_spec.py --page 7` because the Lucid connector refused in-place edits (read access only); owner: \"editing existing may not work, try recreating\". The table lists the ten required checks (CodeQL added) and connector 3 reads 'run 10 checks'. Pages 1-6, 8 and 9 stay in 65667c0c-9413-4c63-863d-a60b6e67ba26 at version 590, whose own page 7 is now superseded and was not edited. MP-203 (owner's \"All four\", 24 Nov 2026): page 7 re-imported again as 3164e576-4540-41df-ba13-fb90c852ed1d (version 72) from `lucid_spec.py --page 7`, for MP203-08 \"An environment replaces route A\": the release box reads 'GitHub production environment: waits for the owner's approval (OWNER-SELECTED 24 Nov 2026)', connector 8 'release starts' and connector 9 'owner approves: to prod'. Read back by metadata, text search and PNG export; the payload matched the generator's output byte for byte (14230 bytes). 3a7df418 is superseded and was not edited."
 }

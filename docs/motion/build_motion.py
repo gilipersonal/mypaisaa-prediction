@@ -986,7 +986,9 @@ def delivery_pipeline() -> tuple[str, int, int, float, float]:
         (0, 1, "Build once", ["one artefact on main", "sha256 and an SBOM"], "sky", 3.0, "tick"),
         (0, 2, "Deploy to dev", ["GitHub OIDC", "no stored AWS keys"], "sky", 3.6, "tick"),
         (0, 3, "Dev smoke", ["synthetic profile", "health, sign-in, SSE"], "mint", 4.2, "tick"),
-        (1, 0, "Owner approves", ["that exact sha256", "how: still open"], "saffron", 5.3, "tick"),
+        # MP203-08 (owner, 24 Nov 2026): "An environment replaces route A"; a merge to main starts the release, which waits
+        # in the GitHub production environment for the owner's approval
+        (1, 0, "Owner approves", ["in the production", "environment, on GitHub"], "saffron", 5.3, "tick"),
         (1, 1, "Deploy to prod", ["from CI on main only", "separate prod role"], "sky", 6.1, "tick"),
         (1, 2, "Prod smoke", ["read-only checks", "no writes or paid calls"], "rose", 6.7, "cross"),
         (1, 3, "Roll back", ["the live alias moves", "to the previous version"], "rose", 7.5, ""),
@@ -1047,7 +1049,7 @@ def delivery_pipeline() -> tuple[str, int, int, float, float]:
     <text x="930" y="468" fill="{C['text']}" font-size="14" font-weight="700">data does not.</text>
     <text x="930" y="492" fill="{C['muted']}" font-size="12">Schema changes go in two steps.</text>
   </g>
-  <text x="50" y="590" fill="{C['muted']}" font-size="12" class="fade" {at(move + 1.0)}>Check names from .github/main-protection.json · release: a workflow only the owner can start · IaC: Terraform only (both owner-selected) · nothing is deployed</text>
+  <text x="50" y="590" fill="{C['muted']}" font-size="12" class="fade" {at(move + 1.0)}>Check names from .github/main-protection.json · release: a merge to main waits for the owner's approval in the production environment · Terraform only · both owner-selected · nothing is deployed</text>
 </svg>{dots}"""
     css = "@keyframes alias { to { transform: translateX(-180px); } }"
     end = 11.0
@@ -1136,7 +1138,7 @@ def device_matrix() -> tuple[str, int, int, float, float]:
   <g class="rise" {at(0.2)}>
     <rect x="50" y="110" width="280" height="360" rx="14" fill="{C['surface']}" stroke="{C['line']}"/>
     <text x="68" y="138" fill="{C['saffron']}" font-size="11" font-weight="700" letter-spacing="1.5">MAESTRO FLOW</text>
-    <text x="68" y="342" fill="{C['muted']}" font-size="12">Local simulators on the owner's Mac</text>
+    <text x="68" y="342" fill="{C['muted']}" font-size="12">Journeys on simulators, on the owner's Mac</text>
     <text x="68" y="360" fill="{C['muted']}" font-size="12">Maestro CLI, free and open source</text>
   </g>
   {marks}{flow}{labels}
@@ -1182,7 +1184,11 @@ def device_matrix() -> tuple[str, int, int, float, float]:
     <rect x="50" y="500" width="600" height="34" rx="17" fill="{C['surface']}" stroke="{C['rose']}"/>
     <text x="350" y="522" text-anchor="middle" fill="{C['rose']}" font-size="13" font-weight="700">Which iPhones, iPads and iOS versions: an open question (PL-14)</text>
   </g>
-  <text x="50" y="590" fill="{C['muted']}" font-size="12" class="fade" {at(8.8)}>Simulators and free local builds cost £0 · TestFlight and Apple push need the paid Developer Program, not bought for now (owner, 3 Nov 2026) · no Apple app exists yet</text>
+  <g class="rise" {at(8.6)}>
+    <rect x="670" y="500" width="480" height="34" rx="17" fill="{C['surface']}" stroke="{C['mint']}"/>
+    <text x="910" y="522" text-anchor="middle" fill="{C['mint']}" font-size="13" font-weight="700">Apple-app PRs: build and XCTest on a free macOS runner</text>
+  </g>
+  <text x="50" y="590" fill="{C['muted']}" font-size="12" class="fade" {at(8.8)}>CI build and XCTest owner-selected 24 Nov 2026 · Maestro journeys and real-device builds stay on the owner's Mac · TestFlight needs the paid Developer Program · no Apple app yet</text>
 </svg>{dots}"""
     css = "@keyframes turn { to { transform: rotate(90deg); } }"
     end = 11.0

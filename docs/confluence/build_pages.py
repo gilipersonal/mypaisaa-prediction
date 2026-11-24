@@ -984,8 +984,8 @@ def rec_apple_testing(s: str) -> str:
     return (banner("proposed", "A proposal. No Apple app exists and no screen is designed. Supported devices, owner-selected 5 November 2026 (MP-184): MP40-Q12a &quot;Your own devices only&quot; and MP40-Q12b &quot;Any window width&quot;; the models are not yet given. "
                    "Testing on simulators costs nothing. For now the owner has chosen no paid Apple Developer Program (3 November 2026): the app runs as free local builds that expire after 7 days, so no TestFlight, Apple push or Sign in with Apple until the Developer Program is bought (MP-179).",
                    ["ARCHITECTURE.md", "AGENTS.md", "docs/planning/ma-reconciliation-2026-11-02/gap-register.json"])
-            + gif(s, "device-matrix", "A Maestro flow across iPhone and iPad sizes, then a free local build on the owner's devices; TestFlight later, if the owner joins.")
-            + "<h2>🗺️ The drawing</h2>" + lucid(s, 4, "Apple testing on the owner's Mac, free local builds for now, and the private TestFlight beta later.", LUCID_QUALITY)
+            + gif(s, "device-matrix", "Pull requests that touch the Apple app build it and run XCTest on a free macOS runner; a Maestro flow across iPhone and iPad sizes and a free local build stay on the owner's devices; TestFlight later, if the owner joins.")
+            + "<h2>🗺️ The drawing</h2>" + lucid(s, 4, "Apple testing: builds and XCTest on a free macOS runner for each pull request, Maestro journeys on the owner's Mac, free local builds for now, and the private TestFlight beta later.", LUCID_QUALITY)
             + "<h2>📲 What is already fixed, and what is not</h2>"
             + table(["Fact", "Source", "Status"], [
                 ["SwiftUI owns the iOS and iPadOS screens, persistence, widgets, Keychain and notifications",

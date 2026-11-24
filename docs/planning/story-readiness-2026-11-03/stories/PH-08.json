@@ -45,7 +45,7 @@
    "jira_key": "MP-106",
    "phase": "PH-08",
    "epic": "MP-9",
-   "title": "Production release workflow that only the owner can start",
+   "title": "Production releases that wait for the owner's approval",
    "story": "As the owner, I want production releases to reach prod only after I approve them in the production environment, from one artefact built on main with its evidence attached, so that nothing reaches prod by accident and every release can be rolled back.",
    "from_drafts": [
     "L8-S01"

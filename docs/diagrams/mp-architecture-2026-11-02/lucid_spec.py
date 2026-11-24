@@ -518,7 +518,11 @@ def page_delivery() -> dict:
     s.append(box("main", 1770, 280, 210, 100, "main", "merged only when the owner asks", "teal", size=15, width=3))
     # IaC moves left of main's column so the release route to prod crosses no plan line
     s.append(box("iac", 1460, 680, 240, 120, "Infrastructure as code", "Terraform only (owner, 3 Nov 2026); plan only; never applied from here", "amber", dashed=True, size=13))
-    s.append(box("release", 1770, 680, 210, 120, "Release workflow only the owner can start", "(OWNER-SELECTED 3 Nov 2026)",
+    # MP203-08 (owner, 24 Nov 2026, MP-203): "An environment replaces route A", the release workflow the owner alone
+    # dispatched (3 Nov 2026). The option read "A merge to main starts the release, which waits in the production
+    # environment for your approval."
+    s.append(box("release", 1770, 680, 210, 120, "GitHub production environment",
+                 "waits for the owner's approval (OWNER-SELECTED 24 Nov 2026)",
                  "blue", dashed=True, size=13))
     s.append({"id": "cloud", "type": "namedContainer", "className": "AWSCloudAWS2024", "boundingBox": {"x": 60, "y": 850, "w": 1950, "h": 580},
               "text": "AWS: two workload accounts under consolidated billing (Owner-selected; accounts not yet inspected)"})
@@ -541,8 +545,8 @@ def page_delivery() -> dict:
         line("d5", "main", (0.1, 1), "iac", (0.8, 0), "5 plan", AMBER),
         line("d6", "iac", (0.3, 1), "dev", (0.95, 0), "6 plan only (dev)", AMBER, pos=0.3, dashed=True),
         line("d7", "iac", (0.6, 1), "prod", (0.4, 0), "7 plan only (prod)", AMBER, pos=0.25, dashed=True),
-        line("d8", "main", (0.6, 1), "release", (0.6, 0), "8 owner starts", BLUE, side="middle"),
-        line("d9", "release", (0.6, 1), "prod", (0.85, 0), "9 release to prod", BLUE, pos=0.25, side="middle", dashed=True),
+        line("d8", "main", (0.6, 1), "release", (0.6, 0), "8 release starts", BLUE, side="middle"),
+        line("d9", "release", (0.6, 1), "prod", (0.85, 0), "9 owner approves: to prod", BLUE, pos=0.25, side="middle", dashed=True),
     ]
     return {"id": "delivery", "title": "7 Environments and delivery", "shapes": s, "lines": L}
 
