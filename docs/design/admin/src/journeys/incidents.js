@@ -32,12 +32,19 @@
   /* ---------- the two incidents, by id ---------- */
   const I12 = { id: 'inc_0012', name: 'HSBC price late', cls: 'Data quality', at: 'Tue 16:50', sub: 'Last price 14:10 · detected Tue 16:50', i: 'clock', tone: 'warn' };
   const I13 = { id: 'inc_0013', name: 'Forecast run failed', cls: 'Job failure', at: 'Tue 21:16', sub: 'Twelve Data failed at 21:16 · detected Tue 21:16', i: 'alert', tone: 'fall' };
-  const I14 = { id: 'inc_0014', name: 'Production recorded lost', cls: 'Not classed', at: '', sub: 'A restored copy waits in Recovery', i: 'alert', tone: 'fall' };
+  const I14 = { id: 'inc_0014', name: 'Production recorded lost', cls: 'Not classed', at: 'Wed 10:58', sub: 'Recorded lost by you · a restored copy waits in Recovery', i: 'alert', tone: 'fall' };
+  /* inc_0014 before you record it: code opened it, you acknowledged it, and production is not yet recorded lost (MP-202) */
+  const I14W = { ...I14, name: 'Production not answering', sub: 'Acknowledged · not recorded lost' };
+  /* ADM-05, "Code flags, you confirm", in the option's own words, and what the pick leaves open (CT-14). One phrase each, everywhere (lesson 7) */
+  const PICK05 = 'Code opens the incident when production stops answering its checks, and you record it lost with a fresh sign-in.';
+  const OPEN05 = 'What counts as lost is not defined yet, and where this record is kept if MP is down is not specified.';
+  const PAST05 = 'This records what has already happened to production. It restores nothing and moves no authority.';
+  const open05 = () => `${note(OPEN05)}${tags(settled('ADM-05'), proposed('CT-14'))}`;
   const inc = ctx => (ctx.state === 'error' ? I13 : ctx.state === 'conflict' ? I14 : I12);
   const ST = {
     open: chip('error', 'Open', 'alert'), ack: chip('stale', 'Acknowledged', 'clock'), done: chip('', 'Resolved', 'check'), again: chip('error', 'Reopened', 'refresh')
   };
-  const statusOf = (ctx, i) => (i === I13 || i === I14 ? ST.open : ctx.state === 'empty' ? ST.done : ctx.state === 'conflict' ? ST.again : ST.ack);
+  const statusOf = (ctx, i) => (i === I13 ? ST.open : i === I14 ? ST.ack : ctx.state === 'empty' ? ST.done : ctx.state === 'conflict' ? ST.again : ST.ack);
   const incRow = (ctx, i) => opens(i.i, i.name, `${i.id} · ${i.sub}`, `${tags(statusOf(ctx, i), i === I14 ? settled('ADM-05') : '', ctx.state === 'partial' ? chip('stale', 'Run link unavailable', 'clock') : '')}`, i.tone);
   const incRows = ctx => list((ctx.state === 'error' ? [I13, I12] : ctx.state === 'conflict' ? [I14, I12] : [I12]).map(i => incRow(ctx, i)).join(''));
   const incHead = ctx => {
@@ -53,7 +60,7 @@
   };
   const classes = ctx => {
     const s = ctx.state, none = ['stale', 'partial', 'offline'].includes(s) ? 'None seen' : 'None open';
-    return card(`${head('By class')}${kv([['Data quality', s === 'empty' ? none : s === 'conflict' ? '1 reopened' : '1 acknowledged'], ['Job failure', s === 'error' ? '1 open' : none], ['Billing', none], ['System security', none], ...(s === 'conflict' ? [['Not classed', '1 open · inc_0014']] : [])])}${note('Financial risk is a separate class. Those alerts sit in your inbox, not here. Material means a line you set is crossed, and each line\'s value is still yours to set.')}${tags(proposed('CT-18'))}`);
+    return card(`${head('By class')}${kv([['Data quality', s === 'empty' ? none : s === 'conflict' ? '1 reopened' : '1 acknowledged'], ['Job failure', s === 'error' ? '1 open' : none], ['Billing', none], ['System security', none], ...(s === 'conflict' ? [['Not classed', '1 acknowledged · inc_0014']] : [])])}${note('Financial risk is a separate class. Those alerts sit in your inbox, not here. Material means a line you set is crossed, and each line\'s value is still yours to set.')}${tags(proposed('CT-18'))}`);
   };
 
   /* every topic has one sentence per state, drawn the same by both options */
@@ -71,7 +78,7 @@
     error: banner('fall', 'Twelve Data failed at 21:16.', 'Last good run Mon 22:15 · cutoff 22:00. One outage, one incident, with its symptoms linked. inc_0013 waits for you to acknowledge it.', 'alert'),
     stale: banner('warn', 'From 11:12.', 'The index is lagging, so an incident opened after 11:12 would not show here. A quiet list proves nothing.', 'clock'),
     offline: banner('', 'Offline.', 'Showing incidents from 11:20. No financial write offline, and nothing can be changed until you reconnect.', 'wifi-off'),
-    conflict: `${banner('warn', 'Two records changed while you read.', 'Production is recorded lost, so inc_0014 is open and Recovery holds the copy. inc_0012 also reopened, because the fault came back.', 'split')}${tags(settled('ADM-05'))}`,
+    conflict: `${banner('warn', 'Two records changed while you read.', 'You recorded production lost on inc_0014 at 11:31, and Recovery holds the copy. inc_0012 also reopened, because the fault came back.', 'split')}${tags(settled('ADM-05'))}`,
     expired: `${banner('warn', 'A replay request expired.', 'Its time ran out on inc_0012, so nothing ran. It needs a new request.', 'clock')}${tags(settled('OWN-08'), proposed('CT-02'))}`,
     denied: banner('warn', 'Reading stays open.', 'Acknowledging, resolving and replaying each say what they need before they run, and nothing is pre-approved.', 'lock')
   };
@@ -84,7 +91,7 @@
     error: banner('fall', 'This incident waits on you.', 'Twelve Data failed at 21:16. Last good run Mon 22:15 · cutoff 22:00. Reads stay open while it is unresolved.', 'alert'),
     stale: banner('warn', 'From 11:12.', 'The index is lagging, so a later step may have landed. Nothing here is newer than that.', 'clock'),
     offline: banner('', 'Offline.', 'This timeline is from 11:20. No financial write offline, and nothing can be changed until you reconnect.', 'wifi-off'),
-    conflict: `${banner('warn', 'Production is recorded lost.', 'inc_0014 waits for you to acknowledge it, and the switch sits in Recovery. inc_0012 also reopened, and shows below.', 'split')}${tags(settled('ADM-05'))}`,
+    conflict: `${banner('warn', 'Production is recorded lost.', 'You recorded it at 11:31, on iPad, with a fresh sign-in, and the switch waits in Recovery. inc_0012 also reopened, and shows below.', 'split')}${tags(settled('ADM-05'))}`,
     expired: ctx => `${phone(ctx) ? banner('warn', 'A resolution did not land in time.', 'Nothing was recorded, so inc_0012 stays Acknowledged. Resolving happens on iPad or desktop.', 'clock') : banner('warn', 'Your resolution did not land in time.', 'The request passed its time, so nothing was recorded and inc_0012 stays Acknowledged. Your words stay in the box.', 'clock')}${tags(proposed('CT-02'))}`,
     denied: ctx => `${signNote('This timeline stays readable.')}${tags(proposed('CT-01'))}`
   };
@@ -98,16 +105,16 @@
   const LATE = 'A late price is not a missed collection, so code re-runs nothing. The +40 retry, at 17:15, was the only automatic one and found no newer price, and a newer one arrives at the next check.';
   const pt = (st, t, s, x = '') => `<li class="${st}"${st === 'now' ? ' aria-current="step"' : ''}><span class="pt">${st === 'done' ? ic('check', 's14') : st === 'warn' ? ic('alert', 's14') : ''}</span><div style="min-width:0"><b>${st === 'done' ? '<span class="sr">Done: </span>' : st === 'now' ? '<span class="sr">Now: </span>' : ''}${t}</b><p>${s}</p>${x ? `<div class="x">${x}</div>` : ''}</div></li>`;
   const tl = (name, rows) => `<ol class="aincidents-tl" aria-label="${name}">${rows.join('')}</ol>`;
-  const ack14 = () => act('A40', 'Acknowledge', 'primary');
-  const close14 = ctx => `${phone(ctx) ? '' : field(ctx)}${act('A75', 'Resolve this incident', 'primary')}`;
+    const close14 = ctx => `${phone(ctx) ? '' : field(ctx)}${act('A75', 'Resolve this incident', 'primary')}`;
   const CLOSE14 = 'A switch does not close this. An incident closes only with a recorded resolution, and only you record it.';
   const again12 = (ctx, inner) => card(`${head('HSBC price late', ST.again)}${kv([['Incident', 'inc_0012'], ['Class', 'Data quality']])}${note('You opened this as Acknowledged, and the fault came back. Your view stays at that version, and nothing was applied.')}${inner}`);
   function timeline(ctx, i = inc(ctx)) {
     const s = ctx.state;
     if (i === I14) return tl('What happened to inc_0014', [
-      pt('done', 'Detected', 'Code opens the incident when production stops answering its checks, and you record it lost with a fresh sign-in.', tags(settled('ADM-05'))),
-      pt('now', 'Acknowledge', 'Waiting for you.', ack14()),
-      pt('', 'Switch in Recovery', 'Only you approve it, and only with a reconciled copy.', list(opens('db', 'Recovery', 'rx_0007 · as of Sun 1 Nov'))),
+      pt('done', 'Detected', 'Code opened it · Wed 10:58, when production stopped answering its checks.'),
+      pt('done', 'Acknowledged', 'You · Wed 11:05'),
+      pt('done', 'Recorded lost', `You · Wed 11:31 · on iPad, with a fresh sign-in. ${PAST05}`, `${note(PICK05)}${open05()}`),
+      pt('now', 'Switch in Recovery', 'Only you approve it, and only with a reconciled copy.', list(opens('db', 'Recovery', 'rx_0007 · as of Sun 1 Nov'))),
       pt('', 'Resolve', CLOSE14, close14(ctx))
     ]);
     if (s === 'error') return tl('What happened to inc_0013', [
@@ -246,9 +253,55 @@
   };
   const switchTool = ctx => {
     if (ctx.state !== 'conflict') return held(NOSWITCH[ctx.state] || WAIT[ctx.state]);
-    return `${bind([['Copy', 'rx_0007'], ['As of', 'Sun 1 Nov'], ['Ledger in the copy', 'Revision 213'], ['Gap', 'Anything recorded after Sun 1 Nov'], ['Environment', 'Production'], ['Payload', '5d2e…09bc'], ['Expires', 'Not set yet']])}${note('No recovery point is agreed, so the gap has no target. Code opens the incident when production stops answering its checks, and you record it lost with a fresh sign-in.')}${tags(proposed('CT-14'), settled('ADM-05'), proposed('CT-02'))}${act('A42', 'Approve this switch', 'primary')}${act('A60', 'Decline this switch')}${declined()}`;
+    return `${bind([['Copy', 'rx_0007'], ['As of', 'Sun 1 Nov'], ['Ledger in the copy', 'Revision 213'], ['Gap', 'Anything recorded after Sun 1 Nov'], ['Environment', 'Production'], ['Payload', '5d2e…09bc'], ['Expires', 'Not set yet']])}${note('No recovery point is agreed, so the gap has no target. You recorded production lost on inc_0014 at 11:31, with a fresh sign-in.')}${tags(proposed('CT-14'), settled('ADM-05'), proposed('CT-02'))}${act('A42', 'Approve this switch', 'primary')}${act('A60', 'Decline this switch')}${declined()}`;
   };
   const switchCard = ctx => card(`${head('Switch to a restored copy')}${note('Only if production is lost. The copy takes no authority until reconciliation passes and you approve the switch.')}${switchTool(ctx)}${refused('R11', 'Nothing restores over production. A destructive restore into prod is refused.')}`);
+  /* ---------- recording production lost (ADM-05, MP-202): you record it, on iPad or desktop, with a fresh sign-in ---------- */
+  /* only where an incident from code says production stopped answering, and before it is recorded; everywhere else the screen says why not */
+  const NOLOST = { default: 'Production answers its checks, so no incident asks you to record it lost.' };
+  ['empty', 'partial', 'error', 'expired', 'denied'].forEach(k => { NOLOST[k] = NOLOST.default; });
+  const lostCard = ctx => card(`${head('Production recorded lost', ctx.state === 'conflict' ? chip('error', 'Recorded by you', 'alert') : '')}${ctx.state === 'conflict'
+    ? `${kv([['Incident', 'inc_0014'], ['Opened by', 'Code · Wed 10:58, when production stopped answering its checks'], ['Recorded by', 'You · Wed 11:31 · on iPad, with a fresh sign-in']])}${note(PAST05)}`
+    : `${held(NOLOST[ctx.state] || WAIT[ctx.state])}${note(PICK05)}`}${open05()}`);
+  const SHEET05 = {
+    loading: ['Waiting for your fresh sign-in', 'Nothing is recorded yet.'],
+    empty: ['Nothing to record', 'Production answers its checks, so code has opened no incident for it, and there is nothing to record lost.'],
+    partial: ['Record production lost', 'The check record did not answer, so what code saw is unknown here, not clear. inc_0014 itself is whole, and the call is still yours.'],
+    error: ['This did not record', 'It failed at 11:38, so production is not recorded lost and nothing moved. Trying again sends the same record against revision 3, so it cannot land twice.'],
+    stale: ['Refresh first', 'This is from 11:12. Production may have answered since, or inc_0014 may already be recorded, so nothing can be recorded from it.'],
+    offline: ['You are offline', 'A fresh sign-in has to reach the server, so nothing can be recorded offline.'],
+    conflict: ['Already recorded', 'You recorded inc_0014 lost at 11:31, on iPad, while this was open. There is nothing left to record, and the switch waits in Recovery.'],
+    expired: ['Your fresh sign-in ran out', 'Nothing was recorded, and inc_0014 stays as it was. Start again.'],
+    denied: ['A fresh sign-in is needed', LINE]
+  };
+  const lostFacts = ctx => box(`${kv([
+    ['Incident', 'inc_0014 · opened by code, Wed 10:58'],
+    ['What code saw', ctx.state === 'partial' ? 'Not read. The check record did not answer' : 'Production stopped answering its checks at 10:58, and none has answered since'],
+    ['Acknowledged', 'You · Wed 11:05'],
+    ['Environment', 'Production'],
+    ['Bound to', 'inc_0014 at revision 3, as you read it'],
+    ['Changes', 'inc_0014 reads Production recorded lost, with you and the time'],
+    ['Keeps', 'Authority, the ledger and every record as they are'],
+    ['Then', 'Recovery offers the switch to a reconciled copy, for its own approval'],
+    ['Taking it back', 'Not settled. A record is never edited, and whether a later record can say production answers again is open'],
+    ['Kept in', 'The incident and the audit. Its audit class is open']
+  ])}${tags(proposed('CT-14'), proposed('CT-03'))}`);
+  const lostSheet = ctx => {
+    const s = ctx.state, [title, why] = SHEET05[s] || ['Record production lost', 'Code opened inc_0014 when production stopped answering its checks, and you acknowledged it. Only you record it lost.'];
+    const go = s === 'default' || s === 'partial' ? act('A85', 'Record production lost', 'primary') : s === 'error' ? act('A85', 'Try again', 'primary') : s === 'expired' || s === 'denied' ? btn('Sign in again', 'primary', 'lock') : '';
+    const facts = ['empty', 'conflict', 'loading'].includes(s) ? (s === 'conflict' ? list(opens('db', 'Recovery', 'rx_0007 · as of Sun 1 Nov')) : '') : lostFacts(ctx);
+    return `<div class="sheet" role="dialog" aria-modal="true" aria-label="${title}" data-mo="sheet">${wide(ctx) ? '' : '<div class="grabber"></div>'}<h4>${title}</h4><div class="aincidents-sheet">${note(PAST05)}${note(why)}${facts}${s === 'empty' ? '' : `${note(PICK05)}${open05()}`}${go}<button class="btn sm btn-plain" type="button">Not now</button></div></div>`;
+  };
+  const lostBack = ctx => {
+    if (ctx.state === 'empty' || ctx.state === 'loading') return '';
+    const i = ctx.state === 'conflict' ? I14 : I14W;
+    return card(`${head(i.name, tags(ST.ack, settled('ADM-05')))}${kv([['Incident', i.id], ['Class', i.cls], ['Opened by', `Code · ${i.at}`], ['Environment', 'Production']])}`);
+  };
+  const lostScreen = (id, back) => ({
+    id, title: 'Record production lost', note: 'Drawn on inc_0014 before you record it: code opened it at 10:58 when production stopped answering its checks, and you acknowledged it at 11:05. Conflicting is the moment after, when you recorded it from your iPad at 11:31, as the incident and Recovery show. On a phone it reads, and the record is made on iPad or desktop.',
+    render: ctx => frame(ctx, { title: ctx.state === 'conflict' ? I14.name : I14W.name, back, body: lostBack(ctx), rail: '', sheet: lostSheet(ctx) })
+  });
+
   const KINDS = [['App, by Lambda alias', 'Passed'], ['Contract, old reader still works', 'Passed'], ['Model and calibration revert', 'Passed'], ['Failed import reversal', 'Passed']];
   const rehearse = ctx => {
     const rows = KINDS.map(([k, v], i) => [k, ctx.state === 'partial' && i === 1 ? 'Unknown' : v]);
@@ -266,7 +319,7 @@
     offline: banner('', 'Offline.', 'Showing recovery records from 11:20. Nothing can be changed until you reconnect.', 'wifi-off'),
     conflict: `${banner('warn', 'Production is recorded lost, and a restored copy waits.', 'The copy stops at Sun 1 Nov, and anything recorded after that is the gap below. Separately, infrastructure drift blocks the release until it is resolved through Terraform.', 'split')}${tags(settled('ADM-05'))}`,
     expired: banner('warn', 'A new exercise is overdue.', 'An import change landed after rx_0007, and rel_0031 went out with none since, so rx_0007 no longer covers what is stored now.', 'clock'),
-    denied: `${banner('warn', 'Reading stays open.', 'Every exercise and its result stay readable. Nothing here needs a fresh sign-in until production is recorded lost, and then a switch may.', 'lock')}${tags(proposed('CT-01'))}`
+    denied: `${banner('warn', 'Reading stays open.', 'Every exercise and its result stay readable. Recording production lost and approving a switch each need a fresh sign-in, and neither applies while production answers its checks.', 'lock')}${tags(proposed('CT-01'))}`
   };
 
   const T_REL = { ...T_REC, conflict: banner('warn', 'The plan and what is deployed disagree.', 'Drift blocks a release until it is resolved through Terraform. Nothing here changes it.', 'split') };
@@ -315,7 +368,7 @@
   const nowBand = ctx => {
     const i = inc(ctx);
     if (ctx.state === 'empty') return card(`${head('Right now')}${note('No incident is open, so no procedure is running.')}`);
-    if (ctx.state === 'conflict') return `${sec('Right now')}${list(`${opens(I14.i, I14.name, 'inc_0014 · step 2 of 4, Acknowledge', tags(ST.open, settled('ADM-05')), I14.tone)}${opens(I12.i, I12.name, 'inc_0012 · reopened, back to step 3 of 5', tags(ST.again), I12.tone)}`)}`;
+    if (ctx.state === 'conflict') return `${sec('Right now')}${list(`${opens(I14.i, I14.name, 'inc_0014 · step 4 of 5, Switch in Recovery', tags(ST.ack, settled('ADM-05')), I14.tone)}${opens(I12.i, I12.name, 'inc_0012 · reopened, back to step 3 of 5', tags(ST.again), I12.tone)}`)}`;
     return `${sec('Right now')}${list(opens(i.i, i.name, `${i.id} · ${ctx.state === 'error' ? 'step 2 of 5, Acknowledge' : 'step 3 of 5, waiting for a newer price'}`, tags(statusOf(ctx, i)), i.tone))}`;
   };
   const T_BOOK = {
@@ -329,10 +382,11 @@
   function escalate(ctx, i = inc(ctx)) {
     const s = ctx.state;
     if (i === I14) return steps('Incident escalation for inc_0014', [
-      st(1, 'done', 'code', 'Code opens one incident', 'inc_0014. Code opens the incident when production stops answering its checks, and you record it lost with a fresh sign-in.', tags(settled('ADM-05'))),
-      st(2, 'now', 'you', 'Acknowledge', 'Waiting for you.', ack14()),
-      st(3, '', 'you', 'Switch in Recovery', 'Only you approve it, and only with a reconciled copy.', list(opens('db', 'Recovery', 'rx_0007 · as of Sun 1 Nov'))),
-      st(4, '', 'you', 'Resolve', CLOSE14, close14(ctx))
+      st(1, 'done', 'code', 'Code opens one incident', 'inc_0014 · Wed 10:58, when production stopped answering its checks.'),
+      st(2, 'done', 'you', 'Acknowledge', 'You · Wed 11:05'),
+      st(3, 'done', 'you', 'Record production lost', `You · Wed 11:31 · on iPad, with a fresh sign-in. ${PAST05}`, `${note(PICK05)}${open05()}`),
+      st(4, 'now', 'you', 'Switch in Recovery', 'Only you approve it, and only with a reconciled copy.', list(opens('db', 'Recovery', 'rx_0007 · as of Sun 1 Nov'))),
+      st(5, '', 'you', 'Resolve', CLOSE14, close14(ctx))
     ]);
     if (s === 'empty') return steps('Incident escalation', [
       st(1, 'done', 'code', 'Code opens one incident', 'inc_0012 · data quality · Tue 16:50'), st(2, 'done', 'you', 'Acknowledge', 'You · Tue 17:05'), st(3, 'done', 'code', 'Code recovers, within its bounds', 'Its next check found a newer HSBC price, so code marked it mitigated.'),
@@ -414,7 +468,7 @@
           body: `${ctx.state === 'loading' ? '' : incHead(ctx)}${view(ctx, T_DET, () => `${card(timeline(ctx))}${ctx.state === 'conflict' ? again12(ctx, timeline(ctx, I12)) : ''}`)}`,
           rail: `${list(ctx.state === 'conflict' ? `${opens('db', 'Recovery', 'rx_0007 · as of Sun 1 Nov')}${opens('layers', 'Evidence for inc_0012', 'Alert, run, job, trace, source and model')}${opens('refresh', 'Replay for inc_0012', plain(reqChip(ctx)))}` : `${opens('layers', 'Evidence', 'Alert, run, job, trace, source and model')}${opens('refresh', 'Replay', plain(reqChip(ctx)))}${opens('db', 'Recovery', 'Last restore passed Sun 1 Nov')}`)}${who()}`
         })
-      }, {
+      }, lostScreen('a-lost', 'Incident'), {
         id: 'a-evidence', title: 'Evidence', note: 'Each link opens its own record. Two runs on one market clock sit side by side, so the change is a row.',
         render: ctx => frame(ctx, {
           title: 'Evidence', back: 'Incident',
@@ -432,7 +486,7 @@
         id: 'a-recovery', title: 'Recovery', note: 'Restore, rehearse and release in one place. Starting a release and waiving a gate are named, with no control, because they happen outside MP.',
         render: ctx => frame(ctx, {
           title: 'Recovery', back: 'Incidents',
-          body: view(ctx, T_REC, () => `${restoreCard(ctx)}${switchCard(ctx)}${refused('R6', 'No recovery step deletes evidence without a recorded tombstone.')}`),
+          body: view(ctx, T_REC, () => `${restoreCard(ctx)}${lostCard(ctx)}${switchCard(ctx)}${refused('R6', 'No recovery step deletes evidence without a recorded tombstone.')}`),
           rail: `${releaseCard(ctx)}${rehearse(ctx)}${objectives()}`
         })
       }, {
@@ -462,7 +516,7 @@
           body: `${ctx.state === 'loading' ? '' : incHead(ctx)}${view(ctx, T_DET, () => `${card(escalate(ctx))}${ctx.state === 'conflict' ? again12(ctx, escalate(ctx, I12)) : ''}`)}`,
           rail: `${sec(ctx.state === 'conflict' ? 'Evidence for inc_0012' : 'Evidence')}${evRows(ctx)}${twoRuns(ctx)}${refused('R3', 'A stored price cannot be edited, by you or by anyone. A missing price stays missing.')}`
         })
-      }, {
+      }, lostScreen('b-lost', 'Escalation'), {
         id: 'b-replay', title: 'Replay', note: 'The same bands as a procedure: eligible, written, run, approved, proved.',
         render: ctx => frame(ctx, {
           title: 'Replay', back: 'Escalation',
@@ -474,7 +528,7 @@
         render: ctx => frame(ctx, {
           title: 'Recovery', back: 'Runbook',
           body: view(ctx, T_REC, () => `${procCard('Five steps', rxState(ctx), restoreSteps(ctx))}${refused('R11', 'Nothing restores over production. A destructive restore into prod is refused.')}${refused('R6', 'No recovery step deletes evidence without a recorded tombstone.')}`),
-          rail: `${card(`${head('Record classes')}${rxRows(ctx)}`)}${objectives()}`
+          rail: `${lostCard(ctx)}${card(`${head('Record classes')}${rxRows(ctx)}`)}${objectives()}`
         })
       }, {
         id: 'b-release', title: 'Release and rollback', note: 'Two steps here happen outside MP, so they are named and offer no control.',

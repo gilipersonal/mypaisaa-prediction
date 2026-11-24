@@ -2019,7 +2019,7 @@
    "key": "MP-192",
    "summary": "Bring labels, stories and specifications into line with the owner's picks",
    "type": "Task",
-   "status": "In Progress",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     "README.md",
@@ -2165,6 +2165,21 @@
     "backend/pyproject.toml",
     "backend/uv.lock",
     "TECH-STACK.md",
+    "docs/planning/trace.json"
+   ]
+  },
+  {
+   "key": "MP-202",
+   "summary": "Draw the owner's act to record production lost on Admin",
+   "type": "Task",
+   "status": "In Progress",
+   "parent": "MP-4",
+   "code": [
+    "docs/design/admin/",
+    "docs/design/artifacts.json",
+    "scripts/design_admin_facts.mjs",
+    "tests/admin_facts/m202.mjs",
+    "tests/admin_facts/s.mjs",
     "docs/planning/trace.json"
    ]
   }
