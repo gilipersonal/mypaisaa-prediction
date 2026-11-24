@@ -64,8 +64,8 @@ test.describe('the timeline', () => {
     await expect(main(page).getByRole('button', { name: 'Journal' })).toHaveAttribute('aria-pressed', 'true');
     await expect(main(page).getByText('not built yet')).toHaveCount(0);
     await main(page).getByRole('group', { name: 'Record' }).getByRole('link', { name: 'Track record' }).click();
-    // the Track record page is built in its own slice; this view only leads there
     await expect(page).toHaveURL(/\/record\/track$/);
+    await expect(h1(page)).toHaveText('Track record');
   });
 });
 
