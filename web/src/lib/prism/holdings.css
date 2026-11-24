@@ -1,0 +1,87 @@
+/* Holdings, option A "Review desk" (MP-205): rules copied word for word from Prism (docs/design/prism/index.html), the Journeys shell and the holdings journey styles. */
+/* Prism */
+.ico.fill { fill: currentColor; stroke: none; }
+.label { font: 600 12px/16px var(--font-text); color: var(--ink-2); letter-spacing: 0; }
+.chip.fresh .dot { background: var(--rise); box-shadow: 0 0 0 3px var(--rise-tint); }
+.chip.stale { background: var(--warn-tint); color: var(--warn); }
+.chip.partial .dot { background: linear-gradient(90deg, var(--warn) 50%, transparent 50%); box-shadow: inset 0 0 0 1.5px var(--warn); }
+.chip.offline, .chip.error { background: var(--fall-tint); color: var(--fall); }
+.chip.fc { background: var(--fc-tint); color: var(--fc-ink); }
+.chip.proposed { background: transparent; box-shadow: inset 0 0 0 1.5px var(--ink-2); color: var(--ink-2); }
+.chip.proposed .dot { background: transparent; box-shadow: inset 0 0 0 1.5px var(--ink-2); }
+.chip.owner { background: var(--surface-3); color: var(--ink); }
+.chip.owner .dot { background: var(--link); }
+.badge { display: inline-flex; align-items: center; gap: 4px; min-height: 26px; padding: 3px 10px 3px 7px; border-radius: 9px; font: 600 13px/18px var(--font-text); letter-spacing: 0; color: var(--ink); background: var(--surface); box-shadow: inset 0 0 0 1px var(--hairline-2); white-space: nowrap; }
+.badge.b-add .ico { color: var(--rise); } .badge.b-trim .ico { color: var(--fall); } .badge.b-pause .ico { color: var(--warn); } .badge.b-hold .ico, .badge.b-rebalance .ico { color: var(--ink-2); }
+.amt { display: inline-flex; align-items: flex-start; font-family: var(--font-figure); font-weight: 800; letter-spacing: -.03em; font-variant-numeric: tabular-nums; line-height: 1; }
+.amt .p { font-size: max(.5em, 12px); margin-top: .1em; margin-left: .04em; letter-spacing: -.01em; }
+.chg { display: inline-flex; align-items: center; gap: 3px; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.chg.up { color: var(--rise); } .chg.down { color: var(--fall); }
+.chg .ico { width: 10px; height: 10px; }
+.logo { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: var(--on-seg); font: 700 14px/18px var(--font-text); letter-spacing: -.02em; background: var(--c); flex: none; box-shadow: inset 0 0 0 .5px var(--tile-edge); }
+.logo.sm { width: 30px; height: 30px; font-size: 12px; line-height: 16px; }
+.hrow { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; column-gap: 12px; row-gap: 6px; padding: 12px 16px; align-items: center; position: relative; cursor: pointer; }
+.hrow + .hrow::before { content: ""; position: absolute; left: 68px; right: 0; top: 0; border-top: 1px solid var(--hairline); }
+.hrow .nm { font: 600 15px/20px var(--font-text); letter-spacing: -.01em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hrow .tk { font: 400 13px/18px var(--font-text); letter-spacing: 0; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hrow .val { font: 600 15px/20px var(--font-text); letter-spacing: -.01em; text-align: right; font-variant-numeric: tabular-nums; }
+.hrow .val .pp { font-size: 12px; color: var(--ink-2); }
+.hrow .chg { font-size: 13px; line-height: 18px; letter-spacing: 0; justify-content: flex-end; display: flex; }
+.hrow .fl { grid-column: 2 / 4; display: flex; align-items: center; gap: 10px; min-width: 0; }
+.hrow .fl .rangewrap { flex: 1; min-width: 0; }
+.hrow .fl .fcv { font: 600 12px/16px var(--font-text); letter-spacing: 0; color: var(--fc-ink); white-space: nowrap; }
+.hrow.is-stale .val { color: var(--ink-2); }
+.t5foot { padding: 10px 16px 12px; font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); border-top: 1px solid var(--hairline); }
+.vparts { margin-top: 2px; font: 500 13px/18px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
+.valcard { padding: 16px; }
+.valcard .top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.valcard .amt { font-size: 44px; margin-top: 8px; }
+.valcard .d { margin-top: 8px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 15px; line-height: 20px; }
+.valcard .meta { font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); margin-top: 6px; }
+.fcard { padding: 16px; }
+.fh { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 8px; align-items: start; }
+.fh .big { grid-column: 1 / -1; }
+.big { display: flex; align-items: baseline; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
+.big .amt { font-size: 40px; color: var(--fc-ink); }
+.rng { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; font: 400 13px/18px var(--font-text); letter-spacing: 0; color: var(--ink-2); margin-top: 8px; }
+.rng b { font-weight: 600; color: var(--ink); }
+.fmeta { font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); margin-top: 8px; display: flex; flex-wrap: wrap; gap: 2px 10px; }
+.cx { width: 100%; height: auto; overflow: visible; }
+.cx .b80 { fill: var(--fc-80); } .cx .b50 { fill: var(--fc-50); }
+.sk { display: block; border-radius: var(--r-xs); background: var(--surface-3); }
+.iconbtn { width: var(--tap); height: var(--tap); border-radius: 50%; display: grid; place-items: center; border: 0; color: var(--ink); background: var(--surface-3); }
+/* Journeys shell */
+.jfresh { display: flex; gap: 6px; flex-wrap: wrap; }
+.jkept { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+/* Holdings journey */
+.holdings-acts { display: flex; flex-wrap: wrap; gap: 8px; }
+.holdings-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 14px 16px 6px; }
+.holdings-head h3 { font: 600 17px/22px var(--font-text); letter-spacing: -.01em; }
+.holdings-ok .ico { color: var(--rise); }
+.holdings-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 14px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--hairline); }
+.holdings-two b { display: block; font: 600 15px/20px var(--font-text); letter-spacing: -.01em; }
+.holdings-two span { display: block; font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
+.holdings-row { row-gap: 4px; }
+.holdings-row .holdings-ret { gap: 8px; justify-content: space-between; font: 400 13px/18px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
+.holdings-row .holdings-ret b { font-weight: 600; color: var(--ink); white-space: nowrap; }
+.holdings-m { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; align-items: center; padding: 10px 16px; }
+.holdings-m + .holdings-m::before { content: ""; position: absolute; left: 16px; right: 0; top: 0; border-top: 1px solid var(--hairline); }
+.holdings-m .k { font: 400 13px/18px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
+.holdings-m .v { grid-column: 1; font: 600 15px/20px var(--font-text); letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+.holdings-m .s { grid-column: 2; grid-row: 1 / 3; justify-self: end; }
+.holdings-m .n { grid-column: 1 / -1; margin-top: 2px; font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
+.holdings-m .r { grid-column: 2; grid-row: 1; justify-self: end; font: 600 15px/20px var(--font-text); letter-spacing: -.01em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.holdings-m .r2 { grid-column: 2; grid-row: 2; justify-self: end; font: 400 13px/18px var(--font-text); letter-spacing: 0; color: var(--ink-2); white-space: nowrap; }
+.holdings-cov { display: grid; grid-template-columns: 76px minmax(0, 1fr) auto; gap: 10px; align-items: center; margin-top: 8px; font: 400 13px/18px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
+.holdings-cov b { font-weight: 600; color: var(--ink); white-space: nowrap; }
+.holdings-cov i { display: block; height: 6px; border-radius: 3px; background: var(--surface-3); overflow: hidden; }
+.holdings-cov u { display: block; height: 100%; width: var(--v); border-radius: 3px; background: var(--ink-2); transform-origin: 0 50%; }
+.holdings-sub { display: block; font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
+.holdings-acc { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 8px 16px; position: relative; }
+.holdings-acc + .holdings-acc::before { content: ""; position: absolute; left: 56px; right: 0; top: 0; border-top: 1px solid var(--hairline); }
+.holdings-acc b { display: block; font: 600 15px/20px var(--font-text); letter-spacing: -.01em; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.holdings-acc > div > span { display: block; font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
+.holdings-bar { display: flex; align-items: center; gap: 10px; }
+.holdings-bar .w { min-width: 0; flex: 1; font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink); }
+.holdings-bar .w b { display: block; font: 600 15px/20px var(--font-text); letter-spacing: -.01em; }
+.holdings-late { display: grid; gap: 6px; justify-items: start; margin-top: 6px; }
