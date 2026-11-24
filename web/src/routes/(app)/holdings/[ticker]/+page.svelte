@@ -98,7 +98,7 @@
 <Frame {title} state={ds} back={{ label: 'Holdings', href: '/holdings' }} {actions} {body} rail={read && h && l && !none && !failed ? rail : undefined} />
 
 {#snippet body()}
-  {#if privacy.hidden && !none}<Banner title={SAY.hiddenTitle} text={SAY.hidden} icon="eye-off" />{/if}
+  {#if privacy.masked && !none}<Banner title={SAY.hiddenTitle} text={SAY.hidden} icon="eye-off" />{/if}
   {#if failed}
     <div class="card state" role="alert"><h2 class="sh"><span class="ic"><Ico id="alert" size="s18" /></span>This holding could not be read.</h2><p>Nothing you saved is lost.</p><button class="btn btn-tinted sm" type="button" onclick={load}><Ico id="refresh" size="s18" />{SAY.tryAgain}</button></div>
   {:else if none}

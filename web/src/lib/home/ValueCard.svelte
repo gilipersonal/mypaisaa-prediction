@@ -13,7 +13,7 @@
   const day = $derived(dayPct(v.total, DAY_CHANGE));
 </script>
 
-{#snippet dayLine()}{#if st !== 'stale'}<span class="chg up"><Ic id="up" cls="fill" />{#if privacy.hidden}+<Amount m={DAY_CHANGE} /> ({day}){:else}{`+${shownMoney(DAY_CHANGE, false)} (${day})`}{/if}</span> <span class="muted" style="font-size:13px;line-height:18px;letter-spacing:0">{dayWord(st)}</span>{/if}{/snippet}
+{#snippet dayLine()}{#if st !== 'stale'}<span class="chg up"><Ic id="up" cls="fill" />{#if privacy.masked}+<Amount m={DAY_CHANGE} /> ({day}){:else}{`+${shownMoney(DAY_CHANGE, false)} (${day})`}{/if}</span> <span class="muted" style="font-size:13px;line-height:18px;letter-spacing:0">{dayWord(st)}</span>{/if}{/snippet}
 {#snippet parts()}<div class="vparts">Holdings <Amount m={v.holdings} /> · Cash <Amount m={v.cash} /></div>{/snippet}
 {#snippet meta()}{#each v.out as h (h.ticker)}{h.name}, <Amount m={h.value} /> at {h.staleAt}, is left out until its price returns. {/each}{metaOf(st, p.asOf, v)}{/snippet}
 {#snippet allocation()}<div class="alloc" role="img" aria-label={allocLabel(alloc)}>{#each alloc as a (a.name)}<i style="--c:var({a.color});width:{a.pct}%"></i>{/each}</div><div class="allocl">{#each alloc as a (a.name)}<span style="--c:var({a.color})">{a.name} <b>{a.pct}%</b></span>{/each}</div>{/snippet}

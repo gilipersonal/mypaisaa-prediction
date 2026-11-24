@@ -43,10 +43,14 @@
     // A session that runs out while the app is open goes back to sign-in.
     const timer = setInterval(guard, 15_000);
     const onFocus = () => guard();
+    // and when the app goes to the background
+    const onHide = () => { if (document.hidden) privacy.hideNow(); };
+    document.addEventListener('visibilitychange', onHide);
     window.addEventListener('focus', onFocus);
     return () => {
       clearInterval(timer);
       window.removeEventListener('focus', onFocus);
+      document.removeEventListener('visibilitychange', onHide);
     };
   });
 
@@ -54,6 +58,8 @@
   afterNavigate(({ from }) => {
     // the pane scrolls on its own on a desktop, so a new page starts at its top there too
     if (main && from?.url.pathname !== page.url.pathname) main.scrollTop = 0;
+    // amounts shown by a tap hide again on leaving the screen (Tap to show, option A)
+    if (from?.url.pathname !== page.url.pathname) privacy.hideNow();
     if (from && auth.status === 'signed_in') main?.focus();
   });
 </script>
@@ -70,5 +76,7 @@
       {@render children()}
     </main>
     <TabBar {current} />
+    <!-- what a screen reader hears when a tap shows amounts and when they hide again, once each (Tap to show, option A) -->
+    <div class="sr" role="status">{privacy.said}</div>
   </div>
 {/if}

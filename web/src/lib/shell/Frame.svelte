@@ -10,6 +10,7 @@
   import type { DataState } from '#lib/data/state.ts';
   import FreshRow from './FreshRow.svelte';
   import { frameInfo } from './frame.svelte.ts';
+  import { privacy } from '#lib/privacy.svelte.ts';
   import type { FreshMode } from './run.ts';
 
   let {
@@ -45,7 +46,13 @@
 <div class="p-only" style="padding:0 12px 10px"><FreshRow {state} mode={fresh} /></div>
 
 <div class="jcols" class:one={!rail}>
-  <div>{@render body()}</div>
+  <div>
+    {#if privacy.left > 0}
+      <!-- Tap to show, option A (peek.js, peek-a-showing): the seconds change here quietly; the layout's live region speaks once -->
+      <div class="jbanner"><Icon name="clock" size="s18" /><div><b>Showing amounts.</b> They hide again in {privacy.left} seconds, or when you leave this screen.</div></div>
+    {/if}
+    {@render body()}
+  </div>
   {#if rail}<div>{@render rail()}</div>{/if}
 </div>
 

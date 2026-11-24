@@ -23,10 +23,10 @@ export const COPY = {
   /** modeCard: `head('Privacy mode', sw('Hide amounts', true))` */
   mode: 'Privacy mode',
   hide: 'Hide amounts',
-  /** maskCopy is `Amounts hidden. ${maskSay}`. The app keeps maskSay's first two sentences and leaves out "Tap to show
-   *  for 30 seconds.", because no amount in this step can be shown for a while by a tap. */
+  /** maskCopy is `Amounts hidden. ${maskSay}`, word for word. "Tap to show for 30 seconds." is true since Tap to show
+   *  was built (option A, the owner's pick of 24 Nov 2026, MP-205: src/lib/peek.ts). */
   hiddenLead: 'Amounts hidden.',
-  hiddenSay: 'Money and units are masked. Percentages and ranges stay visible.',
+  hiddenSay: 'Money and units are masked. Percentages and ranges stay visible. Tap to show for 30 seconds.',
   /** with amounts shown: the design's own reading of OWN-18 (holdings.js, the "Amounts hidden" screen's note) */
   shownSay: 'Hide amounts masks money and units, and percentages stay.',
   /** outside(ctx): `head('Outside the app', chipOf(['fresh', 'Private default']))` */

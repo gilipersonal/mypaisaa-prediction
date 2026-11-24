@@ -51,7 +51,7 @@ test('Hide amounts masks the sample total at once and after a reload, and pressi
   await hide(page).click();
   await expect(hide(page)).toHaveAttribute('aria-checked', 'true');
   await expect(hide(page)).toBeFocused();
-  await expect(page.getByText('Amounts hidden. Money and units are masked. Percentages and ranges stay visible.')).toBeVisible();
+  await expect(page.getByText('Amounts hidden. Money and units are masked. Percentages and ranges stay visible. Tap to show for 30 seconds.')).toBeVisible();
   expect(await page.evaluate(() => localStorage.getItem('mp-hide-amounts'))).toBe('1');
   expect(sent, 'the switch writes nothing to any server').toEqual([]);
 

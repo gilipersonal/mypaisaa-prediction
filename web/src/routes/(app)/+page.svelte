@@ -43,7 +43,7 @@
     );
   });
 
-  const pill = $derived(pillOf(st, privacy.hidden));
+  const pill = $derived(pillOf(st, privacy.masked));
   const note = noteOf(st);
   const v = $derived(p && !empty ? valueOf(p, st) : undefined);
   const late = $derived(p?.items.find((h) => !!h.staleAt));

@@ -88,7 +88,7 @@
 <Frame title="Holdings" state={ds} back={{ label: 'Portfolio', href: '/' }} {actions} {body} rail={ds === 'empty' || failed ? undefined : rail} />
 
 {#snippet body()}
-  {#if privacy.hidden && ds !== 'empty'}<Banner title={SAY.hiddenTitle} text={SAY.hidden} icon="eye-off" />{/if}
+  {#if privacy.masked && ds !== 'empty'}<Banner title={SAY.hiddenTitle} text={SAY.hidden} icon="eye-off" />{/if}
   {#if ds === 'empty'}
     <div class="card state"><h2 class="sh"><span class="ic"><Ico id="grid" size="s18" /></span>{SAY.emptyTitle}</h2><p>{SAY.empty}</p><a class="btn btn-primary sm" href="/imports" style="text-decoration:none;text-align:center"><Ico id="chev-r" size="s18" />{SAY.goImports}</a></div>
   {:else if failed}

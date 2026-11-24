@@ -29,7 +29,7 @@ describe('the privacy centre says only what its design says (Privacy option A, p
 
   it('names the switch and its card as modeCard does', () => {
     expect(privacyJs).toContain(`head('${COPY.mode}', sw('${COPY.hide}', true))`);
-    expect(privacyJs).toContain(`const maskSay = '${COPY.hiddenSay} Tap to show for 30 seconds.';`);
+    expect(privacyJs).toContain(`const maskSay = '${COPY.hiddenSay}';`);
     expect(privacyJs).toContain(`const maskCopy = \`${COPY.hiddenLead} \${maskSay}\`;`);
   });
 
@@ -48,9 +48,10 @@ describe('the privacy centre says only what its design says (Privacy option A, p
   });
 
   it('says what the switch does in each position', () => {
-    expect(modeSay(true)).toBe('Amounts hidden. Money and units are masked. Percentages and ranges stay visible.');
+    expect(modeSay(true)).toBe('Amounts hidden. Money and units are masked. Percentages and ranges stay visible. Tap to show for 30 seconds.');
     expect(modeSay(false)).toBe(COPY.shownSay);
-    expect(modeSay(true)).not.toContain('Tap to show');
+    // the promise is said because it is kept: a tap shows every amount for 30 seconds (peek.ts, tests/e2e/peek.spec.ts)
+    expect(modeSay(false)).not.toContain('Tap to show');
   });
 });
 

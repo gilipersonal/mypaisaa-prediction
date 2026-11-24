@@ -4,7 +4,7 @@ While the read-only screens were built to their design (MP-205, design parity), 
 said "Tap to show for 30 seconds." with nothing behind it. The design did not say what is tapped, what shows, or how the
 30 seconds end. The owner, 24 November 2026, picked "Design tap-to-show" over dropping the sentence.
 
-Design only. Nothing is built until the owner picks.
+The owner picked A, the whole screen, on 24 November 2026. It is built in the web app under MP-205.
 
 ## Where it is
 
@@ -42,4 +42,7 @@ journeys). `python3 scripts/design_gates.py check` and `selftest` pass with Tap 
 
 ## Decision
 
-Waiting for the owner's pick.
+24 November 2026. Asked "Which tap-to-show option should the app follow?", the owner pressed **"A, whole screen"**. The
+option read: a tap on any masked amount shows every amount on the screen for 30 seconds; the eye becomes Hide now with the
+seconds left; they hide after 30 seconds, on Hide now, on leaving the screen, or in the background. The option text is not
+the owner's own reasoning (lesson 42). B stays drawn in the journey, labelled not picked. Also recorded in the decision log.

@@ -1,7 +1,7 @@
 /* Tap to show (MP-205): what "Tap to show for 30 seconds" does, the sentence the privacy centre and the hidden Home already
    say. The owner asked for it to be designed on 24 Nov 2026 ("Design tap-to-show"), when the build found the sentence with
    nothing behind it. Two options, drawn on the hidden Home that Privacy option B draws (privacy.js lends it through J.kit),
-   with the same figures as Home. Proposed: nothing here is settled until the owner picks. */
+   with the same figures as Home. The owner picked A, the whole screen, on 24 Nov 2026 ("A, whole screen"). */
 {
   const { homeHidden, homeSay, homePage, maskValue, maskedRows, maskSay, supported, box, outsideHead, costPillOf, wide } = J.kit.privacy;
   void maskSay;
@@ -29,7 +29,8 @@
   const peekHidden = (ctx, tap) => (['loading', 'empty'].includes(ctx.state) ? homeHidden(ctx)
     : peekBody(ctx, banner('', 'Amounts hidden.', `Money and units are masked. Percentages and ranges stay visible. ${tap}`, 'eye-off'), maskValue(ctx.state), maskedRows(ctx)));
   J.add({
-    id: 'peek', title: 'Tap to show', stories: ['MP-205', 'MP-84'],
+    /* the owner picked "A, whole screen" on 24 Nov 2026 (MP-205). B stays drawn, labelled not picked, so the round can be read back */
+    id: 'peek', title: 'Tap to show', stories: ['MP-205', 'MP-84'], picked: 'a', pickedOn: '24 Nov 2026',
     summary: 'With amounts hidden, a tap shows them for 30 seconds, then they hide again. Privacy mode stays on throughout.',
     options: [{
       id: 'a', name: 'The whole screen', rec: true,

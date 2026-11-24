@@ -7,4 +7,4 @@
   const pence = $derived(v.split('.')[1] ?? '00');
 </script>
 
-<span class="amt" style={size ? `font-size:${size}px` : undefined}>{#if privacy.hidden}<Hidden />{:else}<span class="roll" data-roll={pounds}><span class="roll-ghost" aria-hidden="true">{pounds}</span><span class="roll-live">{pounds}</span></span><span class="p">.{pence}</span>{/if}</span>
+<span class="amt" style={size ? `font-size:${size}px` : undefined}>{#if privacy.masked}<Hidden button />{:else}<span class="roll" data-roll={pounds}><span class="roll-ghost" aria-hidden="true">{pounds}</span><span class="roll-live">{pounds}</span></span><span class="p">.{pence}</span>{/if}</span>
