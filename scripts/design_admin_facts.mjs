@@ -97,6 +97,9 @@ function selftest() {
     ['a named act drawn', (js) => { const r = js[1].options[0].screens[0].render; js[1].options[0].screens[0].render = (c) => r(c) + '<span class="aact" data-act="A63" data-phone-off="1"><button>Do it</button></span>'; }, 'is marked named'],
     ['an act outside its journeys', (js) => { const r = js[1].options[0].screens[0].render; js[1].options[0].screens[0].render = (c) => r(c) + '<span class="aact" data-act="A41" data-phone-off="1"><button>Do it</button></span>'; }, 'its row does not list'],
     ['a journey removed', (js) => { js.splice(2, 1); }, 'it needs'],
+    // MP-202: recording production lost (A85) is drawn, and never live on a phone (ADM-05; phones read and acknowledge)
+    ['record production lost undrawn', (js) => { for (const j of js) for (const o of j.options) for (const s of o.screens) { const r = s.render; s.render = (c) => r(c).replace(/data-act="A85"/g, ''); } }, 'A85 (Record production lost) has no control'],
+    ['record production lost live on a phone', (js) => { const r = js[1].options[0].screens[0].render; js[1].options[0].screens[0].render = (c) => r(c) + (c.kind === 'pwa' ? '<span class="aact" data-act="A85"><button>Record production lost</button></span>' : ''); }, 'A85 is a live control on a phone'],
   ];
   let bad = 0;
   for (const [name, mutate, reason] of cases) {

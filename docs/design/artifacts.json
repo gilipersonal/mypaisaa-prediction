@@ -65,20 +65,20 @@
    "jira": "MP-199"
   },
   {
-   "slug": "ds-admin",
-   "source": "docs/design/admin/index.html",
-   "artifact_url": "https://claude.ai/artifact/TSrmRb5RpjhGE1iqrZkejf",
-   "published_sha256": "02aed1db2359689f917d2f8a40f46a3c19a582def15411ccd0a7774b63eaa7c0",
-   "published_at": "2026-11-24",
-   "jira": "MP-192"
-  },
-  {
    "slug": "ds-journeys",
    "source": "docs/design/journeys/index.html",
    "artifact_url": "https://claude.ai/artifact/UXvLXTKyH9zd1r7CtXG2Kq",
    "published_sha256": "84260cf0aa5cd051c73b0129239ef989c4858ff5a622f8bcdd82b93b4a771dbf",
    "published_at": "2026-11-24",
    "jira": "MP-194"
+  },
+  {
+   "slug": "ds-admin",
+   "source": "docs/design/admin/index.html",
+   "artifact_url": "https://claude.ai/artifact/TSrmRb5RpjhGE1iqrZkejf",
+   "published_sha256": "edfba782fa30df46ec02d514ffdd4f5a3612344a285998966655e1c5534a45b6",
+   "published_at": "2026-11-24",
+   "jira": "MP-202"
   }
  ]
 }
