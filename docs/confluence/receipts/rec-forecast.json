@@ -1,13 +1,13 @@
 {
  "slug": "rec-forecast",
  "page_id": "6127742",
- "version": 4,
- "sent_sha256": "474a2933cbc1e07a06ae95e3e322ed5fd55f6490a5c6e86f6fedd2d883c68c86",
- "readback_sha256": "587a0b2adccb51bcfbbd3b4866b3ec4da02fc7f4c67105b850635ee72441960b",
- "canonical_sha256": "6d0e0bc590f0df5499ba3a27384dd7205bc8c81bfa7e9252da1084d67bf7bb16",
- "parts": 153,
+ "version": 5,
+ "sent_sha256": "4013b730a723369fb4b62d2b9f3c2c0c7fb505148aaf39b51f08c43f29a7afef",
+ "readback_sha256": "08c33641c1698834f32cc28b5e789215774267191b40d42b59a306a0cdb26024",
+ "canonical_sha256": "c1021dfdb46eeae8b4f4243eada172297b279d8f409b13e79960b1f3c67afdcf",
+ "parts": 156,
  "verdict": "match",
  "differences": [],
  "id_checked": true,
- "read_at": "2026-11-03T12:39:00Z"
+ "read_at": "2026-11-24T14:44:23Z"
 }

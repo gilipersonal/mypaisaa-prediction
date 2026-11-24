@@ -17,9 +17,13 @@ imported, so this document does not change when that one does. Sources: README.m
 and the MP-36 page drafts (rec-stack, rec-observability, rec-testing, rec-apple-testing, rec-perimeter,
 rec-web-quality), all 2 November 2026. Prices are the drafts' own, checked 2 November 2026 at the cost
 specification's £0.80 to the dollar and 20% tax.
-Drawings 2 to 5 carry the owner's 2 and 3 November 2026 decisions (decision log): Terraform only, the owner-started
-release (route A), SSM Parameter Store, Organizations with the cost-guard SCP, N0 in Virginia and free Apple builds
-(MP-20 refresh).
+Drawings 2 to 5 carry the owner's 2 and 3 November 2026 decisions (decision log): Terraform only, SSM Parameter Store,
+Organizations with the cost-guard SCP, N0 in Virginia and free Apple builds (MP-20 refresh). Drawings 3 and 4 also carry
+the owner's 24 November 2026 answers (MP-203): MP203-08 "An environment replaces route A" (a merge to main starts the
+release, which waits in the GitHub production environment for the owner's approval; it replaces route A of 3 November
+2026, a release workflow the owner alone dispatched) and MP203-11 "Build and unit tests in CI" (pull requests that touch
+the Apple app build it and run XCTest on a free macOS runner; Maestro journeys and real-device builds stay on the
+owner's Mac).
 """
 
 from __future__ import annotations
@@ -396,7 +400,7 @@ SCANS = [
     ("Ruff S rules", "Bandit's patterns; Ruff already runs", "prop"),
     ("Terraform checks", "terraform fmt and validate, TFLint and Checkov on the Terraform", "prop"),
 ]
-ROUTES_NOT = [  # the routes the owner did not choose (3 November 2026)
+ROUTES_NOT = [  # the routes the owner did not choose (3 November 2026); route A, chosen then, was replaced on 24 November
     ("B: GitHub Team", "$4 a user a month (about £3.84); still no required reviewers on a private repo"),
     ("C: GitHub Enterprise", "$21 a user a month (about £20.16): required reviewers"),
     ("D: CodePipeline approval", "a new managed service in the prod account, needing a costed ADR"),
@@ -407,7 +411,7 @@ def page_delivery() -> dict:
     W = 2440
     s = header("p3", W, "From a merge to prod",
                "One artefact is built once, tested in dev, and the same bytes go to prod. CI deploys; no laptop and no Claude session does. "
-               "Today's ten checks are implemented. The release route and Terraform are owner-selected (3 Nov 2026); the rest after the merge is proposed. "
+               "Today's ten checks are implemented. Terraform (3 Nov 2026) and the release route (24 Nov 2026) are owner-selected; the rest after the merge is proposed. "
                "Steps are numbered in order.",
                "Checks IMPLEMENTED; release route OWNER-SELECTED; rest PROPOSED")
     s.append(heading("gh_h", 60, 146, 600, "GITHUB, OUTSIDE AWS"))
@@ -444,7 +448,7 @@ def page_delivery() -> dict:
               "text": "dev account: synthetic data only"})
     s.append({"id": "role", "type": "namedShape", "className": "ResAWSIdentityAccessManagementRoleAWS2024",
               "boundingBox": {"x": 1700, "y": 830, "w": 72, "h": 42}, "text": " "})
-    s.append(text("role_t", 1636, 898, 200, 80, label_html("Dev deploy role", "trusts main and the release workflow", "prop")))
+    s.append(text("role_t", 1636, 898, 200, 80, label_html("Dev deploy role", "trusts the workflow on main", "prop")))
     # 70 px below the account's top edge, so its title stays readable
     s.append(box("devdeploy", 1330, 830, 250, 110, "7 Deploy to dev", "Lambda versions behind a live alias; the PWA bundle to private S3", "amber", "prop", size=13))
     s.append(box("devsmoke", 1180, 980, 320, 240, "8 Dev smoke, synthetic",
@@ -452,10 +456,10 @@ def page_delivery() -> dict:
                  "a synthetic user gets an SSE heartbeat<br>a synthetic import runs through the queue and the workflow<br>no paid calls", "teal", "prop", size=13))
     s.append({"id": "approve", "type": "diamond", "boundingBox": {"x": 880, "y": 920, "w": 220, "h": 170},
               "style": {"fill": {"type": "color", "color": "#FFF8E8"}, "stroke": {"color": BLUE, "width": 3, "style": "solid"}},
-              "text": f'<p style="font-size:13px;text-align:center"><b>9 The owner starts the release with this sha256</b><br>{tag("sel")}</p>'})
+              "text": f'<p style="font-size:13px;text-align:center"><b>9 The release waits for the owner to approve it</b><br>{tag("sel")}</p>'})
     s.append({"id": "prod", "type": "namedContainer", "className": "AWSAccountAWS2024", "boundingBox": {"x": 100, "y": 760, "w": 720, "h": 490},
               "text": "prod account: your data"})
-    s.append(box("proddeploy", 560, 790, 240, 120, "10 Deploy to prod", "the owner's release workflow, from main, into a separate prod role", "blue", "sel", size=13, extra=" (ARC-11)"))
+    s.append(box("proddeploy", 560, 790, 240, 120, "10 Deploy to prod", "from main, through the production environment, into a separate prod role", "blue", "sel", size=13, extra=" (ARC-11)"))
     s.append(box("prodsmoke", 130, 830, 330, 150, "11 Prod smoke, read-only",
                  "health and the deployed sha; no-token refusals; the PWA's headers; an unauthenticated stream refused. No writes, no Claude, no market-data quota",
                  "teal", "prop", size=13))
@@ -464,18 +468,26 @@ def page_delivery() -> dict:
                  "rose", "prop", size=13))
     icon(s, "alias", "ArchAWSLambdaAWS2024", 640, 1080, "Lambda live alias", "v(n) back to v(n-1)", "prop", lw=180)
 
-    # right of the diamond's centre line, so the "route A" connector does not cross it
-    s.append(heading("routes_h", 1020, 1320, W - 1020, "PROD RELEASES: A RELEASE WORKFLOW ONLY THE OWNER CAN START, ROUTE A (OWNER-SELECTED 3 NOV 2026, PL-11)", BLUE))
+    # right of the diamond's centre line, so the "environment" connector does not cross it
+    s.append(heading("routes_h", 1020, 1320, W - 1020,
+                     "PROD RELEASES: THE GITHUB PRODUCTION ENVIRONMENT REPLACES ROUTE A (OWNER-SELECTED 24 NOV 2026, MP203-08, PL-11)", BLUE))
+    # MP203-08 (owner, 24 Nov 2026, MP-203): "An environment replaces route A"; the option read "A merge to main starts the
+    # release, which waits in the production environment for your approval."
     s.append(note("enforce", 60, 1360, 640, 130,
-                  "<b>How it holds on GitHub Free.</b> While the repo was private, GitHub Free could not hold a protected environment, so the check lives in AWS: "
-                  "only the owner can start the workflow, and the prod role trusts only main and that workflow file. The repo is public since "
-                  "24 Nov 2026; " + "whether route A stands, or a protected environment replaces or joins it, is open for the owner (MP-199).", 12))
-    s.append(box("routeA", 740, 1360, 560, 130, "Route A, chosen: an owner-started release",
-                 "free; the owner starts it with the sha256 as its input", "blue", "sel", size=14, width=3))
+                  "<b>How it holds on GitHub Free.</b> The repo is public since 24 Nov 2026, where GitHub Free offers environments with "
+                  "required reviewers. A merge to main starts the release, which waits in the production environment for the owner's approval. "
+                  "Administrators can bypass environment rules by default. The prod role trusts only that environment, checked "
+                  "against GitHub's documentation before build " + tag("prop") + ".", 12))
+    s.append(box("env", 740, 1360, 340, 130, "Chosen: the production environment",
+                 "a merge to main starts the release; it waits there for the owner's approval. £0 while the repo is public",
+                 "blue", "sel", size=13, width=3, extra=" (24 Nov 2026)"))
+    s.append(box("routeA", 1100, 1360, 220, 130, "A: a release the owner starts",
+                 f'a workflow the owner alone dispatched, chosen 3 Nov 2026<br><span style="font-size:11px;color:{MUTED}"><b>REPLACED 24 NOV 2026</b></span>',
+                 "grey", None, size=13))
     for i, (title, detail) in enumerate(ROUTES_NOT):
         s.append(box(f"route{i}", 1340 + i * 370, 1360, 350, 130, title,
                      detail + f'<br><span style="font-size:11px;color:{MUTED}"><b>NOT CHOSEN</b></span>', "grey", None, size=13))
-    s += legend("leg", 60, 1520, W - 60, "Box colours: blue the PR, the release route and prod, teal checks and smoke, amber build and deploy, rose rollback, grey routes not chosen.")
+    s += legend("leg", 60, 1520, W - 60, "Box colours: blue the PR, the release route and prod, teal checks and smoke, amber build and deploy, rose rollback, grey routes replaced or not chosen.")
     yfrac = (rowy - 180) / ph
     L = [
         line("d1", "pr", (1, 0.5), "checks", (0, yfrac), "", BLUE),
@@ -491,7 +503,7 @@ def page_delivery() -> dict:
         line("d11", "proddeploy", (0, 0.5), "prodsmoke", (1, 0.3), "", TEAL),
         line("d12", "prodsmoke", (0.5, 1), "rollback", ((295 - 130) / 380, 0), "if it fails", ROSE, 0.5, "middle"),
         line("d13", "rollback", (1, 0.5), "alias", (0, 0.5), "", ROSE),
-        line("d14", "approve", (0.5, 1), "routeA", ((990 - 740) / 560, 0), "route A", BLUE, 0.55, "middle"),
+        line("d14", "approve", (0.5, 1), "env", ((990 - 740) / 340, 0), "environment", BLUE, 0.55, "middle"),
     ]
     return {"id": "delivery", "title": "3 From a merge to prod", "shapes": s, "lines": L}
 
@@ -517,17 +529,18 @@ A11Y = [
 def page_apple() -> dict:
     W = 2400
     s = header("p4", W, "Apple testing and the private beta",
-               "Test on simulators on the owner's Mac for nothing. For now (owner, 3 Nov 2026) no paid Developer Program: free local builds that expire "
-               "after 7 days, and no TestFlight, Apple push or Sign in with Apple until the Developer Program is bought (MP-179). No Apple app exists yet (PL-14). Phase PH-07.",
-               "PROPOSED; no paid Developer Program for now")
-    s.append(panel("mac", 60, 170, 1140, 980, "The owner's Mac: every simulator run costs £0"))
+               "Apple-app PRs: build and XCTest on a free macOS runner (24 Nov 2026); Maestro journeys and real-device builds stay on "
+               "the owner's Mac. No paid Developer Program for now: free builds last 7 days; no TestFlight, Apple push or Sign in "
+               "with Apple until it is bought (MP-179). No Apple app yet (PL-14, PH-07).",
+               "PROPOSED; CI build and XCTest OWNER-SELECTED; no paid Developer Program for now")
+    s.append(panel("mac", 60, 170, 1140, 980, "The owner's Mac: Maestro journeys on simulators, £0"))
     s.append(box("ids", 90, 220, 550, 150, "Shared test IDs: mpp.*",
                  "one dictionary kept with the shared contracts; it generates data-testid for the PWA and Swift constants for .accessibilityIdentifier and the "
                  "shell's testID. IDs name the job, never a value: mpp.forecast.freshness, mpp.import.approve", "purple", "prop", size=14, width=3))
     s.append(box("webids", 780, 220, 390, 150, "Web: Playwright finds getByTestId", "the same journey reads the same on both doors (page 6)", "blue", "prop", dashed=True, size=14))
     s.append(box("stub", 90, 450, 270, 140, "Local FastAPI stub", "synthetic data; no live mode until the dev account exists", "amber", "prop", size=14))
     s.append(box("maestro", 450, 450, 340, 140, "Maestro CLI and Studio", "journeys end to end on simulators, by the id selector; free and open source", "teal", "prop", size=14, width=3))
-    s.append(box("xcode", 850, 450, 320, 140, "Xcode", "XCTest and XCUITest; an accessibility audit on each main screen", "teal", "prop", size=14))
+    s.append(box("xcode", 850, 450, 320, 140, "Xcode", "XCTest and XCUITest; an accessibility audit on each main screen. XCTest also runs in CI", "teal", "prop", size=14))
     s.append(heading("sim_h", 720, 640, 460, "SIMULATORS: LAYOUT FOLLOWS THE WIDTH", BLUE))
     for id_, x, y, w, h, lab in DEVICES:
         s.append({"id": id_, "type": "rectangle", "boundingBox": {"x": x, "y": y, "w": w, "h": h},
@@ -544,7 +557,13 @@ def page_apple() -> dict:
                  "the owner's free Apple Account signs the builds. No TestFlight, Apple push or Sign in with Apple until the Developer Program is bought (MP-179); "
                  "phone notifications come through the web app's Web Push", "blue", "sel", size=14, width=3, extra=" (3 Nov 2026)"))
     s.append(box("local", 1280, 440, 300, 160, "Free local build from Xcode",
-                 "installed on the owner's own devices over a cable or Wi-Fi; no App Store Connect key in GitHub, no Mac CI minutes", "amber", "sel", size=13))
+                 "installed on the owner's own devices over a cable or Wi-Fi; no App Store Connect key in GitHub; CI only builds and runs XCTest", "amber", "sel", size=13))
+    # MP203-11 (owner, 24 Nov 2026, MP-203): "Build and unit tests in CI"; the option read "Each pull request that touches the
+    # Apple app builds it and runs XCTest on a free macOS runner. Maestro journeys and real-device builds stay on your Mac."
+    # It sits under the local build to devices line, which runs at 12.5% of the boxes' height.
+    s.append(box("macci", 1615, 505, 370, 110, "Pull requests that touch the Apple app",
+                 "a free macOS runner builds the app and runs XCTest; £0 while the repo is public", "teal", "sel", size=13, width=3,
+                 extra=" (24 Nov 2026)"))
     s.append(box("devices", 2010, 440, 330, 160, "The owner's iPhone and iPad", "real hardware: Face ID and VoiceOver, by hand; no Apple push on a free build", "blue", "sel", size=14))
     s.append(box("tf", 1280, 690, 300, 160, "TestFlight, later", "only once the owner pays: an owner-only internal group; each build lasts 90 days",
                  "rose", "open", dashed=True, size=13, extra=" (once the Developer Program is bought, MP-179)"))
@@ -565,8 +584,8 @@ def page_apple() -> dict:
         ["Maestro CLI and Studio", "Free", "£0", "PROPOSED"],
         ["Apple Developer Program", "99 USD a membership year", "£95.04 in the month it is paid", "Not for now"],
         ["Maestro Cloud", "250 USD per device a month", "£240.00 a month", "Not proposed"],
-        ["GitHub macOS runner", "0.062 USD a minute", "20 runs of 15 minutes: £17.86 a month", "Not proposed"],
-    ], header_fill="#EFE7FD", fills={(1, 3): "#E6EEFF", (2, 3): "#FFF1D6", (3, 3): "#F5F7FC", (4, 3): "#F5F7FC", (5, 3): "#F5F7FC"}))
+        ["GitHub macOS runner", "Free on a public repo; 0.062 USD a minute if private", "£0 while public; about £5.95 per 100 minutes if private", "OWNER-SELECTED, 24 Nov 2026"],
+    ], header_fill="#EFE7FD", fills={(1, 3): "#E6EEFF", (2, 3): "#FFF1D6", (3, 3): "#F5F7FC", (4, 3): "#F5F7FC", (5, 3): "#E6EEFF"}))
     s.append(note("warn", 1280, 1304, 1060, 96,
                   f'<b>Against the £100 ceiling</b> {tag("sel")}: nothing is paid for now. If the owner ever buys the membership, its fee month is the one '
                   f'month a year allowed above £100, for this fee only (owner, 2 Nov 2026): about £141.52 with Grow 55. TestFlight, Apple push and Sign in '
@@ -580,7 +599,7 @@ def page_apple() -> dict:
         line("f3", "maestro", (0, 0.5), "stub", (1, 0.5), "API", AMBER),
         line("f4", "maestro", (0.5, 1), "d_pdl", ((620 - 600) / 160, 0), "drives", TEAL, 0.45, "middle"),
         line("f5", "xcode", (1, 0.5), "local", (0, 0.5), "build", AMBER),
-        line("f7", "local", (1, 0.5), "devices", (0, 0.5), "install", AMBER),
+        line("f7", "local", (1, 0.125), "devices", (0, 0.125), "install", AMBER),
         line("f6", "local", (0.5, 1), "tf", (0.5, 0), "if the owner pays", ROSE, 0.5, "middle", dashed=True),
         line("f8", "devices", ((2268 - 2010) / 330, 1), "cog", (0.5, 0), "dev only", BLUE, 0.5, "middle"),
         line("c1", "c0", (1, 0.5), "c7", (0, 0.5), "", ROSE),

@@ -1,5 +1,5 @@
 {
-  "status": "consolidated_2026-11-05 (MP-192): SCI-D05 and SCI-D09 closed by owner answers; SCI-D01/D03/D04/D06/D07/D08 partly answered; SCI-D02/D10 owner_pending",
+  "status": "consolidated_2026-11-24 (MP-203): SCI-D05 and SCI-D09 closed by owner answers; SCI-D01/D03/D04/D06/D07/D08 partly answered; SCI-D02/D10 owner_pending",
   "owner_confirmed": [
     {
       "id": "FND-DEC-001",
@@ -44,7 +44,7 @@
     {
       "id": "SCI-D03",
       "topic": "Qualification evidence and effect/precision policy",
-      "recommendation": "Approve proposed chronological folds, purging, 24-month final test, block uncertainty, provisional 2% primary-loss hurdle/95% paired interval and 80% coverage \u00b15 pp only after pilot precision evidence. For the live trial (proposed): score the current rules through a frozen, qualified rules-to-probability mapping (R0-RULEMAP), with the strongest eligible R0 distribution baseline standing in for pinball-scored targets; count a short-horizon week when its origins issued cleanly and take the verdict once they mature; count a 3/6/12-month week when it ran cleanly; check long-horizon calibration on the frozen candidate replayed point-in-time on the latest matured walk-forward origins. Answered 2026-11-05 (MP-184): what beating means in the trial (OWN-33, \"A lower score is enough\") and what stands in when the rules cannot be given a fair score (ADM-09, \"Use the best simple baseline\"); see owner_answers_2026_11_05.",
+      "recommendation": "Approve proposed chronological folds, purging, 24-month final test, block uncertainty, provisional 2% primary-loss hurdle/95% paired interval and 80% coverage \u00b15 pp only after pilot precision evidence. For the live trial (proposed): score the current rules through a frozen, qualified rules-to-probability mapping (R0-RULEMAP), with the strongest eligible R0 distribution baseline standing in for pinball-scored targets; count a short-horizon week when its origins issued cleanly and take the verdict once they mature; count a 3/6/12-month week when it ran cleanly; check long-horizon calibration on the frozen candidate replayed point-in-time on the latest matured walk-forward origins. Answered 2026-11-05 (MP-184): what beating means in the trial (OWN-33, \"A lower score is enough\") and what stands in when the rules cannot be given a fair score (ADM-09, \"Use the best simple baseline\"); see owner_answers_2026_11_05. Answered 2026-11-24 (MP-203): the trial has no 2% hurdle and no 95% interval, confirmed (MP203-06, \"Confirm: no hurdle, no interval\"); for range (pinball-scored) targets the strongest eligible R0 distribution baseline stands in for the rules under one standing approval, named on each promotion screen, with every promotion still the owner's (MP203-05, \"Once, as a standing rule\"); see owner_answers_2026_11_24.",
       "why_owner_material": "Caps/thresholds are design proposals, not established performance standards; long horizons may remain unavailable.",
       "requirements": [
         "SCI-05",
@@ -54,9 +54,11 @@
       "answered_by": [
         "SCI-OA-04",
         "OWN-33",
-        "ADM-09"
+        "ADM-09",
+        "MP203-05",
+        "MP203-06"
       ],
-      "still_open": "The 8-week shadow trial, the pause for a week that cannot be scored and long-horizon reliance on walk-forward history are settled. Settled on 5 November 2026: what beating means in the trial, where OWN-33's option read \"The model must score better on average than each comparator on the same forecasts. Rules are scored through the frozen mapping.\" and its cost read \"A small lead counts, and the 2% hurdle applies only to the earlier walk-forward test.\" (OWN-33); and what happens when the rules cannot be given a fair score, where ADM-09's option read \"For that task, the strongest simple baseline stands in for the rules, with your yes each time.\" (ADM-09). Still open: folds, purging, 24-month final test, block uncertainty, the provisional 2% hurdle for the walk-forward test, 95% paired interval and 80% coverage tolerance; how the current rules get a proper score (they give only heuristic strength, so the rules leg of the trial and of a rules-change trial has no score until a frozen mapping qualifies; how that mapping is fitted and qualified is proposed as R0-RULEMAP); what a scored week is for each horizon; and how a 3/6/12-month candidate is checked as 'calibrated on what has matured' when nothing it issues in the trial matures.",
+      "still_open": "The 8-week shadow trial, the pause for a week that cannot be scored and long-horizon reliance on walk-forward history are settled. Settled on 5 November 2026: what beating means in the trial, where OWN-33's option read \"The model must score better on average than each comparator on the same forecasts. Rules are scored through the frozen mapping.\" and its cost read \"A small lead counts, and the 2% hurdle applies only to the earlier walk-forward test.\" (OWN-33); and what happens when the rules cannot be given a fair score, where ADM-09's option read \"For that task, the strongest simple baseline stands in for the rules, with your yes each time.\" (ADM-09). Settled on 24 November 2026: that the trial has no 2% hurdle and no 95% interval, both staying in the walk-forward test only, where MP203-06's option read \"A lower average score than each comparator on the same matured forecasts is enough in the trial. The 2% hurdle and the 95% interval stay in the walk-forward test only.\" (MP203-06); and what stands in for the rules on range (pinball-scored) targets, where MP203-05's option read \"You approve once that for range tasks the strongest simple range baseline stands in for the rules. Each promotion screen names it, and you still approve every promotion.\" (MP203-05). Still open: folds, purging, 24-month final test, block uncertainty, the provisional 2% hurdle for the walk-forward test, 95% paired interval and 80% coverage tolerance; how the current rules get a proper score (they give only heuristic strength, so the rules leg of the trial and of a rules-change trial has no score until a frozen mapping qualifies; how that mapping is fitted and qualified is proposed as R0-RULEMAP); what a scored week is for each horizon; and how a 3/6/12-month candidate is checked as 'calibrated on what has matured' when nothing it issues in the trial matures.",
       "superseded_2026_11_05_mp192": {
         "date": "2026-11-05",
         "by": "OWN-33 and ADM-09: docs/planning/owner-question-pack-2026-11-05/answers.json (MP-184), recorded by MP-192",
@@ -69,6 +71,22 @@
           "folds, purging, the 24-month final test, block uncertainty, the provisional 2% hurdle (now for the walk-forward test only), the 95% paired interval and the 80% coverage tolerance, still proposed",
           "how the current rules get a proper score: the frozen mapping (R0-RULEMAP) is still a proposal until one qualifies",
           "what a scored week is for each horizon, and the long-horizon calibration check"
+        ]
+      },
+      "superseded_2026_11_24_mp203": {
+        "date": "2026-11-24",
+        "by": "MP203-05 and MP203-06: docs/planning/owner-question-pack-2026-11-24/answers.json (MP-203)",
+        "recommendation_was": "Approve proposed chronological folds, purging, 24-month final test, block uncertainty, provisional 2% primary-loss hurdle/95% paired interval and 80% coverage \u00b15 pp only after pilot precision evidence. For the live trial (proposed): score the current rules through a frozen, qualified rules-to-probability mapping (R0-RULEMAP), with the strongest eligible R0 distribution baseline standing in for pinball-scored targets; count a short-horizon week when its origins issued cleanly and take the verdict once they mature; count a 3/6/12-month week when it ran cleanly; check long-horizon calibration on the frozen candidate replayed point-in-time on the latest matured walk-forward origins. Answered 2026-11-05 (MP-184): what beating means in the trial (OWN-33, \"A lower score is enough\") and what stands in when the rules cannot be given a fair score (ADM-09, \"Use the best simple baseline\"); see owner_answers_2026_11_05.",
+        "still_open_was": "The 8-week shadow trial, the pause for a week that cannot be scored and long-horizon reliance on walk-forward history are settled. Settled on 5 November 2026: what beating means in the trial, where OWN-33's option read \"The model must score better on average than each comparator on the same forecasts. Rules are scored through the frozen mapping.\" and its cost read \"A small lead counts, and the 2% hurdle applies only to the earlier walk-forward test.\" (OWN-33); and what happens when the rules cannot be given a fair score, where ADM-09's option read \"For that task, the strongest simple baseline stands in for the rules, with your yes each time.\" (ADM-09). Still open: folds, purging, 24-month final test, block uncertainty, the provisional 2% hurdle for the walk-forward test, 95% paired interval and 80% coverage tolerance; how the current rules get a proper score (they give only heuristic strength, so the rules leg of the trial and of a rules-change trial has no score until a frozen mapping qualifies; how that mapping is fitted and qualified is proposed as R0-RULEMAP); what a scored week is for each horizon; and how a 3/6/12-month candidate is checked as 'calibrated on what has matured' when nothing it issues in the trial matures.",
+        "superseded": [
+          "the range-target stand-in needing the owner's yes each time (a proposed reading): one standing approval (MP203-05)",
+          "no 2% hurdle and no 95% interval in the trial as a reading of OWN-33's cost: the owner confirmed it (MP203-06)"
+        ],
+        "kept": [
+          "how the current rules get a proper score (R0-RULEMAP), still proposed",
+          "what a scored week is for each horizon",
+          "the long-horizon calibration check",
+          "folds, purging, the 24-month final test, block uncertainty, the provisional 2% hurdle and 95% interval for the walk-forward test, and the 80% coverage tolerance"
         ]
       }
     },
@@ -153,7 +171,7 @@
     {
       "id": "SCI-D07",
       "topic": "Worse-week scoring rule and exact safety triggers",
-      "recommendation": "Answered 2026-11-05 (OWN-27, \"As proposed\"): the option read \"A bad week scores strictly worse than the previous model on that week's matured pairs. Two must run together. At 6 and 12 months probation checks clean running only.\" So a bad week is a strictly worse mean primary proper score (SCI-06) for the live model than the previous approved model on that week's matured paired origins, per task scope, and probation reverts after 2 bad weeks running. Still proposed: a week with no matured paired forecasts neither counts nor breaks a run. Exact deterministic safety triggers (invalid hash, revoked rights, corrupt or missing inputs, budget ceiling) are listed for advance approval. Proposed for a first promotion, with no previous approved model: the comparator and revert target are the current rules scored through the SCI-D03 rules mapping, a revert withdraws the model's probabilities, and without a qualified mapping the scope pauses (POLICY-003).",
+      "recommendation": "Answered 2026-11-05 (OWN-27, \"As proposed\"): the option read \"A bad week scores strictly worse than the previous model on that week's matured pairs. Two must run together. At 6 and 12 months probation checks clean running only.\" So a bad week is a strictly worse mean primary proper score (SCI-06) for the live model than the previous approved model on that week's matured paired origins, per task scope, and probation reverts after 2 bad weeks running. Still proposed: a week with no matured paired forecasts neither counts nor breaks a run. Exact deterministic safety triggers (invalid hash, revoked rights, corrupt or missing inputs, budget ceiling) are listed for advance approval. Proposed for a first promotion, with no previous approved model: the comparator and revert target are the current rules scored through the SCI-D03 rules mapping, a revert withdraws the model's probabilities, and without a qualified mapping the scope pauses (POLICY-003). Answered 2026-11-24 (MP203-04, \"Pairs when there are any\"): the option read \"A 3-month model is judged on any pairs that mature in its 4 weeks, from forecasts it made in shadow, and is checked for clean running too. With no pairs, clean running only.\" So at 3 months probation judges the model on any pairs that mature in its 4 weeks, from forecasts it made in shadow, and checks clean running too; with no pairs, clean running only.",
       "why_owner_material": "Weekly samples are small and noisy: the rule sets how often a sound model is reverted, and whether 2 probation weeks must run consecutively.",
       "requirements": [
         "SCI-06",
@@ -165,9 +183,10 @@
         "SCI-OA-06",
         "POLICY-003"
       ],
-      "still_open": "Settled on 5 November 2026 (OWN-27, \"As proposed\"): the worse-week metric and pairing (a strictly worse mean primary proper score than the previous approved model on that week's matured paired origins), that the 2 probation weeks must run together, and that at 6 and 12 months probation checks clean running only. Still open: the minimum count of matured pairs for a week to count; the exact safety triggers for advance approval; and the comparator and revert target at a first promotion.",
+      "still_open": "Settled on 5 November 2026 (OWN-27, \"As proposed\"): the worse-week metric and pairing (a strictly worse mean primary proper score than the previous approved model on that week's matured paired origins), that the 2 probation weeks must run together, and that at 6 and 12 months probation checks clean running only. Settled on 24 November 2026 (MP203-04, \"Pairs when there are any\"): at 3 months a model on probation is judged on any pairs that mature in its 4 weeks, from forecasts it made in shadow, and is checked for clean running too; with no pairs, clean running only. Still open: the minimum count of matured pairs for a week to count; the exact safety triggers for advance approval; and the comparator and revert target at a first promotion.",
       "answered_by": [
-        "OWN-27"
+        "OWN-27",
+        "MP203-04"
       ],
       "superseded_2026_11_05_mp192": {
         "date": "2026-11-05",
@@ -184,12 +203,26 @@
           "the comparator and revert target at a first promotion, still proposed and open",
           "a week with no matured paired forecasts neither counts nor breaks a run, still proposed"
         ]
+      },
+      "superseded_2026_11_24_mp203": {
+        "date": "2026-11-24",
+        "by": "MP203-04: docs/planning/owner-question-pack-2026-11-24/answers.json (MP-203)",
+        "recommendation_was": "Answered 2026-11-05 (OWN-27, \"As proposed\"): the option read \"A bad week scores strictly worse than the previous model on that week's matured pairs. Two must run together. At 6 and 12 months probation checks clean running only.\" So a bad week is a strictly worse mean primary proper score (SCI-06) for the live model than the previous approved model on that week's matured paired origins, per task scope, and probation reverts after 2 bad weeks running. Still proposed: a week with no matured paired forecasts neither counts nor breaks a run. Exact deterministic safety triggers (invalid hash, revoked rights, corrupt or missing inputs, budget ceiling) are listed for advance approval. Proposed for a first promotion, with no previous approved model: the comparator and revert target are the current rules scored through the SCI-D03 rules mapping, a revert withdraws the model's probabilities, and without a qualified mapping the scope pauses (POLICY-003).",
+        "still_open_was": "Settled on 5 November 2026 (OWN-27, \"As proposed\"): the worse-week metric and pairing (a strictly worse mean primary proper score than the previous approved model on that week's matured paired origins), that the 2 probation weeks must run together, and that at 6 and 12 months probation checks clean running only. Still open: the minimum count of matured pairs for a week to count; the exact safety triggers for advance approval; and the comparator and revert target at a first promotion.",
+        "superseded": [
+          "3 months at probation, which OWN-27 did not name: judged on any pairs that mature in its 4 weeks, clean running only when there are none (MP203-04)"
+        ],
+        "kept": [
+          "the minimum count, still open",
+          "the exact safety triggers for advance approval, still open",
+          "the comparator and revert target at a first promotion, still proposed and open"
+        ]
       }
     },
     {
       "id": "SCI-D08",
       "topic": "Gold and silver (XAU/USD, XAG/USD) valuation conventions",
-      "recommendation": "Answered 2026-11-05 (OWN-26, \"Use the provider's daily bar\"): the option read \"Each day's value is the provider's daily bar, with its boundary recorded, once the first month proves cover.\" Its cost read \"It rests on Twelve Data's cover and bar time, both unverified, and GBP needs a rate pinned at that time.\" Until cover is proven these listings are unavailable_with_reason for formal tasks.",
+      "recommendation": "Answered 2026-11-05 (OWN-26, \"Use the provider's daily bar\"): the option read \"Each day's value is the provider's daily bar, with its boundary recorded, once the first month proves cover.\" Its cost read \"It rests on Twelve Data's cover and bar time, both unverified, and GBP needs a rate pinned at that time.\" Until cover is proven these listings are unavailable_with_reason for formal tasks. Answered 2026-11-24 (MP203-10, \"The provider's bar days\"): the option read \"Each day the provider publishes a daily bar is a valuation day. A missing bar is recorded as missing, never filled.\" So the calendar of valuation days is the provider's bar days.",
       "why_owner_material": "Spot metals have no exchange close, so the daily clocks, maturity and GBP conversion need a declared instant.",
       "requirements": [
         "SCI-01",
@@ -200,9 +233,10 @@
         "SCI-OA-07"
       ],
       "answered_by": [
-        "OWN-26"
+        "OWN-26",
+        "MP203-10"
       ],
-      "still_open": "Settled on 5 November 2026 (OWN-26): the daily value is the provider's daily bar, with its boundary recorded, once the first month proves cover. Still open: live proof of Twelve Data's cover and bar time for XAU/USD and XAG/USD in Grow 55's first month; the GBP rate pinned at that bar time; whether a new price type is added to ForecastTask; and the calendar of valuation days, which the pick does not name. Until cover is proven these listings stay unavailable_with_reason for formal tasks.",
+      "still_open": "Settled on 5 November 2026 (OWN-26): the daily value is the provider's daily bar, with its boundary recorded, once the first month proves cover. Settled on 24 November 2026 (MP203-10, \"The provider's bar days\"): the calendar of valuation days is the provider's bar days: each day the provider publishes a daily bar is a valuation day, and a missing bar is recorded as missing, never filled. Still open: live proof of Twelve Data's cover and bar time for XAU/USD and XAG/USD in Grow 55's first month; the GBP rate pinned at that bar time; and whether a new price type is added to ForecastTask. Until cover is proven these listings stay unavailable_with_reason for formal tasks.",
       "superseded_2026_11_05_mp192": {
         "date": "2026-11-05",
         "by": "OWN-26: docs/planning/owner-question-pack-2026-11-05/answers.json (MP-184), recorded by MP-192",
@@ -215,6 +249,21 @@
           "unavailable_with_reason for formal tasks until cover is proven",
           "whether a new price type is added to ForecastTask",
           "a calendar of valuation days"
+        ]
+      },
+      "superseded_2026_11_24_mp203": {
+        "date": "2026-11-24",
+        "by": "MP203-10: docs/planning/owner-question-pack-2026-11-24/answers.json (MP-203)",
+        "recommendation_was": "Answered 2026-11-05 (OWN-26, \"Use the provider's daily bar\"): the option read \"Each day's value is the provider's daily bar, with its boundary recorded, once the first month proves cover.\" Its cost read \"It rests on Twelve Data's cover and bar time, both unverified, and GBP needs a rate pinned at that time.\" Until cover is proven these listings are unavailable_with_reason for formal tasks.",
+        "still_open_was": "Settled on 5 November 2026 (OWN-26): the daily value is the provider's daily bar, with its boundary recorded, once the first month proves cover. Still open: live proof of Twelve Data's cover and bar time for XAU/USD and XAG/USD in Grow 55's first month; the GBP rate pinned at that bar time; whether a new price type is added to ForecastTask; and the calendar of valuation days, which the pick does not name. Until cover is proven these listings stay unavailable_with_reason for formal tasks.",
+        "superseded": [
+          "the calendar of valuation days, which OWN-26 did not name: the provider's bar days (MP203-10)"
+        ],
+        "kept": [
+          "live proof of Twelve Data's cover and bar time",
+          "the GBP rate pinned at that bar time",
+          "whether a new price type is added to ForecastTask",
+          "unavailable_with_reason for formal tasks until cover is proven"
         ]
       }
     },
@@ -291,7 +340,8 @@
       "received_on": "2026-11-03",
       "decides": [
         "SCI-D04"
-      ]
+      ],
+      "later_2026_11_24": "MP203-09 (24 November 2026) keeps all seven kinds as the target and shows a kind no checked source covers as no source yet, informing no forecast until one qualifies; see owner_answers_2026_11_24."
     },
     {
       "id": "SCI-OA-02",
@@ -490,6 +540,65 @@
       "received_on": "2026-11-05",
       "decides": [],
       "note": "Who withdraws a faulty factor or rules version: recorded in evaluation-protocol.json withdrawal. Which triggers are approved in advance stays open; proposed: they are listed with the exact safety triggers (SCI-D07)."
+    }
+  ],
+  "superseded_2026_11_24_mp203": {
+    "date": "2026-11-24",
+    "status_was": "consolidated_2026-11-05 (MP-192): SCI-D05 and SCI-D09 closed by owner answers; SCI-D01/D03/D04/D06/D07/D08 partly answered; SCI-D02/D10 owner_pending"
+  },
+  "owner_answers_2026_11_24": [
+    {
+      "id": "MP203-06",
+      "pick": "Confirm: no hurdle, no interval",
+      "record": "MP203-06, 24 November 2026 (MP-203): the owner picked \"Confirm: no hurdle, no interval\" (pressed on the page). The option read: \"A lower average score than each comparator on the same matured forecasts is enough in the trial. The 2% hurdle and the 95% interval stay in the walk-forward test only.\"",
+      "source": "docs/planning/owner-question-pack-2026-11-24/answers.json",
+      "received_on": "2026-11-24",
+      "decides": [
+        "SCI-D03"
+      ],
+      "note": "Confirms the records' reading of OWN-33: no 2% hurdle and no 95% interval in the trial; both stay in the walk-forward test only. evaluation-protocol.json live_trial.beat_meaning."
+    },
+    {
+      "id": "MP203-05",
+      "pick": "Once, as a standing rule",
+      "record": "MP203-05, 24 November 2026 (MP-203): the owner picked \"Once, as a standing rule\" (pressed on the page). The option read: \"You approve once that for range tasks the strongest simple range baseline stands in for the rules. Each promotion screen names it, and you still approve every promotion.\"",
+      "source": "docs/planning/owner-question-pack-2026-11-24/answers.json",
+      "received_on": "2026-11-24",
+      "decides": [
+        "SCI-D03"
+      ],
+      "note": "Range (pinball-scored) targets: the strongest eligible R0 distribution baseline stands in for the rules under one standing approval; ADM-09's yes each time stays for event tasks without a qualified rules mapping. evaluation-protocol.json live_trial.rules_proper_score.distribution_targets."
+    },
+    {
+      "id": "MP203-04",
+      "pick": "Pairs when there are any",
+      "record": "MP203-04, 24 November 2026 (MP-203): the owner picked \"Pairs when there are any\" (pressed on the page). The option read: \"A 3-month model is judged on any pairs that mature in its 4 weeks, from forecasts it made in shadow, and is checked for clean running too. With no pairs, clean running only.\"",
+      "source": "docs/planning/owner-question-pack-2026-11-24/answers.json",
+      "received_on": "2026-11-24",
+      "decides": [
+        "SCI-D07"
+      ],
+      "note": "3 months at probation. evaluation-protocol.json probation_and_slip.long_horizons; the minimum count of matured pairs stays open in SCI-D07."
+    },
+    {
+      "id": "MP203-10",
+      "pick": "The provider's bar days",
+      "record": "MP203-10, 24 November 2026 (MP-203): the owner picked \"The provider's bar days\" (pressed on the page). The option read: \"Each day the provider publishes a daily bar is a valuation day. A missing bar is recorded as missing, never filled.\"",
+      "source": "docs/planning/owner-question-pack-2026-11-24/answers.json",
+      "received_on": "2026-11-24",
+      "decides": [
+        "SCI-D08"
+      ],
+      "note": "Gold and silver valuation days. task-catalogue.json price_type_note_commodities; cover, bar time, the pinned GBP rate and the price type stay open in SCI-D08."
+    },
+    {
+      "id": "MP203-09",
+      "pick": "All seven, gaps shown",
+      "record": "MP203-09, 24 November 2026 (MP-203): the owner picked \"All seven, gaps shown\" (pressed on the page). The option read: \"All seven stay the target. A kind that no checked source covers shows as no source yet, and informs no forecast until one qualifies.\"",
+      "source": "docs/planning/owner-question-pack-2026-11-24/answers.json",
+      "received_on": "2026-11-24",
+      "decides": [],
+      "note": "Refines SCI-OA-01: all seven event kinds stay the target of the first event wave. model-catalogue.json event_module_proposed.event_wave_rules.source_gaps; forecasting-specification.md SCI-04."
     }
   ]
 }

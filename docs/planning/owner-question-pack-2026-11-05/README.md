@@ -2,12 +2,12 @@
 
 Every open question from the review pages and the story pack, put to the owner once, with options, before UX approval (MP-66). As of `7e76154`, 5 November 2026.
 
-**All 64 questions are answered**, in `answers.json`. `scope.md` says what each changes, which issue carries it, and which are drawn or recorded so far. Option text is not the owner's own reasoning (lesson 42), and applying a pick is its own change.
+**All 64 questions are answered**, and the questions those picks left open are round 2, in `../owner-question-pack-2026-11-24/` (MP-203), on the same page. The answers are in `answers.json`. `scope.md` says what each changes, which issue carries it, and which are drawn or recorded so far. Option text is not the owner's own reasoning (lesson 42), and applying a pick is its own change.
 
 | File | What it holds |
 | --- | --- |
 | `pack.json` | Every entry: its status, tier, options, evidence, and the question as first asked |
-| `docs/design/question-pack/index.html` | The page the owner picks on, built from `pack.json` |
+| `docs/design/question-pack/index.html` | The page the owner picked on; since round 2 it asks round 2 and keeps these answers under their own tab |
 | `answers.json` | The owner's answer to each question, and how it was given |
 | `scope.md` | What each pick changes, the issues that carry it, and what stays unproved |
 | `scripts/question_pack.py` | The gate: every open question has an entry and an answer, and every entry can be traced |

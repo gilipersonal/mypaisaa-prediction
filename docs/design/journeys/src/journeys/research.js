@@ -249,9 +249,10 @@
   };
 
   /* ---------- a material risk alert (MP-138): one alert, held overnight, never an order ---------- */
-  /* MP40-Q11a, "Your lines, no investment wake-ups": material is a line you set, crossed; critical is security and service faults only.
+  /* MP40-Q11a, "Your lines, no investment wake-ups": material is a line you set, crossed. MP203-02, "Never for investment alerts", and
+     MP203-03, "A short named list" (24 November 2026): only the named critical faults break quiet hours, and the list is proposed.
      Each line's value is still yours to set before build, so 28% stays illustrative and CT-18 stays on it */
-  const KINDS = `<p class="small muted" style="margin-top:8px">Material means a line you set is crossed, on exposure, price move, volatility or an event flag. Critical covers security and service faults only, so an investment alert waits for 07:30. Each line still needs your value before build.</p><div style="margin-top:8px">${proposed('CT-18')}</div>`;
+  const KINDS = `<p class="small muted" style="margin-top:8px">Material means a line you set is crossed, on exposure, price move, volatility or an event flag. An investment alert never breaks quiet hours, so it waits for 07:30. Only a critical fault does: a sign-in, passkey or recovery you did not start; a device revoke that fails; production lost; a failed backup or ledger write (that list is proposed). Each line still needs your value before build.</p><div style="margin-top:8px">${proposed('CT-18')}</div>`;
   /* OWN-34, "Once in 24 hours", and MP40-Q11b, "Weekdays only": the weekend landing is proposed in the owner's pick itself */
   const COOL = 'It pushes once in 24 hours for this holding, rule and severity, and sooner only if it worsens or the cause is new. Every event stays in the app.';
   const WEEKEND = 'There is no brief on Saturday or Sunday, so an alert held then lands in your inbox at 07:30.';

@@ -45,3 +45,8 @@
 .qp-save { font: 500 13px/18px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
 .qp-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
 @media (max-width: 400px) { .qp-top h1 { font-size: 28px; line-height: 34px; } }
+.qp-meta { font: 400 13px/18px var(--font-text); letter-spacing: 0; color: var(--ink); }
+.qp-meta b, .qp-earlier b { font-weight: 600; }
+.qp-earlier { padding: 8px 10px; border-radius: var(--r-sm); box-shadow: inset 0 0 0 1px var(--hairline-2); font: 400 13px/18px var(--font-text); letter-spacing: 0; overflow-wrap: anywhere; }
+.qp-earlier ul { margin: 4px 0 0; padding-left: 18px; }
+.qp-past .chip { margin-left: 6px; vertical-align: 1px; }

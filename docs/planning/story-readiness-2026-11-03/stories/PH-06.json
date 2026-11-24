@@ -284,7 +284,7 @@
    "acceptance": {
     "positive": [
      "The shell is a prebuilt static SvelteKit PWA served by CloudFront from a private S3 origin with origin access control; private data and commands go through the authenticated FastAPI under /api/v1.",
-     "The service worker caches only the shell and approved non-sensitive assets; private responses are cached only as the offline policy allows and are cleared on sign-out, session expiry and account change. A browser keeps the same five kinds of data as the Apple app, each with its age. MP40-Q12c, 5 November 2026 (MP-184): the owner picked \"Both keep the five\" (pressed on the page). The option read: \"A browser keeps the same five kinds, each with its age, as the web frames draw now.\" How a browser would protect them is unverified and needs an architecture answer before build.",
+     "The service worker caches only the shell and approved non-sensitive assets; private responses are cached only as the offline policy allows and are cleared on sign-out, session expiry and account change. A browser keeps the same five kinds of data as the Apple app, each with its age. MP40-Q12c, 5 November 2026 (MP-184): the owner picked \"Both keep the five\" (pressed on the page). The option read: \"A browser keeps the same five kinds, each with its age, as the web frames draw now.\" How a browser would protect them is unverified and needs an architecture answer before build. The browser's copy clears on its next connection after a revoke and stops showing after the same offline time-out as the Apple app (PH07-S04), one value the owner still sets. MP203-01, 24 November 2026 (MP-203): the owner picked \"Same rule, same time\" (pressed on the page). The option read: \"The browser's copy clears on its next connection and stops showing after the same time-out as the Apple app. One value, which you still set.\"",
      "Typed API clients are generated from FastAPI's OpenAPI schema, and every error carries a code, a message, the request_id and the trace_id.",
      "First paint and time to interactive are measured against agreed budgets."
     ],
@@ -880,14 +880,15 @@
    "acceptance": {
     "positive": [
      "A material risk condition found on eligible as-of data, by the 30-minute checks or the daily run, creates one notification intent; immediate means right after detection at the cadence the data allows. Material means a line the owner sets is crossed on exposure, price move, volatility or an event flag; critical covers security and service faults only, so investment alerts wait for 07:30. MP40-Q11a, 5 November 2026 (MP-184): the owner picked \"Your lines, no investment wake-ups\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Material means a line you set is crossed on exposure, price move, volatility or an event flag. Critical covers security and service faults only, so investment alerts wait for 07:30.\" Each line still needs a value from the owner before build.",
-     "Quiet hours run 22:00 to 07:00 Europe/London; alerts in that window wait for the 07:30 brief unless an approved exception applies.",
+     "Quiet hours run 22:00 to 07:00 Europe/London; every investment alert in that window waits for the 07:30 brief, and no investment alert ever breaks quiet hours. MP203-02, 24 November 2026 (MP-203): the owner picked \"Never for investment alerts\" (on a question card in chat). The option read: \"An approved exception can only be one of the critical security or service faults. Every investment alert waits for 07:30, and MP-138 says so.\" Only a critical fault may push during quiet hours, and critical means this named list: a sign-in, passkey or recovery the owner did not start; a device revoke that fails; production lost (ADM-05); and a failed backup or ledger write. Everything else, such as a missed run or a stalled collector, waits for 07:30. MP203-03, 24 November 2026 (MP-203): the owner picked \"A short named list\" (on a question card in chat). The option read: \"Proposed: a sign-in, passkey or recovery you did not start; a device revoke that fails; production lost (ADM-05); and a failed backup or ledger write. Everything else, such as a missed run or a stalled collector, waits for 07:30.\"",
      "One push per holding, rule and severity in 24 hours, sooner only if it worsens or the cause is new; a dedup key groups repeats into one alert, every event stays in the app, and denied push falls back to the in-app inbox (PH07-S08). OWN-34, 5 November 2026 (MP-184): the owner picked \"Once in 24 hours\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"One push per holding, rule and severity in 24 hours, sooner only if it worsens or the cause is new. Every event stays in the app.\"",
      "Investment risk alerts are a separate class from operational incidents."
     ],
     "negative": [
      "An unavailable provider never produces an all-clear.",
      "A push accepted by the push service is labelled a delivery attempt, not proof the owner read it.",
-     "No alert executes an action, and no alert payload carries a value or a holding."
+     "No alert executes an action, and no alert payload carries a value or a holding.",
+     "No investment alert pushes between 22:00 and 07:00 Europe/London, however severe, and a fault outside the named critical list waits for 07:30 too."
     ],
     "recovery": [
      "An alert detected during an outage is delivered after recovery with its detection time; a retried send reuses the dedup key so the owner sees one alert."
@@ -911,7 +912,7 @@
      "role": "reads"
     }
    ],
-   "authority": "Code detects, groups and routes alerts. The owner sets the value of each material line and approves any quiet-hour exception; critical covers security and service faults only. No agent can raise or silence an alert.",
+   "authority": "Code detects, groups and routes alerts. The owner sets the value of each material line. No investment alert breaks quiet hours, and nobody can approve an investment exception; only a critical fault on the named list in this story may push during them. No agent can raise or silence an alert.",
    "states": [
     "detected",
     "held_quiet_hours",
@@ -939,7 +940,8 @@
    "evidence": [
     "Quiet-hours, DST, missed, duplicate and cooldown cases",
     "A provider-outage case that produces no all-clear",
-    "Neutral payload examples"
+    "Neutral payload examples",
+    "A quiet-hours case for each named critical fault, and one for a severe investment alert held until 07:30"
    ]
   },
   {

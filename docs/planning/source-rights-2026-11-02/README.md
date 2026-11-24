@@ -82,7 +82,8 @@ and `uk9` options stay in the grid for the record.
 mypaisa-agent. GitHub's documentation, checked that day, says standard GitHub-hosted runners, macOS included, are free and
 unlimited on a public repository. The planned `github_actions` line (USD 0) is unchanged. Its USD 3.12 worst case, and the
 owner and vendor questions about the shared USD 12 allowance and a payment method, apply only if a repository goes private
-again. The evidence below stands as checked on 2 November.
+again. MP203-11, 24 November 2026 (MP-203): the owner picked "Build and unit tests in CI" (pressed on the page). The option read: "Each pull request that touches the Apple app builds it and runs XCTest on a free macOS runner. Maestro journeys and real-device builds stay on your Mac." Those macOS minutes cost nothing while the repository is public, and about £5.95 per 100 minutes if it
+went private again. The evidence below stands as checked on 2 November.
 
 | The owner's selection: Virginia, Basic in dev, no domain line, no Apple fee | Every month, 1 to 12 | Result |
 | --- | ---: | --- |

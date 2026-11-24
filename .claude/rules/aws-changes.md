@@ -27,8 +27,8 @@ and the pipeline must be built to.
 | Write or change IaC | Allowed on an MP issue branch; reviewed like code; plan-only | now |
 | Plan (`terraform plan`, never `apply`) | Do it when asked, read the whole plan, and report what it would change and cost | **later** |
 | Apply to dev | Only when the owner asks in the running prompt, from the reviewed plan, after saying what it changes and what it costs | **later** |
-| Apply to prod | **Never from a laptop or a Claude session.** Only through CI from `main`, after the owner approves in a protected environment | **later**, once the pipeline exists |
-| Deploy code to prod | Only the release workflow from `main`; never a hand update of a function or a bucket | **later** |
+| Apply to prod | **Never from a laptop or a Claude session.** Only through CI from `main`, after the owner approves in the GitHub production environment (MP203-08, 24 November 2026) | **later**, once the pipeline exists |
+| Deploy code to prod | Only the release workflow from `main`, after the owner approves in the GitHub production environment (MP203-08, 24 November 2026); never a hand update of a function or a bucket | **later** |
 | Read a secret value | Never. Code reads it at run time; nothing prints, logs or commits it. Follow the owner's global secret rule: load the `aws-secrets-manager` skill first, never call `get-secret-value` or `batch-get-secret-value`, and pass secrets as `{{resolve:secretsmanager:...}}` references through `asm-exec`. MP keeps its secrets in SSM Parameter Store (owner, 3 November 2026): never run `get-parameter` or `get-parameters` with `--with-decryption` either | now |
 | Put a secret value | The owner, by hand, after Terraform has made the SSM parameter with a placeholder and `ignore_changes` on its value. Terraform state never holds the real value | **later** |
 | Anything that costs money (a new service, a bigger size, a paid tier, a data or model subscription) | Ask first, with the monthly price, against the £100 all-in ceiling in `AGENTS.md`. NAT Gateway, load balancers, RDS, GPUs and new paid managed services also need a revised cost model and an ADR | now |

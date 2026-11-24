@@ -1178,7 +1178,7 @@
   },
   {
    "key": "MP-106",
-   "summary": "Production release workflow that only the owner can start",
+   "summary": "Production releases that wait for the owner's approval",
    "type": "Story",
    "status": "To Do",
    "parent": "MP-9",
@@ -2206,7 +2206,37 @@
    "type": "Task",
    "status": "In Progress",
    "parent": "MP-4",
-   "code": []
+   "code": [
+    "docs/planning/owner-question-pack-2026-11-24/",
+    "docs/planning/owner-question-pack-2026-11-05/README.md",
+    "docs/design/question-pack/",
+    "docs/design/artifacts.json",
+    "scripts/question_pack.py",
+    "docs/planning/trace.json",
+    "docs/planning/ma-reconciliation-2026-11-02/decision-log.md",
+    "README.md",
+    "ARCHITECTURE.md",
+    "TECH-STACK.md",
+    ".claude/rules/aws-changes.md",
+    "docs/planning/story-readiness-2026-11-03/",
+    "docs/planning/foundation-specifications-2026-11-02/",
+    "docs/planning/foundation-policy-discussion-2026-11-02.md",
+    "docs/planning/ma-reconciliation-2026-11-02/",
+    "docs/planning/source-rights-2026-11-02/README.md",
+    "docs/confluence/build_pages.py",
+    "docs/confluence/pages/",
+    "docs/diagrams/mp-quality-2026-11-02/README.md",
+    "docs/design/admin/",
+    "docs/design/journeys/",
+    "docs/architecture-explainer/index.html",
+    "docs/market-agent/index.html",
+    "tests/admin_facts/m190.mjs",
+    "tests/journey_facts/m190.mjs",
+    "docs/diagrams/mp-quality-2026-11-02/",
+    "docs/diagrams/mp-architecture-2026-11-02/",
+    "docs/motion/",
+    "docs/planning/retired-facts.json"
+   ]
   }
  ]
 }

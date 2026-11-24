@@ -284,7 +284,25 @@
       "jira_evidence": {
         "issue": "MP-29",
         "comment_id": "12160"
-      }
+      },
+      "later_refinements": [
+        {
+          "recorded_on": "2026-11-24",
+          "issue": "MP-203",
+          "gap_ids": [
+            "PL-11"
+          ],
+          "refinement": "MP203-08, 24 November 2026 (MP-203): the owner picked \"An environment replaces route A\" (pressed on the page). The option read: \"A merge to main starts the release, which waits in the production environment for your approval.\" It replaces route A, a release workflow the owner alone dispatched (chosen 3 November 2026). Administrators can bypass environment rules by default (recorded 24 November 2026). Proposed: the prod role trusts only that environment, checked against GitHub's documentation before build."
+        },
+        {
+          "recorded_on": "2026-11-24",
+          "issue": "MP-203",
+          "gap_ids": [
+            "PL-11"
+          ],
+          "refinement": "MP203-11, 24 November 2026 (MP-203): the owner picked \"Build and unit tests in CI\" (pressed on the page). The option read: \"Each pull request that touches the Apple app builds it and runs XCTest on a free macOS runner. Maestro journeys and real-device builds stay on your Mac.\""
+        }
+      ]
     },
     {
       "card_id": "ARC-12",

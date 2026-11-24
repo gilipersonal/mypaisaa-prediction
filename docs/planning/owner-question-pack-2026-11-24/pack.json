@@ -1,0 +1,718 @@
+{
+ "as_of": "2026-11-24",
+ "commit": "4df40d6",
+ "issue": "MP-203",
+ "round": 2,
+ "title": "The questions the 5 November picks left open",
+ "items": [
+  {
+   "id": "MP203-01",
+   "status": "decide",
+   "tier": "before_approval",
+   "group": "What the screens show",
+   "title": "Does a browser's saved copy also time out?",
+   "why": "You pressed \"Saved copy also times out\" for a revoked device, and \"Both keep the five\", so a browser keeps holdings, prices, forecasts, notices and cost offline too. MP-165 writes the time-out for the Apple app only. Whether the browser's copy follows it is not recorded, and how a browser protects that copy at all is unverified and needs an architecture answer before build.",
+   "today": "The Privacy journey's browser frames already say the copy \"stops showing once this browser has gone the offline time-out without reaching the server\". MP-165's time-out names the app.",
+   "decides": "MP-165, the offline copy, and the Offline copy card in Privacy's browser frames on the Journeys page.",
+   "ceiling": "£0 a month under every option.",
+   "earlier": [
+    {
+     "words": "Saved copy also times out",
+     "how": "pressed on the page, 5 November 2026 (OWN-37). The option read: \"The copy clears on the next connection, and the app also stops showing it after a set time without reaching the server. You choose the time.\""
+    },
+    {
+     "words": "Both keep the five",
+     "how": "pressed on the page, 5 November 2026 (MP40-Q12c)"
+    }
+   ],
+   "touches": [
+    "Privacy",
+    "Offline copy",
+    "MP-165"
+   ],
+   "ids": [
+    "OWN-37",
+    "MP40-Q12c",
+    "MP-165"
+   ],
+   "options": [
+    {
+     "label": "Same rule, same time",
+     "says": "The browser's copy clears on its next connection and stops showing after the same time-out as the Apple app. One value, which you still set.",
+     "cost": "£0. How well a browser can enforce it is unverified, as it is for the app. The drawing stands.",
+     "rec": true,
+     "because": "It is what the Privacy journey already draws, and one time-out for both doors is one value to set and one rule to test."
+    },
+    {
+     "label": "Shorter in the browser",
+     "says": "The browser's copy follows the same rule with a shorter time-out you set separately, because a browser's protection of it is unverified.",
+     "cost": "£0. Two values to set, and the Privacy card names two times."
+    },
+    {
+     "label": "No time-out in the browser",
+     "says": "The browser's copy clears on sign-out and on its next connection only.",
+     "cost": "£0. A lost laptop that stays offline keeps showing its last figures, and the Privacy card's sentence is redrawn."
+    }
+   ],
+   "evidence": [
+    "docs/planning/story-readiness-2026-11-03/stories/PH-07.json:262 MP-165: the time-out is written for the app",
+    "docs/planning/story-readiness-2026-11-03/stories/PH-07.json:256 MP-165: a browser keeps the same five",
+    "docs/design/journeys/src/journeys/privacy.js:264 the browser frame says its copy stops showing after the offline time-out",
+    "docs/planning/owner-question-pack-2026-11-05/scope.md:48 how a browser protects the five is unrecorded"
+   ],
+   "linked": [],
+   "asked": {
+    "source": "MP-203",
+    "from": "Jira MP-203",
+    "question": "OWN-37 (\"Saved copy also times out\"): does a browser's offline copy also time out?"
+   }
+  },
+  {
+   "id": "MP203-04",
+   "status": "decide",
+   "tier": "before_approval",
+   "group": "What the screens show",
+   "title": "Is a 3-month model on probation judged like the 6 and 12-month ones?",
+   "why": "You picked \"As proposed\": a bad week is strictly worse on that week's matured pairs, two must run together, and at 6 and 12 months probation checks clean running only. It does not name 3 months. A 3-month forecast takes about 13 weeks to mature, so forecasts made in the 4 live weeks cannot be scored in them. Proposed reading: pairs exist only from forecasts the model made in shadow at least 13 weeks earlier.",
+   "today": "Admin's Models and evaluations journey draws R1-LGB v2 on India midcap, 3 months, reverted after 2 bad weeks on probation, with matured pairs for the weeks of 19 and 26 October. No record says how long it ran in shadow.",
+   "decides": "MP-159, probation and revert, SCI-D07, and the Reverted card in Admin's Models and evaluations journey.",
+   "ceiling": "£0 a month under every option.",
+   "earlier": [
+    {
+     "words": "for the remaining pick up recommended options",
+     "how": "your words in chat, 5 November 2026, which picked \"As proposed\" (OWN-27). The option read: \"A bad week scores strictly worse than the previous model on that week's matured pairs. Two must run together. At 6 and 12 months probation checks clean running only.\""
+    },
+    {
+     "words": "Probation: a newly promoted model is on probation for its first 4 live weeks and reverts after 2 bad weeks instead of 4.",
+     "how": "the decision log's record of your 3 November answers, item 18"
+    }
+   ],
+   "touches": [
+    "Models and evaluations",
+    "MP-159",
+    "SCI-D07"
+   ],
+   "ids": [
+    "OWN-27",
+    "SCI-D07",
+    "MP-159"
+   ],
+   "options": [
+    {
+     "label": "Pairs when there are any",
+     "says": "A 3-month model is judged on any pairs that mature in its 4 weeks, from forecasts it made in shadow, and is checked for clean running too. With no pairs, clean running only.",
+     "cost": "£0. Two cases for one horizon. The drawn revert stands, and its card says its pairs came from shadow forecasts (proposed).",
+     "rec": true,
+     "because": "It applies the bad-week rule you picked wherever there is evidence, and needs no redraw."
+    },
+    {
+     "label": "Clean running only, like 6 and 12",
+     "says": "A 3-month model on probation is checked for clean running only, whatever has matured.",
+     "cost": "£0. One rule for every long horizon, but matured evidence in those weeks is ignored, and the India midcap revert is redrawn on a shorter horizon."
+    },
+    {
+     "label": "Hold until its live forecasts mature",
+     "says": "A 3-month model stays on probation until forecasts it made live have matured, about 13 weeks.",
+     "cost": "£0. Each leaves probation with a real score, but your 4 weeks becomes about 13 for this horizon."
+    }
+   ],
+   "evidence": [
+    "docs/planning/story-readiness-2026-11-03/stories/PH-04.json:1419 MP-159: the pick names 6 and 12 months only",
+    "docs/planning/foundation-specifications-2026-11-02/forecasting/forecasting-specification.md:115 the pick does not name 3 months, an open question",
+    "docs/design/admin/src/journeys/models.js:74 the drawn revert on India midcap, 3 months",
+    "docs/planning/ma-reconciliation-2026-11-02/decision-log.md:227 probation, 3 November"
+   ],
+   "linked": [],
+   "asked": {
+    "source": "MP-203",
+    "from": "Jira MP-203",
+    "question": "OWN-27 (\"As proposed\"): is 3-month probation treated like 6 and 12 months, clean running only?"
+   }
+  },
+  {
+   "id": "MP203-02",
+   "status": "decide",
+   "tier": "before_build",
+   "group": "Alerts",
+   "title": "May an investment alert ever break quiet hours?",
+   "why": "In the 1 November round you chose quiet hours with approved critical exceptions. On 5 November \"Your lines, no investment wake-ups\" said critical covers security and service faults only, so investment alerts wait for 07:30. MP-138 still says an alert in quiet hours waits \"unless an approved exception applies\" and that you approve any exception, which leaves room for an investment one.",
+   "today": "Admin's Alerts and quiet hours panel says Critical: Security and service faults only. MP-138's wording leaves an exception path open.",
+   "decides": "MP-138, material risk alerts, and the delivery policy. The Admin panel's words stand under either option.",
+   "ceiling": "£0 a month under either option.",
+   "earlier": [
+    {
+     "words": "22:00–07:00 quiet hours; approved critical exceptions (Recommended)",
+     "how": "your answer in the 1 November requirements round (DEC-033)"
+    },
+    {
+     "words": "for the remaining pick up recommended options",
+     "how": "your words in chat, 5 November 2026, which picked \"Your lines, no investment wake-ups\" (MP40-Q11a). The option read: \"Material means a line you set is crossed on exposure, price move, volatility or an event flag. Critical covers security and service faults only, so investment alerts wait for 07:30.\""
+    }
+   ],
+   "touches": [
+    "Alerts",
+    "MP-138"
+   ],
+   "ids": [
+    "MP40-Q11a",
+    "MP-138",
+    "CT-18",
+    "DEC-033"
+   ],
+   "options": [
+    {
+     "label": "Never for investment alerts",
+     "says": "An approved exception can only be one of the critical security or service faults. Every investment alert waits for 07:30, and MP-138 says so.",
+     "cost": "A sharp overnight fall waits for the brief, as your 5 November pick already accepts.",
+     "rec": true,
+     "because": "It is the plain reading of the pick you made, and it closes a gap in MP-138 rather than opening a new door."
+    },
+    {
+     "label": "Possible later, by its own decision",
+     "says": "None at launch, but you may later approve one defined investment condition as an exception. It comes back as its own question, with its line and a drawn wake-up alert.",
+     "cost": "No work now, but the code keeps an exception path, and the rule becomes a default rather than a bar."
+    }
+   ],
+   "evidence": [
+    "docs/planning/story-readiness-2026-11-03/stories/PH-06.json:883 MP-138: \"unless an approved exception applies\"",
+    "docs/planning/story-readiness-2026-11-03/stories/PH-06.json:914 MP-138: the owner approves any quiet-hour exception",
+    "docs/planning/aws-options-2026-11-01/requirements-decision-pack.json:582 the 1 November answer",
+    "docs/design/admin/src/journeys/approvals.js:160 the Admin panel"
+   ],
+   "linked": [
+    "MP203-03"
+   ],
+   "asked": {
+    "source": "MP-203",
+    "from": "Jira MP-203",
+    "question": "MP-138 (MP40-Q11a, \"Your lines, no investment wake-ups\"): can a quiet-hour exception still be approved for investment alerts, and which faults count as critical?"
+   }
+  },
+  {
+   "id": "MP203-03",
+   "status": "decide",
+   "tier": "before_build",
+   "group": "Alerts",
+   "title": "Which faults are critical enough to break quiet hours?",
+   "why": "Your pick says critical covers security and service faults only, and no record lists them. MP-110 keeps five alert classes apart: financial risk, system security, data quality, billing and job failure. Only a critical alert may push between 22:00 and 07:00. The lists below are proposed.",
+   "today": "Admin's panel says Security and service faults only, with no list. Phone pushes go through Web Push until the Apple programme is bought.",
+   "decides": "MP-138, MP-110, incidents and alert classes, and the Critical row of Admin's Alerts and quiet hours panel on the Admin page.",
+   "ceiling": "£0 a month: no paid channel is added, and pushes go through Web Push, as decided on 3 November.",
+   "earlier": [
+    {
+     "words": "for the remaining pick up recommended options",
+     "how": "your words in chat, 5 November 2026, which picked \"Your lines, no investment wake-ups\" (MP40-Q11a). The option read: \"Material means a line you set is crossed on exposure, price move, volatility or an event flag. Critical covers security and service faults only, so investment alerts wait for 07:30.\""
+    }
+   ],
+   "touches": [
+    "Alerts",
+    "Incidents",
+    "MP-138",
+    "MP-110"
+   ],
+   "ids": [
+    "MP40-Q11a",
+    "MP-138",
+    "MP-110",
+    "CT-18"
+   ],
+   "options": [
+    {
+     "label": "A short named list",
+     "says": "Proposed: a sign-in, passkey or recovery you did not start; a device revoke that fails; production lost (ADM-05); and a failed backup or ledger write. Everything else, such as a missed run or a stalled collector, waits for 07:30.",
+     "cost": "£0. Each named fault needs its alert drawn and tested, and you may still wake for a fault you cannot fix at night.",
+     "rec": true,
+     "because": "It wakes you only for what may need you before morning: someone in your account, or records at risk. Other faults keep until the brief."
+    },
+    {
+     "label": "Security only",
+     "says": "Only a sign-in, passkey, recovery or revoke you did not start breaks quiet hours. Every service fault, production lost included, waits for 07:30.",
+     "cost": "£0. Fewest wake-ups, but production can be down all night before you hear."
+    },
+    {
+     "label": "Every security and service fault",
+     "says": "Any alert in the system security or job failure classes breaks quiet hours.",
+     "cost": "£0. Nothing waits, but a stalled collector or a retried job can wake you, which the 24-hour repeat rule only partly calms."
+    }
+   ],
+   "evidence": [
+    "docs/planning/story-readiness-2026-11-03/stories/PH-06.json:882 MP-138: critical covers security and service faults only",
+    "docs/planning/story-readiness-2026-11-03/stories/PH-08.json:331 MP-110: the five alert classes",
+    "docs/planning/aws-options-2026-11-01/requirements-decision-pack.json:572 critical definitions were left pending",
+    "docs/design/admin/src/journeys/approvals.js:160 Critical: Security and service faults only"
+   ],
+   "linked": [
+    "MP203-02"
+   ],
+   "asked": {
+    "source": "MP-203",
+    "from": "Jira MP-203",
+    "question": "MP-138 (MP40-Q11a, \"Your lines, no investment wake-ups\"): can a quiet-hour exception still be approved for investment alerts, and which faults count as critical?"
+   }
+  },
+  {
+   "id": "MP203-05",
+   "status": "decide",
+   "tier": "before_build",
+   "group": "Models and trials",
+   "title": "For range forecasts, does the baseline stand in for the rules without a yes each time?",
+   "why": "You picked \"Use the best simple baseline\" for a task whose rules cannot be fairly scored: the baseline stands in, with your yes each time. Range forecasts are scored by pinball loss, and the rules give no ranges at all, so for those tasks the rules can never be scored. The stand-in would then ask your yes on every trial of every range task. The specification records that reading as proposed.",
+   "today": "Admin draws the stand-in for a failed mapping, with your yes each time. Range tasks are not drawn on their own.",
+   "decides": "MP-124, baselines and the rules mapping, SCI-D03 and the live trial in the evaluation protocol. No screen changes.",
+   "ceiling": "£0 a month under either option.",
+   "earlier": [
+    {
+     "words": "for the remaining pick up recommended options",
+     "how": "your words in chat, 5 November 2026, which picked \"Use the best simple baseline\" (ADM-09). The option read: \"For that task, the strongest simple baseline stands in for the rules, with your yes each time.\""
+    },
+    {
+     "words": "Live trial: 8 weeks in shadow, beating both the base rate and the rules, before a model can be promoted with the owner's yes.",
+     "how": "the decision log's record of your 3 November answers, item 5"
+    }
+   ],
+   "touches": [
+    "Models and evaluations",
+    "MP-124",
+    "SCI-D03"
+   ],
+   "ids": [
+    "ADM-09",
+    "MP-124",
+    "SCI-D03"
+   ],
+   "options": [
+    {
+     "label": "Once, as a standing rule",
+     "says": "You approve once that for range tasks the strongest simple range baseline stands in for the rules. Each promotion screen names it, and you still approve every promotion.",
+     "cost": "£0. One fewer yes per trial, and for range tasks beating the rules always means beating a baseline.",
+     "rec": true,
+     "because": "The rules can never give ranges, so a yes each time weighs nothing new. Your yes on the promotion stays the check."
+    },
+    {
+     "label": "Your yes each time",
+     "says": "As for a failed mapping: each range task's trial asks your yes for the stand-in.",
+     "cost": "£0. Your rule stays word for word, but every range trial adds a yes that always has the same answer."
+    }
+   ],
+   "evidence": [
+    "docs/planning/foundation-specifications-2026-11-02/forecasting/evaluation-protocol.json:192 the proposed reading for pinball-scored targets",
+    "docs/planning/story-readiness-2026-11-03/stories/PH-04.json:466 MP-124: the stand-in with the owner's yes each time",
+    "docs/design/admin/src/journeys/models.js:24 the drawn stand-in",
+    "docs/planning/ma-reconciliation-2026-11-02/decision-log.md:201 the live trial, 3 November"
+   ],
+   "linked": [
+    "MP203-06"
+   ],
+   "asked": {
+    "source": "MP-203",
+    "from": "Jira MP-203",
+    "question": "ADM-09 (\"Use the best simple baseline\"): for pinball-scored targets, does the baseline stand in automatically, or with the owner's yes each time?"
+   }
+  },
+  {
+   "id": "MP203-06",
+   "status": "decide",
+   "tier": "before_build",
+   "group": "Models and trials",
+   "title": "Does a model's live trial need no 2% lead and no 95% interval?",
+   "why": "You picked \"A lower score is enough\" over \"Add the 2% hurdle\", which would have added a 2% lead with a 95% interval in its favour. The records read your pick as no hurdle and no interval in the 8-week trial, with both kept in the walk-forward test. The part about the interval comes from the option you did not pick, so it is put to you to confirm.",
+   "today": "The evaluation protocol and MP-124 say: a lower average score than each comparator, no 2% hurdle and no 95% interval in the trial. Admin's scorecards show plain scores.",
+   "decides": "MP-124, SCI-D03 and the live trial in the evaluation protocol. No screen changes under the Recommended option.",
+   "ceiling": "£0 a month under either option.",
+   "earlier": [
+    {
+     "words": "for the remaining pick up recommended options",
+     "how": "your words in chat, 5 November 2026, which picked \"A lower score is enough\" (OWN-33). The option read: \"The model must score better on average than each comparator on the same forecasts. Rules are scored through the frozen mapping.\""
+    }
+   ],
+   "touches": [
+    "Models and evaluations",
+    "MP-124",
+    "SCI-D03"
+   ],
+   "ids": [
+    "OWN-33",
+    "MP-124",
+    "SCI-D03"
+   ],
+   "options": [
+    {
+     "label": "Confirm: no hurdle, no interval",
+     "says": "A lower average score than each comparator on the same matured forecasts is enough in the trial. The 2% hurdle and the 95% interval stay in the walk-forward test only.",
+     "cost": "£0. A small lead from noise can pass the trial, and your yes on promotion stays the last check.",
+     "rec": true,
+     "because": "It is how the records already read your pick, and 8 weeks is rarely enough data for an interval to clear."
+    },
+    {
+     "label": "Add the interval only",
+     "says": "No 2% minimum, but the trial's lead must have a 95% interval in its favour.",
+     "cost": "£0. A firmer bar, but good models may stay in shadow past 8 weeks waiting for it, and Admin's scorecards gain an interval."
+    }
+   ],
+   "evidence": [
+    "docs/planning/foundation-specifications-2026-11-02/forecasting/evaluation-protocol.json:185 the records' reading of the pick",
+    "docs/planning/story-readiness-2026-11-03/stories/PH-04.json:457 MP-124: rules scored through the frozen mapping"
+   ],
+   "linked": [
+    "MP203-05"
+   ],
+   "asked": {
+    "source": "MP-203",
+    "from": "Jira MP-203",
+    "question": "OWN-33 (\"A lower score is enough\"): the live trial has no 2% hurdle and no 95% interval. Confirm."
+   }
+  },
+  {
+   "id": "MP203-07",
+   "status": "decide",
+   "tier": "before_build",
+   "group": "Stories and delivery",
+   "title": "How should the three builds your picks added be carried in the stories?",
+   "why": "Three picks need building and no story builds them. \"Local unlock step\" needs the step itself; MP-47 only parses the copy it uploads. \"Factsheets you supply\" needs a reader for fund factsheets; MP-107 only uses what they list. \"Widgets and share first\" needs widgets and share-sheet statement intake built; MP-163 only records the choice. The baseline you accepted holds 136 stories.",
+   "today": "Holdings and imports draws Unlock a PDF, and Privacy draws the widget preview and switch. No story claims the building of any of the three.",
+   "decides": "The phase and story baseline in PH-01, PH-03 and PH-07, and Jira. No screen changes.",
+   "ceiling": "£0 a month to record. The records name no paid service for any of the three.",
+   "earlier": [
+    {
+     "words": "Local unlock step",
+     "how": "pressed on the page, 5 November 2026 (MP40-Q2)"
+    },
+    {
+     "words": "for the remaining pick up recommended options",
+     "how": "your words in chat, 5 November 2026, which picked \"Factsheets you supply\" (MP40-Q8). The option read: \"You add dated fund factsheets through the import route, and MP shows the shares they list plus what is left unknown.\""
+    },
+    {
+     "words": "for the remaining pick up recommended options",
+     "how": "your words in chat, 5 November 2026, which picked \"Widgets and share first\" (MP40-Q13). The option read: \"Widgets and statement sharing come at launch, and Spotlight, Siri and Live Activities are recorded as later.\""
+    }
+   ],
+   "touches": [
+    "Holdings and imports",
+    "Privacy",
+    "MP-47",
+    "MP-107",
+    "MP-163"
+   ],
+   "ids": [
+    "MP40-Q2",
+    "MP40-Q8",
+    "MP40-Q13",
+    "MP-47",
+    "MP-107",
+    "MP-163"
+   ],
+   "options": [
+    {
+     "label": "Add three stories",
+     "says": "Proposed: in PH-01 the local PDF unlock, web first, with the Apple step in PH-07; in PH-03 a fund factsheet reader; in PH-07 widgets and share-sheet statement intake. The baseline grows to 139, each with full acceptance.",
+     "cost": "£0. Three Jira stories and their plan-sync records. Whether widgets and sharing work on free seven-day builds stays unverified.",
+     "rec": true,
+     "because": "Each is its own build with its own failure cases, so each gets acceptance that can be tested and traced."
+    },
+    {
+     "label": "Widen three existing stories",
+     "says": "MP-47 gains the unlock step, MP-107 the factsheet reader and MP-163 the two builds.",
+     "cost": "£0. No new issues, but MP-163 mixes a decision table with a build, and each story grows."
+    },
+    {
+     "label": "Add them when their phase starts",
+     "says": "Recorded now as missing, and written when PH-01, PH-03 and PH-07 open.",
+     "cost": "£0. No work now, but the baseline is knowingly short until then."
+    }
+   ],
+   "evidence": [
+    "docs/planning/story-readiness-2026-11-03/stories/PH-01.json:560 MP-47 parses an unlocked copy, proposed",
+    "docs/planning/story-readiness-2026-11-03/stories/PH-03.json:1049 MP-107 uses the factsheets",
+    "docs/planning/story-readiness-2026-11-03/stories/PH-07.json:593 MP-163 lists the capabilities",
+    "docs/design/journeys/src/journeys/holdings.js:438 the drawn Unlock a PDF"
+   ],
+   "linked": [],
+   "asked": {
+    "source": "MP-203",
+    "from": "Jira MP-203",
+    "question": "Possibly missing stories: building the MP40-Q2 local unlock step, a factsheet reader (MP40-Q8), and widget and share-sheet builds (MP40-Q13)."
+   }
+  },
+  {
+   "id": "MP203-08",
+   "status": "decide",
+   "tier": "before_build",
+   "group": "Stories and delivery",
+   "title": "Now that the repository is public, does route A stand for production releases?",
+   "why": "On 3 November you chose a release workflow only you can start, route A, because GitHub Free could not enforce a production approval on a private repository. Since 24 November the repository is public, and there GitHub Free offers environments with required reviewers, wait timers and branch rules. Administrators can bypass them by default, and you are the administrator. MP's AWS rule says prod applies only \"after the owner approves in a protected environment\".",
+   "today": "Nothing is deployed and no release workflow exists. ARCHITECTURE, Confluence and the quality drawing say the choice is open (MP-199).",
+   "decides": "PL-11's release route, the release workflow when it is built, the prod role's trust, and the AWS rule's wording. No product screen.",
+   "ceiling": "£0 on a public repository under every option. On a private one, required reviewers would need GitHub Enterprise, about £20.16 a user a month (recorded 3 November, not checked again).",
+   "earlier": [
+    {
+     "words": "Production releases: a release workflow only the owner can start (GitHub Free).",
+     "how": "the decision log's record of your 3 November answers, item 7"
+    },
+    {
+     "words": "Make the repo public, that is fine",
+     "how": "your words, 24 November 2026"
+    }
+   ],
+   "touches": [
+    "Release route",
+    "PL-11",
+    "MP-199"
+   ],
+   "ids": [
+    "PL-11",
+    "MP-199",
+    "MP-30"
+   ],
+   "options": [
+    {
+     "label": "Route A plus an environment",
+     "says": "You still start each release yourself, and its prod job also runs in a production environment that needs your approval and takes only main. Proposed: the prod role trusts only that environment, checked against GitHub's documentation before build.",
+     "cost": "£0. One more press per release. If the repository went private again the environment rule would lapse on GitHub Free (unverified how the job then behaves), and route A would still hold.",
+     "rec": true,
+     "because": "It keeps your 3 November route, meets the AWS rule's words, and does not depend on the repository staying public."
+    },
+    {
+     "label": "An environment replaces route A",
+     "says": "A merge to main starts the release, which waits in the production environment for your approval.",
+     "cost": "£0. Releases start by themselves and wait for you. It rests on the repository staying public, and on the bypass staying unused."
+    },
+    {
+     "label": "Keep route A alone",
+     "says": "No environment. The prod role trusts only main and the release workflow file, as chosen.",
+     "cost": "£0. Nothing changes, but the AWS rule's words \"approves in a protected environment\" need rewording."
+    }
+   ],
+   "evidence": [
+    "ARCHITECTURE.md:282 whether route A stands is open (MP-199)",
+    "docs/confluence/build_pages.py:830 the same, on Confluence",
+    "docs/confluence/build_pages.py:910 listed to decide",
+    "docs/planning/ma-reconciliation-2026-11-02/decision-log.md:205 route A, 3 November",
+    ".claude/rules/aws-changes.md:30 prod applies after approval in a protected environment",
+    "docs/confluence/build_pages.py:825 GitHub Enterprise, about £20.16"
+   ],
+   "linked": [
+    "MP203-11"
+   ],
+   "asked": {
+    "source": "MP-199",
+    "from": "ARCHITECTURE.md, docs/confluence/build_pages.py, docs/diagrams/mp-quality-2026-11-02/lucid_spec.py",
+    "question": "Whether route A stands, or a protected environment replaces or joins it, is open for the owner (MP-199)."
+   }
+  },
+  {
+   "id": "MP203-09",
+   "status": "decide",
+   "tier": "later",
+   "group": "Data and sources",
+   "title": "Must the first event wave cover all seven kinds, or only what official sources cover?",
+   "why": "On 3 November the first event wave was set to all seven kinds: rate surprises, inflation surprises, tariffs, conflict, earnings, OPEC+ decisions and elections, for the US, UK and India. On 5 November \"Official sources first\" chose central banks, statistics offices, exchanges and regulators, and its cost warned that conflict and tariff news may be thin there. MP-81 still says calendar items cover all seven.",
+   "today": "No source is chosen or checked, so intake is off. MP-81 states all seven as covered.",
+   "decides": "MP-81, evidence intake, and which event kinds a forecast may draw on in PH-05. No screen changes now.",
+   "ceiling": "£0 for the first two options. The third adds a fee no record has priced, against the £100 ceiling.",
+   "earlier": [
+    {
+     "words": "Event kinds in the first event wave: all of them.",
+     "how": "the decision log's record of your 3 November answers"
+    },
+    {
+     "words": "for the remaining pick up recommended options",
+     "how": "your words in chat, 5 November 2026, which picked \"Official sources first\" (MP40-Q10). The option read: \"Start from public official pages such as central banks, statistics offices, exchanges and regulators. Each is then checked before use.\""
+    }
+   ],
+   "touches": [
+    "Research",
+    "MP-81"
+   ],
+   "ids": [
+    "MP40-Q10",
+    "MP-81",
+    "SCI-OA-01"
+   ],
+   "options": [
+    {
+     "label": "All seven, gaps shown",
+     "says": "All seven stay the target. A kind that no checked source covers shows as no source yet, and informs no forecast until one qualifies.",
+     "cost": "£0. Conflict and tariffs may stay empty at launch, and MP-81's wording changes from covers to aims to cover.",
+     "rec": true,
+     "because": "It keeps your 3 November choice and your 5 November source pick together, and a missing kind is shown, never filled in."
+    },
+    {
+     "label": "Only what official sources cover",
+     "says": "The first wave is the kinds official sources cover once checked. The rest move to a later wave.",
+     "cost": "£0, but it narrows your 3 November choice, and tariffs and conflict likely leave the first wave."
+    },
+    {
+     "label": "Add one news feed for the gaps",
+     "says": "One general news feed covers conflict and tariffs, beside the official sources.",
+     "cost": "Supplier, price and rights are unverified. After Grow 55 the data share has £2.16 left, so a fee likely draws on other shares."
+    }
+   ],
+   "evidence": [
+    "docs/planning/story-readiness-2026-11-03/stories/PH-05.json:73 MP-81: calendar items cover all seven",
+    "docs/planning/story-readiness-2026-11-03/stories/PH-05.json:74 MP-81: official sources first",
+    "docs/planning/ma-reconciliation-2026-11-02/decision-log.md:165 all seven kinds, 3 November",
+    "docs/planning/owner-question-pack-2026-11-05/pack.json:2274 the £2.16 left in the data share"
+   ],
+   "linked": [],
+   "asked": {
+    "source": "MP-203",
+    "from": "Jira MP-203",
+    "question": "MP-81 (MP40-Q10, \"Official sources first\"): must calendar items cover all seven event kinds, or only what the official sources cover?"
+   }
+  },
+  {
+   "id": "MP203-10",
+   "status": "decide",
+   "tier": "later",
+   "group": "Data and sources",
+   "title": "Which days are valuation days for gold and silver?",
+   "why": "You picked \"Use the provider's daily bar\" for gold and silver, which trade round the clock on weekdays and have no exchange close. The pick names the bar, not the days. Maturity counts sessions on a valuation calendar, so the calendar decides when, for example, a 20-session forecast ends.",
+   "today": "Gold and silver stay unavailable for formal forecasts until Grow 55's first month proves cover. SCI-D08 lists the calendar as open.",
+   "decides": "SCI-D08, the task catalogue, and MP-113 and MP-135 for the gold and silver segment. No screen changes.",
+   "ceiling": "£0 if the bars fit inside Grow 55's credits, which is unverified until its first month.",
+   "earlier": [
+    {
+     "words": "for the remaining pick up recommended options",
+     "how": "your words in chat, 5 November 2026, which picked \"Use the provider's daily bar\" (OWN-26). The option read: \"Each day's value is the provider's daily bar, with its boundary recorded, once the first month proves cover.\""
+    }
+   ],
+   "touches": [
+    "Segments",
+    "SCI-D08"
+   ],
+   "ids": [
+    "OWN-26",
+    "SCI-D08",
+    "MP-113",
+    "MP-135"
+   ],
+   "options": [
+    {
+     "label": "The provider's bar days",
+     "says": "Each day the provider publishes a daily bar is a valuation day. A missing bar is recorded as missing, never filled.",
+     "cost": "£0. It rests on Twelve Data's calendar for the two pairs, unverified until the first month, and it differs from the share markets' holidays.",
+     "rec": true,
+     "because": "It follows your pick to its end: one source sets both the value and the day, so nothing is invented."
+    },
+    {
+     "label": "London business days",
+     "says": "Only UK business days count, and bars on UK holidays are ignored.",
+     "cost": "£0. One more calendar to keep, and some bars are thrown away."
+    },
+    {
+     "label": "The New York exchange's days",
+     "says": "Valuation days follow the New York Stock Exchange's calendar, like US shares.",
+     "cost": "£0. It lines up with US holdings, but drops days when metals traded and the exchange was shut."
+    }
+   ],
+   "evidence": [
+    "docs/planning/foundation-specifications-2026-11-02/forecasting/open-decisions.json:190 SCI-D08: the calendar of valuation days is still open",
+    "docs/planning/foundation-specifications-2026-11-02/forecasting/task-catalogue.json:228 the calendar stays open"
+   ],
+   "linked": [],
+   "asked": {
+    "source": "MP-203",
+    "from": "Jira MP-203",
+    "question": "SCI-D08 (OWN-26, \"Use the provider's daily bar\"): are the provider's bar days the valuation calendar?"
+   }
+  },
+  {
+   "id": "MP203-11",
+   "status": "decide",
+   "tier": "later",
+   "group": "Stories and delivery",
+   "title": "Should Apple builds and simulator runs move to GitHub's free macOS runners?",
+   "why": "On a public repository GitHub's standard runners, macOS included, are free and unlimited (GitHub's documentation, checked 24 November), up to 5 macOS jobs at once. The records propose XCTest and Maestro simulator runs on your Mac. That is a proposal from MP-36, made while minutes were billed, not your words. No Apple code exists yet, so this matters from PH-07.",
+   "today": "TECH-STACK and Confluence say Apple builds and simulator runs stay on your Mac until you choose otherwise (MP-199).",
+   "decides": "TECH-STACK's testing and CI rows, Confluence's Apple testing page, and the CI workflows for the Apple app when PH-07 starts.",
+   "ceiling": "£0 on a public repository. If it went private again, about £5.95 per 100 macOS minutes (recorded, not checked again).",
+   "earlier": [
+    {
+     "words": "Apple: no paid Apple Developer Program for now; the owner will say when.",
+     "how": "the decision log's record of your 3 November answers, item 10"
+    },
+    {
+     "words": "Make the repo public, that is fine",
+     "how": "your words, 24 November 2026"
+    }
+   ],
+   "touches": [
+    "Apple testing",
+    "CI",
+    "MP-199"
+   ],
+   "ids": [
+    "MP-199",
+    "PL-11",
+    "MP-36"
+   ],
+   "options": [
+    {
+     "label": "Build and unit tests in CI",
+     "says": "Each pull request that touches the Apple app builds it and runs XCTest on a free macOS runner. Maestro journeys and real-device builds stay on your Mac.",
+     "cost": "£0 while public, and slower pull request checks.",
+     "rec": true,
+     "because": "A broken Apple build is caught on every pull request without your Mac being on, and the slow journeys stay where you can watch them."
+    },
+    {
+     "label": "Everything in CI",
+     "says": "XCTest and the Maestro simulator journeys both run on macOS runners. Your Mac does real-device builds only.",
+     "cost": "£0 while public, but long pull request checks, and how steady simulators are on hosted runners is unverified."
+    },
+    {
+     "label": "Stay on your Mac",
+     "says": "As proposed: every Apple build and simulator run happens on your Mac.",
+     "cost": "£0, but nothing checks the Apple app on a pull request unless you run it."
+    }
+   ],
+   "evidence": [
+    "TECH-STACK.md:100 simulators on the owner's Mac, proposed (MP-36)",
+    "TECH-STACK.md:151 macOS runners free on a public repository",
+    "docs/confluence/build_pages.py:1058 simulator runs stay on the owner's Mac until the owner chooses",
+    "docs/confluence/build_pages.py:1062 listed to decide (MP-199)",
+    "docs/planning/ma-reconciliation-2026-11-02/decision-log.md:210 Apple, 3 November"
+   ],
+   "linked": [
+    "MP203-08"
+   ],
+   "asked": {
+    "source": "MP-199",
+    "from": "TECH-STACK.md, docs/confluence/build_pages.py",
+    "question": "Whether simulator runs stay on the owner's Mac or move to free macOS runners (MP-199)."
+   }
+  },
+  {
+   "id": "MP203-12",
+   "status": "answered",
+   "tier": "later",
+   "group": "Already answered",
+   "title": "Is no private network for launch only, or for PH-08 too?",
+   "why": "It was asked as \"At PH-08, keep N0 (no VPC) or take a lockdown step (L1 to L4), each costed on the perimeter page?\" PH-08 is the launch phase, Operational acceptance and controlled personal launch, so your pick answered PH-08 itself. MP-123 already records no lockdown step at launch, and any later step is a new choice with its own costing, ADR and your yes.",
+   "answered_by": {
+    "words": "Stay with no private network",
+    "who": "picked 5 November 2026 by your words in chat, \"for the remaining pick up recommended options\"",
+    "record": "docs/planning/owner-question-pack-2026-11-05/answers.json (MP40-Q7) and MP-123"
+   },
+   "touches": [
+    "Network",
+    "MP-123"
+   ],
+   "ids": [
+    "MP40-Q7",
+    "MP-123",
+    "N0"
+   ],
+   "evidence": [
+    "docs/planning/story-readiness-2026-11-03/stories/PH-08.json:661 MP-123 records the choice",
+    "docs/planning/ma-reconciliation-2026-11-02/phase-story-baseline.json:560 PH-08 is the launch phase",
+    "docs/planning/ma-reconciliation-2026-11-02/decision-log.md:154 the lockdown decided at PH-08, and the launch pick"
+   ],
+   "linked": [],
+   "asked": {
+    "source": "MP-203",
+    "from": "Jira MP-203",
+    "question": "MP40-Q7 (\"Stay with no private network\"): is it for launch only, or no lockdown step at PH-08 either?"
+   }
+  }
+ ]
+}

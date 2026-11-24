@@ -1,13 +1,13 @@
 {
  "slug": "rec-delivery",
  "page_id": "6094881",
- "version": 5,
- "sent_sha256": "32087db53ca375effd1398dd33eddc9558ee84bdc01d59526bb2c9ac547387fc",
- "readback_sha256": "6cb57227a4c58e8900bafa9ea9b880128fc1c3cad8bea30464489cc6bff36e37",
- "canonical_sha256": "adc07207f3be2f52014eddaeac62cbafa1dd5c9cd98abfd52586943089284444",
+ "version": 6,
+ "sent_sha256": "26b7dd3f6c722f0aeaca144782f6e077004a78ea27fadbf1150fbf7de66d479c",
+ "readback_sha256": "e6a1cef08f931563a8564b0370217fcf6055bb9bc3d74b59d831ea5a7568528c",
+ "canonical_sha256": "e77cc412331b64923ea8cb388424513143672c04e5271f6127b2d1e3a188cb9d",
  "parts": 204,
  "verdict": "match",
  "differences": [],
  "id_checked": true,
- "read_at": "2026-11-24T10:06:46Z"
+ "read_at": "2026-11-24T14:35:06Z"
 }

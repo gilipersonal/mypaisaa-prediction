@@ -271,7 +271,7 @@
      "Terraform in infra/terraform/, plan-only until the owner asks for an apply in the running prompt, defines AWS Organizations with all features, a management account that runs no workloads, and dev and prod member accounts in us-east-1 (ARC-11, MP-29).",
      "The cost-guard SCP denies NAT gateways, interface endpoints, VPNs, load balancers, SageMaker endpoints and GPU instances until an ADR lifts it. Beside it, three further SCPs keep CloudTrail on, deny root actions and forbid leaving the organisation, binding the dev and prod accounts. MP40-Q4, 5 November 2026 (MP-184): the owner picked \"Add all three\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"The three policies join the cost guard in Terraform, and they bind the dev and prod accounts.\"",
      "State lives in a versioned, encrypted S3 bucket per account with S3 native locking, made by a bootstrap configuration that starts on local state and migrates into the bucket it creates.",
-     "GitHub OIDC deploy roles, one per account; the prod role trusts only the release workflow the owner starts (PH08-S01).",
+     "GitHub OIDC deploy roles, one per account; the prod role trusts only the release that waits in the GitHub production environment for the owner's approval (PH08-S01, MP203-08). Proposed: it trusts only that environment, checked against GitHub's documentation before build.",
      "Plan-only CI on every PR: terraform fmt -check, terraform validate, TFLint and Checkov, with no AWS access; the Terraform CLI and AWS provider are pinned in the lock file.",
      "Every resource carries an environment tag and cost-allocation tags, with no em dashes in names, tags or descriptions."
     ],

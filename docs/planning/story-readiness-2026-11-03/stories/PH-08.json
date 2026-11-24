@@ -45,22 +45,23 @@
    "jira_key": "MP-106",
    "phase": "PH-08",
    "epic": "MP-9",
-   "title": "Production release workflow that only the owner can start",
-   "story": "As the owner, I want production releases to happen only when I start the release workflow, from one artefact built on main with its evidence attached, so that nothing reaches prod by accident and every release can be rolled back.",
+   "title": "Production releases that wait for the owner's approval",
+   "story": "As the owner, I want production releases to reach prod only after I approve them in the production environment, from one artefact built on main with its evidence attached, so that nothing reaches prod by accident and every release can be rolled back.",
    "from_drafts": [
     "L8-S01"
    ],
    "acceptance": {
     "positive": [
-     "Each commit on main builds one artefact once; GitHub OIDC deploys it to dev, and only a release workflow that only the owner can start promotes it to prod (GitHub Free; owner, 3 November 2026; PL-11).",
-     "Each release writes a ReleaseEvidence record: the commit, the artefact hash, its SBOM, the gate results, the Terraform plan, the owner's start and the previous release to roll back to.",
+     "Each commit on main builds one artefact once; GitHub OIDC deploys it to dev. A merge to main starts the release, which waits in the GitHub production environment for the owner's approval before it promotes the artefact to prod. MP203-08, 24 November 2026 (MP-203): the owner picked \"An environment replaces route A\" (pressed on the page). The option read: \"A merge to main starts the release, which waits in the production environment for your approval.\" It replaces route A, the release workflow only the owner could start (GitHub Free; owner, 3 November 2026; PL-11). Administrators can bypass environment rules by default (recorded 24 November 2026).",
+     "Each release writes a ReleaseEvidence record: the commit, the artefact hash, its SBOM, the gate results, the Terraform plan, the owner's approval in the production environment and the previous release to roll back to.",
      "Prod Terraform applies run only through this route from main, after the owner approves the reviewed plan.",
      "Rollback switches the Lambda alias to the previous release's version."
     ],
     "negative": [
-     "A Jira status, a draft approval or a green dev deploy never proves release readiness and never starts a prod release.",
-     "No laptop or Claude session applies to prod, and an actor other than the owner cannot trigger the workflow.",
-     "No release proceeds with a failing gate, an unreviewed plan or drift."
+     "A Jira status, a draft approval or a green dev deploy never proves release readiness and never approves a prod release.",
+     "No laptop or Claude session applies to prod, and no actor other than the owner can approve a release waiting in the production environment.",
+     "No release proceeds with a failing gate, an unreviewed plan or drift.",
+     "The route rests on the repository staying public and on the administrator bypass staying unused, as the option's cost note said; a release that used the bypass is flagged in its ReleaseEvidence, and if the repository goes private, releases stop until the owner chooses a route again (proposed)."
     ],
     "recovery": [
      "A failed prod deploy rolls back by alias to the previous release; a failed apply stops and the next attempt starts from a fresh reviewed plan; drift blocks the release until it is resolved through Terraform."
@@ -76,7 +77,7 @@
      "role": "writes"
     }
    ],
-   "authority": "Only the owner starts a prod release. CI builds and deploys to dev on its own. No agent may start, approve or bypass a release.",
+   "authority": "A merge to main starts a release; only the owner approves it in the production environment before it reaches prod. CI builds and deploys to dev on its own. No agent may approve or bypass a release, or merge to main to start one.",
    "states": [
     "built",
     "deployed to dev",
@@ -96,7 +97,7 @@
     "external": []
    },
    "evidence": [
-    "The workflow file, with a test that a non-owner actor cannot start it",
+    "The workflow file and the production environment's settings, with a test that a non-owner actor cannot approve a release",
     "A dev rehearsal of a release and an alias rollback",
     "ReleaseEvidence read back after the rehearsal"
    ],
@@ -332,11 +333,13 @@
      "Each incident links alert, run, source and model evidence by id.",
      "Alerts exist for a missed forecast run, a stalled collector, stale billing, dead-letter queue depth, expired source access and out-of-order conversation events.",
      "Phone notifications go through the web app's Web Push until the owner buys the Apple Developer Program (owner, 3 November 2026).",
+     "Between 22:00 and 07:00 Europe/London only a critical fault pushes, and critical means this named list, each with its alert: a sign-in, passkey or recovery the owner did not start; a device revoke that fails; production lost (ADM-05); and a failed backup or ledger write. MP203-03, 24 November 2026 (MP-203): the owner picked \"A short named list\" (on a question card in chat). The option read: \"Proposed: a sign-in, passkey or recovery you did not start; a device revoke that fails; production lost (ADM-05); and a failed backup or ledger write. Everything else, such as a missed run or a stalled collector, waits for 07:30.\" Every other alert, such as a missed run or a stalled collector, waits for 07:30.",
      "When production stops answering its checks, code opens the incident and the owner records production lost with a fresh sign-in. ADM-05, 5 November 2026 (MP-184): the owner picked \"Code flags, you confirm\" (by the owner's words in chat, \"for the remaining pick up recommended options\")."
     ],
     "negative": [
      "A health endpoint that reports OK while a dead-letter queue holds items or a daily run was missed fails its test.",
-     "Alerts and incidents carry no holdings or secrets."
+     "Alerts and incidents carry no holdings or secrets.",
+     "No alert outside the named critical list pushes during quiet hours."
     ],
     "recovery": [
      "An incident closes only with a recorded resolution and reopens if the fault recurs."
@@ -379,7 +382,8 @@
    },
    "evidence": [
     "A failure-injection matrix with a result for every alert",
-    "A correlation test from alert to source and model evidence"
+    "A correlation test from alert to source and model evidence",
+    "A quiet-hours case for each named critical fault, and one showing a missed run held until 07:30"
    ],
    "blocked_on_owner": false
   },
@@ -599,7 +603,7 @@
      "Main-dashboard cost visibility and the critical recovery controls are in the launch UX, not deferred."
     ],
     "negative": [
-     "No runbook step bypasses the controlled writer, step-up or the release workflow."
+     "No runbook step bypasses the controlled writer, step-up or the owner's approval of a release in the production environment."
     ],
     "recovery": [
      "A walkthrough step that fails becomes a bug and blocks launch until it passes."

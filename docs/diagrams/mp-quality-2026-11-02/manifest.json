@@ -5,9 +5,9 @@
   "page_count": 6,
   "export_date_utc": "2026-11-02",
   "jira": "MP-36",
-  "status": "PROPOSED. Today's nine CI checks are drawn as IMPLEMENTED; the ARC directions and the owner's 2 and 3 November 2026 decisions (Terraform, the owner-started release, SSM Parameter Store, Organizations with the cost-guard SCP, N0, free Apple builds) as OWNER-SELECTED; nothing is deployed",
+  "status": "PROPOSED. Today's ten required checks are drawn as IMPLEMENTED; the ARC directions and the owner's decisions of 2 and 3 November 2026 (Terraform, SSM Parameter Store, Organizations with the cost-guard SCP, N0, free Apple builds) and of 24 November 2026 (MP203-08, the GitHub production environment replacing route A; MP203-11, Apple build and XCTest in CI) as OWNER-SELECTED; nothing is deployed",
   "source": "lucid_spec.py writes spec.json (Lucid Standard Import); `--page N` is the one-page document each drawing was imported from, with use_assisted_layout false. Regenerate and re-import rather than editing exports",
-  "spec_sha256": "becb2ab74a7caf25e7e8ec44ad148b742938025466e59a6cb8ce85f26e832c3e",
+  "spec_sha256": "78c47449c92b114c59c90becb4756e83953a1d4748cff8b7df4e49c3fbbd800e",
   "pages": [
     {
       "page_number": 1,
@@ -34,24 +34,30 @@
       "page_number": 3,
       "title": "From a merge to prod",
       "filename": "03-merge-to-prod.png",
-      "document_id": "e6a27ee4-1181-47ad-b189-ecb9b308c37e",
-      "document_url": "https://lucid.app/lucidchart/e6a27ee4-1181-47ad-b189-ecb9b308c37e/edit",
-      "document_version": 86,
-      "sha256": "770eb3dbb9d8d296a549c28197481d88d90d99a2f946e6608e90423c2906feca",
+      "document_id": "60ba31b4-b1d9-48f4-8a3e-dd9e41ce940e",
+      "document_url": "https://lucid.app/lucidchart/60ba31b4-b1d9-48f4-8a3e-dd9e41ce940e/edit",
+      "document_version": 87,
+      "sha256": "3386cf6384944ef5ced81f59caf608dd729ca34e8b2e2232bcf5c284797e40ea",
       "export_date_utc": "2026-11-24",
-      "status": "PROPOSED; today's CI checks drawn as IMPLEMENTED and owner choices as OWNER-SELECTED"
+      "status": "PROPOSED; today's CI checks drawn as IMPLEMENTED and owner choices as OWNER-SELECTED",
+      "source_commit": "uncommitted on MP-203-open-questions at export (branch head 27cf310)",
+      "bytes": 483925,
+      "dimensions": [
+        2460,
+        1618
+      ]
     },
     {
       "page_number": 4,
       "title": "Apple testing and the private beta",
       "filename": "04-apple-testing.png",
-      "document_id": "23768f5e-77d2-4de1-8f1f-ff7f591ec659",
-      "document_url": "https://lucid.app/lucidchart/23768f5e-77d2-4de1-8f1f-ff7f591ec659/edit",
-      "document_version": 72,
-      "sha256": "5bf245e077ce4844b3e4395540de31fd995b8af7655039cc021647fbb15b3643",
-      "export_date_utc": "2026-11-04",
-      "source_commit": "4fb3a2caa9513430961b608e6c38733ff1fcd505",
-      "bytes": 420495,
+      "document_id": "b7fe765a-d566-4820-833f-333e30d0bf41",
+      "document_url": "https://lucid.app/lucidchart/b7fe765a-d566-4820-833f-333e30d0bf41/edit",
+      "document_version": 73,
+      "sha256": "cf4347b79c82b98e479305854b1a4a8a7e3bbc81186cc9fe87db0e4d57674ab2",
+      "export_date_utc": "2026-11-24",
+      "source_commit": "uncommitted on MP-203-open-questions at export (branch head 27cf310)",
+      "bytes": 452649,
       "dimensions": [
         2420,
         1568
@@ -155,6 +161,19 @@
     {
       "document_id": "297187e7-4138-4dc3-ba44-61ea8a848d48",
       "reason": "drawing 3 until 24 Nov 2026 (version 84): nine checks and scanning drawn as paid; replaced by e6a27ee4 in MP-199 because the connector refused in-place edits; not edited"
+    },
+    {
+      "document_id": "e6a27ee4-1181-47ad-b189-ecb9b308c37e",
+      "reason": "drawing 3 until 24 Nov 2026 (version 86): route A, an owner-started release, drawn as chosen; replaced by 60ba31b4 in MP-203 (MP203-08) because the connector refused in-place edits; not edited"
+    },
+    {
+      "document_id": "23768f5e-77d2-4de1-8f1f-ff7f591ec659",
+      "reason": "drawing 4 until 24 Nov 2026 (version 72): every Apple build and simulator run on the owner's Mac, no Mac CI minutes; replaced by b7fe765a in MP-203 (MP203-11) because the connector cannot edit it; not edited"
+    },
+    {
+      "document_id": "3c72b163-da4b-46a5-b999-62f13aa86606",
+      "reason": "MP-203 first import of drawing 4: the macOS runner price cell clipped its last word; cell shortened in lucid_spec.py and re-imported as b7fe765a"
     }
-  ]
+  ],
+  "refresh_2026_11_24": "MP-203: drawings 3 and 4 re-imported as new Lucid documents from `lucid_spec.py --page 3` and `--page 4` (assisted layout off, validated first), because the Lucid connector cannot edit the existing documents; owner, MP-199: \"editing existing may not work, try recreating\". Authority: the owner's \"All four\" (24 Nov 2026). Drawing 3 now shows MP203-08 \"An environment replaces route A\": a merge to main starts the release, which waits in the GitHub production environment for the owner's approval; route A (a release workflow the owner alone dispatched, 3 Nov 2026) is drawn as replaced; administrators can bypass environment rules by default; the prod role trusting only that environment is marked proposed. Drawing 4 now shows MP203-11 \"Build and unit tests in CI\": pull requests that touch the Apple app build it and run XCTest on a free macOS runner; Maestro journeys and real-device builds stay on the owner's Mac; the macOS runner row reads \u00a30 while public, about \u00a35.95 per 100 minutes if private. Each new document was read back (metadata, a text search for the new and the retired wording, and the PNG export); the submitted payloads matched the generator's output byte for byte (29095 and 23545 bytes). Drawings 1, 2, 5 and 6 are unchanged."
 }

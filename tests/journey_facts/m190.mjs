@@ -131,7 +131,8 @@ export default {
       has(v.text, /It pushes once in 24 hours for this holding, rule and severity, and sooner only if it worsens or the cause is new\. Every event stays in the app\./, `${w}: the cooldown`);
       lacks(v.text, /How long a cooldown runs is open/, `${w}: the old open cooldown`);
       if (!['loading'].includes(at.state)) {
-        has(v.text, /Material means a line you set is crossed, on exposure, price move, volatility or an event flag\. Critical covers security and service faults only, so an investment alert waits for 07:30\. Each line still needs your value before build\. Proposed · CT-18/, `${w}: what material and critical mean`);
+        lacks(v.text, /Critical covers security and service faults only/, `${w}: the old critical wording (MP203-03)`);
+        has(v.text, /Material means a line you set is crossed, on exposure, price move, volatility or an event flag\. An investment alert never breaks quiet hours, so it waits for 07:30\. Only a critical fault does: a sign-in, passkey or recovery you did not start; a device revoke that fails; production lost; a failed backup or ledger write \(that list is proposed\)\. Each line still needs your value before build\. Proposed · CT-18/, `${w}: what material and critical mean`);
         has(v.text, /It is material, not critical, so it waited/, `${w}: why it waited`);
       }
     });

@@ -6,6 +6,7 @@
   "precedence": [
     "The owner's recorded answers come first; the root documents follow them and win over every other record. The full order is in docs/planning/baseline-signoff-2026-11-03/README.md (MP-20, 3 Nov 2026); the lines below rank records inside this pack.",
     "Current explicit owner foundation replies",
+    "Owner picks of 24 Nov 2026 (MP-203, docs/planning/owner-question-pack-2026-11-24/answers.json) supersede earlier proposals, pending values and the 3 Nov release route in this snapshot",
     "Owner picks of 5 Nov 2026 (MP-184, docs/planning/owner-question-pack-2026-11-05/answers.json; recorded by MP-192) supersede earlier proposals and pending values in this snapshot",
     "Owner answers of 2 and 3 Nov 2026 in decision-log.md and the ARC-06b card (folded in by the MP-20 consolidation, 3 Nov 2026) supersede earlier proposals in this snapshot",
     "Twelve selected architecture directions",
@@ -164,7 +165,8 @@
       "22:00",
       "07:00"
     ],
-    "critical_exceptions": "Only explicitly approved conditions.",
+    "critical_exceptions": "No investment alert breaks quiet hours: every investment alert waits for 07:30 (MP203-02). Only a critical security or service fault on the short named list may (MP203-03): a sign-in, passkey or recovery the owner did not start; a device revoke that fails; production lost (ADM-05); and a failed backup or ledger write. Everything else, such as a missed run or a stalled collector, waits for 07:30.",
+    "critical_exceptions_superseded_2026_11_24_mp203": "Only explicitly approved conditions.",
     "channels": [
       "app/chat",
       "native push",
@@ -181,6 +183,11 @@
       "material_and_critical": "MP40-Q11a, 5 November 2026 (MP-184): the owner picked \"Your lines, no investment wake-ups\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Material means a line you set is crossed on exposure, price move, volatility or an event flag. Critical covers security and service faults only, so investment alerts wait for 07:30.\" Each line still needs a value from the owner before build.",
       "weekend_brief": "MP40-Q11b, 5 November 2026 (MP-184): the owner picked \"Weekdays only\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"No brief on Saturday or Sunday. Home says why, and held alerts land in your inbox at 07:30 (proposed).\"",
       "risk_alert_cooldown": "OWN-34, 5 November 2026 (MP-184): the owner picked \"Once in 24 hours\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"One push per holding, rule and severity in 24 hours, sooner only if it worsens or the cause is new. Every event stays in the app.\""
+    },
+    "owner_answers_2026_11_24": {
+      "source": "docs/planning/owner-question-pack-2026-11-24/answers.json",
+      "investment_alerts": "MP203-02, 24 November 2026 (MP-203): the owner picked \"Never for investment alerts\" (on a question card in chat). The option read: \"An approved exception can only be one of the critical security or service faults. Every investment alert waits for 07:30, and MP-138 says so.\"",
+      "critical_faults": "MP203-03, 24 November 2026 (MP-203): the owner picked \"A short named list\" (on a question card in chat). The option read: \"Proposed: a sign-in, passkey or recovery you did not start; a device revoke that fails; production lost (ADM-05); and a failed backup or ledger write. Everything else, such as a missed run or a stalled collector, waits for 07:30.\""
     }
   },
   "retention": {
@@ -230,6 +237,10 @@
         "the revocation time",
         "the offline time-out"
       ]
+    },
+    "owner_answers_2026_11_24": {
+      "source": "docs/planning/owner-question-pack-2026-11-24/answers.json",
+      "offline_saved_copy_browser": "MP203-01, 24 November 2026 (MP-203): the owner picked \"Same rule, same time\" (pressed on the page). The option read: \"The browser's copy clears on its next connection and stops showing after the same time-out as the Apple app. One value, which you still set.\" A browser's saved copy follows the same rule and the same time-out as the Apple app. The time-out value is still the owner's to set."
     }
   },
   "import_and_inputs": {
@@ -337,6 +348,15 @@
       "metals_daily_value": "OWN-26, 5 November 2026 (MP-184): the owner picked \"Use the provider's daily bar\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Each day's value is the provider's daily bar, with its boundary recorded, once the first month proves cover.\"",
       "scenario_templates": "OWN-10, 5 November 2026 (MP-184): the owner picked \"Sourced proposal, then approve\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"A separate piece of work proposes each template value with its evidence, and you approve them.\"",
       "still_open": "SCI-D03, SCI-D06, SCI-D07 and SCI-D08 stay partly answered; forecasting/open-decisions.json names what each leaves open"
+    },
+    "owner_answers_2026_11_24": {
+      "source": "docs/planning/owner-question-pack-2026-11-24/answers.json",
+      "trial_no_hurdle": "MP203-06, 24 November 2026 (MP-203): the owner picked \"Confirm: no hurdle, no interval\" (pressed on the page). The option read: \"A lower average score than each comparator on the same matured forecasts is enough in the trial. The 2% hurdle and the 95% interval stay in the walk-forward test only.\"",
+      "range_stand_in": "MP203-05, 24 November 2026 (MP-203): the owner picked \"Once, as a standing rule\" (pressed on the page). The option read: \"You approve once that for range tasks the strongest simple range baseline stands in for the rules. Each promotion screen names it, and you still approve every promotion.\"",
+      "probation_three_months": "MP203-04, 24 November 2026 (MP-203): the owner picked \"Pairs when there are any\" (pressed on the page). The option read: \"A 3-month model is judged on any pairs that mature in its 4 weeks, from forecasts it made in shadow, and is checked for clean running too. With no pairs, clean running only.\"",
+      "event_source_gaps": "MP203-09, 24 November 2026 (MP-203): the owner picked \"All seven, gaps shown\" (pressed on the page). The option read: \"All seven stay the target. A kind that no checked source covers shows as no source yet, and informs no forecast until one qualifies.\"",
+      "metals_valuation_days": "MP203-10, 24 November 2026 (MP-203): the owner picked \"The provider's bar days\" (pressed on the page). The option read: \"Each day the provider publishes a daily bar is a valuation day. A missing bar is recorded as missing, never filled.\"",
+      "still_open": "SCI-D03, SCI-D07 and SCI-D08 stay partly answered; forecasting/open-decisions.json names what each leaves open"
     }
   },
   "not_approved": [
@@ -396,12 +416,18 @@
     "secrets": "SSM Parameter Store SecureString",
     "cost_collector": "read-only Cost Explorer role in the management account, assumed by the prod collector",
     "claude_inference": "global, standard price",
-    "prod_release": "a workflow only the owner can start (GitHub Free)",
+    "prod_release": "a merge to main starts the release, which waits in the GitHub production environment for the owner's approval (MP203-08, 24 November 2026; it replaces the 3 November route A). Administrators can bypass environment rules by default (recorded 24 November 2026).",
+    "prod_release_superseded_2026_11_24_mp203": "a workflow only the owner can start (GitHub Free)",
     "sources": [
       "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-after-the-mp-10-source-rights-research-2-november-2026",
       "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-for-mp-29-3-november-2026",
       "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-in-the-3-november-2026-decision-round-mp-39"
-    ]
+    ],
+    "owner_answers_2026_11_24": {
+      "source": "docs/planning/owner-question-pack-2026-11-24/answers.json",
+      "prod_release": "MP203-08, 24 November 2026 (MP-203): the owner picked \"An environment replaces route A\" (pressed on the page). The option read: \"A merge to main starts the release, which waits in the production environment for your approval.\"",
+      "apple_ci": "MP203-11, 24 November 2026 (MP-203): the owner picked \"Build and unit tests in CI\" (pressed on the page). The option read: \"Each pull request that touches the Apple app builds it and runs XCTest on a free macOS runner. Maestro journeys and real-device builds stay on your Mac.\""
+    }
   },
   "claude_models": {
     "status": "owner_selected_ARC-06b_option_A",

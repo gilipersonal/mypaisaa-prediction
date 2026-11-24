@@ -95,6 +95,14 @@
           ],
           "answer": "All seven event kinds in the first event wave (rate surprises, inflation surprises, tariffs, conflict, earnings, OPEC+, elections; US, UK, India), each qualifying on its own evidence; similar days since 2015 (about ten years). Bounded self-correction by code, never an agent: probabilities shift at most 5 percentage points a week, a signal weight at most 10% a month, automatic rollback if scores worsen, larger changes need the owner. An 8-week shadow trial beating the base rate and the rules before promotion with the owner yes; an unscoreable week pauses the count; long horizons rely on walk-forward history for accuracy evidence. Rules changes need the same 8-week trial. Probation for 4 live weeks after promotion (revert after 2 bad weeks). Slipping (worse than the previous approved model for 4 weeks running on matured forecasts) reverts automatically; restarting a pause or switching forward needs the owner (POLICY-003 stands). Top 5 per segment ranked by the 35/40/25 combined score. The contribution split shows live from launch, labelled experimental; an F7 contribution policy goes live only after beating simple rules for 8 weeks in replay and shadow, with the owner yes.",
           "folded_into": "forecasting area (MP-20 consolidation)"
+        },
+        "later_owner_answers_2026_11_24": {
+          "recorded_on": "2026-11-24",
+          "source": [
+            "docs/planning/owner-question-pack-2026-11-24/answers.json"
+          ],
+          "answer": "MP203-09, 24 November 2026 (MP-203): the owner picked \"All seven, gaps shown\" (pressed on the page). The option read: \"All seven stay the target. A kind that no checked source covers shows as no source yet, and informs no forecast until one qualifies.\" So all seven event kinds stay the target of the first event wave; a kind that no checked source covers shows as no source yet and informs no forecast until a source qualifies.",
+          "folded_into": "forecasting area (MP-203)"
         }
       }
     },
@@ -187,7 +195,21 @@
             "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-for-mp-29-3-november-2026",
             "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-in-the-3-november-2026-decision-round-mp-39"
           ],
-          "answer": "Region Virginia (us-east-1). Terraform only, from the first resource. AWS Organizations with all features and the cost-guard SCP (no Region allowlist SCP or resource control policies). Network N0. Secrets in SSM Parameter Store SecureString. A read-only Cost Explorer role in the management account, assumed by the prod cost collector. The existing domain mypaisapp.com renewed outside MP. Production releases through a workflow only the owner can start (GitHub Free; settles PL-11).",
+          "answer": "Region Virginia (us-east-1). Terraform only, from the first resource. AWS Organizations with all features and the cost-guard SCP (no Region allowlist SCP or resource control policies). Network N0. Secrets in SSM Parameter Store SecureString. A read-only Cost Explorer role in the management account, assumed by the prod cost collector. The existing domain mypaisapp.com renewed outside MP. Production releases: replaced on 24 November 2026 by MP203-08, see later_owner_answers_2026_11_24.",
+          "still_open": "No apply, account, credential or spending is approved.",
+          "superseded_2026_11_24_mp203": {
+            "answer_was": "Region Virginia (us-east-1). Terraform only, from the first resource. AWS Organizations with all features and the cost-guard SCP (no Region allowlist SCP or resource control policies). Network N0. Secrets in SSM Parameter Store SecureString. A read-only Cost Explorer role in the management account, assumed by the prod cost collector. The existing domain mypaisapp.com renewed outside MP. Production releases through a workflow only the owner can start (GitHub Free; settles PL-11).",
+            "superseded": "Production releases through a workflow only the owner can start (GitHub Free; settles PL-11)",
+            "kept": "the rest of the 2 and 3 November answer"
+          }
+        },
+        "later_owner_answers_2026_11_24": {
+          "recorded_on": "2026-11-24",
+          "source": [
+            "docs/planning/owner-question-pack-2026-11-24/answers.json"
+          ],
+          "answer": "MP203-08, 24 November 2026 (MP-203): the owner picked \"An environment replaces route A\" (pressed on the page). The option read: \"A merge to main starts the release, which waits in the production environment for your approval.\" So a merge to main starts the production release, which waits in the GitHub production environment for the owner's approval; it replaces the 3 November route A. Administrators can bypass environment rules by default (recorded 24 November 2026).",
+          "also": "MP203-11, 24 November 2026 (MP-203): the owner picked \"Build and unit tests in CI\" (pressed on the page). The option read: \"Each pull request that touches the Apple app builds it and runs XCTest on a free macOS runner. Maestro journeys and real-device builds stay on your Mac.\"",
           "still_open": "No apply, account, credential or spending is approved."
         }
       }
@@ -203,5 +225,5 @@
       }
     }
   ],
-  "consolidation_note": "MP-20 consolidation, 3 Nov 2026: later owner answers are added under later_owner_answers in each direction they refine; the original selections and meanings are unchanged. Authority: docs/planning/ma-reconciliation-2026-11-02/decision-log.md."
+  "consolidation_note": "MP-20 consolidation, 3 Nov 2026: later owner answers are added under later_owner_answers in each direction they refine; the original selections and meanings are unchanged. Authority: docs/planning/ma-reconciliation-2026-11-02/decision-log.md. MP-203 (24 Nov 2026): the owner's picks of 24 November 2026 are added under later_owner_answers_2026_11_24 (ARC-05, ARC-11); the release route MP203-08 replaces is kept under superseded_2026_11_24_mp203."
 }

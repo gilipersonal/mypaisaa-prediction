@@ -525,13 +525,13 @@
   },
   {
    "id": "A44",
-   "action": "Start a prod release",
+   "action": "Approve a prod release",
    "journeys": [
     "incidents"
    ],
    "step_up": "outside",
-   "step_up_note": "Not an MP step-up: a GitHub workflow only the owner can start",
-   "audit": "ReleaseEvidence (owner's start)",
+   "step_up_note": "Not an MP step-up: a merge to main starts the release, and it waits in GitHub's production environment for the owner's approval (MP203-08, \"An environment replaces route A\")",
+   "audit": "ReleaseEvidence (owner's approval)",
    "source": "PH08-S01, DL:203",
    "phone": "outside"
   },

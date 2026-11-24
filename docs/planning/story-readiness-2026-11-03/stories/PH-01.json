@@ -548,7 +548,7 @@
    "phase": "PH-01",
    "epic": "MP-5",
    "title": "Deterministic parsers for CSV, Excel and text PDFs",
-   "story": "As the owner, I want CSV, Excel and text-based PDF statements in supported layouts parsed by code into draft rows that point to the exact cell or page they came from, so that every figure can be traced and nothing is invented.",
+   "story": "As the owner, I want CSV, Excel and text-based PDF statements in supported layouts, including an encrypted PDF I unlock in a local step on my device, parsed by code into draft rows that point to the exact cell or page they came from, so that every figure can be traced and nothing is invented.",
    "from_drafts": [
     "L1-S03"
    ],
@@ -557,16 +557,21 @@
      "Supported CSV, Excel and text-PDF layouts in the versioned layout register produce DraftRows whose every field records the raw literal, the normalised value, the parser and schema version, and a row and column, sheet and cell, or page and region locator.",
      "Missing data stays missing: an absent fee or date is recorded as absent, never as zero or a default.",
      "Generic synthetic fixtures are labelled generic and kept distinct from layouts validated on real broker samples.",
-     "A PDF unlocked in the local step on the owner's device arrives as an unlocked copy through the validated upload intake (PH01-S06) and is parsed like any other text PDF (proposed)."
+     "A PDF unlocked in the local step on the owner's device arrives as an unlocked copy through the validated upload intake (PH01-S06) and is parsed like any other text PDF.",
+     "This story also builds the local PDF unlock step: the owner types the password in a step on their device, which opens the PDF there and uploads the unlocked copy. MP203-07, 24 November 2026 (MP-203): the owner picked \"Widen three existing stories\" (pressed on the page). The option read: \"MP-47 gains the unlock step, MP-107 the factsheet reader and MP-163 the two builds.\" The password is never logged or sent to a model, and it never leaves the device and is never stored (proposed). The step is built in the web app here; the Apple app's step arrives with the Apple journeys in PH-07 (PH07-S02, MP-168) (proposed). How a browser opens and re-saves an encrypted PDF on the device is unverified until a test proves it (proposed)."
     ],
     "negative": [
      "Cell formulas, macros, links and embedded text are data only; no formula, script or network call runs to import a workbook, and instruction-like text changes nothing.",
      "An unsupported layout is reported as unsupported with the evidence of why, never guessed into rows.",
-     "An encrypted PDF is held as needing unlock and is not parsed; no password is logged or sent to a model. MP40-Q2, 5 November 2026 (MP-184): the owner picked \"Local unlock step\" (pressed on the page). The option read: \"You type the password in a step on your device, which opens the PDF there and uploads the unlocked copy.\" The password stays on the owner's device and never reaches MP's servers (proposed)."
+     "An encrypted PDF is held as needing unlock and is not parsed; no password is logged or sent to a model. MP40-Q2, 5 November 2026 (MP-184): the owner picked \"Local unlock step\" (pressed on the page). The option read: \"You type the password in a step on your device, which opens the PDF there and uploads the unlocked copy.\" The password stays on the owner's device and never reaches MP's servers (proposed).",
+     "The unlock step never sends the password or the locked original to MP's servers, and keeps neither after the step closes (proposed)."
     ],
     "recovery": [
      "A parser failure moves the source to extraction_failed with a retry disposition; reprocessing with a new parser version creates a new draft revision and keeps the old one.",
-     "A crash mid-parse leaves no partial draft visible; a rerun produces the same rows for the same bytes and parser version."
+     "A crash mid-parse leaves no partial draft visible; a rerun produces the same rows for the same bytes and parser version.",
+     "A wrong password opens nothing and uploads nothing; the step says the password did not open the file and lets the owner try again (proposed).",
+     "Cancelling the unlock step uploads nothing and leaves the file as it was (proposed).",
+     "A file that stays locked (an encryption the step cannot open, or a password the owner does not have) uploads nothing; an encrypted PDF that reached intake stays as needing unlock, with its reason, and is not parsed (proposed)."
     ]
    },
    "contracts": [
@@ -583,14 +588,17 @@
      "role": "reads"
     }
    ],
-   "authority": "Parser code proposes draft rows only; the owner reviews them in the preview. Parsers have no tool, network or writer authority. Nobody can approve rows through file content.",
+   "authority": "The unlock step runs on the owner's device and only the owner types the password; MP's servers never see it (proposed). Parser code proposes draft rows only; the owner reviews them in the preview. Parsers have no tool, network or writer authority. Nobody can approve rows through file content.",
    "states": [
     "Extracting",
     "Extracted, with rows",
     "Unsupported layout",
     "Extraction failed, with retry disposition",
     "Needs unlock (encrypted PDF)",
-    "Superseded by a newer parser version"
+    "Superseded by a newer parser version",
+    "Unlocking on the owner's device",
+    "Unlock failed (wrong password or an encryption the step cannot open)",
+    "Unlock cancelled"
    ],
    "depends_on": {
     "stories": [
@@ -609,7 +617,8 @@
     "The CSV, Excel and PDF paths of FIN-AC-05 pass on synthetic fixtures",
     "A hostile workbook with formulas, macros and external links imports with no execution and no network call, asserted in a test",
     "Synthetic examples L1-E01 and L1-E03 pass",
-    "An identical rerun gives identical draft rows"
+    "An identical rerun gives identical draft rows",
+    "A local unlock case on a synthetic encrypted PDF: the right password uploads the unlocked copy; a wrong password, a cancel and an unsupported encryption upload nothing; and no password appears in any request, log or store"
    ]
   },
   {

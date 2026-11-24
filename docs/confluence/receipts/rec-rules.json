@@ -1,13 +1,13 @@
 {
  "slug": "rec-rules",
  "page_id": "6291509",
- "version": 3,
- "sent_sha256": "d274b5533ad43d266e072d88ae09b61f5da98cdb3c70b9be64fd0c6d14d9f68e",
- "readback_sha256": "4761fac67df56261111cd75d252da75858ffc021889c9400bdcaa71f2dca7a75",
- "canonical_sha256": "17411ef9b060250855f77992a1d86afc8c9e153bd346faad1b7e5174510cfa95",
+ "version": 4,
+ "sent_sha256": "f4a1b78224bec35f317c91640bc1f251dff6d7a6ba238c0669268aa8c9b0a7ef",
+ "readback_sha256": "5c469442ac7a560760cc723bff716cac7b593a007004f8b757cff43e8ad36390",
+ "canonical_sha256": "bc39d182d461bb450fa6563041c396119ee15f7d784cc0e8285cc1c5f7ba40f0",
  "parts": 160,
  "verdict": "match",
  "differences": [],
  "id_checked": true,
- "read_at": "2026-11-24T11:09:46Z"
+ "read_at": "2026-11-24T14:44:23Z"
 }
