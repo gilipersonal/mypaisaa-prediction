@@ -69,6 +69,8 @@ Drawn on branch `MP-186-nav-cost-pill-clock` (23 November 2026), in the Journeys
 
 ### MP-187: Design the Track record view in Record
 
+Drawn on branch `MP-187-track-record` (24 November 2026), as an options round in the Journeys design: a ninth journey, Track record, with Scorecard (A, Recommended) and One table (B), a flip between them, and the Journal / Track record switch at the top of Record. Live forecasts only, by horizon, holding, model and regime, over 30, 90 and 365 days. The owner picked "A · Scorecard" on 24 November 2026 (`docs/design/reviews/MP-187/README.md`); One table (B) stays drawn, labelled not picked. Proposed: a rate shows once 30 forecasts have scored (SCI-D03), and the regime rule (SCI-D04).
+
 | Id | The pick | How | Effect |
 | --- | --- | --- | --- |
 | OWN-24 | A view in Record | pressed | Screens redrawn |

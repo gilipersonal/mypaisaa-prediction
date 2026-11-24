@@ -35,7 +35,7 @@ exact ink, MA's fonts and no others, the generated tokens and the icon set uncha
 in the owner's order, the Claude component unchanged, and the same motion rules.
 
 Prism Journeys, docs/design/journeys/index.html, is built from the picked system (check_journeys): the same proof of
-what can drift, and all eight owner journeys in the page in their order, each with exactly one recommended option and
+what can drift, and all nine owner journeys in the page in their order, each with exactly one recommended option and
 its stories named. scripts/design_journeys_check.mjs walks every rendered state and docs/design/journeys/build.py
 --check proves the page is current.
 
@@ -59,7 +59,7 @@ PICKED = "docs/design/prism/index.html"
 JOURNEYS = "docs/design/journeys/index.html"
 ADMIN = "docs/design/admin/index.html"
 ADMIN_IDS = ("home", "files", "audit", "runs", "agents", "models", "approvals", "costs", "incidents", "identity")
-JOURNEY_IDS = ("home", "holdings", "forecast", "research", "journal", "cost", "approvals", "privacy")
+JOURNEY_IDS = ("home", "holdings", "forecast", "research", "journal", "track", "cost", "approvals", "privacy")
 VENDOR = re.compile(r"^-(webkit|moz|ms|o)-(?=transition|animation)")
 # A size set relative to its parent cannot be read from the rule alone. Each entry names why it is safe; the rendered size
 # is measured by scripts/design_journeys_check.mjs. The pence of a big figure are half the figure, and never under 12 px.
@@ -819,13 +819,13 @@ JOURNEY_HEAD = re.compile(r"/\* -{10} journey: ([a-z]+) -{10} \*/")
 
 
 def check_journeys(html: str, ids: tuple[str, ...] = JOURNEY_IDS) -> list[str]:
-    """The journeys page: what can drift from Prism, and all eight journeys, each with one recommended option."""
+    """The journeys page: what can drift from Prism, and all nine journeys (Track record joined in MP-187), each with one recommended option."""
     fails, css, script = prism_core(html)
     if not css:
         return fails
     heads = JOURNEY_HEAD.findall(script)
     if tuple(heads) != ids:
-        fails.append(f"the page holds journeys {heads}; the {'eight' if ids == JOURNEY_IDS else len(ids)}, in order, are {list(ids)}")
+        fails.append(f"the page holds journeys {heads}; the {'nine' if ids == JOURNEY_IDS else len(ids)}, in order, are {list(ids)}")
     if ids == JOURNEY_IDS and "__prismFlipless" in script:
         fails.append("the journeys page says it has no flip, and the owner kept both options with a flip")
     for name, body in zip(heads, JOURNEY_HEAD.split(script)[2::2]):
@@ -881,7 +881,7 @@ def check(paths: list[str]) -> int:
         if not fails and rows == "admin":
             print(f"design-gates: {rel}: the admin journeys, Prism's tokens, ink, fonts and icons hold; motion rules hold")
         elif not fails and rows == "journeys":
-            print(f"design-gates: {rel}: the eight journeys, Prism's tokens, ink, fonts and icons hold; motion rules hold")
+            print(f"design-gates: {rel}: the nine journeys, Prism's tokens, ink, fonts and icons hold; motion rules hold")
         elif not fails and rows is None:
             print(f"design-gates: {rel}: MA's ink and fonts, the tokens, icons, sections and Claude hold; motion rules hold")
         elif not fails:
@@ -1102,7 +1102,7 @@ PRISM_MUTATIONS = {
 
 
 def good_journeys() -> str:
-    """A small journeys page: the good Prism page without its index and Claude block, and eight registered journeys."""
+    """A small journeys page: the good Prism page without its index and Claude block, and nine registered journeys."""
     body = re.sub(r'<nav aria-label="Sections">.*?</nav>', "", good_prism(), flags=re.S)
     body = re.sub(r"<!-- mp-claude:start -->.*?<!-- mp-claude:end -->", "", body, flags=re.S)
     journeys = "\n".join(f"/* ---------- journey: {j} ---------- */\nJ.add({{ id: '{j}', stories: ['MP-153'], options: "
@@ -1112,8 +1112,8 @@ def good_journeys() -> str:
 
 JOURNEY_MUTATIONS = {
     "journey-missing": (_sub("/* ---------- journey: cost ---------- */\nJ.add({ id: 'cost', stories: ['MP-153'], options: "
-                             "[{ id: 'a', rec: true }, { id: 'b' }] });", ""), "the eight, in order"),
-    "journey-moved": (_sub("journey: home ----", "journey: holdings ----"), "the eight, in order"),
+                             "[{ id: 'a', rec: true }, { id: 'b' }] });", ""), "the nine, in order"),
+    "journey-moved": (_sub("journey: home ----", "journey: holdings ----"), "the nine, in order"),
     "journeys-say-flipless": (_sub("journey: home ----", "journey: home ---- window.__prismFlipless"), "has no flip"),
     "no-recommendation": (_sub("J.add({ id: 'forecast', stories: ['MP-153'], options: [{ id: 'a', rec: true }",
                                "J.add({ id: 'forecast', stories: ['MP-153'], options: [{ id: 'a' }"), "forecast recommends 0"),

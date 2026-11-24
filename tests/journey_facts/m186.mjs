@@ -124,7 +124,7 @@ export default {
 
   'MP186-clock': ({ each, view, must, has, lacks }) => {
     let seen = 0, pairs = new Set();
-    for (const journey of ['home', 'holdings', 'forecast', 'research', 'journal', 'cost', 'approvals', 'privacy']) each({ journey }, (v, at) => {
+    for (const journey of ['home', 'holdings', 'forecast', 'research', 'journal', 'track', 'cost', 'approvals', 'privacy']) each({ journey }, (v, at) => {
       seen++;
       lacks(v.text, OLD, `${at.journey}.${at.screen} ${at.surface} ${at.state}: the old clock`);
       for (const m of v.text.matchAll(/As of (\d\d:\d\d) London[\s·,]*(?:[Dd]ata )?cutoffs? (\d\d:\d\d)/g)) { must(PAIRS[m[1]] === m[2], `${at.journey}.${at.screen} ${at.surface} ${at.state}: as of ${m[1]} with cutoff ${m[2]}`); pairs.add(m[1]); }

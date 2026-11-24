@@ -31,10 +31,10 @@ function flipsSave(key) {
   } catch (e) { /* the flip still turns on this page */ }
 }
 
-/* ---------- the flip: both options kept on all eight journeys (the owner, 4 Nov 2026, MP-178). Each journey flips on its own. It is
+/* ---------- the flip: both options kept on the first eight journeys (the owner, 4 Nov 2026, MP-178). On Track record the owner picked A (24 Nov 2026, MP-187); B stays drawn, labelled not picked, with the flip. Each journey flips on its own. It is
    absent while signed out, during a step-up, behind an open sheet, and on a proposal, an approval or a record being written, so it can
    never change what an approval binds. ---------- */
-const FLIP_NAMES = { home: ['Tiles', 'Ledger'], holdings: ['Desk', 'One by one'], forecast: ['One horizon', 'Ladder'], research: ['Brief', 'Thread'], journal: ['Timeline', 'Lanes'], cost: ['Ladder', 'Burn-up'], approvals: ['Queue', 'In place'], privacy: ['Centre', 'In place'] };
+const FLIP_NAMES = { home: ['Tiles', 'Ledger'], holdings: ['Desk', 'One by one'], forecast: ['One horizon', 'Ladder'], research: ['Brief', 'Thread'], journal: ['Timeline', 'Lanes'], track: ['Scorecard', 'Table'], cost: ['Ladder', 'Burn-up'], approvals: ['Queue', 'In place'], privacy: ['Centre', 'In place'] };
 /* A name of its own, where the view a flip lands on is not its option's usual one. */
 const FLIP_AT = { 'cost-a-sources': 'Sources', 'cost-b-log': 'Log', 'cost-a-fit': 'Months', 'cost-b-fit': 'List', 'cost-b-limits': 'Table', 'b-forecast': 'Dossier', 'b-proof': 'Dossier', 'b-views': 'Dossier', 'b-evidence': 'Dossier' };
 const pairs = (...p) => Object.fromEntries(p);
@@ -44,6 +44,8 @@ const FLIPS = {
   forecast: pairs(['a-forecasts', 'b-forecasts'], ['a-instrument', 'b-ladder'], ['a-technical', 'b-technical'], ['a-proof', 'b-proof'], ['a-views', 'b-views'], ['a-evidence', 'b-evidence'], ['a-scenarios', 'b-scenarios'], ['a-hzstates', 'b-hzstates'], ['a-3m', 'b-ladder'], ['a-12m', 'b-ladder'], ['a-short', 'b-ladder'], ['b-forecast', 'a-instrument']),
   research: pairs(['ra-brief', 'rb-today'], ['ra-card', 'rb-card'], ['ra-ask', 'rb-ask'], ['ra-memory', 'rb-memory'], ['ra-alert', 'rb-alert']),
   journal: pairs(['a-list', 'b-board'], ['a-one', 'b-one'], ['a-differ', 'b-differ']),
+  /* Track record (MP-187): the owner picked A, Scorecard, on 24 Nov 2026. B, not picked, stays drawn with the flip so the round reads back. B's one table holds all three breakdowns */
+  track: pairs(['a-record', 'b-table'], ['a-slice', 'b-slice'], ['a-holding', 'b-table'], ['a-model', 'b-table'], ['a-regime', 'b-table']),
   /* no flip on Cost's Home: since "Pill on every Home" (OWN-06) both options draw the same Home, so a flip there would change nothing */
   cost: pairs(['cost-a-month', 'cost-b-burn'], ['cost-a-limits', 'cost-b-limits'], ['cost-a-warned', 'cost-b-warned'], ['cost-a-reduced', 'cost-b-reduced'], ['cost-a-paused', 'cost-b-paused'], ['cost-a-sources', 'cost-b-log'], ['cost-a-fit', 'cost-b-fit']),
   approvals: pairs(['aa-queue', 'ab-home']),
@@ -77,6 +79,9 @@ const CLOCK = { XNAS: ['22:15', '22:00'], ARCX: ['22:15', '22:00'], XLON: ['17:5
 const CUTOFFS = 'cutoffs US 22:00, UK 17:35, India 11:00';
 const ASOF_ALL = `As of 22:15 London · ${CUTOFFS}`;
 const LASTGOOD_ALL = 'US: last good run Mon 22:15 · cutoff 22:00. UK and India ran today';
+/* Record holds two places, the Journal and the Track record ("A view in Record", OWN-24, MP-187): the top of each carries this switch.
+   0 is the Journal, 1 the Track record. */
+const recordSwitch = on => `<div data-mo="rise">${seg(['Journal', 'Track record'], on, 'Record', 'full')}</div>`;
 /* one instrument's as-of and cutoff, by its market */
 const clockOf = h => CLOCK[(h && h.v) || 'XNAS'] || CLOCK.XNAS;
 
@@ -258,8 +263,8 @@ function show() {
   mark(sum.at.j);
   $('#jtitle').textContent = j.title;
   $('#jsummary').textContent = j.summary;
-  $('#jmeta').innerHTML = `<span class="chip proposed"><span class="dot"></span>Proposed</span><span class="chip owner"><span class="dot"></span>Both kept, with a flip</span><span class="chip illus">Not approved UX</span><span class="chip illus">All figures illustrative</span>${(j.stories || []).map(s => `<span class="chip">${s}</span>`).join('')}`;
-  $('#jopt').innerHTML = seg(j.options.map(x => [`${x.id.toUpperCase()} · ${x.name}${x.rec ? ' (starts here)' : ''}`]), sum.at.o, 'Option', 'full');
+  $('#jmeta').innerHTML = `<span class="chip proposed"><span class="dot"></span>Proposed</span>${j.picked ? `<span class="chip owner"><span class="dot"></span>Owner picked ${j.picked.toUpperCase()} · ${(j.options.find(x => x.id === j.picked) || {}).name}, ${j.pickedOn}</span>` : '<span class="chip owner"><span class="dot"></span>Both kept, with a flip</span>'}<span class="chip illus">Not approved UX</span><span class="chip illus">All figures illustrative</span>${(j.stories || []).map(s => `<span class="chip">${s}</span>`).join('')}`;
+  $('#jopt').innerHTML = seg(j.options.map(x => [`${x.id.toUpperCase()} · ${x.name}${j.picked ? (x.id === j.picked ? ' (picked)' : ' (not picked)') : x.rec ? ' (starts here)' : ''}`]), sum.at.o, 'Option', 'full');
   $('#jopt').onclick = e => { const b = e.target.closest('button'); if (!b) return; const i = $$('#jopt button').indexOf(b), said = `Option ${b.textContent}`; sum.at.o = i; show(); hold('#jopt', i, said); };
   $('#jsurf').innerHTML = seg(SURFACES.map(s => [s[1]]), SURFACES.indexOf(surf), 'Device', 'full');
   $('#jsurf').onclick = e => { const b = e.target.closest('button'); if (!b) return; const i = $$('#jsurf button').indexOf(b), said = `Device ${b.textContent}`; sum.at.s = SURFACES[i][0]; show(); hold('#jsurf', i, said); };
@@ -394,7 +399,7 @@ const OPEN = [
   ['How long does an approved switch forward or restart stay open? (CT-02)', 'Proposed: 15 minutes after you approve.'],
   ['Must ranges show on Home itself? MP-153 asks for them, and a tile cannot hold one.', 'Home A shows ranges one tap in, on every segment list, and says so in its cost. Home B shows them in the rows.'],
   ['Can a decision be recorded against an abstention? (MP-158)', 'Settled, 5 Nov 2026 ("Any time evidence shows", OWN-15): yes, against the evidence, and the entry says why no action was ranked. With no forecast at that horizon it may never get an outcome. Past entries stand.'],
-  ['Where do track records by horizon and regime live? (MP-154)', 'Not drawn. The journal shows only the scored decisions.'],
+  ['Where do track records by horizon and regime live? (MP-154)', 'Settled, 5 Nov 2026 ("A view in Record", OWN-24): a Track record view in Record, beside the Journal. Its shape is settled too, 24 Nov 2026 ("A · Scorecard", MP-187): one card per horizon, with holding, model and regime a tap away. One table (B) stays drawn, labelled not picked. Proposed: a rate shows once 30 forecasts have scored (SCI-D03), and the regime rule (SCI-D04).'],
   ['What no clear view, a cost pause and the technical mode show on a forecast (MP-145)', 'The cost pause is settled, 5 Nov 2026 ("Daily forecasts keep running", OWN-25): daily forecasts carry on past £85, inside the £15 kept above it, and Cost paused shows only where a forecast needs optional paid work. No clear view and the technical mode stay labelled proposed.'],
   ['Gold and silver have no short-term rows, views or scenarios (SCI-D08)', 'Labelled proposed.'],
   ['Probation at 6 and 12 months, where nothing matures in the first 4 live weeks, and the bad-week rule (SCI-D07)', 'Labelled proposed. Probation ends with no score at those horizons.'],
@@ -426,7 +431,7 @@ function showInventory() {
   inv.innerHTML = `<h2>State inventory</h2><p class="sum">Every screen against every state, generated from the screens themselves. ${drawn} of ${cells} cells are drawn; ${na} do not apply, each with its reason. Each screen also adapts to iPhone, iPad, desktop and phone web, in light and dark. Tap a tick to open that state.</p><div class="tblwrap"><table class="spec"><thead><tr><th>Screen</th>${STATES.map(s => `<th>${s[1]}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>`;
   const naRows = sum.journeys.flatMap(j => j.options.flatMap(o => o.screens.flatMap(s => Object.entries(s.na || {}).map(([k, r]) => `<tr><td>${j.title} · ${o.id.toUpperCase()} · ${s.title}</td><td>${(STATES.find(x => x[0] === k) || [k, k])[1]}</td><td>${r}</td></tr>`))));
   inv.insertAdjacentHTML('beforeend', `<h2 style="margin-top:32px">What a flip changes</h2><p class="sum">A flip turns the view of a place. The freshness, the provider status and the risk stay the same, the figures both sides show stay the same, and a side may hold more. Each journey starts in A, keeps your choice on that device, and flips on its own. There is no flip while signed out, during a step-up, behind an open sheet, or on a proposal, an approval or a record being written, and none on a few read-only screens with no counterpart, such as the notices list in Approvals B or an opened source, nor on Cost's Home, which is the same whichever way Cost is flipped (OWN-06). A receipt turns only once its commit is done, and a refused permission does not turn. In Disagreement and Abstaining, the instrument in question turns to its dossier or its own horizon, so the name never changes.</p><h2 style="margin-top:32px">Cells that do not apply</h2><p class="sum">Why each of the ${na} cells cannot occur on its screen. This is a reading of "every screen shows", put to you to accept.</p><div class="tblwrap"><table class="spec"><thead><tr><th>Screen</th><th>State</th><th>Why it cannot occur</th></tr></thead><tbody>${naRows.join('')}</tbody></table></div>`);
-  inv.insertAdjacentHTML('beforeend', `<h2 style="margin-top:32px">What these screens wait on</h2><p class="sum">Both options stay on all eight journeys, with a flip. These questions cross journeys, and each is drawn as the records stand today, labelled where it is proposed.</p><div class="tblwrap"><table class="spec"><thead><tr><th>Question</th><th>How it is drawn</th></tr></thead><tbody>${OPEN.map(([q, d]) => `<tr><td>${q}</td><td>${d}</td></tr>`).join('')}</tbody></table></div><h2 style="margin-top:32px">Checked against current releases</h2><p class="sum">Checked on 4 November 2026 and nothing is installed. SvelteKit 3.1.1 with Svelte 5.57.3 on npm, which matches SvelteKit 3 in TECH-STACK. Current simulators list iPhone 17, 17 Pro, 17 Pro Max and 17e, the iPhone 16 family, iPad, iPad Air and iPad Pro (M4 and M5). The frames here are 390 × 844 and 1180 × 820. They are drawing sizes, not a device promise: which devices are supported is still open (MP40-Q12).</p>`);
+  inv.insertAdjacentHTML('beforeend', `<h2 style="margin-top:32px">What these screens wait on</h2><p class="sum">Both options stay on the first eight journeys, with a flip. On Track record you picked A, Scorecard; B stays drawn, labelled not picked, with the flip. These questions cross journeys, and each is drawn as the records stand today, labelled where it is proposed.</p><div class="tblwrap"><table class="spec"><thead><tr><th>Question</th><th>How it is drawn</th></tr></thead><tbody>${OPEN.map(([q, d]) => `<tr><td>${q}</td><td>${d}</td></tr>`).join('')}</tbody></table></div><h2 style="margin-top:32px">Checked against current releases</h2><p class="sum">Checked on 4 November 2026 and nothing is installed. SvelteKit 3.1.1 with Svelte 5.57.3 on npm, which matches SvelteKit 3 in TECH-STACK. Current simulators list iPhone 17, 17 Pro, 17 Pro Max and 17e, the iPhone 16 family, iPad, iPad Air and iPad Pro (M4 and M5). The frames here are 390 × 844 and 1180 × 820. They are drawing sizes, not a device promise: which devices are supported is still open (MP40-Q12).</p>`);
   inv.onclick = e => { const b = e.target.closest('[data-go]'); if (!b) return; const [jj, oo, k] = b.dataset.go.split('|'); J.go(jj, oo, sum.at.s, k); scrollTo({ top: 0 }); };
   try { history.replaceState(null, '', '#inventory'); } catch (e) { /* the view still shows */ }
 }
