@@ -12,13 +12,13 @@
     "#lib/*": "./src/lib/*"
   },
   "scripts": {
-    "assets": "node scripts/assets.mjs",
+    "assets": "node scripts/assets.mjs && node scripts/sample.mjs",
     "dev": "npm run assets && vite dev",
     "build": "npm run assets && vite build && node scripts/check-build.mjs",
     "preview": "vite preview --port 4173 --strictPort",
     "sync": "svelte-kit sync",
-    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --fail-on-warnings && tsc -p src/service-worker --noEmit && node scripts/prism-components.mjs --check",
-    "test": "svelte-kit sync && vitest run",
+    "check": "npm run assets && svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --fail-on-warnings && tsc -p src/service-worker --noEmit && node scripts/prism-components.mjs --check",
+    "test": "npm run assets && svelte-kit sync && vitest run",
     "e2e": "playwright test"
   },
   "devDependencies": {

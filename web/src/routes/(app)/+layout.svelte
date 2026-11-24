@@ -6,6 +6,7 @@
   import TabBar from '#lib/components/TabBar.svelte';
   import { placeOf } from '#lib/places.ts';
   import { auth } from '#lib/auth/auth.svelte.ts';
+  import { privacy } from '#lib/privacy.svelte.ts';
 
   let { children } = $props();
   const current = $derived(placeOf(page.url.pathname));
@@ -21,6 +22,7 @@
   }
 
   onMount(() => {
+    privacy.load();
     auth.init(location.search);
     guard();
     // A session that runs out while the app is open goes back to sign-in.

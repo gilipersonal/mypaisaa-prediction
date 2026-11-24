@@ -860,7 +860,7 @@
    "key": "MP-66",
    "summary": "Record the owner's whole-product UX approval and the separate permission to build",
    "type": "Story",
-   "status": "In Progress",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     "docs/design/reviews/MP-66/",
@@ -1813,7 +1813,7 @@
    "key": "MP-180",
    "summary": "Check the designs on a real phone at 20% brightness and with assistive technology before UX approval",
    "type": "Task",
-   "status": "In Progress",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     "docs/design/journeys/",
@@ -2311,6 +2311,18 @@
     "tests/journey_facts/",
     "tests/admin_facts/",
     "docs/planning/trace.json"
+   ]
+  },
+  {
+   "key": "MP-205",
+   "summary": "Build the read-only web screens on sample data: Home with the cost pill, Holdings, Settings and privacy, and the Journal",
+   "type": "Task",
+   "status": "In Progress",
+   "parent": "MP-7",
+   "code": [
+    "web/",
+    "docs/planning/trace.json",
+    "README.md"
    ]
   }
  ]

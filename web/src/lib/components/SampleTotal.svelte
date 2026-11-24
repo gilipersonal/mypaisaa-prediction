@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { source, type PortfolioTotal } from '#lib/data/index.ts';
-  import { formatMoney } from '#lib/money.ts';
+  import Amount from './Amount.svelte';
   import Icon from './Icon.svelte';
 
   // Read in the browser, never at build time, so no figure is baked into the static pages (MP-134).
@@ -26,8 +26,8 @@
   {:else if status === 'error'}
     <p class="fig"><Icon name="info" size="s18" /> The total could not be read.</p>
   {:else if total}
-    <p class="fig" data-testid="total">{formatMoney(total.total)}</p>
-    <p class="small muted">Holdings {formatMoney(total.holdings)} · cash {formatMoney(total.cash)} · {total.asOf}</p>
+    <p class="fig" data-testid="total"><Amount m={total.total} /></p>
+    <p class="small muted">Holdings <Amount m={total.holdings} /> · cash <Amount m={total.cash} /> · {total.asOf}</p>
   {/if}
 </section>
 

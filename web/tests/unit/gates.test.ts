@@ -25,7 +25,7 @@ describe('the Prism drift gate bites', () => {
   });
   it('refuses an added rule', () => expect(problems(css + '\n.new { color: red; }\n', prism)).toHaveLength(1));
   it('refuses a line from a journey the gate does not read', () => {
-    const home = readFileSync(new URL('../../../docs/design/journeys/src/journeys/home.css', import.meta.url), 'utf8');
+    const home = readFileSync(new URL('../../../docs/design/journeys/src/journeys/forecast.css', import.meta.url), 'utf8');
     const line = home.split('\n').find((l) => l.startsWith('.') && !prism.includes(l.trim()));
     expect(line).toBeTruthy();
     expect(problems(css + '\n' + line + '\n', prism)).toHaveLength(1);
