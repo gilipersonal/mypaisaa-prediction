@@ -6,8 +6,9 @@ import { SAMPLE_PORTFOLIO } from '../../src/lib/data/fake';
 import { DATA_STATES, type DataState } from '../../src/lib/data/state';
 import { shownMoney } from '../../src/lib/privacy.svelte';
 import {
-  BROWSER_UNVERIFIED, DAY_CHANGE, EMPTY, LATE_RULE, OUT_NOTE, SUPPORT, allocLabel, allocationOf, ccyOf, dayPct, dayWord, designState,
-  flagText, freshOf, metaOf, noteOf, pct, pillOf, rangeLabel, stamp, valueOf, type DesignState
+  ACTS_LEAD, BRIEF, BRIEF_FIRST, BROWSER_UNVERIFIED, DAY_CHANGE, EMPTY, HORIZONS, HZ_ON, LATE_RULE, LATER, LEGEND, LIST, METALS, ORDER,
+  OUT_NOTE, STAMPS, SUPPORT, actsOf, allocLabel, allocationOf, boardNoteOf, ccyOf, dayPct, dayWord, designState, flagText, flagWord,
+  freshOf, metaOf, metalsLine, moneyParts, noteOf, pct, pillOf, rangeLabel, rankLine, score, stamp, tileFoot, valueOf, type DesignState
 } from '../../src/lib/home/home';
 
 type Render = (ctx: Record<string, unknown>) => string;
@@ -34,21 +35,25 @@ const one = (html: string, re: RegExp, what: string): string => {
 const STATES = DATA_STATES.map(designState);
 const p = SAMPLE_PORTFOLIO;
 
-describe('the cost pill is the design\'s, state by state, and opens nothing', () => {
+describe('the cost pill is the design\'s, state by state, word for word', () => {
   for (const st of STATES) {
     for (const hidden of [false, true]) {
       it(`${st}${hidden ? ', amounts hidden' : ''}`, () => {
         const html = one(render('pwa', st, hidden), /(<button class="chip glass cost-pill"[\s\S]*?<\/button>)/, 'cost pill');
         const pill = pillOf(st, hidden);
         const mine = `Cost this month: ${pill.parts.map((x) => x.t).join('')}. ${pill.more}`;
-        // The design's pill is a button that "Opens the month"; Cost is not built in this step, so the app's says neither.
-        expect(flat(textOf(html))).toBe(flat(`${mine}. Opens the month`));
-        expect(pill.more).not.toMatch(/open/i);
+        // The design's pill is a button that "Opens the month". Cost is not built in this step, so the app's says the
+        // design's words and, when pressed, says the month comes in a later build step (LATER.cost; tests/e2e/home.spec.ts).
+        expect(flat(textOf(html))).toBe(flat(mine));
+        expect(pill.more).toMatch(/Opens the month$/);
         if (pill.icon) expect(html).toContain(`#i-${pill.icon}"`);
         else expect(html).toContain(`width:${pill.fill}%`);
       });
     }
   }
+  it('says the month comes later, in one sentence, when pressed', () => {
+    expect(LATER.cost).toMatch(/^[^.]+ later build step\.$/);
+  });
   it('masks the pounds and keeps the bar when amounts are hidden', () => {
     expect(pillOf('default', true).parts[0]!.t).toBe('£•• of £100');
     expect(pillOf('loading', true).parts[0]!.t).toBe('Last good £••');
@@ -128,13 +133,14 @@ describe('the notes over the holdings are the design\'s words', () => {
 describe('each holding row says what the design says', () => {
   for (const st of STATES.filter((s) => s !== 'empty')) {
     it(`on a phone, ${st}`, () => {
-      const html = render('iphone', st);
+      const html = render('pwa', st);
       const text = textOf(html);
+      expect(text).toContain('Holding Value 6M Action');
       for (const h of p.items) {
         const s = stamp(h, st);
-        expect(text).toContain(`${h.name} ${h.ticker} · ${ccyOf(h)} · ${s.who} ${s.t}`);
+        const move = h.staleAt ? flagWord(st) : pct(h.dayPct);
+        expect(text).toContain(`${h.ticker} ${move} ${ccyOf(h)} · ${s.who} ${s.t} ${moneyParts(h.value).whole} ${pct(h.med)} ${rangeLabel(h)}`);
         expect(html).toContain(`aria-label="${rangeLabel(h)}"`);
-        expect(text).toContain(`${pct(h.med)} · 6M ${h.action}`);
         if (h.staleAt) expect(text).toContain(`${flagText(h, st)}${st === 'stale' ? ` ${OUT_NOTE}` : ''} ${LATE_RULE}`);
       }
     });
@@ -148,6 +154,81 @@ describe('each holding row says what the design says', () => {
       }
     });
   }
+});
+
+describe('the top 5 board is the design\'s, tile by tile', () => {
+  const tiles = (html: string) => [...html.matchAll(/<div class="segtile home-tile[^"]*"[\s\S]*?(?=<div class="segtile home-tile|<\/div><div class="legend")/g)].map((m) => textOf(m[0]));
+  for (const surface of ['web', 'pwa'] as const) {
+    for (const st of STATES) {
+      it(`${surface}, ${st}`, () => {
+        const html = render(surface, st);
+        const got = tiles(html);
+        expect(got).toHaveLength(ORDER.length);
+        const sm = surface === 'web';
+        const shown = st === 'empty' ? 'default' : st;
+        ORDER.forEach((k, i) => {
+          const s = p.segments[k]!;
+          const held = (t: string) => st !== 'empty' && p.items.some((h) => h.ticker === t);
+          const rows = LIST[k] ?? [];
+          const body = k === 'metals'
+            ? `Forecast unavailable ${METALS.map(([n, px]) => `– ${n} ${px}`).join(' ')} ${metalsLine(sm)}`
+            : [...rows.map((r, j) => `${j + 1} ${r[0]}${held(r[0]) ? ' , you hold it' : ''} ${score(r)}`), ...(rows.length < 5 ? [`${rows.length + 1} Withheld –`] : [])].join(' ');
+          expect(got[i]).toBe(`${s.mk} ${s.name} ${body} ${tileFoot(k, shown)}`);
+        });
+        const legend = textOf(one(html, /(<div class="legend">[\s\S]*?<\/div>)/, 'legend'));
+        expect(legend).toBe(`${st === 'empty' ? '' : 'You hold it '}${LEGEND.join(' ')} ${rankLine(shown)} Illustrative`);
+        const note = boardNoteOf(st, p.items.find((h) => !!h.staleAt));
+        const text = textOf(html);
+        if (note) expect(text).toContain(`${note.title} ${note.text}${st === 'stale' ? ` ${LATE_RULE}` : ''}`);
+        if (st === 'empty') expect(text).not.toMatch(/Re-ranking|ranking run failed|Lists from 22:15|is stale\./);
+      });
+    }
+  }
+  it('holds the two lists the source carries equal to the board\'s, score for score', () => {
+    for (const [k, rows] of Object.entries(p.topFives)) {
+      expect(rows.map((r) => [r[0], r[2]])).toEqual((LIST[k] ?? []).map((r) => [r[0], score(r)]));
+    }
+  });
+});
+
+describe('the brief and the ranked actions are the design\'s', () => {
+  for (const st of STATES) {
+    it(`the rail on a desktop, ${st}`, () => {
+      const text = textOf(render('web', st));
+      const [title, sub] = BRIEF[st];
+      if (st === 'empty') expect(text).toContain(`${title} ${sub} ${BRIEF_FIRST} Ranked actions ${ACTS_LEAD} None yet.`);
+      else {
+        expect(text).toContain(`${title} ${sub} ${STAMPS.join(' ')} Open the brief Ranked actions ${ACTS_LEAD}`);
+        expect(text).toContain(actsOf(p, st).map((a) => `${a.action} ${a.name} ${a.why}${a.settled ? ` ${LATE_RULE}` : ''}`).join(' '));
+      }
+    });
+    it(`the pill above the tabs on a phone, ${st}`, () => {
+      const html = render('pwa', st);
+      const pill = /<button class="home-pill"[\s\S]*?<\/button>/.exec(html);
+      if (st === 'empty') expect(pill).toBeNull();
+      else expect(textOf(pill![0])).toBe(BRIEF[st].join(' '));
+    });
+  }
+  it('computes NVIDIA\'s share from the source (lesson 37)', () => {
+    expect(actsOf(p, 'default')[0]!.why).toContain('12.6% of the portfolio');
+  });
+});
+
+describe('the horizon switch and the controls not built in this step', () => {
+  it('draws the design\'s 3M, 6M and 12M with 6M pressed', () => {
+    const html = one(render('web', 'default'), /(<div class="segctl" role="group" aria-label="Forecast horizon"[\s\S]*?<\/div>)/, 'horizon switch');
+    expect([...html.matchAll(/aria-pressed="(\w+)" aria-label="([^"]+)">([^<]+)</g)].map((m) => [m[1], m[2], m[3]]))
+      .toEqual(HORIZONS.map((h, i) => [String(i === HZ_ON), h.n, h.s]));
+  });
+  it('splits money exactly as the privacy helper prints it', () => {
+    for (const m of [...p.items.map((h) => h.value), p.total, p.cash, DAY_CHANGE]) {
+      const { whole, pence } = moneyParts(m);
+      expect(`${whole}.${pence}`).toBe(shownMoney(m, false));
+    }
+  });
+  it('says one sentence for each, naming a later build step', () => {
+    for (const s of Object.values(LATER)) expect(s).toMatch(/^[^.]+ later build step\.$/);
+  });
 });
 
 describe('the states map one to one', () => {

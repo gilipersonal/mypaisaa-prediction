@@ -162,8 +162,9 @@ export interface Pill {
   more: string;
 }
 /**
- * The pill is status, not a link: Cost's month is not built in this step, so the design's "Opens the month" is left
- * off (lesson 28). With amounts hidden the pounds are masked and the bar stays, as a percentage does (OWN-18).
+ * The pill is the design's button, in the design's words, "Opens the month" with them. Cost's month is not built in this
+ * step, so pressing it says so beside it and opens nothing (lesson 28: the promise has a destination, the note). With
+ * amounts hidden the pounds are masked and the bar stays, as a percentage does (OWN-18).
  */
 export function pillOf(st: DesignState, hidden: boolean): Pill {
   const [so, word, status, fc] = PILLM[st];
@@ -177,7 +178,7 @@ export function pillOf(st: DesignState, hidden: boolean): Pill {
       ? [{ t: mask(whole), sr: false }, ceil, { t: tail[st]!, sr: false }]
       : [{ t: mask(`${whole} of £100`), sr: false }];
   const icon = ({ error: 'alert', stale: 'clock', offline: 'wifi-off' } as Partial<Record<DesignState, string>>)[st];
-  return { parts, icon, fill: parseFloat(so), more: hidden ? 'Amounts hidden' : `£${so} ${word}. ${status}. Forecast ${fc}` };
+  return { parts, icon, fill: parseFloat(so), more: hidden ? 'Amounts hidden. Opens the month' : `£${so} ${word}. ${status}. Forecast ${fc}. Opens the month` };
 }
 
 /* ---------- the notes over the holdings (home.js: holdingsNote, flagChip) ---------- */
@@ -204,3 +205,125 @@ export const OUT_NOTE = 'Left out of the total until its price returns.';
 export const RMIN = -20;
 export const RMAX = 36;
 export const rangeLabel = (h: Holding): string => `6-month forecast: median ${pct(h.med)}, 80% range ${pct(h.lo)} to ${pct(h.hi)}`;
+
+/* ---------- money as Prism draws it (Prism: money, roll; home.js pTr) ---------- */
+/** A figure split for Prism's money(): the whole pounds with their sign, and the pence after the point. It formats as
+ * privacy.svelte.ts shownMoney does (tests/unit/home.test.ts holds the two equal); this file stays free of runes so the
+ * browser tests can read its words. */
+const GBP = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP', minimumFractionDigits: 2 });
+export function moneyParts(m: Money): { whole: string; pence: string } {
+  if (!Number.isSafeInteger(m.pence)) throw new Error('money must be whole pence');
+  const s = GBP.format(m.pence / 100);
+  const at = s.lastIndexOf('.');
+  if (at < 0) throw new Error(`no pence in ${s}`);
+  return { whole: s.slice(0, at), pence: s.slice(at + 1) };
+}
+
+/* ---------- the horizon switch (Prism: H36) ---------- */
+export const HORIZONS = [{ s: '3M', n: '3 months' }, { s: '6M', n: '6 months' }, { s: '12M', n: '12 months' }] as const;
+/** The horizon Home reads at: 6 months, the middle of the three. */
+export const HZ_ON = 1;
+
+/* ---------- the top 5 board (home.js: ORDER, LIST, score, bTile, legendT) ---------- */
+/** The board's order: eight tiles, gold and silver last. */
+export const ORDER = ['uslarge', 'ustech', 'n50', 'midcap', 'usetf', 'uketf', 'inetf', 'metals'] as const;
+/** Each segment's market, for its price time and source. */
+export const SEGP: Record<string, string> = { uslarge: 'XNAS', ustech: 'XNAS', usetf: 'ARCX', uketf: 'XLON', n50: 'XNSE', midcap: 'XNSE', inetf: 'XNSE' };
+export type ListRow = readonly [string, number, number, number];
+/**
+ * Each list as the design ranks it: [ticker, growth, protection, opportunity]. The sample source carries only US tech and
+ * Nifty 50 (Prism's T5), so the board's lists are the design's own, illustrative; tests/unit/home.test.ts holds the two
+ * the source carries equal to these and every tile to the rendered design. US tech has four: the fifth is withheld.
+ */
+export const LIST: Record<string, readonly ListRow[]> = {
+  uslarge: [['JPM', 72, 70, 66], ['JNJ', 58, 80, 60], ['BRK.B', 60, 78, 56], ['LLY', 80, 50, 68], ['XOM', 56, 70, 60]],
+  ustech: [['MSFT', 78, 72, 72], ['NVDA', 88, 52, 78], ['AAPL', 68, 70, 65], ['AMZN', 74, 60, 64]],
+  n50: [['ICICIBANK', 76, 70, 70], ['HDFCBANK', 68, 74, 63], ['TCS', 62, 74, 60], ['INFY', 64, 66, 60], ['SBIN', 66, 56, 61]],
+  midcap: [['PERSISTENT', 74, 56, 70], ['MAXHEALTH', 72, 58, 64], ['FEDERALBNK', 62, 62, 60], ['TATAPOWER', 64, 54, 62], ['POLYCAB', 60, 54, 60]],
+  usetf: [['SPY', 60, 82, 58], ['QQQ', 72, 62, 66], ['VTI', 58, 78, 58], ['DIA', 54, 76, 54], ['IWM', 62, 58, 64]],
+  uketf: [['VUSA', 60, 78, 58], ['VWRL', 58, 80, 56], ['CNX1', 70, 60, 62], ['ISF', 50, 76, 62], ['VMID', 52, 66, 60]],
+  inetf: [['NIFTYBEES', 58, 76, 56], ['BANKBEES', 64, 62, 58], ['JUNIORBEES', 66, 58, 60], ['ITBEES', 60, 60, 60], ['MID150BEES', 66, 50, 62]]
+};
+/** Score = growth 35% + protection 40% + opportunity 25%, computed from its three parts (home.js score). */
+export const score = (r: ListRow): number => Math.round(0.35 * r[1] + 0.4 * r[2] + 0.25 * r[3]);
+/** Gold and silver: prices and no list (OWN-26). */
+export const METALS: readonly (readonly [string, string])[] = [['Gold', '$2,684'], ['Silver', '$31.72']];
+const quoteAt = (st: DesignState): string => (st === 'offline' ? 'saved 22:15' : st === 'error' ? 'Mon 21:00' : '21:00');
+/** A tile's foot: its market's price time, or the saved copy, or the last good run. */
+export function tileFoot(k: string, st: DesignState): string {
+  if (k === 'metals') return `Quote ${quoteAt(st)} · Daily bar, cover unproven (OWN-26)`;
+  const p = PRICE[SEGP[k] ?? ''];
+  if (!p) throw new Error(`no price clock for ${k}`);
+  const [t, who] = p;
+  return st === 'offline' ? 'Saved 22:15' : st === 'error' ? `Ranked 2 Nov · ${who} Mon ${t}` : `${who} ${t}`;
+}
+/** Gold and silver's line, short on the desktop's small tiles. */
+export const metalsLine = (sm: boolean): string => (sm ? 'Not ranked (SCI-D08)' : 'Not ranked until their daily bar proves cover for a first month (OWN-26).');
+export const rankLine = (st: DesignState): string => `Ranked ${st === 'error' ? '2' : '3'} Nov · policy v1 · decision support`;
+export const LEGEND = ['Score out of 100', 'Ranked on 3 to 12 months, re-ranked daily'] as const;
+
+/** The note over the board, by state; Empty draws none. The stale holding is named from the source. */
+export function boardNoteOf(st: DesignState, late?: Holding): Note | undefined {
+  switch (st) {
+    case 'loading': return { kind: '', icon: 'refresh', title: 'Re-ranking.', text: 'The last good lists stay here until the daily run lands.' };
+    case 'error': return { kind: 'fall', icon: 'alert', title: 'Today\'s ranking run failed.', text: 'The lists from 2 November stay current, with their date, until a run succeeds.' };
+    case 'stale':
+      if (!late) return undefined;
+      return { kind: 'warn', icon: 'clock', title: `${late.name} is stale.`, text: `Its last price is ${late.staleAt}. It is in none of these lists, so they stand as ranked until its price returns.` };
+    case 'offline': return { kind: '', icon: 'wifi-off', title: 'Offline.', text: `Lists from 22:15, saved on this device. ${BROWSER_UNVERIFIED}` };
+    default: return undefined;
+  }
+}
+
+/* ---------- the brief, as it surfaces on Home (home.js: BL, stamps, briefCard, briefPill) ---------- */
+export const BRIEF: Record<DesignState, readonly [string, string]> = {
+  default: ['Today\'s brief · 07:30', '3 actions · 2 risks · 2 changes'],
+  loading: ['Today\'s brief · 07:30', 'Stays readable while prices refresh'],
+  empty: ['First brief tomorrow', 'Due 07:30 London'],
+  error: ['Plain brief · 07:30', 'Code wrote it: the text route failed'],
+  stale: ['Late brief · issued 09:12', 'MyPrediction was down at 07:30'],
+  offline: ['Saved brief · 07:30', 'Readable offline, not updating']
+};
+export const STAMPS = ['US closed Mon 21:00', 'UK closed Mon 16:35', 'India closed Mon 10:00'] as const;
+export const BRIEF_FIRST = 'The brief starts the morning after your first holdings are in. Each market keeps its own timestamp.';
+
+/* ---------- the ranked actions in the rail (home.js: ACTS, actRows) ---------- */
+export const ACTS_LEAD = 'Decision support, with the reasons a tap away.';
+export interface Act { ticker: string; name: string; action: string; why: string; settled: boolean }
+/**
+ * The three ranked actions, each reason computed from the source: NVIDIA's share of the portfolio, SPY's range, and
+ * HSBC's late or stale price beside its market's close (lesson 37).
+ */
+export function actsOf(p: Portfolio, st: DesignState): Act[] {
+  const by = (t: string): Holding => {
+    const h = p.items.find((x) => x.ticker === t);
+    if (!h) throw new Error(`no holding ${t}`);
+    return h;
+  };
+  const nvda = by('NVDA'), spy = by('SPY'), hsba = by('HSBA');
+  const share = ((nvda.value.pence / p.total.pence) * 100).toFixed(1);
+  const close = PRICE[hsba.venue]?.[0];
+  return [
+    { ticker: 'NVDA', name: nvda.name, action: nvda.action, why: `Widest 80% range of the holdings, and ${share}% of the portfolio.`, settled: false },
+    { ticker: 'SPY', name: spy.name, action: spy.action, why: `Among the narrowest 80% ranges of the holdings: ${pct(spy.lo)} to ${pct(spy.hi)}.`, settled: false },
+    {
+      ticker: 'HSBA', name: hsba.name, action: hsba.action, settled: true,
+      why: st === 'stale'
+        ? `Last price ${hsba.staleAt}, past the freshness limit. Out of the total until its price returns.`
+        : `Last price ${hsba.staleAt}, before the ${close} UK close. Late but inside the limit, so its forecast is held.`
+    }
+  ];
+}
+
+/* ---------- what a control not built in this step says when pressed ---------- */
+/** One sentence each: the act comes in a later build step. Nothing is written. */
+export const LATER = {
+  cost: 'The month\'s costs open in a later build step.',
+  search: 'Search comes in a later build step.',
+  horizon: 'Switching the forecast horizon comes in a later build step.',
+  retry: 'Trying the run again comes in a later build step.',
+  add: 'Adding a holding comes in a later build step.',
+  brief: 'The daily brief opens in a later build step.',
+  act: 'An action\'s reasons open in a later build step.',
+  tile: 'A segment\'s list opens in a later build step.'
+} as const;
