@@ -1909,9 +1909,22 @@
    "key": "MP-187",
    "summary": "Design the Track record view in Record",
    "type": "Task",
-   "status": "To Do",
+   "status": "In Progress",
    "parent": "MP-4",
-   "code": []
+   "code": [
+    "docs/design/journeys/src/journeys/",
+    "docs/design/journeys/src/shell.js",
+    "docs/design/journeys/build.py",
+    "docs/design/journeys/index.html",
+    "docs/design/journeys/README.md",
+    "docs/design/reviews/MP-187/",
+    "docs/design/artifacts.json",
+    "scripts/design_gates.py",
+    "tests/journey_facts/",
+    "review/MP-187/",
+    "docs/planning/trace.json",
+    "docs/planning/owner-question-pack-2026-11-05/scope.md"
+   ]
   },
   {
    "key": "MP-188",

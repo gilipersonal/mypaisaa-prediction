@@ -22,7 +22,7 @@ PRISM = ROOT / "docs/design/prism/index.html"
 CLAUDE = ROOT / "docs/design/reviews/MP-62/shared/claude.html"
 ICONS = ROOT / "docs/design/prism/icons.svg"
 OUT = HERE / "index.html"
-ORDER = ("home", "holdings", "forecast", "research", "journal", "cost", "approvals", "privacy")
+ORDER = ("home", "holdings", "forecast", "research", "journal", "track", "cost", "approvals", "privacy")
 
 
 def between(text: str, start: str, end: str) -> str:

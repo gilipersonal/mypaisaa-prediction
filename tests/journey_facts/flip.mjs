@@ -1,4 +1,4 @@
-// MP-178: both options on all eight journeys, with a flip between them. What each check holds, on the rendered screens.
+// MP-178: both options on all eight picked journeys, with a flip between them, and on Track record's options round (MP-187). What each check holds, on the rendered screens.
 // These walk every flip the page draws, on every device and in every state, so a new pair is covered without being listed.
 const SURFACES = ['iphone', 'ipad', 'web', 'pwa'];
 const STATES = ['default', 'loading', 'empty', 'error', 'stale', 'offline', 'noModel', 'disagreement', 'abstention'];
@@ -33,9 +33,9 @@ const NEVER = [['holdings', 'a', 'a-approve'], ['holdings', 'a', 'a-live'], ['ho
   ['privacy', 'a', 'privacy-a-signin'], ['privacy', 'b', 'privacy-b-signin'], ['privacy', 'a', 'privacy-a-device'], ['privacy', 'b', 'privacy-b-device'], ['privacy', 'b', 'privacy-b-lost'], ['privacy', 'a', 'privacy-a-delete'], ['privacy', 'b', 'privacy-b-delete'], ['privacy', 'a', 'privacy-a-renew'], ['privacy', 'b', 'privacy-b-renew']];
 
 export default {
-  // Every journey flips, on every surface and in every state.
+  // Every journey flips, on every surface and in every state. Narrowed in MP-187: Track record joined as a ninth journey, an options round drawn with the same flip.
   'MP-178-eight': ({ journeys, screens, view, must }) => {
-    must(journeys().length === 8, `${journeys().length} journeys`);
+    must(journeys().length === 9 && journeys().includes('track'), `${journeys().length} journeys: ${journeys().join(', ')}`);
     for (const j of journeys()) for (const o of ['a', 'b']) for (const surface of SURFACES) for (const state of STATES) {
       const n = screens(j, o).filter((s) => flips(view(j, o, s, surface, state).html).length).length;
       must(n >= 1, `${j}.${o} ${surface} ${state}: no screen has a flip`);

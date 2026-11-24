@@ -248,7 +248,7 @@
             abstention: () => sayAbstain() + list(ABSTAINED)
           });
           const empty = ctx.state === 'empty' || ctx.state === 'loading';
-          return frame(ctx, { tab: 3, title: 'Journal', fresh: notPrices(ctx), actions: `${tb('search', 'Search')}${tb('plus', 'Record a decision')}`, webActions: ctx.kind === 'pwa' ? tb('plus', 'Record a decision') : btn('Record a decision', 'tinted sm', 'plus'), body, rail: p ? (empty ? '' : `${ctx.state === 'default' ? '' : wrapUp()}${sideCard()}`) : empty ? proofCard(ctx) : `${wrapUp()}${sideCard()}${proofCard(ctx)}` });
+          return frame(ctx, { tab: 3, title: 'Journal', fresh: notPrices(ctx), actions: `${tb('search', 'Search')}${tb('plus', 'Record a decision')}`, webActions: ctx.kind === 'pwa' ? tb('plus', 'Record a decision') : btn('Record a decision', 'tinted sm', 'plus'), body: recordSwitch(0) + body, rail: p ? (empty ? '' : `${ctx.state === 'default' ? '' : wrapUp()}${sideCard()}`) : empty ? proofCard(ctx) : `${wrapUp()}${sideCard()}${proofCard(ctx)}` });
         }
       }, {
         id: 'a-one', title: 'One decision, scored',
@@ -293,7 +293,7 @@
             disagreement: () => sayAmended() + sayRanking() + board(),
             abstention: () => sayAbstain() + board()
           });
-          return frame(ctx, { tab: 3, title: 'Journal', fresh: notPrices(ctx), actions: `${tb('search', 'Search')}`, body, rail: p && !['empty', 'loading'].includes(ctx.state) ? `${wrapUp()}${sideCard()}` : '' });
+          return frame(ctx, { tab: 3, title: 'Journal', fresh: notPrices(ctx), actions: `${tb('search', 'Search')}`, body: recordSwitch(0) + body, rail: p && !['empty', 'loading'].includes(ctx.state) ? `${wrapUp()}${sideCard()}` : '' });
         }
       }, {
         id: 'b-decide', title: 'Decide, on a full page',

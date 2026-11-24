@@ -1407,6 +1407,71 @@ table.ht.fc-tt td, table.ht.fc-tt th { white-space: normal; }
 .journal-split { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 8px; align-items: center; width: 100%; font: 600 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
 .journal-e[role="button"] { cursor: pointer; }
 
+/* Track record journey (MP-187): only what Prism has no module for. Cards, chips, tables, the calibration bar and the segmented
+   control are Prism's own. A part the owner's pick keeps goes into Prism first, before anything is built. */
+.track-sub { font: 400 13px/18px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
+.track-sub b { color: var(--ink); font-weight: 600; }
+.track-card { padding: 14px 16px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; min-width: 0; align-content: start; }
+.track-card h4 { font: 600 17px/22px var(--font-text); letter-spacing: -.01em; }
+.track-vh { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; min-height: 26px; }
+.track-vh h4 { flex: 1 1 auto; white-space: nowrap; }
+.track-acts { display: flex; flex-wrap: wrap; gap: 8px; }
+.track-kv { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; font: 400 13px/18px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
+.track-kv b { font-weight: 600; color: var(--ink); text-align: right; font-variant-numeric: tabular-nums; }
+.track-rule { border-top: 1px solid var(--hairline); margin: 2px 0; }
+/* a summary with too few matured forecasts says so, in place of a rate */
+.track-few { display: grid; gap: 2px; padding: 10px 12px; border-radius: var(--r-sm); background: var(--surface-2); }
+.track-few b { font: 600 15px/20px var(--font-text); letter-spacing: -.01em; color: var(--ink); }
+.track-few span { font: 400 13px/18px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
+/* the three windows, side by side */
+.track-trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.track-trio > div { display: grid; gap: 2px; align-content: start; padding: 10px 12px; border-radius: var(--r-sm); background: var(--surface-2); min-width: 0; }
+.track-trio b { font: 800 22px/26px var(--font-figure); letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.track-trio .u { font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
+.track-trio .calbar { margin-top: 8px; }
+/* the measures: hit rate never without coverage, calibration, error, the baseline and turnover */
+.track-met { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 16px; }
+.track-met.w3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.track-met > div { min-width: 0; }
+.track-met b { display: block; margin-top: 2px; font: 800 22px/26px var(--font-figure); letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.track-met .u { display: block; font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
+/* sections and lists */
+.track-sec { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.track-sec h3 { flex: 1 1 auto; font: 600 17px/22px var(--font-text); letter-spacing: -.01em; }
+.track-sec.in, .track-sub.in, .track-acts.in { padding: 0 16px; }
+.track-sec.in { padding-top: 14px; }
+.track-list, .track-wide, .track-by { display: grid; gap: 8px; padding: 0 0 12px; min-width: 0; }
+.track-ic { display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--surface-2); color: var(--ink-2); flex: none; }
+.track-row { display: grid; grid-template-columns: 18px minmax(0, 1fr) 18px; gap: 12px; align-items: center; min-height: 52px; padding: 8px 16px; border: 0; background: none; color: var(--ink); text-align: left; font: inherit; cursor: pointer; }
+.track-row + .track-row { border-top: 1px solid var(--hairline); }
+.track-row b { display: block; font: 600 15px/20px var(--font-text); letter-spacing: -.01em; }
+.track-row small { display: block; font: 400 13px/18px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
+.track-row .ico { color: var(--ink-2); }
+/* one breakdown row: who, its sample, its coverage and the bar against the 80% target */
+.track-br { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; gap: 2px 12px; align-items: center; padding: 10px 16px; border-top: 1px solid var(--hairline); }
+.track-br.nolead { grid-template-columns: minmax(0, 1fr) auto; }
+.track-br .m b { display: block; font: 600 15px/20px var(--font-text); letter-spacing: -.01em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.track-br .m span { display: block; font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
+.track-br .v { text-align: right; }
+.track-br .v b { display: block; font: 700 17px/22px var(--font-figure); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.track-br .v span { display: block; font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
+.track-br .calbar, .track-br .o { grid-column: 2 / 4; }
+.track-br.nolead .calbar, .track-br.nolead .o { grid-column: 1 / 3; }
+.track-br .calbar { margin-top: 6px; }
+.track-br .o { font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); margin-top: 2px; }
+/* Option B: the tables */
+.track-scroll { overflow-x: auto; padding: 0 6px; }
+table.track-t td, table.track-t th { padding-inline: 8px; }
+table.track-t tbody tr { cursor: default; }
+table.track-t tr.track-pend td { color: var(--ink-2); font-size: 12px; line-height: 16px; padding-block: 2px 8px; }
+table.track-t tr.track-grp td { background: var(--surface-2); color: var(--ink); font-weight: 600; }
+.track-pr { display: grid; gap: 6px; padding: 10px 16px; border-top: 1px solid var(--hairline); }
+.track-pr .k { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; }
+.track-pr .k b { font: 600 15px/20px var(--font-text); letter-spacing: -.01em; }
+.track-pr .k span { flex-basis: 100%; font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
+/* loading keeps the last good record in view, desaturated, never faded below contrast */
+.track-dim { display: grid; gap: 12px; min-width: 0; filter: saturate(.4); }
+
 /* Cost journey only: the ladder a month climbs, its rungs and the pill. Everything else is Prism. */
 .cost-box { display: grid; gap: 12px; align-content: start; min-width: 0; }
 .cost-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-width: 0; flex-wrap: wrap; }
@@ -2034,10 +2099,10 @@ function flipsSave(key) {
   } catch (e) { /* the flip still turns on this page */ }
 }
 
-/* ---------- the flip: both options kept on all eight journeys (the owner, 4 Nov 2026, MP-178). Each journey flips on its own. It is
+/* ---------- the flip: both options kept on the eight journeys the owner has picked (4 Nov 2026, MP-178), and drawn on Track record's options round (MP-187). Each journey flips on its own. It is
    absent while signed out, during a step-up, behind an open sheet, and on a proposal, an approval or a record being written, so it can
    never change what an approval binds. ---------- */
-const FLIP_NAMES = { home: ['Tiles', 'Ledger'], holdings: ['Desk', 'One by one'], forecast: ['One horizon', 'Ladder'], research: ['Brief', 'Thread'], journal: ['Timeline', 'Lanes'], cost: ['Ladder', 'Burn-up'], approvals: ['Queue', 'In place'], privacy: ['Centre', 'In place'] };
+const FLIP_NAMES = { home: ['Tiles', 'Ledger'], holdings: ['Desk', 'One by one'], forecast: ['One horizon', 'Ladder'], research: ['Brief', 'Thread'], journal: ['Timeline', 'Lanes'], track: ['Scorecard', 'Table'], cost: ['Ladder', 'Burn-up'], approvals: ['Queue', 'In place'], privacy: ['Centre', 'In place'] };
 /* A name of its own, where the view a flip lands on is not its option's usual one. */
 const FLIP_AT = { 'cost-a-sources': 'Sources', 'cost-b-log': 'Log', 'cost-a-fit': 'Months', 'cost-b-fit': 'List', 'cost-b-limits': 'Table', 'b-forecast': 'Dossier', 'b-proof': 'Dossier', 'b-views': 'Dossier', 'b-evidence': 'Dossier' };
 const pairs = (...p) => Object.fromEntries(p);
@@ -2047,6 +2112,8 @@ const FLIPS = {
   forecast: pairs(['a-forecasts', 'b-forecasts'], ['a-instrument', 'b-ladder'], ['a-technical', 'b-technical'], ['a-proof', 'b-proof'], ['a-views', 'b-views'], ['a-evidence', 'b-evidence'], ['a-scenarios', 'b-scenarios'], ['a-hzstates', 'b-hzstates'], ['a-3m', 'b-ladder'], ['a-12m', 'b-ladder'], ['a-short', 'b-ladder'], ['b-forecast', 'a-instrument']),
   research: pairs(['ra-brief', 'rb-today'], ['ra-card', 'rb-card'], ['ra-ask', 'rb-ask'], ['ra-memory', 'rb-memory'], ['ra-alert', 'rb-alert']),
   journal: pairs(['a-list', 'b-board'], ['a-one', 'b-one'], ['a-differ', 'b-differ']),
+  /* Track record is an options round (MP-187): the owner has not picked, and the flip lets the two be compared frame by frame. A, B's one table holds all three breakdowns */
+  track: pairs(['a-record', 'b-table'], ['a-slice', 'b-slice'], ['a-holding', 'b-table'], ['a-model', 'b-table'], ['a-regime', 'b-table']),
   /* no flip on Cost's Home: since "Pill on every Home" (OWN-06) both options draw the same Home, so a flip there would change nothing */
   cost: pairs(['cost-a-month', 'cost-b-burn'], ['cost-a-limits', 'cost-b-limits'], ['cost-a-warned', 'cost-b-warned'], ['cost-a-reduced', 'cost-b-reduced'], ['cost-a-paused', 'cost-b-paused'], ['cost-a-sources', 'cost-b-log'], ['cost-a-fit', 'cost-b-fit']),
   approvals: pairs(['aa-queue', 'ab-home']),
@@ -2080,6 +2147,9 @@ const CLOCK = { XNAS: ['22:15', '22:00'], ARCX: ['22:15', '22:00'], XLON: ['17:5
 const CUTOFFS = 'cutoffs US 22:00, UK 17:35, India 11:00';
 const ASOF_ALL = `As of 22:15 London · ${CUTOFFS}`;
 const LASTGOOD_ALL = 'US: last good run Mon 22:15 · cutoff 22:00. UK and India ran today';
+/* Record holds two places, the Journal and the Track record ("A view in Record", OWN-24, MP-187): the top of each carries this switch.
+   0 is the Journal, 1 the Track record. */
+const recordSwitch = on => `<div data-mo="rise">${seg(['Journal', 'Track record'], on, 'Record', 'full')}</div>`;
 /* one instrument's as-of and cutoff, by its market */
 const clockOf = h => CLOCK[(h && h.v) || 'XNAS'] || CLOCK.XNAS;
 
@@ -2261,7 +2331,7 @@ function show() {
   mark(sum.at.j);
   $('#jtitle').textContent = j.title;
   $('#jsummary').textContent = j.summary;
-  $('#jmeta').innerHTML = `<span class="chip proposed"><span class="dot"></span>Proposed</span><span class="chip owner"><span class="dot"></span>Both kept, with a flip</span><span class="chip illus">Not approved UX</span><span class="chip illus">All figures illustrative</span>${(j.stories || []).map(s => `<span class="chip">${s}</span>`).join('')}`;
+  $('#jmeta').innerHTML = `<span class="chip proposed"><span class="dot"></span>Proposed</span>${j.round ? '<span class="chip proposed"><span class="dot"></span>Options round · the owner picks</span>' : '<span class="chip owner"><span class="dot"></span>Both kept, with a flip</span>'}<span class="chip illus">Not approved UX</span><span class="chip illus">All figures illustrative</span>${(j.stories || []).map(s => `<span class="chip">${s}</span>`).join('')}`;
   $('#jopt').innerHTML = seg(j.options.map(x => [`${x.id.toUpperCase()} · ${x.name}${x.rec ? ' (starts here)' : ''}`]), sum.at.o, 'Option', 'full');
   $('#jopt').onclick = e => { const b = e.target.closest('button'); if (!b) return; const i = $$('#jopt button').indexOf(b), said = `Option ${b.textContent}`; sum.at.o = i; show(); hold('#jopt', i, said); };
   $('#jsurf').innerHTML = seg(SURFACES.map(s => [s[1]]), SURFACES.indexOf(surf), 'Device', 'full');
@@ -2397,7 +2467,7 @@ const OPEN = [
   ['How long does an approved switch forward or restart stay open? (CT-02)', 'Proposed: 15 minutes after you approve.'],
   ['Must ranges show on Home itself? MP-153 asks for them, and a tile cannot hold one.', 'Home A shows ranges one tap in, on every segment list, and says so in its cost. Home B shows them in the rows.'],
   ['Can a decision be recorded against an abstention? (MP-158)', 'Settled, 5 Nov 2026 ("Any time evidence shows", OWN-15): yes, against the evidence, and the entry says why no action was ranked. With no forecast at that horizon it may never get an outcome. Past entries stand.'],
-  ['Where do track records by horizon and regime live? (MP-154)', 'Not drawn. The journal shows only the scored decisions.'],
+  ['Where do track records by horizon and regime live? (MP-154)', 'Settled, 5 Nov 2026 ("A view in Record", OWN-24): a Track record view in Record, beside the Journal. Drawn as an options round (MP-187): Scorecard (A) and One table (B), for you to pick. Proposed: a rate shows once 30 forecasts have scored (SCI-D03), and the regime rule (SCI-D04).'],
   ['What no clear view, a cost pause and the technical mode show on a forecast (MP-145)', 'The cost pause is settled, 5 Nov 2026 ("Daily forecasts keep running", OWN-25): daily forecasts carry on past £85, inside the £15 kept above it, and Cost paused shows only where a forecast needs optional paid work. No clear view and the technical mode stay labelled proposed.'],
   ['Gold and silver have no short-term rows, views or scenarios (SCI-D08)', 'Labelled proposed.'],
   ['Probation at 6 and 12 months, where nothing matures in the first 4 live weeks, and the bad-week rule (SCI-D07)', 'Labelled proposed. Probation ends with no score at those horizons.'],
@@ -2429,7 +2499,7 @@ function showInventory() {
   inv.innerHTML = `<h2>State inventory</h2><p class="sum">Every screen against every state, generated from the screens themselves. ${drawn} of ${cells} cells are drawn; ${na} do not apply, each with its reason. Each screen also adapts to iPhone, iPad, desktop and phone web, in light and dark. Tap a tick to open that state.</p><div class="tblwrap"><table class="spec"><thead><tr><th>Screen</th>${STATES.map(s => `<th>${s[1]}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>`;
   const naRows = sum.journeys.flatMap(j => j.options.flatMap(o => o.screens.flatMap(s => Object.entries(s.na || {}).map(([k, r]) => `<tr><td>${j.title} · ${o.id.toUpperCase()} · ${s.title}</td><td>${(STATES.find(x => x[0] === k) || [k, k])[1]}</td><td>${r}</td></tr>`))));
   inv.insertAdjacentHTML('beforeend', `<h2 style="margin-top:32px">What a flip changes</h2><p class="sum">A flip turns the view of a place. The freshness, the provider status and the risk stay the same, the figures both sides show stay the same, and a side may hold more. Each journey starts in A, keeps your choice on that device, and flips on its own. There is no flip while signed out, during a step-up, behind an open sheet, or on a proposal, an approval or a record being written, and none on a few read-only screens with no counterpart, such as the notices list in Approvals B or an opened source, nor on Cost's Home, which is the same whichever way Cost is flipped (OWN-06). A receipt turns only once its commit is done, and a refused permission does not turn. In Disagreement and Abstaining, the instrument in question turns to its dossier or its own horizon, so the name never changes.</p><h2 style="margin-top:32px">Cells that do not apply</h2><p class="sum">Why each of the ${na} cells cannot occur on its screen. This is a reading of "every screen shows", put to you to accept.</p><div class="tblwrap"><table class="spec"><thead><tr><th>Screen</th><th>State</th><th>Why it cannot occur</th></tr></thead><tbody>${naRows.join('')}</tbody></table></div>`);
-  inv.insertAdjacentHTML('beforeend', `<h2 style="margin-top:32px">What these screens wait on</h2><p class="sum">Both options stay on all eight journeys, with a flip. These questions cross journeys, and each is drawn as the records stand today, labelled where it is proposed.</p><div class="tblwrap"><table class="spec"><thead><tr><th>Question</th><th>How it is drawn</th></tr></thead><tbody>${OPEN.map(([q, d]) => `<tr><td>${q}</td><td>${d}</td></tr>`).join('')}</tbody></table></div><h2 style="margin-top:32px">Checked against current releases</h2><p class="sum">Checked on 4 November 2026 and nothing is installed. SvelteKit 3.1.1 with Svelte 5.57.3 on npm, which matches SvelteKit 3 in TECH-STACK. Current simulators list iPhone 17, 17 Pro, 17 Pro Max and 17e, the iPhone 16 family, iPad, iPad Air and iPad Pro (M4 and M5). The frames here are 390 × 844 and 1180 × 820. They are drawing sizes, not a device promise: which devices are supported is still open (MP40-Q12).</p>`);
+  inv.insertAdjacentHTML('beforeend', `<h2 style="margin-top:32px">What these screens wait on</h2><p class="sum">Both options stay on the eight picked journeys, with a flip; Track record is an options round, drawn with a flip so the two can be compared. These questions cross journeys, and each is drawn as the records stand today, labelled where it is proposed.</p><div class="tblwrap"><table class="spec"><thead><tr><th>Question</th><th>How it is drawn</th></tr></thead><tbody>${OPEN.map(([q, d]) => `<tr><td>${q}</td><td>${d}</td></tr>`).join('')}</tbody></table></div><h2 style="margin-top:32px">Checked against current releases</h2><p class="sum">Checked on 4 November 2026 and nothing is installed. SvelteKit 3.1.1 with Svelte 5.57.3 on npm, which matches SvelteKit 3 in TECH-STACK. Current simulators list iPhone 17, 17 Pro, 17 Pro Max and 17e, the iPhone 16 family, iPad, iPad Air and iPad Pro (M4 and M5). The frames here are 390 × 844 and 1180 × 820. They are drawing sizes, not a device promise: which devices are supported is still open (MP40-Q12).</p>`);
   inv.onclick = e => { const b = e.target.closest('[data-go]'); if (!b) return; const [jj, oo, k] = b.dataset.go.split('|'); J.go(jj, oo, sum.at.s, k); scrollTo({ top: 0 }); };
   try { history.replaceState(null, '', '#inventory'); } catch (e) { /* the view still shows */ }
 }
@@ -5139,7 +5209,7 @@ J.add({
             abstention: () => sayAbstain() + list(ABSTAINED)
           });
           const empty = ctx.state === 'empty' || ctx.state === 'loading';
-          return frame(ctx, { tab: 3, title: 'Journal', fresh: notPrices(ctx), actions: `${tb('search', 'Search')}${tb('plus', 'Record a decision')}`, webActions: ctx.kind === 'pwa' ? tb('plus', 'Record a decision') : btn('Record a decision', 'tinted sm', 'plus'), body, rail: p ? (empty ? '' : `${ctx.state === 'default' ? '' : wrapUp()}${sideCard()}`) : empty ? proofCard(ctx) : `${wrapUp()}${sideCard()}${proofCard(ctx)}` });
+          return frame(ctx, { tab: 3, title: 'Journal', fresh: notPrices(ctx), actions: `${tb('search', 'Search')}${tb('plus', 'Record a decision')}`, webActions: ctx.kind === 'pwa' ? tb('plus', 'Record a decision') : btn('Record a decision', 'tinted sm', 'plus'), body: recordSwitch(0) + body, rail: p ? (empty ? '' : `${ctx.state === 'default' ? '' : wrapUp()}${sideCard()}`) : empty ? proofCard(ctx) : `${wrapUp()}${sideCard()}${proofCard(ctx)}` });
         }
       }, {
         id: 'a-one', title: 'One decision, scored',
@@ -5184,7 +5254,7 @@ J.add({
             disagreement: () => sayAmended() + sayRanking() + board(),
             abstention: () => sayAbstain() + board()
           });
-          return frame(ctx, { tab: 3, title: 'Journal', fresh: notPrices(ctx), actions: `${tb('search', 'Search')}`, body, rail: p && !['empty', 'loading'].includes(ctx.state) ? `${wrapUp()}${sideCard()}` : '' });
+          return frame(ctx, { tab: 3, title: 'Journal', fresh: notPrices(ctx), actions: `${tb('search', 'Search')}`, body: recordSwitch(0) + body, rail: p && !['empty', 'loading'].includes(ctx.state) ? `${wrapUp()}${sideCard()}` : '' });
         }
       }, {
         id: 'b-decide', title: 'Decide, on a full page',
@@ -5229,6 +5299,210 @@ J.add({
           });
           return frame(ctx, { tab: 3, title: 'Compared', back: 'Journal', fresh: notPrices(ctx), actions: tb('info', 'About this view'), body, rail: none ? '' : `${counts()}${howDid()}` });
         }
+      }]
+    }]
+  });
+}
+
+/* ---------- journey: track ---------- */
+/* Track record: how the live forecasts did once their horizons passed, in Record (MP-187, MP-154; "A view in Record", OWN-24).
+   Live forecasts only. Walk-forward testing stays in each forecast's Proof, labelled as testing. Every figure on these screens is
+   computed below from one illustrative table, so a rate always matches the counts beside it (lessons 37 and 63). Today is 3 Nov 2026.
+   A block, so these helpers stay private to this journey. */
+{
+  const phone = ctx => ctx.kind === 'iphone' || ctx.kind === 'pwa';
+  const n0 = v => v.toLocaleString('en-GB');
+  const rate = (a, b) => Math.round((a / b) * 100);
+  const pts = v => `${v.toFixed(1)} pts`;
+  const chip = (t, c = '', icon = '') => `<span class="chip${c ? ' ' + c : ''}" data-mo="chip">${icon ? ic(icon, 's14') : c === 'proposed' ? '<span class="dot"></span>' : ''}${t}</span>`;
+  const proposed = ref => chip(`Proposed · ${ref}`, 'proposed');
+  const exploratory = chip('Exploratory', 'proposed');
+
+  /* ---------- the record, as stored scores would rebuild it. Illustrative. ----------
+     Seven holdings, one forecast each per daily origin since R2-HGB v2 went live on 2 Feb 2026: 192 origins, so 1,344 forecasts at
+     every horizon. v2 issued the first 168 origins (1,176 a horizon); R2-HGB v3, approved 1 Oct 2026, the last 24 (168). A window
+     holds the forecasts whose horizon passed inside it. Matured = scored + censored + abstained; issued = matured + pending. */
+  const START = '2 Feb 2026', ISSUED = 1344, MIN = 30, FLOOR = 20;
+  const W = ['30 days', '90 days', '365 days'];
+  /* each window: due (horizon passed), inside and outside the 80% range, censored, abstained, direction right, median absolute error,
+     calibration slope, the baseline's error on the same origins, non-overlapping blocks */
+  const w = (due, inside, outside, cens, abst, dir, err, cal, base, blocks) => ({ due, inside, outside, cens, abst, dir, err, cal, base, blocks, scored: inside + outside });
+  const HZ = {
+    m3: { n: '3 months', k: 'm3', long: true, pending: 455, turn: '1.2', w: [w(147, 104, 35, 3, 5, 82, 5.6, '0.92', 6.0, 1), w(441, 322, 91, 12, 16, 248, 5.1, '0.95', 5.9, 1), w(889, 663, 171, 21, 34, 506, 4.9, '0.97', 5.8, 2)] },
+    m6: { n: '6 months', k: 'm6', long: true, pending: 903, turn: '0.7', w: [w(147, 101, 35, 4, 7, 77, 9.9, '0.90', 10.4, 1), w(427, 308, 92, 9, 18, 233, 9.3, '0.94', 10.2, 1), w(441, 318, 95, 9, 19, 241, 9.2, '0.94', 10.1, 1)] },
+    m12: { n: '12 months', k: 'm12', long: true, pending: 1344, first: '2 Feb 2027', w: [w(0, 0, 0, 0, 0, 0, 0, '', 0, 0), w(0, 0, 0, 0, 0, 0, 0, '', 0, 0), w(0, 0, 0, 0, 0, 0, 0, '', 0, 0)] },
+    s10: { n: '10 sessions', k: 's10', pending: 70, w: [w(147, 108, 33, 1, 5, 79, 2.4, '0.93', 2.5, 2), w(448, 342, 93, 2, 11, 237, 2.2, '0.96', 2.4, 6), w(1274, 982, 252, 6, 34, 679, 2.1, '0.98', 2.3, 18)] },
+    s20: { n: '20 sessions', k: 's20', pending: 140, w: [w(147, 107, 35, 1, 4, 80, 3.6, '0.90', 3.8, 1), w(448, 333, 101, 2, 12, 241, 3.4, '0.93', 3.7, 3), w(1204, 905, 263, 6, 30, 654, 3.3, '0.95', 3.6, 8)] }
+  };
+  const LONG = [HZ.m3, HZ.m6, HZ.m12], SHORT = [HZ.s10, HZ.s20];
+  /* over 365 days, the whole live record: by holding, at 3 and 6 months. [ticker, scored, inside, censored, abstained]. Each holding has
+     127 matured at 3 months and 63 at 6. HSBC's censored are the disputed dividend; AstraZeneca's abstentions are its thin history */
+  const HOLD = {
+    m3: [['AAPL', 124, 101, 0, 3], ['NVDA', 121, 88, 0, 6], ['SPY', 127, 105, 0, 0], ['AZN', 111, 86, 0, 16], ['HSBA', 102, 79, 21, 4], ['RELIANCE', 122, 98, 0, 5], ['NIFTYBEES', 127, 106, 0, 0]],
+    m6: [['AAPL', 62, 49, 0, 1], ['NVDA', 60, 43, 0, 3], ['SPY', 63, 51, 0, 0], ['AZN', 53, 37, 0, 10], ['HSBA', 51, 38, 9, 3], ['RELIANCE', 61, 48, 0, 2], ['NIFTYBEES', 63, 52, 0, 0]]
+  };
+  /* by model, over 365 days. v3 has nothing matured at 3, 6 or 12 months; its first forecasts there mature on these dates */
+  const MODEL = {
+    v2: { n: 'R2-HGB v2', s: 'Live 2 Feb to 30 Sep 2026. Its forecasts still mature, and are scored against v2.', m3: { pending: 287 }, m6: { pending: 735 }, m12: { pending: 1176 }, s10: w(1176, 905, 233, 6, 32, 627, 2.1, '0.98', 2.3, 17), s20: w(1176, 883, 258, 6, 29, 638, 3.3, '0.95', 3.6, 8) },
+    v3: { n: 'R2-HGB v3', s: 'Approved 1 Oct 2026. It issues today’s forecasts.', m3: { pending: 168, first: '1 Jan 2027' }, m6: { pending: 168, first: '1 Apr 2027' }, m12: { pending: 168, first: '1 Oct 2027' }, s10: { ...w(98, 77, 19, 0, 2, 52, 2.0, '0.97', 2.2, 1), pending: 70 }, s20: { ...w(28, 22, 5, 0, 1, 16, 3.1, '0.94', 3.4, 0), pending: 140 } }
+  };
+  MODEL.v2.m3 = { ...HZ.m3.w[2], pending: 287 }; MODEL.v2.m6 = { ...HZ.m6.w[2], pending: 735 }; MODEL.v2.s10.pending = 0; MODEL.v2.s20.pending = 0;
+  /* the baseline, scored on exactly the same origins as the model: [inside, error] by horizon */
+  const BASE = { m3: [704, 5.8], m6: [349, 10.1], s10: [1017, 2.3], s20: [958, 3.6] };
+  /* by the regime at each forecast's origin, over 365 days. [regime, scored, inside] */
+  const REG = {
+    m3: [['Rising, calm', 412, 338], ['Rising, volatile', 118, 86], ['Falling, calm', 196, 154], ['Falling, volatile', 108, 85]],
+    m6: [['Rising, calm', 207, 170], ['Rising, volatile', 61, 41], ['Falling, calm', 92, 70], ['Falling, volatile', 53, 37]]
+  };
+  const REGIME_HOW = 'The regime at each forecast’s origin: whether the last 60 sessions rose or fell, and whether 20-session volatility was above its 80th percentile.';
+
+  /* ---------- small modules ---------- */
+  const calbar = (r, label) => `<div class="calbar" role="img" aria-label="${label}: observed ${r}% against a target of 80%"><i data-mo="barx" style="width:${r}%"></i><b></b></div>`;
+  const few = (s, what = 'scored') => `<div class="track-few"><b>Too few to show a rate</b><span>${s} ${what}. A rate shows from ${MIN}.</span></div>`;
+  const none = first => `<div class="track-few"><b>Nothing has matured</b><span>First due ${first}.</span></div>`;
+  /* every rate carries its sample: scored, censored, abstained, and its blocks */
+  const sample = x => `${n0(x.scored)} scored · ${x.cens} censored · ${x.abst} abstained`;
+  const blocks = x => `${x.blocks} non-overlapping ${x.blocks === 1 ? 'block' : 'blocks'}, under the ${FLOOR} a claim needs.`;
+  /* hit rate never stands alone: coverage, calibration, error and the baseline sit beside it, and turnover where an action can follow */
+  const metrics = (x, h, wide) => `<div class="track-met${wide ? ' w3' : ''}" role="list">${[
+    ['Coverage', `${rate(x.inside, x.scored)}%`, `80% ranges held, ${n0(x.inside)} of ${n0(x.scored)}`],
+    ['Calibration', x.cal, 'Slope, 1.00 is exact'],
+    ['Error', pts(x.err), 'Median absolute'],
+    ['Hit rate', `${rate(x.dir, x.scored)}%`, `Direction right, ${n0(x.dir)} of ${n0(x.scored)}`],
+    ['Benchmark', `${(x.base - x.err).toFixed(1)} pts`, `Less error than the baseline’s ${pts(x.base)}`],
+    ['Turnover', h.turn || 'None', h.turn ? 'Action changes a year' : 'Short horizons rank no action']
+  ].map(([l, v, u]) => `<div role="listitem" data-mo="rise"><span class="label">${l}</span><b>${roll(v)}</b><span class="u">${u}</span></div>`).join('')}</div>`;
+  const liveOnly = () => `<p class="track-sub" data-mo="fade">Live forecasts only, each scored once its horizon passed and every input was in. Walk-forward testing sits in each forecast’s Proof, labelled as testing.</p>`;
+  const sayExploratory = () => banner('', 'Every rate here is exploratory.', `The live record began ${START}, so no horizon has the ${FLOOR} non-overlapping blocks a claim needs. Each rate shows with its sample.`, 'info');
+  const counted = () => `<div class="card track-card" data-mo="card"><h4>How it is counted</h4><div class="track-kv"><span>Pending</span><b>Horizon not passed yet</b><span>Censored</span><b>Horizon passed, an input missing</b><span>Abstained</span><b>No range was given</b><span>Scored</span><b>Inside or outside its 80% range</b></div><p class="track-sub">Pending, censored and abstained are counted apart, never as misses. A window holds the forecasts whose horizon passed inside it. Summaries are rebuilt from stored scores and reproduce exactly; a corrected outcome keeps its first score beside the new one.</p><p class="track-sub">A rate shows once ${MIN} have scored. Below ${FLOOR} non-overlapping blocks it is exploratory.</p><div class="track-acts">${proposed('SCI-D03')}</div></div>`;
+
+  /* ---------- states: one story across every screen of the journey (lesson 46) ---------- */
+  const notPrices = ctx => (ctx.state === 'error' ? 'default' : undefined);
+  const kept = ctx => (ctx.kind === 'web' || ctx.kind === 'pwa' ? browserKept() : '');
+  const SAY = {
+    loading: () => stateCard('clock', 'Rebuilding the summaries', 'They are rebuilt from stored scores, which reproduce exactly. The last good figures, from 22:15, stay on screen meanwhile.'),
+    error: () => stateCard('alert', 'The record did not load', 'The read failed at 21:16. These are the summaries as of 21:05 today, from stored scores. No score is lost.', btn('Try again', 'tinted sm', 'refresh')),
+    stale: () => banner('warn', 'Scores are behind.', 'Outcomes last joined 14:10, so the newest scores may be missing. HSBC last priced 14:10, past the freshness limit: its outcomes wait as pending, and a late price is never scored as a miss.', 'clock') + `<div class="track-acts">${proposed('DATA-DEC-02')}</div>`,
+    offline: ctx => banner('', 'Offline.', 'Showing the record from 22:15. Nothing updates until you reconnect.', 'wifi-off') + kept(ctx),
+    noModel: () => banner('', 'No approved model now.', 'No new forecasts are issued, so nothing new joins pending. Every score so far stays on record against the version that made it.', 'cube'),
+    disagreement: () => banner('', '1 score was amended.', 'NVIDIA’s close was corrected on 30 Oct, from +12.4% to +11.9%. Its 6-month forecast of 28 Apr still lands inside its range, so no summary moves. The first and corrected scores both stay.', 'split') + banner('', 'Rules and models differ on Reliance today.', 'That changes no score: the model’s forecasts are scored as issued, and both sides are stored.', 'split'),
+    abstention: () => banner('', 'The model abstains on AstraZeneca at 6 months today.', 'An abstention is counted beside every rate, never scored as a hit or a miss.', 'ban')
+  };
+  const EMPTY = () => stateCard('target', 'No forecast has been issued', 'The record starts with the first forecast. Each one joins as pending, and is scored once its horizon passes and every input is in. Nothing is scored before then.');
+  /* a screen's body in the selected state: the state's word first, then the record, which stays in view in every state but Empty */
+  const inState = (ctx, body) => {
+    const st = ctx.state;
+    if (st === 'empty') return EMPTY();
+    const say = SAY[st] ? SAY[st](ctx) : '';
+    return `${say}${st === 'loading' ? `<div class="track-dim" aria-busy="true">${body()}</div>` : body()}`;
+  };
+
+  /* ---------- Option A: a scorecard, then read it by holding, model or regime ---------- */
+  const trio = h => `<div class="track-trio">${h.w.map((x, i) => `<div data-mo="rise"><span class="label">${W[i]}</span>${x.due === 0 ? `<b>None</b><span class="u">nothing matured</span>` : x.scored < MIN ? `<b>Too few</b><span class="u">${x.scored} scored</span>` : `<b>${roll(`${rate(x.inside, x.scored)}%`)}</b><span class="u">of ${n0(x.scored)} scored</span>${calbar(rate(x.inside, x.scored), `${h.n}, ${W[i]}`)}`}</div>`).join('')}</div>`;
+  const hzCard = (h, ctx, o = {}) => {
+    const y = h.w[2];
+    const top = `<div class="track-vh"><h4>${h.n}</h4>${y.due ? exploratory : ''}<span class="chip" data-mo="chip">${ic('clock', 's14')}${n0(h.pending)} pending</span></div>`;
+    if (!y.due) return `<div class="card track-card" data-mo="card">${top}${none(h.first)}<p class="track-sub">All ${n0(ISSUED)} forecasts since ${START} are pending. Nothing is scored before its horizon passes.</p></div>`;
+    return `<div class="card track-card" data-mo="card">${top}<p class="track-sub">Coverage of the 80% range, by when the horizon passed</p>${trio(h)}<div class="track-rule"></div><p class="track-sub"><b>365 days</b> · ${sample(y)}. ${blocks(y)}</p>${metrics(y, h, !phone(ctx))}${o.open ? `<button class="btn btn-plain sm" type="button" style="justify-self:start">${h.n} in full${ic('chev-r', 's14')}</button>` : ''}</div>`;
+  };
+  const shortCard = (h, ctx) => { const y = h.w[2]; return `<div class="card track-card" data-mo="card"><div class="track-vh"><h4>${h.n}</h4>${exploratory}<span class="chip" data-mo="chip">${ic('clock', 's14')}${n0(h.pending)} pending</span></div>${trio(h)}<p class="track-sub"><b>365 days</b> · ${sample(y)}. ${blocks(y)}</p>${metrics(y, h, !phone(ctx))}</div>`; };
+  const shortHead = () => `<div class="track-sec" data-mo="rise"><h3>Short term</h3>${chip('Not long-term guidance', 'illus')}</div><p class="track-sub" data-mo="fade">Next day runs on rules only and 5 sessions is in practice, so neither has a live record.</p>`;
+  const readBy = () => `<div class="card track-by" data-mo="card"><div class="track-sec in"><h3>Read it by</h3></div>${[['layers', 'Holding', 'Seven holdings, at 3 and 6 months'], ['cube', 'Model', 'R2-HGB v2, v3 and the baseline'], ['split', 'Regime', 'Four regimes at origin']].map(([i, t, s]) => `<button class="track-row" type="button">${ic(i, 's18')}<span><b>${t}</b><small>${s}</small></span>${ic('chev-r', 's18')}</button>`).join('')}</div>`;
+  const recordA = ctx => inState(ctx, () => `${sayExploratory()}${LONG.map(h => hzCard(h, ctx, { open: h.k === 'm6' })).join('')}${shortHead()}${SHORT.map(h => shortCard(h, ctx)).join('')}`);
+
+  /* the breakdown rows: coverage with its sample, never a hit rate without the rest */
+  const brow = (lead, name, sub, v, note) => `<div class="track-br${lead ? '' : ' nolead'}" data-mo="rise">${lead}<div class="m"><b>${name}</b><span>${sub}</span></div>${v.word ? `<div class="v"><b>${v.word}</b><span>${v.sub}</span></div>` : v.scored < MIN ? `<div class="v"><b>Too few</b><span>${v.scored} scored</span></div>` : `<div class="v"><b>${rate(v.inside, v.scored)}%</b><span>of ${n0(v.scored)}</span></div>${calbar(rate(v.inside, v.scored), name)}`}${note ? `<div class="o">${note}</div>` : ''}</div>`;
+  const holdCard = (k, ctx) => { const h = HZ[k], y = h.w[2]; return `<div class="card track-list" data-mo="card"><div class="track-sec in"><h3>${h.n}</h3>${exploratory}</div><p class="track-sub in">365 days · ${n0(y.scored)} scored across 7 holdings · coverage of the 80% range</p>${HOLD[k].map(([t, s, i, c, a]) => { const x = byT[t]; return brow(logo(x.c, x.lg, true), x.n, `${x.t} · ${s + c + a} matured`, { scored: s, inside: i }, [c ? `${c} censored: a dividend is disputed, so no score yet` : '', a ? `${a} abstained` : ''].filter(Boolean).join(' · ')); }).join('')}</div>`; };
+  const holdingA = ctx => inState(ctx, () => `${sayExploratory()}${holdCard('m3', ctx)}${holdCard('m6', ctx)}<p class="track-sub">12 months has nothing matured. Short-term horizons are read by horizon only.</p>`);
+  const mIcon = k => `<span class="track-ic">${ic(k === 'base' ? 'equal' : 'cube', 's18')}</span>`;
+  const modelRows = (m, ks) => ks.map(k => {
+    const x = m[k], h = HZ[k];
+    if (!x.due) return brow('', h.n, `${n0(x.pending)} pending`, { word: 'None', sub: 'matured' }, x.first ? `Nothing matured. First due ${x.first}.` : 'Nothing matured.');
+    return brow('', h.n, `${n0(x.scored)} scored · ${x.cens} censored · ${x.abst} abstained${x.pending ? ` · ${n0(x.pending)} pending` : ''}`, x, x.scored < MIN ? `A rate shows from ${MIN}.` : `Error ${pts(x.err)} · calibration ${x.cal}`);
+  }).join('');
+  const modelCard = key => { const m = MODEL[key]; return `<div class="card track-list" data-mo="card"><div class="track-sec in">${mIcon(key)}<h3>${m.n}</h3>${exploratory}</div><p class="track-sub in">${m.s}</p>${modelRows(m, ['m3', 'm6', 'm12', 's10', 's20'])}</div>`; };
+  const baseCard = () => `<div class="card track-list" data-mo="card"><div class="track-sec in">${mIcon('base')}<h3>Baseline</h3>${exploratory}</div><p class="track-sub in">The historical-distribution baseline, scored on exactly the same origins as the model.</p>${['m3', 'm6', 's10', 's20'].map(k => { const y = HZ[k].w[2], [i, e] = BASE[k]; return brow('', HZ[k].n, `${n0(y.scored)} scored`, { scored: y.scored, inside: i }, `Error ${pts(e)}, against the model’s ${pts(y.err)}`); }).join('')}</div>`;
+  const modelA = ctx => inState(ctx, () => `${sayExploratory()}${modelCard('v2')}${modelCard('v3')}${baseCard()}`);
+  const regCard = k => { const h = HZ[k], y = h.w[2]; return `<div class="card track-list" data-mo="card"><div class="track-sec in"><h3>${h.n}</h3>${exploratory}</div><p class="track-sub in">365 days · ${n0(y.scored)} scored · coverage of the 80% range</p>${REG[k].map(([r, s, i]) => brow('', r, 'Regime at origin', { scored: s, inside: i }, '')).join('')}</div>`; };
+  const regHow = () => `<div class="card track-card" data-mo="card"><h4>What a regime is here</h4><p class="track-sub">${REGIME_HOW} A regime is a way to read the record, not a forecast. Censored and abstained forecasts are counted at the horizon, not by regime.</p><div class="track-acts">${proposed('SCI-D04')}</div></div>`;
+  const regimeA = ctx => inState(ctx, () => `${sayExploratory()}${regCard('m3')}${regCard('m6')}`);
+
+  /* ---------- one horizon, in full: 6 months, the lead horizon ---------- */
+  const H6 = HZ.m6, Y6 = H6.w[2];
+  const flow = () => `<div class="card track-card" data-mo="card"><h4>Every 6-month forecast since ${START}</h4><div class="track-kv"><span>Issued</span><b>${n0(ISSUED)}</b><span>Pending, horizon not passed</span><b>${n0(H6.pending)}</b><span>Matured</span><b>${n0(Y6.due)}</b><span>· Scored</span><b>${n0(Y6.scored)}</b><span>· Censored</span><b>${Y6.cens}</b><span>· Abstained</span><b>${Y6.abst}</b></div><p class="track-sub">Issued is pending plus matured, and matured is scored, censored and abstained. None is dropped.</p></div>`;
+  const yours = st => `<div class="card track-card" data-mo="card"><h4>From your journal</h4><div class="track-kv"><span>NVIDIA · 28 Apr</span><b>Inside, ${st === 'disagreement' ? '+11.9%, amended' : '+12.4%'}</b><span>AstraZeneca · 3 Mar</span><b>Outside, −11.6%</b></div><p class="track-sub">Two of the ${Y6.scored} scored. One outcome says little about a forecast; the rate above is the record.</p></div>`;
+  const whyOut = () => `<div class="card track-card" data-mo="card"><h4>Not scored, and why</h4><div class="track-kv"><span>HSBC · censored</span><b>9</b><span>AstraZeneca · abstained</span><b>10</b><span>Other holdings · abstained</span><b>9</b></div><p class="track-sub">HSBC’s dividend is disputed, so its outcomes are not known yet; a missing input is never scored as a zero. AstraZeneca has too little comparable history for a calibrated range.</p></div>`;
+  const modelLine = () => `<div class="card track-card" data-mo="card"><h4>Which model</h4><p class="track-sub">R2-HGB v2 made all ${Y6.due} matured. R2-HGB v3’s first 6-month forecast matures on 1 Apr 2027; its ${MODEL.v3.m6.pending} are pending. Later models never rewrite a score.</p></div>`;
+  const windowsA = ctx => `<div class="card track-card" data-mo="card"><div class="track-vh"><h4>${H6.n}</h4>${exploratory}</div><p class="track-sub">Coverage of the 80% range, by when the horizon passed. The target is 80%.</p>${trio(H6)}<div class="track-rule"></div><p class="track-sub"><b>365 days</b> · ${sample(Y6)}. ${blocks(Y6)}</p>${metrics(Y6, H6, !phone(ctx))}</div>`;
+  const sliceA = ctx => inState(ctx, () => `${windowsA(ctx)}${flow()}${yours(ctx.state)}`);
+  const sliceRail = ctx => (ctx.state === 'empty' ? counted() : `${whyOut()}${modelLine()}`);
+
+  /* ---------- Option B: one table, every reading on one page ---------- */
+  /* turnover sits with each horizon that has a record, beside its hit rate (AGENTS.md) */
+  const turnover = h => (!h.w[2].due ? '' : h.turn ? ` · turnover ${h.turn} action changes a year` : ' · turnover none, short horizons rank no action');
+  const openSix = `<button class="btn btn-plain sm" type="button">Open 6 months${ic('chev-r', 's14')}</button>`;
+  const cols = ['Scored', 'Coverage', 'Calibration', 'Error', 'Hit rate', 'Baseline error', 'Censored', 'Abstained', 'Blocks'];
+  const cells = x => (x.scored < MIN ? [n0(x.scored), `Too few · from ${MIN}`, '', '', '', '', x.cens, x.abst, x.blocks] : [n0(x.scored), `${rate(x.inside, x.scored)}%`, x.cal, pts(x.err), `${rate(x.dir, x.scored)}%`, pts(x.base), x.cens, x.abst, x.blocks]);
+  const hzRows = (h) => (h.w[2].due ? h.w.map((x, i) => `<tr data-mo="rise"><td>${i === 0 ? `<b>${h.n}</b>` : ''}</td><td>${W[i]}</td>${cells(x).map(c => `<td class="r">${c}</td>`).join('')}</tr>`).join('') : `<tr data-mo="rise"><td><b>${h.n}</b></td><td>All</td><td class="r">0</td><td colspan="8" style="white-space:normal">Nothing has matured. First due ${h.first}.</td></tr>`) + `<tr class="track-pend"><td></td><td colspan="10">${n0(h.pending)} pending${turnover(h)}</td></tr>`;
+  const head = first => `<thead><tr><th>${first}</th><th>Window</th>${cols.map(c => `<th class="r">${c}</th>`).join('')}</tr></thead>`;
+  const tableWide = () => `<div class="card track-wide" data-mo="card"><div class="track-sec in"><h3>By horizon</h3>${exploratory}</div><div class="track-scroll"><table class="ht track-t">${head('Horizon')}<tbody>${LONG.map(hzRows).join('')}<tr class="track-grp"><td colspan="11">Short term · not long-term guidance</td></tr>${SHORT.map(hzRows).join('')}</tbody></table></div><p class="track-sub in">Coverage is of the 80% range, target 80%. Calibration is a slope, 1.00 exact. Error is median absolute. Hit rate is direction right. A window holds the forecasts whose horizon passed inside it.</p><div class="track-acts in">${openSix}</div></div>`;
+  /* the breakdowns, over 365 days, as their own tables */
+  const holdTable = () => `<div class="card track-wide" data-mo="card"><div class="track-sec in"><h3>By holding · 365 days</h3>${exploratory}</div><div class="track-scroll"><table class="ht track-t"><thead><tr><th>Holding</th><th class="r">3 months</th><th class="r">Scored</th><th class="r">6 months</th><th class="r">Scored</th><th class="r">Censored</th><th class="r">Abstained</th></tr></thead><tbody>${HOLD.m3.map(([t, s, i, c, a], r) => { const [, s6, i6, c6, a6] = HOLD.m6[r], x = byT[t]; return `<tr data-mo="rise"><td><div class="inst">${logo(x.c, x.lg, true)}<div style="min-width:0"><b>${x.n}</b><span>${x.t}</span></div></div></td><td class="r">${rate(i, s)}%</td><td class="r">${s}</td><td class="r">${rate(i6, s6)}%</td><td class="r">${s6}</td><td class="r">${c + c6}</td><td class="r">${a + a6}</td></tr>`; }).join('')}<tr><td><b>All 7</b></td><td class="r">${rate(HZ.m3.w[2].inside, HZ.m3.w[2].scored)}%</td><td class="r">${HZ.m3.w[2].scored}</td><td class="r">${rate(Y6.inside, Y6.scored)}%</td><td class="r">${Y6.scored}</td><td class="r">${HZ.m3.w[2].cens + Y6.cens}</td><td class="r">${HZ.m3.w[2].abst + Y6.abst}</td></tr></tbody></table></div><p class="track-sub in">Censored and abstained are counted across both horizons. HSBC’s censored are its disputed dividend.</p></div>`;
+  const modelTable = () => `<div class="card track-wide" data-mo="card"><div class="track-sec in"><h3>By model · 365 days</h3></div><div class="track-scroll"><table class="ht track-t"><thead><tr><th>Model</th><th>Horizon</th><th class="r">Scored</th><th class="r">Coverage</th><th class="r">Error</th><th class="r">Pending</th><th>Note</th></tr></thead><tbody>${['v2', 'v3'].map(key => { const m = MODEL[key]; return ['m3', 'm6', 'm12', 's10', 's20'].map((k, r) => { const x = m[k]; const cov = !x.due ? 'None' : x.scored < MIN ? 'Too few' : `${rate(x.inside, x.scored)}%`; return `<tr data-mo="rise"><td>${r ? '' : `<b>${m.n}</b>`}</td><td>${HZ[k].n}</td><td class="r">${x.due ? x.scored : 0}</td><td class="r">${cov}</td><td class="r">${x.due && x.scored >= MIN ? pts(x.err) : ''}</td><td class="r">${n0(x.pending || 0)}</td><td style="white-space:normal">${!x.due ? (x.first ? `First due ${x.first}` : 'Nothing matured') : x.scored < MIN ? `A rate shows from ${MIN}` : ''}</td></tr>`; }).join(''); }).join('')}${['m3', 'm6', 's10', 's20'].map((k, r) => { const y = HZ[k].w[2], [i, e] = BASE[k]; return `<tr data-mo="rise"><td>${r ? '' : '<b>Baseline</b>'}</td><td>${HZ[k].n}</td><td class="r">${y.scored}</td><td class="r">${rate(i, y.scored)}%</td><td class="r">${pts(e)}</td><td class="r"></td><td style="white-space:normal">Same origins as the model</td></tr>`; }).join('')}</tbody></table></div></div>`;
+  const regTable = () => `<div class="card track-wide" data-mo="card"><div class="track-sec in"><h3>By regime · 365 days</h3>${exploratory}</div><div class="track-scroll"><table class="ht track-t"><thead><tr><th>Regime at origin</th><th class="r">3 months</th><th class="r">Scored</th><th class="r">6 months</th><th class="r">Scored</th></tr></thead><tbody>${REG.m3.map(([r, s, i], k) => { const [, s6, i6] = REG.m6[k]; return `<tr data-mo="rise"><td>${r}</td><td class="r">${rate(i, s)}%</td><td class="r">${s}</td><td class="r">${rate(i6, s6)}%</td><td class="r">${s6}</td></tr>`; }).join('')}</tbody></table></div><p class="track-sub in">${REGIME_HOW}</p><div class="track-acts in">${proposed('SCI-D04')}</div></div>`;
+  /* on a phone the table reads as rows of figures, one window to a row */
+  const hzPhone = h => `<div class="card track-list" data-mo="card"><div class="track-sec in"><h3>${h.n}</h3>${h.w[2].due ? exploratory : ''}<span class="chip" data-mo="chip">${ic('clock', 's14')}${n0(h.pending)} pending</span></div>${h.w[2].due ? `<p class="track-sub in">${turnover(h).slice(3).replace(/^t/, 'T')}.</p>` : ''}${h.w[2].due ? h.w.map((x, i) => `<div class="track-pr" data-mo="rise"><div class="k"><b>${W[i]}</b><span>${n0(x.scored)} scored · ${x.cens} censored · ${x.abst} abstained · ${x.blocks} ${x.blocks === 1 ? 'block' : 'blocks'}</span></div>${x.scored < MIN ? few(x.scored) : `<div class="track-kv"><span>Coverage</span><b>${rate(x.inside, x.scored)}%</b><span>Calibration</span><b>${x.cal}</b><span>Error</span><b>${pts(x.err)}</b><span>Hit rate</span><b>${rate(x.dir, x.scored)}%</b><span>Baseline error</span><b>${pts(x.base)}</b></div>`}</div>`).join('') : `<div class="track-pr">${none(h.first)}</div>`}${h.k === 'm6' ? `<div class="track-acts in">${openSix}</div>` : ''}</div>`;
+  const holdPhone = () => `<div class="card track-list" data-mo="card"><div class="track-sec in"><h3>By holding · 365 days</h3>${exploratory}</div>${HOLD.m3.map(([t, s, i, c, a], r) => { const [, s6, i6, c6, a6] = HOLD.m6[r], x = byT[t]; return `<div class="track-pr" data-mo="rise"><div class="k">${logo(x.c, x.lg, true)}<b>${x.n}</b></div><div class="track-kv"><span>3 months</span><b>${rate(i, s)}% of ${s}</b><span>6 months</span><b>${rate(i6, s6)}% of ${s6}</b>${c + c6 ? `<span>Censored</span><b>${c + c6}</b>` : ''}${a + a6 ? `<span>Abstained</span><b>${a + a6}</b>` : ''}</div></div>`; }).join('')}<p class="track-sub in">All 7: ${rate(HZ.m3.w[2].inside, HZ.m3.w[2].scored)}% of ${HZ.m3.w[2].scored} at 3 months, ${rate(Y6.inside, Y6.scored)}% of ${Y6.scored} at 6.</p></div>`;
+  const modelPhone = () => `<div class="card track-list" data-mo="card"><div class="track-sec in"><h3>By model · 365 days</h3></div>${['v2', 'v3'].map(key => { const m = MODEL[key]; return `<div class="track-pr" data-mo="rise"><div class="k"><b>${m.n}</b><span>${m.s}</span></div><div class="track-kv">${['m3', 'm6', 'm12', 's10', 's20'].map(k => { const x = m[k]; return `<span>${HZ[k].n}</span><b>${!x.due ? `${n0(x.pending)} pending${x.first ? `, first due ${x.first}` : ''}` : x.scored < MIN ? `Too few, ${x.scored} scored; a rate shows from ${MIN}` : `${rate(x.inside, x.scored)}% of ${n0(x.scored)}`}</b>`; }).join('')}</div></div>`; }).join('')}<div class="track-pr" data-mo="rise"><div class="k"><b>Baseline</b><span>Same origins as the model</span></div><div class="track-kv">${['m3', 'm6', 's10', 's20'].map(k => { const y = HZ[k].w[2], [i, e] = BASE[k]; return `<span>${HZ[k].n}</span><b>${rate(i, y.scored)}% · error ${pts(e)}</b>`; }).join('')}</div></div></div>`;
+  const regPhone = () => `<div class="card track-list" data-mo="card"><div class="track-sec in"><h3>By regime · 365 days</h3>${exploratory}</div>${REG.m3.map(([r, s, i], k) => { const [, s6, i6] = REG.m6[k]; return `<div class="track-pr" data-mo="rise"><div class="k"><b>${r}</b></div><div class="track-kv"><span>3 months</span><b>${rate(i, s)}% of ${s}</b><span>6 months</span><b>${rate(i6, s6)}% of ${s6}</b></div></div>`; }).join('')}<p class="track-sub in">${REGIME_HOW}</p><div class="track-acts in">${proposed('SCI-D04')}</div></div>`;
+  const tableB = ctx => inState(ctx, () => (phone(ctx)
+    ? `${sayExploratory()}${LONG.map(hzPhone).join('')}${shortHead()}${SHORT.map(hzPhone).join('')}${holdPhone()}${modelPhone()}${regPhone()}`
+    : `${sayExploratory()}${tableWide()}${holdTable()}${modelTable()}${regTable()}${counted()}`));
+
+  /* one row opened: 6 months, with the windows as columns */
+  const sliceTable = () => { const rows = [['Matured', x => n0(x.due)], ['Scored', x => n0(x.scored)], ['Censored', x => x.cens], ['Abstained', x => x.abst], ['Coverage', x => `${rate(x.inside, x.scored)}%`], ['Calibration', x => x.cal], ['Error', x => pts(x.err)], ['Hit rate', x => `${rate(x.dir, x.scored)}%`], ['Baseline error', x => pts(x.base)], ['Blocks', x => x.blocks]]; return `<div class="card track-wide" data-mo="card"><div class="track-sec in"><h3>${H6.n} · ${n0(H6.pending)} pending</h3>${exploratory}</div><div class="track-scroll"><table class="ht track-t"><thead><tr><th></th>${W.map(t => `<th class="r">${t}</th>`).join('')}</tr></thead><tbody>${rows.map(([k, f]) => `<tr data-mo="rise"><td>${k}</td>${H6.w.map(x => `<td class="r">${f(x)}</td>`).join('')}</tr>`).join('')}</tbody></table></div><p class="track-sub in">Coverage of the 80% range, target 80%. ${blocks(Y6)} Turnover ${H6.turn} action changes a year.</p></div>`; };
+  const sliceB = ctx => inState(ctx, () => `${sliceTable()}${flow()}${yours(ctx.state)}`);
+
+  J.add({
+    id: 'track', title: 'Track record', stories: ['MP-154', 'MP-187'], round: true,
+    summary: 'How the live forecasts did once their horizons passed, by horizon, holding, model and regime, over 30, 90 and 365 days, with every sample, pending and censored count in view.',
+    options: [{
+      id: 'a', name: 'Scorecard', rec: true,
+      why: 'Each horizon is one card: its coverage over 30, 90 and 365 days at a glance, then the full set of measures beside its sample. The breakdowns sit one tap away, so the first screen answers how the forecasts are doing without a table to read.',
+      cost: 'Holding, model and regime each take a tap, and the cards are long on a phone. Comparing a holding against a regime means going back and forth.',
+      screens: [{
+        id: 'a-record', title: 'Track record',
+        note: 'The top of Record, beside the Journal. Long term leads; short term sits apart, labelled. Each card counts pending, censored and abstained apart from the scored, and shows hit rate only beside coverage, calibration, error, the baseline and turnover. 12 months has nothing matured, so it says so and shows no rate.',
+        render: ctx => frame(ctx, { tab: 3, fresh: notPrices(ctx), title: 'Track record', actions: tb('info', 'About the track record'), body: `${recordSwitch(1)}${liveOnly()}${recordA(ctx)}`, rail: ctx.state === 'empty' ? counted() : `${readBy()}${counted()}` })
+      }, {
+        id: 'a-slice', title: '6 months, in full',
+        note: 'Where the 6-month card leads: the lead horizon, opened. Every forecast since 2 Feb 2026 is accounted for, and the two from your journal are named so the record and the journal agree.',
+        render: ctx => frame(ctx, { tab: 3, fresh: notPrices(ctx), title: '6 months', back: 'Track record', actions: tb('info', 'About this horizon'), body: sliceA(ctx), rail: sliceRail(ctx) })
+      }, {
+        id: 'a-holding', title: 'By holding',
+        note: 'Coverage by holding, over 365 days, at the two horizons with a record. A row shows coverage with its sample; hit rate shows only on the horizon cards, beside the rest.',
+        render: ctx => frame(ctx, { tab: 3, fresh: notPrices(ctx), title: 'By holding', back: 'Track record', actions: tb('info', 'About this view'), body: holdingA(ctx), rail: ctx.state === 'empty' ? '' : counted() })
+      }, {
+        id: 'a-model', title: 'By model',
+        note: 'Each model keeps its own record. v3 has nothing matured at 3, 6 or 12 months and too few at 20 sessions, so it says so and shows no rate. The baseline is scored on the same origins.',
+        render: ctx => frame(ctx, { tab: 3, fresh: notPrices(ctx), title: 'By model', back: 'Track record', actions: tb('info', 'About this view'), body: modelA(ctx), rail: ctx.state === 'empty' ? '' : counted() })
+      }, {
+        id: 'a-regime', title: 'By regime',
+        note: 'The record read by the regime each forecast was made in. The regime rule is proposed.',
+        render: ctx => frame(ctx, { tab: 3, fresh: notPrices(ctx), title: 'By regime', back: 'Track record', actions: tb('info', 'About this view'), body: regimeA(ctx), rail: ctx.state === 'empty' ? '' : regHow() })
+      }]
+    }, {
+      id: 'b', name: 'One table',
+      why: 'Everything on one page: each horizon by window, then by holding, model and regime, every measure in its own column. Nothing is a tap away, and any two readings can be compared side by side.',
+      cost: 'It is dense. On a phone the table turns into long rows of figures, and the first screen reads as a spreadsheet rather than an answer.',
+      screens: [{
+        id: 'b-table', title: 'Track record, one table',
+        note: 'One page, top to bottom: horizons by window, then holding, model and regime over 365 days. On a phone each window is a row of figures. The same counts as the Scorecard, and the same rule: a rate shows only with its sample, and hit rate only beside the rest.',
+        render: ctx => frame(ctx, { tab: 3, fresh: notPrices(ctx), title: 'Track record', actions: tb('info', 'About the track record'), body: `${recordSwitch(1)}${liveOnly()}${tableB(ctx)}`, rail: phone(ctx) ? (ctx.state === 'empty' ? '' : counted()) : '' })
+      }, {
+        id: 'b-slice', title: '6 months, opened',
+        note: 'One row opened: the windows become columns, so 30, 90 and 365 days read across.',
+        render: ctx => frame(ctx, { tab: 3, fresh: notPrices(ctx), title: '6 months', back: 'Track record', actions: tb('info', 'About this horizon'), body: sliceB(ctx), rail: sliceRail(ctx) })
       }]
     }]
   });
