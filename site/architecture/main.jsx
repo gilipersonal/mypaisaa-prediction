@@ -1207,8 +1207,9 @@ function Delivery() {
             predictive performance or AWS readiness.
           </p>
           <p>
-            Current GitHub checks cover backend, docs, review tooling, agent config,
-            static preview, workflow lint and Jira traceability. Future product gates must add
+            Current GitHub checks cover backend, docs, review tooling, agent config, plan sync,
+            Confluence receipts, static preview, workflow lint, Jira traceability and CodeQL
+            code scanning, with secret scanning on. Future product gates must add
             the real web/native builds, regression/UI/security checks and
             deployment/recovery evidence as those components become executable.
           </p>
