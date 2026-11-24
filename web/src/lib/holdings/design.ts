@@ -27,15 +27,17 @@ export interface Ledger {
   gain: string;
   ret: string;
   ev: Ev;
+  /** The status the desktop table shows in its Evidence column. */
+  s: Ev;
 }
 export const LEDGER: Record<string, Ledger> = {
-  AAPL: { at: '2 accounts', units: '88 units', gain: '+£3,288.10', ret: '+14.2% a year', ev: ['ok', 'Part analytical'] },
-  NVDA: { at: 'General account', units: '60 units', gain: '+£4,902.10', ret: '+31.6% a year', ev: ['ok', 'Available'] },
-  SPY: { at: 'General account', units: '40 units', gain: '+£3,160.00', ret: '+9.8% a year', ev: ['ok', 'Available'] },
-  AZN: { at: 'Stocks ISA', units: '85 units', gain: '+£1,015.75', ret: 'No rate stated', ev: ['amb', 'Nonconvergent'] },
-  HSBA: { at: 'Stocks ISA', units: '700 units', gain: '+£804.20', ret: '+8.1% a year', ev: ['old', 'Price 14:10'] },
-  RELIANCE: { at: 'India demat', units: '120 units', gain: '+£1,240.30', ret: 'No single rate', ev: ['amb', 'Ambiguous'] },
-  NIFTYBEES: { at: 'India demat', units: '4,200 units', gain: 'Unavailable', ret: 'Unavailable', ev: ['none', 'Snapshot only'] }
+  AAPL: { at: '2 accounts', units: '88 units', gain: '+£3,288.10', ret: '+14.2% a year', ev: ['ok', 'Part analytical'], s: ['ok', 'Available'] },
+  NVDA: { at: 'General account', units: '60 units', gain: '+£4,902.10', ret: '+31.6% a year', ev: ['ok', 'Available'], s: ['ok', 'Available'] },
+  SPY: { at: 'General account', units: '40 units', gain: '+£3,160.00', ret: '+9.8% a year', ev: ['ok', 'Available'], s: ['ok', 'Available'] },
+  AZN: { at: 'Stocks ISA', units: '85 units', gain: '+£1,015.75', ret: 'No rate stated', ev: ['amb', 'Nonconvergent'], s: ['amb', 'Nonconvergent'] },
+  HSBA: { at: 'Stocks ISA', units: '700 units', gain: '+£804.20', ret: '+8.1% a year', ev: ['old', 'Price 14:10'], s: ['old', 'Late'] },
+  RELIANCE: { at: 'India demat', units: '120 units', gain: '+£1,240.30', ret: 'No single rate', ev: ['amb', 'Ambiguous'], s: ['amb', 'Ambiguous'] },
+  NIFTYBEES: { at: 'India demat', units: '4,200 units', gain: 'Unavailable', ret: 'Unavailable', ev: ['none', 'Snapshot only'], s: ['none', 'Unavailable'] }
 };
 
 /** One measure of a holding: name, figure, status, why, and the rule the why rests on. The design draws five holdings. */
@@ -176,7 +178,10 @@ export const SAY = {
   evaluated: 'Evaluated model',
   model: 'R2-HGB v3',
   ranked: 'Ranked action · 6 months',
-  median: 'median'
+  median: 'median',
+  imports: 'Imports',
+  hideAmounts: 'Hide amounts',
+  oneTitle: 'One holding'
 } as const;
 
 /** The candidate the design draws apart from what you own (holdings.js, watchCard): its 6-month range, per cent. */
@@ -194,8 +199,39 @@ export const FRESH = {
   refreshing: 'Refreshing · last good 22:15'
 } as const;
 
-/** A sum of money or a count of units inside a written line: what hiding amounts masks. One capture group, for split(). */
-export const FIGURE = /([+−-]?£\d{1,3}(?:,\d{3})*\.\d{2}|\b\d{1,3}(?:,\d{3})* units\b)/;
+/**
+ * A sum of money or a count of units inside a written line: what hiding amounts masks, as the design's mask() finds them
+ * (holdings.js, AMT and UNITS). One capture group, for split().
+ */
+export const FIGURE = /([+−]?£[\d,]+(?:\.\d+)?|\b\d[\d,]*(?: → [\d,]+)? units\b)/;
+
+/** The desktop table (holdings.js, holdTable and retCell). */
+export const TABLE = {
+  title: 'Holdings',
+  scale: 'One forecast scale, −20% to +36%',
+  head: ['Holding', 'Value', 'Gain', 'Return', '6-month forecast', 'Evidence'],
+  held: 'Held'
+} as const;
+/** A return as the table's Return column writes it: a rate without "a year", a word for a rate not stated, or nothing. */
+export function retCell(r: string): { text: string; muted: boolean } | null {
+  if (r.startsWith('+')) return { text: r.replace(' a year', ''), muted: false };
+  if (r === 'Unavailable') return null;
+  const word: Record<string, string> = { 'No single rate': 'Not proved', 'No rate stated': 'Not stated', Withheld: 'Withheld' };
+  return { text: word[r] ?? r, muted: true };
+}
+
+/** The way to Imports at the foot of the rail, state by state (holdings.js, IMPORT_NOW, importNow and toImports). */
+export const IMPORT_NOW: Record<string, string> = { ready: '1 import is being read', loading: '1 import is uploading', error: '3 files not taken in', stale: '1 import last seen at 21:09', offline: '1 upload stopped at 62%' };
+export const DIFF_OPEN = '1 difference open';
+export const IMPORT_SUB = 'General account, Q3 · cash differs by £8.15. Nothing here changes until you approve it.';
+
+/** The one control these screens draw whose act is not built yet, and the one sentence it says when pressed. */
+export const LATER = {
+  record: 'Record decision',
+  recordSay: 'Recording a decision comes in a later build step; nothing was recorded.'
+} as const;
+/** Where a holding's reasons are not in the sample data. */
+export const NO_WHY = 'The reasons for this action are not in the sample data yet.';
 
 /** Per cent as the design prints it: a sign, one decimal and a true minus (index.html, pct). */
 export function pct(v: number, d = 1): string {
@@ -238,6 +274,13 @@ export function coverage(stale: boolean) {
 }
 
 const GBP = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP', minimumFractionDigits: 2 });
+const NUM = new Intl.NumberFormat('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+/** Pence as the design writes a sum inside its own pound sign: "14,820.50". */
+export function plain(pence: number): string {
+  if (!Number.isSafeInteger(pence)) throw new Error('money must be whole pence');
+  return NUM.format(pence / 100);
+}
+
 /** Signed pence as the design writes a gain: "+£14,410.45", or a true minus. */
 export function signedGbp(pence: number): string {
   return (pence < 0 ? '−' : '+') + GBP.format(Math.abs(pence) / 100);
