@@ -2,7 +2,7 @@
 
 Every open question from the review pages and the story pack, put to the owner once, with options, before UX approval (MP-66). As of `7e76154`, 5 November 2026.
 
-**All 64 questions are answered**, in `answers.json`, and none is applied yet: `scope.md` says what each changes and which issue carries it. Option text is not the owner's own reasoning (lesson 42), and applying a pick is its own change.
+**All 64 questions are answered**, in `answers.json`. `scope.md` says what each changes, which issue carries it, and which are drawn or recorded so far. Option text is not the owner's own reasoning (lesson 42), and applying a pick is its own change.
 
 | File | What it holds |
 | --- | --- |

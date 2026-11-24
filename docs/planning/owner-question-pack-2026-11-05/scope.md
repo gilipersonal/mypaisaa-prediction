@@ -131,6 +131,8 @@ Drawn on branch `MP-191-decision-rules` (23 November 2026), in the Journeys and 
 
 ### MP-192: Bring labels, stories and specifications into line with the owner's picks
 
+Recorded on branch `MP-192-records-follow-picks` (24 November 2026), in the written records: the story pack, the foundation specifications, the gap register and planning pack, the root documents and the Confluence generator. The records also follow the picks MP-188, MP-189, MP-190 and MP-191 drew (MP-114, MP-103, MP-145, MP-158, MP-135, MP-144, MP-84 among them). Values a pick leaves open are recorded as open. Not yet done: the open lists and Proposed labels on the Journeys and Admin pages, the Jira descriptions of the changed stories, and the Confluence pages; each waits on its own yes.
+
 | Id | The pick | How | Effect |
 | --- | --- | --- | --- |
 | OWN-22 | One tap in, reword MP-153 | pressed | Records only |
