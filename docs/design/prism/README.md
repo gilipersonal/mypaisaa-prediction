@@ -1,6 +1,6 @@
 # Prism, MyPrediction's design system
 
-**Status: owner-selected look (MP-62, 3 November 2026). Not approved UX; no permission to build.** The owner's words and
+**Status: owner-selected look (MP-62, 3 November 2026); UX approved with named conditions (MP-66, 24 November 2026); build limited to four web steps.** The owner's words and
 the reasoning are in [decision.md](../reviews/MP-62/decision.md) and [brief-r4.md](../reviews/MP-62/brief-r4.md).
 
 Prism serves one product on four surfaces: desktop web, mobile web, the installed PWA, and the native iOS and iPadOS app.
