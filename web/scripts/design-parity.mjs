@@ -12,7 +12,7 @@
 // what the app adds, and every measure that differs by more than 0.5 px or any style that differs. It fails closed:
 // a page that does not draw, a screen it cannot find, or a pair with nothing matched is a failure. Exit 0 only when
 // every pair is identical.
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawn } from 'node:child_process';
@@ -32,15 +32,13 @@ const STATE_MAP = { default: 'ready', loading: 'loading', empty: 'empty', error:
 const STATES = (opt('--state', 'default')).split(',');
 const SHOW = Number(opt('--show', '40'));
 
-/** [name, journey, option, screen id, app path] */
-export const PAIRS = [
-  ['home', 'home', 'a', 'a-portfolio', '/'],
-  ['holdings', 'holdings', 'a', 'a-list', '/holdings'],
-  ['holding', 'holdings', 'a', 'a-one', '/holdings/AAPL'],
-  ['journal', 'journal', 'a', 'a-list', '/record'],
-  ['track', 'track', 'a', 'a-record', '/record?view=track'],
-  ['privacy', 'privacy', 'a', 'privacy-a-centre', '/settings/privacy']
-];
+/**
+ * The pairs, one file per screen group in tests/parity/*.json: [{ name, journey, option, screen, path }], where path is the
+ * app address, or an object from the design's state id to the address when the design shows a different instrument per state.
+ */
+export const PAIRS = readdirSync(join(web, 'tests', 'parity')).filter((f) => f.endsWith('.json')).sort()
+  .flatMap((f) => JSON.parse(readFileSync(join(web, 'tests', 'parity', f), 'utf8')))
+  .map((p) => [p.name, p.journey, p.option, p.screen, p.path]);
 /* the browser's viewport for each design device: desktop web less its 38 px window bar, phone web less its 54 px status bar */
 const SIZE = { web: { width: 1200, height: 912 }, pwa: { width: 390, height: 790 } };
 /* parts of a design frame that are the device, not the app: the window bar, the status bar, the island, the home indicator, the backdrop */
@@ -150,7 +148,9 @@ try {
       const d = await dp.evaluate(MEASURE, { scope: '#jrow .scr[data-parity]', originSel: surface === 'web' ? '.jweb' : null, dy: surface === 'web' ? 0 : 54, skip: DEVICE });
       const appState = STATE_MAP[state];
       if (!appState) { console.log(`FAIL ${where}: the app has no ${state} state to compare`); failed++; continue; }
-      await ap.goto(`${BASE}${path}${appState === 'ready' ? '' : `${path.includes('?') ? '&' : '?'}data=${appState}`}`);
+      const at = typeof path === 'string' ? path : path[state];
+      if (!at) { console.log(`FAIL ${where}: no app address for the ${state} state`); failed++; continue; }
+      await ap.goto(`${BASE}${at}${appState === 'ready' ? '' : `${at.includes('?') ? '&' : '?'}data=${appState}`}`);
       await ap.getByRole('heading', { level: 1 }).first().waitFor();
       if (appState !== 'loading') await ap.waitForFunction(() => !document.querySelector('[aria-busy="true"]'));
       await ap.evaluate(() => document.fonts.ready);

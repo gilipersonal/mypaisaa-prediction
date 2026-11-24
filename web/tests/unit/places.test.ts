@@ -61,6 +61,7 @@ describe('page titles', () => {
   it('names the page, not only its place (MP-205)', () => {
     expect(pageTitle('/')).toBe('Portfolio');
     expect(pageTitle('/record')).toBe('Journal');
+    expect(pageTitle('/record/track')).toBe('Track record');
     expect(pageTitle('/holdings')).toBe('Holdings');
     expect(pageTitle('/holdings/')).toBe('Holdings');
     expect(pageTitle('/holdings/nvda')).toBe('NVDA');

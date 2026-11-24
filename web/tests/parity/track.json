@@ -1,0 +1,9 @@
+[
+  {
+    "name": "track",
+    "journey": "track",
+    "option": "a",
+    "screen": "a-record",
+    "path": "/record/track"
+  }
+]

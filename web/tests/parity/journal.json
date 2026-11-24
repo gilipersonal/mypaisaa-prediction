@@ -1,0 +1,16 @@
+[
+  {
+    "name": "journal",
+    "journey": "journal",
+    "option": "a",
+    "screen": "a-list",
+    "path": "/record"
+  },
+  {
+    "name": "privacy",
+    "journey": "privacy",
+    "option": "a",
+    "screen": "privacy-a-centre",
+    "path": "/settings/privacy"
+  }
+]
