@@ -2328,10 +2328,12 @@ function renderContrast() {
   const pairs = JSON.parse($('#mp-design-gates').textContent).pairs;
   const NAMES = { body: 'Body · 7 : 1 and 4.5 : 1 at 20%', text: 'Text · 4.5 : 1 and 3 : 1 at 20%', ui: 'UI · 3 : 1 and 1.8 : 1 at 20%', presence: 'Presence · 1.5 : 1 and 1.25 : 1 at 20%' };
   const measure = (probe, tier, fg, bg) => { const b = stack(probe, bg), f = over(stack(probe, fg), b), full = ratio(f, b), dim = ratio(f, b, .2); return { full, dim, ok: full + 1e-9 >= LIMITS[tier][0] && dim + 1e-9 >= LIMITS[tier][1] }; };
-  const label = e => e.split('+').map(t => `<code>${t.replace(/^--/, '')}</code>`).join(' over ');
-  const layers = e => { const p = e.split('+').map(t => `var(--${t.replace(/^--/, '')})`); return p.length === 1 ? p[0] : p.slice(0, -1).map(c => `linear-gradient(${c},${c})`).join(',') + ',' + p[p.length - 1]; };
+  /* token names come from the page's own gate data; they are escaped before they reach the HTML (MP-198) */
+  const esc = v => String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+  const label = e => e.split('+').map(t => `<code>${esc(t.replace(/^--/, ''))}</code>`).join(' over ');
+  const layers = e => { const p = e.split('+').map(t => `var(--${esc(t.replace(/^--/, ''))})`); return p.length === 1 ? p[0] : p.slice(0, -1).map(c => `linear-gradient(${c},${c})`).join(',') + ',' + p[p.length - 1]; };
   const swatch = (scheme, tier, f, b) => {
-    if (tier === 'body' || tier === 'text') return `<span class="aa scheme-${scheme}" aria-hidden="true" style="background:${layers(b)};color:var(--${f})">Aa</span>`;
+    if (tier === 'body' || tier === 'text') return `<span class="aa scheme-${scheme}" aria-hidden="true" style="background:${layers(b)};color:var(--${esc(f)})">Aa</span>`;
     return `<span class="two-sw scheme-${scheme}" aria-hidden="true"><i style="background:${layers(f)}"></i><i style="background:${layers(b)}"></i></span>`;
   };
   let pass = 0; const rows = [];

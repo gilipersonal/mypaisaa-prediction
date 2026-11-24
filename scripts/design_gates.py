@@ -127,9 +127,9 @@ class Fail(Exception):
 
 def page_parts(html: str) -> tuple[str, str, dict | None]:
     """(css, script, gates_json) from a page: every <style>, every executable <script>, the mp-design-gates block."""
-    css = "\n".join(re.findall(r"<style[^>]*>(.*?)</style>", html, flags=re.S | re.I))
+    css = "\n".join(re.findall(r"<style[^>]*>(.*?)</style(?:\s[^>]*)?>", html, flags=re.S | re.I))
     scripts, gates = [], None
-    for attrs, body in re.findall(r"<script([^>]*)>(.*?)</script>", html, flags=re.S | re.I):
+    for attrs, body in re.findall(r"<script([^>]*)>(.*?)</script(?:\s[^>]*)?>", html, flags=re.S | re.I):
         if 'id="mp-design-gates"' in attrs or "id='mp-design-gates'" in attrs:
             try:
                 gates = json.loads(body)

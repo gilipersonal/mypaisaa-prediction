@@ -15,7 +15,7 @@ const rowNames = (html) => [...html.matchAll(/class="nm">([^<]+)</g)].map((m) =>
 const percents = (t) => t.match(/[+−]\d+(?:\.\d+)?%/g) || [];
 // the pill as a reader sees it, with the words only a screen reader hears taken out
 const pillOf = (html) => (html.match(/<button class="chip glass cost-pill"[\s\S]*?<\/button>/) || [''])[0];
-const shown = (pill) => pill.replace(/<svg[\s\S]*?<\/svg>/g, '').replace(/<span class="sr">[^<]*<\/span>/g, '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').replace(/ ·/g, ' ·').trim();
+const shown = (pill) => pill.replace(/<svg[\s\S]*?<\/svg>/g, '').replace(/<span class="sr">[^<]*<\/span>/g, '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 const PILL = { default: '£46 of £100', loading: 'Last good £46', empty: '£28 of £100', error: '£38 · collector failed', stale: '£46 · billing 39 h old', offline: '£46 · saved', noModel: '£39 of £100', disagreement: '£46.73 · bill differs', abstention: '£39 · part unknown' };
 // the burn-up's own scale, read from its £60 and £100 lines: where the forecast line ends, and the band at day 30
 function burnEnd(html, must, where) {

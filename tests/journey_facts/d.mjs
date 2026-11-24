@@ -27,7 +27,7 @@ const ACTWORD = /\b(?:Add|Hold|Trim|Pause|Rebalance)\b/;
 
 const must = (c, m) => { if (!c) throw new Error(m); };
 const words = (html) => html.replace(/<svg[\s\S]*?<\/svg>/g, (m) => (m.match(/aria-label="([^"]*)"/) || [, ' '])[1] + ' ').replace(/<[^>]+>/g, ' ')
-  .replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ').replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/\s+/g, ' ').trim();
+  .replace(/&nbsp;/g, ' ').replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim();
 const show = (html, n = 140) => words(html).slice(0, n);
 const coverage = (id, parts) => { if (process.env.FACTS_COVERAGE) console.log(`  ${id}: ${Object.entries(parts).map(([k, v]) => `${v} ${k}`).join(', ')}`); };
 
@@ -40,7 +40,7 @@ const pagePath = () => {
 };
 const journeys = () => {
   if (journeys.all) return journeys.all;
-  const src = [...readFileSync(pagePath(), 'utf8').matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map((m) => m[1]).filter((t) => t.includes('J.start();'));
+  const src = [...readFileSync(pagePath(), 'utf8').matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script(?:\s[^>]*)?>/gi)].map((m) => m[1]).filter((t) => t.includes('J.start();'));
   must(src.length === 1, `expected one journeys script on the page, found ${src.length}`);
   const box = { console, setTimeout: () => 0, clearTimeout: () => 0, setInterval: () => 0, requestAnimationFrame: () => 0, cancelAnimationFrame: () => 0 };
   for (const k of ['document', 'navigator', 'location', 'history', 'localStorage', 'sessionStorage', 'performance', 'getComputedStyle', 'addEventListener', 'removeEventListener', 'scrollTo', 'CSS', 'PerformanceObserver']) box[k] = stub();

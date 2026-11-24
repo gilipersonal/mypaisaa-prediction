@@ -82,6 +82,11 @@ def check_rules(root: Path, problems: list[str]) -> None:
                 problems.append(f"{rel}: names {target}, which does not exist")
 
 
+# Checks that GitHub's code scanning reports, not a workflow job. CodeQL runs on GitHub's default setup and stays required:
+# the owner, 24 November 2026, "Make codeQL check required check" (MP-198).
+CODE_SCANNING = ("CodeQL",)
+
+
 def check_protection(root: Path, protection: object, problems: list[str]) -> None:
     jobs: list[str] = []
     for rel in WORKFLOWS:
@@ -95,8 +100,12 @@ def check_protection(root: Path, protection: object, problems: list[str]) -> Non
     except (KeyError, TypeError):
         problems.append(".github/main-protection.json: no required_status_checks.contexts")
         return
-    if sorted(required) != sorted(jobs):
-        problems.append(f".github/main-protection.json: requires {sorted(required)}, but the workflows define {sorted(jobs)}")
+    from_jobs = [name for name in required if name not in CODE_SCANNING]
+    if sorted(from_jobs) != sorted(jobs):
+        problems.append(f".github/main-protection.json: requires {sorted(from_jobs)}, but the workflows define {sorted(jobs)}")
+    for name in CODE_SCANNING:
+        if name not in required:
+            problems.append(f".github/main-protection.json: {name} must stay required (owner, 24 November 2026, MP-198)")
 
 
 def check(root: Path = ROOT) -> list[str]:

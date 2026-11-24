@@ -14,7 +14,7 @@ Codex plan-sync and review permissions are unchanged. Offer independent review o
 
 Once an open PR is ready, Codex presents its link, current commit, linked MP issue, check results and review outcome, then offers `Merge PR, close MP-<number>, and switch to main` or `Keep PR open`, plus `Review first` when applicable. The combined choice authorises the named merge and issue closure in the running prompt. A merge-only instruction authorises only merging; a workflow-configuration request, PR request or review approval does not authorise those acts. Silence leaves the PR open. Branch deletion remains separate.
 
-Before merging, Codex checks the current PR head against the commit presented for consent, confirms the destination is `main`, verifies all nine named checks passed on that head, and confirms no blocking review findings remain. A changed head requires fresh checks and renewed consent. The merge uses the configured method and an expected-head guard, without auto-merge.
+Before merging, Codex checks the current PR head against the commit presented for consent, confirms the destination is `main`, verifies all ten named checks passed on that head, and confirms no blocking review findings remain. A changed head requires fresh checks and renewed consent. The merge uses the configured method and an expected-head guard, without auto-merge.
 
 After GitHub confirms the successful merge and the issue's acceptance criteria are complete, Codex records the merged PR URL and merge commit on the verified linked issue, discovers the available transition leading to Done and closes it when closure was included in consent. It checks the returned status rather than assuming success. An issue already Done needs no repeated transition. Ambiguous links, unfinished acceptance criteria or an unconfirmed merge leave the issue open. A Jira failure is reported as outstanding and does not prevent the safe local return below; merge, closure and local sync are reported separately.
 
@@ -22,7 +22,7 @@ After GitHub confirms the merge, Codex fetches `origin`, switches the clean loca
 
 ## CI coverage
 
-All nine named checks should be green before merging:
+All ten named checks should be green before merging:
 
 | Check | What it runs |
 | --- | --- |
@@ -31,10 +31,11 @@ All nine named checks should be green before merging:
 | Review tooling | Review-regression runner, PR-policy and check-selection tests; the runner's self-test; every fixed finding in every ledger still holds (exit 3, only manual checks left, passes); every review state file is whole |
 | Plan sync | `scripts/plan_sync.py`: the Jira mirror in `docs/planning/trace.json`, the root documents, the phases and the Confluence pages agree; on a PR, every product file changed belongs to the branch's issue; plus its self-test |
 | Confluence receipts | `docs/confluence/build_pages.py`: every page is rendered from the repo, published, and read back whole; plus its self-test |
-| Agent config | `scripts/check_agent_config.py`: Claude skill frontmatter, `.claude/rules/` links and named paths, `.claude/jira-flow.json`, Codex JSON syntax, and that `.github/main-protection.json` names exactly these jobs; then its tests, the Claude skill tests and the hooks' self-test |
+| Agent config | `scripts/check_agent_config.py`: Claude skill frontmatter, `.claude/rules/` links and named paths, `.claude/jira-flow.json`, Codex JSON syntax, and that `.github/main-protection.json` names exactly these jobs plus CodeQL, which must stay listed; then its tests, the Claude skill tests and the hooks' self-test |
 | Static preview | Preview HTML language/title/viewport presence, local file references and same-page anchor targets |
 | Workflow lint | Checksum-verified actionlint 1.7.12 checks all workflow YAML and supported shell expressions |
 | Jira traceability | PR targets `main`; branch/title share an MP key; every included commit has an MP key |
+| CodeQL | GitHub code scanning in its default setup, not a workflow in this repository: Python, JavaScript and TypeScript, and GitHub Actions, with the default query suite. A new alert fails the check. Required since 24 November 2026 (MP-198) |
 
 CI runs on PRs to `main` and on `main` pushes; the Jira metadata check runs for every PR, including title edits, so it can reject another destination. Workflow runs have job time limits, cancel superseded runs, use read-only repository access and do not retain checkout credentials. GitHub actions are pinned to commit SHAs. No workflow deploys, publishes the site, calls market-data/Claude services, runs independent agents or executes the real fixed-findings ledger. The unit tests exercise the runner using isolated fixtures; policy tests also inspect the checked-in review documents and history.
 
@@ -44,15 +45,21 @@ Backend dependencies are recorded in `backend/uv.lock`. Update intentionally wit
 
 ## Server-side protection
 
-As checked on 2026-11-01, GitHub returned HTTP 403 for both branch-protection and ruleset APIs on this private repository, requesting a plan upgrade. **Server-side PR-only and required-check enforcement is not active.** Repository instructions and CI are in place; they do not prevent an administrator or another client from bypassing the process.
+As checked on 2026-11-01, GitHub returned HTTP 403 for both branch-protection and ruleset APIs on this repository, then private, requesting a plan upgrade.
 
-The intended settings are versioned in `.github/main-protection.json`: require a PR, the nine named checks with an up-to-date base, resolved conversations, admin enforcement, and no force pushes or deletion. Zero mandatory GitHub approvals supports the personal-only workflow; the separately approved Codex review is not a GitHub approval. The repository stays private and no plan upgrade is authorised by this setup. GitHub documents plan availability at https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches.
+The repository is **public**. The visibility change was not made by MP-198; this file had said the repository stays private, and the owner confirmed public on 2026-11-24: "Make the repo public, that is fine". Both APIs now answer.
 
-After the owner enables a compatible GitHub plan, apply the saved policy with:
+**Server-side enforcement is active** since 2026-11-24 (MP-198, owner: "Do all 4 without review"), through the repository ruleset "main" (id 27945580), not classic branch protection, which stays unset (HTTP 404, "Branch not protected"). Read back the same day with `gh api repos/gilipersonal/mypaisaa-prediction/rules/branches/main`, it applies to the default branch with no bypass actors, administrators included, and holds:
 
-```sh
-gh api --method PUT repos/gilipersonal/mypaisaa-prediction/branches/main/protection \
-  --input .github/main-protection.json
-```
+- no deletion and no force push (non-fast-forward);
+- a pull request for every change, zero required approvals, stale approvals dismissed, every conversation resolved, and merge commits only;
+- the ten named checks, on a branch up to date with `main`: the nine GitHub Actions jobs, pinned to the GitHub Actions app, and CodeQL, pinned to GitHub's code-scanning app.
 
-Then read back the protection and verify the exact check names against a successful PR. The JSON is a desired configuration, not proof that GitHub has applied it. Do not change repository visibility or billing as a workaround.
+Also as of 2026-11-24:
+
+- Code scanning: GitHub's CodeQL default setup is configured (Python, JavaScript and TypeScript, GitHub Actions; default suite).
+- Secret scanning and push protection: turned on by MP-198 at the owner's word. Until then both were off, and this repository holds no gitleaks configuration (mypaisa-agent has one); MP-36 proposes the gitleaks CLI.
+
+The intended settings are also versioned in `.github/main-protection.json`, in the shape of classic branch protection: require a PR, the ten named checks with an up-to-date base, resolved conversations, admin enforcement, and no force pushes or deletion. Zero mandatory GitHub approvals supports the personal-only workflow; the separately approved Codex review is not a GitHub approval. The ruleset above applies the same policy. No plan upgrade is authorised by this setup.
+
+A change to the ruleset is a repository-settings change and needs the owner's yes in the running prompt. When a check is added or renamed, change `.github/main-protection.json` and the ruleset together, then read back `rules/branches/main` and verify the exact check names against a successful PR. Do not change repository visibility or billing as a workaround.

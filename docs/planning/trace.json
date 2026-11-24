@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-23",
+ "as_of": "2026-11-24",
  "source": "Jira MP via the Atlassian MCP (cloudId 81c51173-bbea-4905-bbc5-1a880fa348bb)",
  "jql": "project = MP ORDER BY key ASC",
  "code_from": "git log main --no-renames --name-only -E --grep '^MP-<n>:' at d98eb55; a folder below the top level holding five or more of an issue's files is listed as the folder",
@@ -1888,7 +1888,7 @@
    "key": "MP-186",
    "summary": "Redraw navigation, the Home cost pill and the run clock wording",
    "type": "Task",
-   "status": "In Progress",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     "docs/design/prism/index.html",
@@ -1917,7 +1917,7 @@
    "key": "MP-188",
    "summary": "Redraw passkeys and recovery to match the owner's picks",
    "type": "Task",
-   "status": "In Progress",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     "docs/design/prism/index.html",
@@ -1941,7 +1941,7 @@
    "key": "MP-189",
    "summary": "Draw the local PDF unlock and settle the offline screens",
    "type": "Task",
-   "status": "In Progress",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     "docs/design/journeys/src/journeys/",
@@ -1961,7 +1961,7 @@
    "key": "MP-190",
    "summary": "Redraw the control screens to match the owner's picks",
    "type": "Task",
-   "status": "In Progress",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     "docs/design/journeys/src/journeys/",
@@ -2044,7 +2044,7 @@
    "key": "MP-196",
    "summary": "Record that the owner kept Twelve Data and Yahoo after a second look at EODHD",
    "type": "Task",
-   "status": "In Progress",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     "docs/planning/ma-reconciliation-2026-11-02/decision-log.md",
@@ -2055,6 +2055,49 @@
   {
    "key": "MP-197",
    "summary": "Test whether Cognito passkeys work in a phone browser and whether a revoke removes one",
+   "type": "Task",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-198",
+   "summary": "Clear the CodeQL alerts and make CodeQL a required check on main",
+   "type": "Task",
+   "status": "In Progress",
+   "parent": "MP-4",
+   "code": [
+    ".github/main-protection.json",
+    "scripts/check_agent_config.py",
+    "tests/test_agent_config.py",
+    ".claude/skills/autoship/SKILL.md",
+    "scripts/design_gates.py",
+    "scripts/design_journeys_facts.mjs",
+    "tests/journey_facts/",
+    "docs/design/journeys/src/shell.js",
+    "docs/design/journeys/src/journeys/",
+    "docs/design/journeys/index.html",
+    "docs/design/admin/src/shell.js",
+    "docs/design/admin/index.html",
+    "docs/design/prism/index.html",
+    "docs/design/artifacts.json",
+    "docs/github-workflow.md",
+    "README.md",
+    "TECH-STACK.md",
+    "docs/planning/trace.json"
+   ]
+  },
+  {
+   "key": "MP-199",
+   "summary": "Show CodeQL code scanning and the repository's visibility in the drawings, Confluence and the site",
+   "type": "Task",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-200",
+   "summary": "Update pytest to 9.0.3 to clear Dependabot alert 1",
    "type": "Task",
    "status": "To Do",
    "parent": "MP-4",

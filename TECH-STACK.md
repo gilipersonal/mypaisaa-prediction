@@ -141,6 +141,7 @@ Not in the plan without a costed ADR: NAT Gateway, load balancers, RDS, GPUs, al
 | Tests | pytest **8.4.2**, httpx **0.28.1** | Implemented for the starter |
 | Lint | Ruff **0.17.3** | Implemented |
 | CI | GitHub Actions: Backend, Docs, Review tooling, Agent config, Plan sync, Confluence receipts, Static preview, Workflow lint, Jira traceability | Implemented |
+| Code scanning | GitHub CodeQL, default setup: Python, JavaScript and TypeScript, GitHub Actions; a required check in `.github/main-protection.json` | Implemented (MP-198) |
 | Change checks | `scripts/review_checks.py` picks checks by changed path | Implemented |
 | Vulnerability scanning | Dependabot alerts; OSV-Scanner and pip-audit on the locks; gitleaks CLI; Ruff S rules; terraform validate, TFLint and Checkov on the Terraform | Proposed (MP-36) |
 | Release path | One artefact built on main, deployed by GitHub OIDC to dev, then to prod by a release workflow only the owner can start; Lambda alias rollback | Release route owner-selected 3 Nov 2026; the rest proposed (MP-36) |
