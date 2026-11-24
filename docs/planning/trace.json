@@ -1855,9 +1855,14 @@
    "key": "MP-183",
    "summary": "Stop the burn-up chart's day labels overlapping on phones",
    "type": "Bug",
-   "status": "To Do",
+   "status": "In Progress",
    "parent": "MP-4",
-   "code": []
+   "code": [
+    "docs/design/journeys/",
+    "docs/design/artifacts.json",
+    "tests/journey_facts/m183.mjs",
+    "docs/planning/trace.json"
+   ]
   },
   {
    "key": "MP-184",
@@ -2071,7 +2076,7 @@
    "key": "MP-193",
    "summary": "Settle the audit's dead controls and combined states before UX approval",
    "type": "Task",
-   "status": "In Progress",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     "docs/design/journeys/",
