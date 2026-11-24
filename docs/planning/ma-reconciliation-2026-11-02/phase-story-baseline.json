@@ -907,7 +907,7 @@
       "phase_id": "PH-00",
       "acceptance": [
         "Cover discovery-first dashboard, separate holdings/imports, per-horizon forecasts/proof, research/chat, action journal, cost visibility, owner approvals and privacy/recovery flows.",
-        "Document loading/empty/error/stale/offline/no-model/disagreement/abstention states and accessibility on web, iPhone, iPad and adaptive Duo layouts.",
+        "Document loading/empty/error/stale/offline/no-model/disagreement/abstention states and accessibility on web, iPhone, iPad and adaptive Duo layouts. Answered: MP40-Q12b, 5 November 2026 (MP-184): the owner picked \"Any window width\" (pressed on the page). The option read: \"The Apple app lays out by window width, so a narrow iPad window uses the phone layout.\"",
         "Verify the requested SvelteKit 3 version against current official availability before choosing packages; do not imply it is installed. Agree native/device support and local design/prototype before any authorised Sites sync."
       ],
       "contracts": [],
@@ -2020,7 +2020,7 @@
       "phase_id": "PH-06",
       "acceptance": [
         "Action-first summary 07:30 Europe/London with per-market timestamps, priorities,risks,changes and upcoming events; quiet hours 22:00–07:00.",
-        "Define material/critical thresholds,weekends,cooldown,dedup and denied-push fallback; immediate means after detection using available cadence.",
+        "Define material/critical thresholds,weekends,cooldown,dedup and denied-push fallback; immediate means after detection using available cadence. Answered: MP40-Q11a, 5 November 2026 (MP-184): the owner picked \"Your lines, no investment wake-ups\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Material means a line you set is crossed on exposure, price move, volatility or an event flag. Critical covers security and service faults only, so investment alerts wait for 07:30.\" MP40-Q11b, 5 November 2026 (MP-184): the owner picked \"Weekdays only\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"No brief on Saturday or Sunday. Home says why, and held alerts land in your inbox at 07:30 (proposed).\" OWN-34, 5 November 2026 (MP-184): the owner picked \"Once in 24 hours\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"One push per holding, rule and severity in 24 hours, sooner only if it worsens or the cause is new. Every event stays in the app.\" The value of each line stays open.",
         "Retain in-app/chat alerts,wrap/reflection requirements and I-acted journal; no alert executes an action."
       ],
       "contracts": [],
@@ -2075,7 +2075,7 @@
       "phase_id": "PH-07",
       "acceptance": [
         "Swift owns native views,persistence,widgets and secure-device integration; RN shell owns navigation/bridge contracts.",
-        "Deliver approved adaptive dashboard,holdings,imports,forecast/proof,chat,cost and approval journeys across iPhone/iPad/Duo matrix.",
+        "Deliver approved adaptive dashboard,holdings,imports,forecast/proof,chat,cost and approval journeys across iPhone/iPad/Duo matrix. Answered: MP40-Q12a, 5 November 2026 (MP-184): the owner picked \"Your own devices only\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Support and test the iPhone and iPad you own, at the iOS they run. You give the models.\" MP40-Q12b, 5 November 2026 (MP-184): the owner picked \"Any window width\" (pressed on the page). The option read: \"The Apple app lays out by window width, so a narrow iPad window uses the phone layout.\" The models are not yet given.",
         "Test shared API/event and shell/native schema compatibility and discoverable error/recovery states."
       ],
       "contracts": [],
@@ -2154,7 +2154,7 @@
       "title": "Native capability backlog without hidden scope loss",
       "phase_id": "PH-07",
       "acceptance": [
-        "Specify widgets,share-sheet intake,search/deep links,Siri/AppIntents and long-job Live Activities with privacy,availability and cost constraints.",
+        "Specify widgets,share-sheet intake,search/deep links,Siri/AppIntents and long-job Live Activities with privacy,availability and cost constraints. Answered: MP40-Q13, 5 November 2026 (MP-184): the owner picked \"Widgets and share first\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Widgets and statement sharing come at launch, and Spotlight, Siri and Live Activities are recorded as later.\" Unverified that both work on free seven-day builds; if either does not, it moves to later.",
         "Classify each capability launch-required or later activation by explicit owner choice; no silent removal of inherited scope.",
         "Keep Android product screens outside current agreed release scope; RN shell does not imply an Android UI."
       ],
@@ -2455,7 +2455,7 @@
       "title": "Private validated upload intake",
       "phase_id": "PH-01",
       "acceptance": [
-        "Byte limits, magic type, checksum, archive/page/pixel/runtime checks and quarantine status precede extraction; exact limit values need approval.",
+        "Byte limits, magic type, checksum, archive/page/pixel/runtime checks and quarantine status precede extraction; exact limit values need approval. Answered: MP40-Q1, 5 November 2026 (MP-184): the owner picked \"Set from your real statements\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Oversized files stay held as drawn, and the four limits are set from your largest real statements, with a margin, when they arrive.\" The limit values stay unapproved until then.",
         "Original bytes/version and an upload record exist before processing; an object-created notification cannot mark a ledger import committed.",
         "Repeated/out-of-order upload notifications and orphaned objects reconcile idempotently; rejected uploads have a visible reason.",
         "Protected originals remain private; upload authorization is scoped/short-lived and app-side single-use semantics are enforced rather than assumed from a signed URL."
@@ -2495,7 +2495,7 @@
         "Deterministic parsers handle supported layouts; document/image LLM extraction is bounded, tool-free and produces validated typed proposals with source locations.",
         "Every field records raw/normalized values, parser/model/schema version and page/sheet/row/cell evidence; missing data remains missing.",
         "Cells/macros/formulas/links and document instructions are untrusted; no script/formula/network execution is needed to import a workbook.",
-        "Generic fixtures are distinguished from validated broker layouts; encrypted PDFs are unlocked only through the approved secure local flow, never a logged/model password."
+        "Generic fixtures are distinguished from validated broker layouts; encrypted PDFs are unlocked only through the approved secure local flow, never a logged/model password. Answered: MP40-Q2, 5 November 2026 (MP-184): the owner picked \"Local unlock step\" (pressed on the page). The option read: \"You type the password in a step on your device, which opens the PDF there and uploads the unlocked copy.\""
       ],
       "contracts": [
         "ExtractionCandidate",

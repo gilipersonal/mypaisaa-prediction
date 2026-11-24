@@ -8,6 +8,8 @@ dollar and 20% tax, and cash counts in the month an invoice is due.
 **Status:**
 - **Owner-selected:** the Region, the Grow tier, Terraform, SSM Parameter Store, Organizations with a cost-guard SCP,
   the owner's existing domain, N0, the cost collector's role and global Claude inference, below.
+- **Answered 5 November 2026 (MP-184):** three more SCPs (MP40-Q4), no private network at launch (MP40-Q7) and the
+  Anthropic admin key (MP40-Q5), below.
 - **Proposed:** the boundary matrix and the policy details on this page. That needs the owner's answers to the questions at the end, and none of
   it is built. IaC stays plan-only (AGENTS.md, `.claude/rules/aws-changes.md`).
 
@@ -21,9 +23,9 @@ dollar and 20% tax, and cash counts in the month an invoice is due.
 | Accounts | Separate dev and prod AWS accounts (ARC-11) | [Direction summary](../ma-reconciliation-2026-11-02/direction-summary.md) |
 | IaC (3 Nov) | **Terraform only**, from day one: every AWS change goes through Terraform | Decision log; `.claude/rules/aws-changes.md` |
 | Secrets (3 Nov) | SSM Parameter Store SecureString, with no per-secret fee | Decision log |
-| Guard rails (3 Nov) | Organizations with all features, and the cost-guard SCP. The Region allowlist SCP and the RCPs are not adopted | Decision log |
+| Guard rails (3 Nov) | Organizations with all features, and the cost-guard SCP. The Region allowlist SCP and the RCPs are not adopted. Answered 5 November 2026 (MP-184): MP40-Q4, 5 November 2026 (MP-184): the owner picked "Add all three" (by the owner's words in chat, "for the remaining pick up recommended options"). The option read: "The three policies join the cost guard in Terraform, and they bind the dev and prod accounts." | Decision log; [answers](../owner-question-pack-2026-11-05/answers.json) |
 | Domain (3 Nov) | The owner's existing domain, **mypaisapp.com**, renewed outside MP, so the cost model's domain line comes out | Decision log |
-| Network (3 Nov) | **N0**: no VPC for any Lambda, SageMaker training with network isolation, no NAT, endpoint, proxy or VPN; the lockdown is decided at PH-08 | Decision log |
+| Network (3 Nov) | **N0**: no VPC for any Lambda, SageMaker training with network isolation, no NAT, endpoint, proxy or VPN; the lockdown is decided at PH-08. Answered 5 November 2026 (MP-184): MP40-Q7, 5 November 2026 (MP-184): the owner picked "Stay with no private network" (by the owner's words in chat, "for the remaining pick up recommended options"). The option read: "Sign-in, permissions and each worker's allowed hosts stay the controls, with no VPC." | Decision log; [answers](../owner-question-pack-2026-11-05/answers.json) |
 | Cost collector (3 Nov) | A read-only Cost Explorer role in the management account, assumed by the prod collector | Decision log |
 | Claude inference (3 Nov) | Global, at the standard price | Decision log |
 
@@ -64,7 +66,8 @@ dollar and 20% tax, and cash counts in the month an invoice is due.
   require a VPC endpoint.
 - **No NAT, interface endpoint, proxy or VPN is enabled.** A NAT Gateway alone costs $33 to $37 a month in hours,
   against at most £3.36 of headroom in the £22 AWS share. Each lockdown step is costed on the perimeter page and
-  decided at PH-08.
+  decided at PH-08. Answered 5 November 2026 (MP-184): MP40-Q7 "Stay with no private network", so none is taken at
+  launch.
 - **What N0 cannot do:** stop a Lambda's outbound traffic by network rules. Egress is controlled by each worker's host
   allowlist in code and by IAM, so the boundary matrix below is the main control. A VPN does not replace sign-in:
   every request is still authenticated by Cognito and checked by the API.
@@ -82,6 +85,10 @@ dollar and 20% tax, and cash counts in the month an invoice is due.
   - deny root actions;
   - a cost guard that denies NAT gateways, interface endpoints, VPNs, load balancers, SageMaker endpoints and GPU
     instances until an ADR lifts it.
+
+  The owner adopted the cost guard on 3 November 2026 and not the Region allowlist. Answered 5 November 2026
+  (MP-184): MP40-Q4 "Add all three", so keep CloudTrail on, deny root actions and forbid leaving the organisation join
+  it. Whether a rare root task gets harder is unverified.
 - **Resource control policies (RCPs)** stop principals outside the organisation reaching S3, SQS, KMS, Secrets
   Manager, STS, DynamoDB, CloudWatch Logs, Cognito, EventBridge and X-Ray. AWS service principals are excepted.
 - **Limits:** SCPs and RCPs do not apply to the management account or to service-linked roles, and both need all
@@ -137,7 +144,7 @@ Every role writes only its own logs and traces, and may use only its own environ
 | Inference Lambda | Read market data; append-only writes to forecasts | Read `artefacts/approved/` | None | Called by the daily run | None | None | Overwriting forecasts, secrets |
 | Training orchestrator | Append to audit | None | None | n/a | Start training jobs only on `ml.m5.large`, with network isolation and a runtime cap; pass only the training role | None | Endpoints, notebooks, GPUs, VPC settings |
 | Training job | None | Read `training/`; write `artefacts/candidates/` | None | n/a | Network-isolated | None | `artefacts/approved/` (the owner promotes models in the app) |
-| Billing collector (prod only) | Write the cost table | None | The Anthropic admin key, if adopted | Daily | None | Anthropic usage endpoints | The data plane |
+| Billing collector (prod only) | Write the cost table | None | The Anthropic admin key (adopted: MP40-Q5 "Adopt the key", 5 November 2026; its price and availability are unverified) | Daily for AWS billing; every six hours for Anthropic usage (MP40-Q5) | None | Anthropic usage endpoints | The data plane |
 | Deploy role (GitHub OIDC, one per account) | None | None | Denied | Assume the CDK deploy roles only | None | n/a | Data reads; prod trusts only the release route the owner picks (PL-11) |
 | Owner (Identity Center) | Dev: full. Prod: describe only, no ledger reads | Dev: full. Prod: list only | Prod: denied | Prod: read only | Prod: describe | n/a | Prod ledger writes outside the app; break-glass admin needs MFA, lasts an hour and raises an alarm |
 

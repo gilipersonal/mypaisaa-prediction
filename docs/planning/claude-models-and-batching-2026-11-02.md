@@ -6,6 +6,9 @@ the credit policy MP makes zero Claude calls until the shared credit is verified
 Each route still has to pass its evaluation before it is switched on, and Opus keeps event analysis only if it beats
 Sonnet there.
 
+**Answered 5 November 2026 (MP-184):** OWN-04, 5 November 2026 (MP-184): the owner picked "Approve paid Claude at launch" (pressed on the page). The option read: "You approve paid use, so chat, research and explanations can run from day one, each route after passing its evaluation." Picking it does not turn Claude on: paid calls still need the
+owner's explicit word when the time comes. No paid fallback switches on by itself.
+
 **Revision 2, same day:** the owner asked where Opus fits, given the news and events to analyse. The first version
 had no route for deep event analysis, only for tagging. This revision adds that route and recomputes every option.
 
@@ -55,7 +58,7 @@ matter.
 | **Event analysis** | A few material items a day, picked by code | Yes, overnight | Reads the full document against what was already known: what changed, why it matters for the holding, second-order effects, what would prove it wrong. Cited, structured, point-in-time. |
 | Structured factors for the models | One set per listing a day | Yes: the forecast at +75 min uses factors frozen by the last batch | Turns triage and analysis into versioned model inputs |
 | Statement and screenshot extraction | A few a month | Partly: the owner waits for a preview | Tool-free; the result is only a draft |
-| Explanations and the 07:30 briefing | Daily | No | Cites versioned tool results, including stored event analyses |
+| Explanations and the 07:30 briefing | Daily; the briefing on weekdays only (MP40-Q11b "Weekdays only", 5 November 2026) | No | Cites versioned tool results, including stored event analyses |
 | Chat ("ask why") | On demand | No | Multi-turn with read-only tools; quotes a stored event analysis instead of redoing it |
 | Evaluation judges | Per change and sampled runs | Yes | Inspect AI organises them |
 

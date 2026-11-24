@@ -354,8 +354,8 @@ def rec_rules(s: str) -> str:
                 ["Coverage", "20 to 30 shares and ETFs across the US, UK and India", "Yahoo Finance and Twelve Data Grow, each listing checked for rights"],
                 ["Forecasts", "Ranges for 1 day, 5, 10, 20 trading days, 3, 6, 12 months", "Baselines first, then bounded challengers, qualified per task"],
                 ["Scenarios", "3 and 5-year downside, central and upside", "Editable assumptions that need approval; no implied likelihood"],
-                ["Monitoring", "Quote and risk checks every 30 minutes; a 07:30 briefing", "Push to the app and the PWA; quiet hours 22:00 to 07:00"],
-                ["Recommendations", "Add, hold, pause, trim, rebalance", "With reasons and uncertainty; MP abstains when the evidence is thin"]])
+                ["Monitoring", "Quote and risk checks every 30 minutes; a 07:30 briefing on weekdays (MP40-Q11b &quot;Weekdays only&quot;)", "Push to the app and the PWA; quiet hours 22:00 to 07:00. Critical covers security and service faults only, so investment alerts wait for 07:30 (MP40-Q11a &quot;Your lines, no investment wake-ups&quot;)"],
+                ["Recommendations", "Add, hold, pause, trim, rebalance", "With reasons and uncertainty; MP abstains when the evidence is thin. No label appears until evaluation supports the thresholds and you approve a ranking policy version (OWN-09 &quot;Evidence first&quot;)"]])
             + "<h2>⚖️ Which decision wins</h2><p>Current owner instructions, then the twelve policy answers, then the selected directions, then the drafts, then history.</p>"
             + footer())
 
@@ -437,7 +437,7 @@ def rec_forecast(s: str) -> str:
 
 
 def rec_claude(s: str) -> str:
-    return (banner("selected", "ARC-06 and ARC-06b, chosen 2 November 2026: option A, all routes. Activation still waits on the credit check and each route's evaluation.",
+    return (banner("selected", "ARC-06 and ARC-06b, chosen 2 November 2026: option A, all routes. Paid use at launch: OWN-04 &quot;Approve paid Claude at launch&quot; (5 November 2026, MP-184). Picking it does not turn Claude on: paid calls still need the owner's explicit word when the time comes. Each route also waits on its evaluation.",
                    ["docs/planning/claude-models-and-batching-2026-11-02.md"])
             + "<h2>🎬 Two lanes</h2>" + gif(s, "claude-routes", "Haiku triages overnight, Opus analyses a few events, Sonnet answers live.")
             + lucid(s, 4, "Claude routes, the batch lane and the gates around them.")
@@ -446,24 +446,26 @@ def rec_claude(s: str) -> str:
                 ["Event analysis, at most 3 a day", "<strong>Opus 5.5</strong>", "Batch"],
                 ["Model inputs from triage and analysis", "Haiku 5.5", "Batch"],
                 ["Statement and screenshot extraction", "Haiku 5.5", "Live"],
-                ["Explanations and the 07:30 briefing", "Sonnet 5.5", "Live"],
+                ["Explanations and the 07:30 briefing (the briefing on weekdays, MP40-Q11b &quot;Weekdays only&quot;)", "Sonnet 5.5", "Live"],
                 ["Chat, ask why", "Sonnet 5.5", "Live"],
                 ["Grading answers for evaluations", "Sonnet 5.5", "Batch"]])
             + cols(card("money_with_wings", "#FFFAE6", "About £8.24 a month", "A normal month at the cost model's volumes, before caching. Batches are half price and stack with caching."),
-                   card("lock", "#FFEBE6", "Zero calls today", "No Claude call until the shared credit is verified. No paid fallback."))
+                   card("lock", "#FFEBE6", "Zero calls today", "No Claude call runs today. OWN-04 &quot;Approve paid Claude at launch&quot;: the option read &quot;You approve paid use, so chat, research and explanations can run from day one, each route after passing its evaluation.&quot; Picking it does not turn Claude on: paid calls still need the owner's explicit word when the time comes. No paid fallback switches on by itself."))
             + "<h2>❓ Still open</h2>" + ul(["The server-side refusal fallback on Sonnet and Opus.", "Daily caps on chat turns, tokens and tools.",
                                             "The measured event-analysis volume, added to the cost model."])
             + footer())
 
 
 def rec_identity(s: str) -> str:
-    return (banner("selected", "ARC-07 selects Cognito with assurance and freshness checks. Tier, session lengths and devices are proposed.",
+    return (banner("selected", "ARC-07 selects Cognito with assurance and freshness checks. Which acts need a fresh sign-in is owner-selected (OWN-39, 5 November 2026); tier, session lengths and devices are proposed.",
                    ["ARCHITECTURE.md"])
             + lucid(s, 6, "Sign-in, recovery and step-up for sensitive actions.")
             + table(["Topic", "Decision", "Status"], [
                 ["Sign-in", "Cognito with Google and passkeys; Sign in with Apple waits for the paid Apple Developer Program (owner, 3 November 2026)", lozenge("selected")],
                 ["Owner linking", "Verified linking and two independent recovery paths", lozenge("selected")],
-                ["Step-up", "Sensitive actions need a fresh, strong sign-in", lozenge("selected")],
+                ["Step-up", "Sensitive actions need a fresh, strong sign-in. Which acts: OWN-39 &quot;Anything that writes or widens&quot;: the option read &quot;Every act that changes a record, widens what MP may do or opens an original needs a fresh sign-in; reading and stopping do not. Both times are set from measured proof before the identity phase ends.&quot;", lozenge("selected")],
+                ["How recent a sign-in must be, and how fast a revoke works", "Both times are set from measured proof before the identity phase ends, then approved by the owner (OWN-39)", lozenge("open")],
+                ["Passkeys in a phone's browser", "ADM-04 &quot;Allowed in the browser&quot;: the option read &quot;The bar covers the Apple app only, so Phone web may enrol a passkey once a test proves it works.&quot; MP-197 tests it.", lozenge("selected") + " test " + lozenge("open")],
                 ["Approval window", "15 minutes to start the exact approved commit (POLICY-001)", lozenge("selected")],
                 ["Export links", "New downloads allowed for one hour (POLICY-011)", lozenge("selected")],
                 ["Tier, session lengths, device list", "To specify and price", lozenge("proposed")]])
@@ -539,6 +541,10 @@ def rec_cost(s: str) -> str:
                 ["Either, with the top-5 scan at its £5 cap", "£51.48 or £59.73"],
                 ["The Apple fee month, only if the owner joins (the one allowed exception)", "about £141.52 or £149.77, over the ceiling"]])
             + ul(["Warn at £60, reduce optional work at £75, pause it at £85.",
+                  "The owner's picks of 5 November 2026 (MP-184): OWN-36 &quot;Cut in a set order&quot;: the option read &quot;Code cuts backfills first, then challenger models, then Claude jobs, and says which step it reached.&quot; OWN-25 &quot;Daily forecasts keep running&quot;: the option read &quot;At £85 optional paid work stops and daily forecasts carry on. Cost paused shows only where a forecast needs that paid work.&quot; MP40-Q6 &quot;Approve all three&quot;: the option read &quot;Past 36 hours relevant optional work waits. Credit counts only with proof under 30 minutes old. The £15 above the £85 pause stays for sign-in, ledger reads, audit and recovery.&quot;",
+                  "The owner, 5 November 2026 (MP-184), asked whether daily forecasts run inside the £15 kept above £85: &quot;Yes, add them&quot;. The list of what the £15 covers now also holds daily forecasts.",
+                  "Paid use at launch: OWN-04 &quot;Approve paid Claude at launch&quot;: the option read &quot;You approve paid use, so chat, research and explanations can run from day one, each route after passing its evaluation.&quot; Picking it does not turn Claude on: paid calls still need the owner's explicit word when the time comes.",
+                  "Claude usage and cost: MP40-Q5 &quot;Adopt the key&quot;: the option read &quot;The prod collector alone reads it from secure storage every six hours and fills the Claude line. Ready stands.&quot; The key's price, and whether the account can have one, are unverified.",
                   "Cash is counted in the month an invoice is due. No paid fallback switches on by itself.",
                   "The shared $200 Claude credit is owner-reported and unverified; admissible credit is zero.",
                   "The domain is the owner's existing mypaisapp.com, renewed outside MP, so no month carries a domain renewal (owner, 3 November 2026).",
@@ -607,7 +613,7 @@ def rec_observability(s: str) -> str:
                         "An SNS topic per environment to the owner's email (proposed), a run record with trigger <em>alarm</em>, and an incident in Admin. "
                         "A downstream outage is one incident with its symptoms linked, not ten messages. An OK closes it without erasing it."),
                    card("chart_with_upwards_trend", "#E3FCEF", "Investment alerts",
-                        "Material risk and opportunity alerts go through the product: push to the app and the PWA, the 07:30 briefing, quiet hours 22:00 to 07:00. "
+                        "Material risk and opportunity alerts go through the product: push to the app and the PWA, the 07:30 briefing on weekdays, quiet hours 22:00 to 07:00 (MP40-Q11a &quot;Your lines, no investment wake-ups&quot;, MP40-Q11b &quot;Weekdays only&quot;, OWN-34 &quot;Once in 24 hours&quot;). "
                         "They never use the operations topic, and a failed provider can never send a confident all-clear (CT-18)."))
             + table(["Alarm (proposed)", "Prod", "Dev"], [
                 ["Any Lambda error, from the account-wide metric", "✓", "✓"],
@@ -623,7 +629,7 @@ def rec_observability(s: str) -> str:
                   "Internal estimates live, Anthropic usage every six hours, AWS billing daily, with the lag shown.",
                   "Dev and prod shown apart; estimates, credits and reconciled billing kept separate.",
                   "The dashboard reads cached figures; opening it never calls a billing API. AWS collection is capped at 120 Cost Explorer pages a month ($1.20).",
-                  "Shared and unallocated costs are shown as such, and a missing or stale report is never a fresh zero. An AWS report older than 36 hours blocks optional work (proposed)."])
+                  "Shared and unallocated costs are shown as such, and a missing or stale report is never a fresh zero. Past 36 hours relevant optional work waits (MP40-Q6 &quot;Approve all three&quot;, 5 November 2026)."])
             + f"<p>The ceiling and the ladder: {link('rec-cost')}. The Costs screen itself belongs to {link('rec-admin')}.</p>"
             + "<h2>🔒 Redaction</h2>"
             + ul(["Never in a log, span or metric: secrets, tokens, prompts, replies, holdings amounts, names, account numbers, file names, signed URLs or tool arguments.",
@@ -670,7 +676,7 @@ def rec_observability(s: str) -> str:
                 "Sampled X-Ray, or every span through Transaction Search, and the per-environment telemetry envelope (PL-12, MP-27).",
                 "The run record schema, the stuck-run thresholds, and what is content versus metadata (CT-05, MP-27).",
                 "The minimum launch signals: the eight metrics, six alarms and sampling rates above (CT-06, MP-27).",
-                "Whether email is the operations emergency channel; which investment conditions are critical, the cooldowns and weekends (CT-18, MP-30).",
+                "Whether email is the operations emergency channel, the value of each alert line (MP40-Q11a &quot;Your lines, no investment wake-ups&quot;), and which security and service faults count as critical (CT-18, MP-30).",
                 "Whether Application Signals, a CloudWatch dashboard or a composite alarm earns its cost after a measured month in dev."]))
             + f"<p><strong>Phases:</strong> {link('ph-02', 'PH-02')} builds the run record, traces, logs, metrics and cost collection; {link('ph-05', 'PH-05')} adds the Claude spans and evaluation evidence; "
             + f"{link('ph-07', 'PH-07')} routes investment alerts to push; {link('ph-08', 'PH-08')} accepts the whole as operational.</p>"
@@ -975,7 +981,7 @@ def rec_web_quality(s: str) -> str:
 
 def rec_apple_testing(s: str) -> str:
     checked = "checked 2 Nov 2026"
-    return (banner("proposed", "A proposal. No Apple app exists, no screen is designed and the supported devices are not agreed (PL-14, MP-30). "
+    return (banner("proposed", "A proposal. No Apple app exists and no screen is designed. Supported devices, owner-selected 5 November 2026 (MP-184): MP40-Q12a &quot;Your own devices only&quot; and MP40-Q12b &quot;Any window width&quot;; the models are not yet given. "
                    "Testing on simulators costs nothing. For now the owner has chosen no paid Apple Developer Program (3 November 2026): the app runs as free local builds that expire after 7 days, so no TestFlight, Apple push or Sign in with Apple until the Developer Program is bought (MP-179).",
                    ["ARCHITECTURE.md", "AGENTS.md", "docs/planning/ma-reconciliation-2026-11-02/gap-register.json"])
             + gif(s, "device-matrix", "A Maestro flow across iPhone and iPad sizes, then a free local build on the owner's devices; TestFlight later, if the owner joins.")
@@ -986,7 +992,9 @@ def rec_apple_testing(s: str) -> str:
                  "ARC-10, AGENTS.md, ARCHITECTURE.md §11", lozenge("selected")],
                 ["The React Native shell owns navigation and typed bridge contracts only", "ARC-10, AGENTS.md", lozenge("selected")],
                 ["Shared API and event schemas are tested on both sides of every boundary", "AGENTS.md", lozenge("selected")],
-                ["Supported iOS and iPadOS versions, devices, and what &quot;Duo&quot; means", "PL-14 (MP-30); TECH-STACK.md §5", lozenge("open")],
+                ["Supported devices: MP40-Q12a &quot;Your own devices only&quot;: the option read &quot;Support and test the iPhone and iPad you own, at the iOS they run. You give the models.&quot;", "PL-14 (MP-30); TECH-STACK.md §5", lozenge("selected") + " models " + lozenge("open")],
+                ["What &quot;Duo&quot; means: MP40-Q12b &quot;Any window width&quot;: the option read &quot;The Apple app lays out by window width, so a narrow iPad window uses the phone layout.&quot;", "PL-14 (MP-30); TECH-STACK.md §5", lozenge("selected")],
+                ["Native features at launch: MP40-Q13 &quot;Widgets and share first&quot;: the option read &quot;Widgets and statement sharing come at launch, and Spotlight, Siri and Live Activities are recorded as later.&quot;", "PL-14 (MP-30); TECH-STACK.md §5", lozenge("selected") + " free builds " + lozenge("open")],
                 ["Android screens stay out of the release; the shell does not imply an Android app", "L7-S04", lozenge("proposed")]])
             + "<h2>🧪 Three layers, cheapest first</h2>"
             + table(["Layer", "Tool", "Runs on", "Cost", "Status"], [
@@ -1014,7 +1022,7 @@ def rec_apple_testing(s: str) -> str:
                 ["iPhone, portrait and landscape", "The compact layout; nothing clipped", lozenge("proposed")],
                 ["iPad portrait, landscape, Split View and Stage Manager widths", "The layout for each agreed width band", lozenge("proposed")],
                 ["Rotation in the middle of a journey", "A half-typed question or an open import approval survives with no lost input", lozenge("proposed")],
-                ["Which devices and versions are in the matrix", "Set by PL-14 (MP-30)", lozenge("open")]])
+                ["Which devices and versions are in the matrix", "The owner's own iPhone and iPad at the iOS they run (MP40-Q12a); the models are not yet given", lozenge("selected") + " models " + lozenge("open")]])
             + "<h2>♿ VoiceOver, Dynamic Type and the other settings</h2>"
             + table(["Check", "How", "Status"], [
                 ["Dynamic Type, smallest to the largest accessibility size", "<code>xcrun simctl ui</code> sets the size before a Maestro run; figures and the Confirm button stay whole", lozenge("proposed")],
@@ -1049,7 +1057,7 @@ def rec_apple_testing(s: str) -> str:
             + "<p>The repository is public, so GitHub's standard runners, macOS included, cost nothing (GitHub docs, checked 24 November 2026). "
             + "Local first still holds: simulator runs stay on the owner's Mac until the owner chooses otherwise (MP-199).</p>"
             + panel("hourglass", "#FFFAE6", "<p><strong>To decide</strong></p>" + ul([
-                "Supported iOS and iPadOS versions, devices and what &quot;Duo&quot; means: PL-14 (MP-30).",
+                "The iPhone and iPad models, which the owner gives (MP40-Q12a), and whether widgets and statement sharing work on free seven-day builds (MP40-Q13): PL-14 (MP-30).",
                 "Whether and when to join the Apple Developer Program. Its fee month is allowed above £100 as a one-off exception (owner, 2 November 2026): PL-11 (MP-30).",
                 "The Mac CI budget: £0 either way now; whether simulator runs stay on the owner's Mac or move to free macOS runners: PL-11 (MP-30), MP-199.",
                 "The test-ID prefix and where the shared dictionary lives: PL-14 (MP-30).",
@@ -1065,7 +1073,7 @@ def rec_perimeter(s: str) -> str:
     """🧱 Optional VPC lockdown, data perimeter and costing (PROPOSED). MP-36; adapted from MA's page 3670133."""
     price_list = "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/index.json"
     return (banner("proposed", "Nothing here is deployed. The owner approved N0, a perimeter without a VPC, on 3 November 2026. "
-                   "The lockdown is optional, off by default and decided late. The Region is Virginia (us-east-1), owner-selected "
+                   "On 5 November 2026 (MP-184) the owner kept it for launch: MP40-Q7 &quot;Stay with no private network&quot;: the option read &quot;Sign-in, permissions and each worker's allowed hosts stay the controls, with no VPC.&quot; The optional lockdown below is not taken at launch. The Region is Virginia (us-east-1), owner-selected "
                    "on 2 November 2026 (PL-10, MP-29); London is shown alongside for comparison.",
                    ["ARCHITECTURE.md", "AGENTS.md",
                     "docs/planning/layered-development-2026-11-01/network-topology-options.md",
@@ -1086,7 +1094,7 @@ def rec_perimeter(s: str) -> str:
                  "$0", lozenge("selected")],
                 ["AWS Organizations, all features", "Owner-selected 3 November 2026. Needed for the guard rails below; consolidated billing alone cannot hold them. The management account runs nothing, because they do not apply to it.",
                  "$0", lozenge("selected")],
-                ["Service control policies", "A cost guard (owner-selected): no NAT, interface endpoints, VPN, load balancers, SageMaker endpoints or GPUs until an ADR lifts it. Proposed alongside: never stop CloudTrail, never leave the organisation. A Region allowlist is not adopted.",
+                ["Service control policies", "A cost guard (owner-selected): no NAT, interface endpoints, VPN, load balancers, SageMaker endpoints or GPUs until an ADR lifts it. Three more (owner, 5 November 2026, MP-184): keep CloudTrail on, deny root actions, forbid leaving the organisation; MP40-Q4 &quot;Add all three&quot;: the option read &quot;The three policies join the cost guard in Terraform, and they bind the dev and prod accounts.&quot; Whether a rare root task gets harder is unverified. A Region allowlist is not adopted.",
                  "$0", lozenge("selected")],
                 ["Resource control policies", "Would cap who can reach MP's S3, KMS, SSM, SQS and STS. Not adopted (owner, 3 November 2026): each bucket, key and queue policy carries the conditions itself.",
                  "$0", lozenge("selected") + " not adopted"],
@@ -1120,13 +1128,13 @@ def rec_perimeter(s: str) -> str:
             + "<p>Each step is stricter or dearer than the one before. N1 and N1-E are the options in MP's network appendix.</p>"
             + table(["Step", "What it adds", "Network option", "Status"], [
                 ["L1 Private jobs only", "Two private subnets with free S3 and DynamoDB gateway endpoints, for a job that never calls out. No internet route. Everything else stays outside.",
-                 "N1", lozenge("proposed") + " only for a proven need"],
+                 "N1", "Not taken at launch (MP40-Q7)"],
                 ["L2 Lean lockdown", "Every Lambda in the VPC. One small NAT instance (t4g.nano, run and patched by us) per zone carries calls to Claude, the data providers and AWS APIs.",
-                 "N1-E", lozenge("open")],
+                 "N1-E", "Not taken at launch (MP40-Q7)"],
                 ["L3 Managed lockdown", "As L2, with an AWS managed NAT Gateway per zone instead of the instance. Nothing to patch, a much higher floor.",
-                 "N1-E", lozenge("open")],
+                 "N1-E", "Not taken at launch (MP40-Q7)"],
                 ["L4 Strict lockdown", "As L3, plus four interface endpoints (SSM, SQS, STS, KMS) so calls to AWS never leave through the NAT.",
-                 "N1-E", lozenge("open")]])
+                 "N1-E", "Not taken at launch (MP40-Q7)"]])
 
             + "<h2>💷 What each step costs a month</h2>"
             + "<p>Extra AWS cost on top of MP's baseline, before data volume beyond the stated assumption. "
@@ -1154,16 +1162,13 @@ def rec_perimeter(s: str) -> str:
                 "Baseline AWS run rates are the cost specification's: $19.42 in Virginia and $19.90 in London, with no free tier deducted."]))
 
             + "<h2>🧭 The recommendation</h2>"
-            + panel("white_check_mark", "#E3FCEF", "<p>Build the baseline perimeter, with no VPC (N0). Keep the lockdown <strong>off by default</strong>. "
-                    "Use L1 only if a job is shown to need a private network. Decide the lockdown last, at PH-08, from measured traffic and the security "
-                    "evidence of that phase. Any paid step needs a revised cost model and an ADR first. None of the steps is selected. "
-                    "The owner approved N0, with Organizations on all features and the cost-guard SCP, on 3 November 2026.</p>")
+            + panel("white_check_mark", "#E3FCEF", "<p>Build the baseline perimeter, with no VPC (N0). "
+                    "The owner approved N0, with Organizations on all features and the cost-guard SCP, on 3 November 2026, and kept it for launch on "
+                    "5 November 2026 (MP-184): MP40-Q7 &quot;Stay with no private network&quot;: the option read &quot;Sign-in, permissions and each worker's allowed hosts stay the controls, with no VPC.&quot; None of the steps is selected. Any paid step needs a revised cost model and an ADR first.</p>")
             + panel("question", "#FFFAE6", "<p><strong>To decide</strong></p>" + ul([
-                "Whether any job, such as private SageMaker training, needs L1 (PL-10, MP-29; PL-07, MP-24).",
-                "One customer managed key per account, or AWS keys only (PL-10, MP-29).",
-                "Whether the lockdown is turned on, and which step, as part of release evidence (PL-11, MP-30)."]))
+                "One customer managed key per account, or AWS keys only (PL-10, MP-29)."]))
             + "<p><strong>Phases:</strong> PH-00 settles the network option and Region; PH-02 builds the baseline perimeter with the private runtime; "
-              "PH-08 decides the lockdown; a deferred lockdown can return as a PH-09 extension.</p>"
+              "no lockdown step is taken at launch (MP40-Q7); a later one would be a PH-09 extension with its own decision.</p>"
             + "<p>See also " + link("rec-system") + ", " + link("rec-cost") + " and " + link("rec-identity") + ".</p>"
             + footer())
 
@@ -1182,7 +1187,7 @@ def rec_stack(s: str) -> str:
                 ["Web (ARC-10)", "SvelteKit 3 with the static adapter, built once and served from private S3 through CloudFront; a service worker for the PWA and Web Push",
                  "No server rendering. Every private read or command is an authenticated call to <code>/api/v1</code>", lozenge("selected")],
                 ["Apple", "SwiftUI owns the screens, local persistence, widgets, Keychain and notifications; a React Native shell owns navigation",
-                 "The bridge carries typed messages only, never a secret. Swift, not the shell, keeps the offline cache", lozenge("selected") + " device matrix " + lozenge("open")],
+                 "The bridge carries typed messages only, never a secret. Swift, not the shell, keeps the offline cache", lozenge("selected") + " device matrix " + lozenge("selected") + " (MP40-Q12a, MP40-Q12b; models " + lozenge("open") + ")"],
                 ["API", "FastAPI with Pydantic v2 models at every boundary; Uvicorn locally",
                  "Routes under <code>/api/v1</code>; a schema in and out, never a storage record", lozenge("implemented") + " health route and sample SSE, locally"],
                 ["API on AWS", "The same app on ordinary Lambda behind API Gateway, through a Lambda adapter in buffered mode, and in streaming mode for the SSE route",
