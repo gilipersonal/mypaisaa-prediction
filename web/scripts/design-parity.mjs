@@ -34,11 +34,12 @@ const SHOW = Number(opt('--show', '40'));
 
 /**
  * The pairs, one file per screen group in tests/parity/*.json: [{ name, journey, option, screen, path }], where path is the
- * app address, or an object from the design's state id to the address when the design shows a different instrument per state.
+ * app address, or an object from the design's state id to the address when the design shows a different instrument per state,
+ * and storage is what the device holds when the design draws the screen (the privacy centre is drawn with amounts hidden).
  */
 export const PAIRS = readdirSync(join(web, 'tests', 'parity')).filter((f) => f.endsWith('.json')).sort()
   .flatMap((f) => JSON.parse(readFileSync(join(web, 'tests', 'parity', f), 'utf8')))
-  .map((p) => [p.name, p.journey, p.option, p.screen, p.path]);
+  .map((p) => [p.name, p.journey, p.option, p.screen, p.path, p.storage ?? {}]);
 /* the browser's viewport for each design device: desktop web less its 38 px window bar, phone web less its 54 px status bar */
 const SIZE = { web: { width: 1200, height: 912 }, pwa: { width: 390, height: 790 } };
 /* parts of a design frame that are the device, not the app: the window bar, the status bar, the island, the home indicator, the backdrop */
@@ -130,7 +131,7 @@ try {
     await ap.goto(`${BASE}/signin?next=%2F`);
     await ap.getByRole('button', { name: 'Continue with a passkey' }).click();
     await ap.waitForURL((u) => !u.pathname.startsWith('/signin'));
-    for (const [name, j, o, sid, path] of PAIRS) for (const state of STATES) {
+    for (const [name, j, o, sid, path, storage] of PAIRS) for (const state of STATES) {
       if (ONLY && !ONLY.includes(name)) continue;
       const where = `${name} ${surface} ${state} ${theme}`;
       const idx = await dp.evaluate(([j, o, sid]) => {
@@ -150,6 +151,8 @@ try {
       if (!appState) { console.log(`FAIL ${where}: the app has no ${state} state to compare`); failed++; continue; }
       const at = typeof path === 'string' ? path : path[state];
       if (!at) { console.log(`FAIL ${where}: no app address for the ${state} state`); failed++; continue; }
+      // the device state the design screen is drawn in (a pair's `storage`, as { key: value }), set before the page loads
+      await ap.evaluate((st) => { for (const k of Object.keys(localStorage)) if (k.startsWith('mp-hide')) localStorage.removeItem(k); for (const [k, v] of Object.entries(st)) localStorage.setItem(k, v); }, storage);
       await ap.goto(`${BASE}${at}${appState === 'ready' ? '' : `${at.includes('?') ? '&' : '?'}data=${appState}`}`);
       await ap.getByRole('heading', { level: 1 }).first().waitFor();
       if (appState !== 'loading') await ap.waitForFunction(() => !document.querySelector('[aria-busy="true"]'));

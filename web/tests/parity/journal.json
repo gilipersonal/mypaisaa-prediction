@@ -32,6 +32,9 @@
     "journey": "privacy",
     "option": "a",
     "screen": "privacy-a-centre",
-    "path": "/settings/privacy"
+    "path": "/settings/privacy",
+    "storage": {
+      "mp-hide-amounts": "1"
+    }
   }
 ]
