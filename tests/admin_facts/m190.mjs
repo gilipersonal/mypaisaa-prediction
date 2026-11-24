@@ -149,7 +149,9 @@ export default {
   'MP190-alerts': ({ each, view, has, lacks }) => {
     for (const [o, s] of [['a', 'aa-policies'], ['b', 'ab-new']]) each({ journey: 'approvals', option: o, screen: s, state: ['default', 'empty', 'stale', 'offline'], surface: WIDE }, (v, at) => {
       const w = `${s} ${at.surface} ${at.state}`;
-      has(v.text, /Material\s*A line you set, crossed: exposure, price move, volatility or an event flag\s*Critical\s*Security and service faults only/, `${w}: material and critical`);
+      has(v.text, /Material\s*A line you set, crossed: exposure, price move, volatility or an event flag\s*Critical\s*Only these: a sign-in, passkey or recovery you did not start; a device revoke that fails; production lost; a failed backup or ledger write/, `${w}: material and critical (MP203-03)`);
+      lacks(v.text, /Security and service faults only/, `${w}: the old Critical line, before "A short named list" (MP203-03)`);
+      has(v.text, /"Never for investment alerts", so an investment alert never breaks quiet hours\. It waits for 07:30\.[\s\S]*"A short named list" for Critical, and the four faults on it are proposed\. Only they break quiet hours\./, `${w}: MP203-02 and MP203-03`);
       has(v.text, /Held alerts arrive\s*With the 07:30 brief on weekdays\. In your inbox at 07:30 at the weekend/, `${w}: the weekend`);
       has(v.text, /Repeat push\s*Once in 24 hours per holding, rule and severity, sooner if it worsens or the cause is new/, `${w}: the cooldown`);
       has(v.text, /You picked "Your lines, no investment wake-ups"[\s\S]*"Once in 24 hours"[\s\S]*Each line still needs a value from you, and no record sets one yet, so nothing is here to approve\.[\s\S]*proposed in "Weekdays only" itself/, `${w}: the picks and what stays open`);

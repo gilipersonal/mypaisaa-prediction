@@ -308,7 +308,7 @@
     return card(`${head('Rollback rehearsals', ctx.state === 'partial' ? chip('stale', 'Partial', 'clock') : chip('', 'Passed', 'check'))}${kv(rows)}${note('Rehearsed on dev. A rollback never deletes a forecast, an outcome or an audit record.')}${refused('R13', 'A rollback is never rehearsed in prod.')}`);
   };
   const gateChip = ctx => ({ stale: chip('stale', 'Stale', 'clock'), conflict: chip('error', 'Blocked: drift', 'alert'), error: chip('error', 'Blocked: failed exercise', 'alert'), partial: chip('stale', 'Incomplete: evidence missing', 'clock') }[ctx.state] || chip('', 'Green', 'check'));
-  const OUTSIDE = 'Starting a prod release happens in GitHub, in a workflow only you can start. Waiving a gate happens in your own words, on the release evidence. Neither happens in MP.';
+  const OUTSIDE = 'A merge to main starts a prod release, and it waits in GitHub\'s production environment for your approval. You approve it in GitHub, and waive a gate in your own words, on the release evidence. Neither happens in MP.';
   const releaseCard = ctx => card(`${head('Release', gateChip(ctx))}${kv([['Current', 'rel_0031'], ['Rollback', 'Lambda alias, to the previous release'], ['Gate report', ctx.state === 'stale' ? 'Older than this release' : ctx.state === 'partial' ? 'Rollback readiness missing' : 'All gates reported'], ['Live model gate', 'Separate, in Models']])}${note('A missing or failed gate is never green.')}${note(OUTSIDE)}`);
   const T_REC = {
     what: 'Recovery', rows: 4, loading: 'Reading exercises, rehearsals and the release.',
@@ -425,9 +425,9 @@
   }
   function releaseSteps(ctx) {
     return steps('Release and rollback', [
-      st(1, 'done', 'ci', 'Build once, deploy to dev', 'One artefact from main, with its evidence attached. A green dev deploy never starts a prod release.'),
+      st(1, 'done', 'ci', 'Build once, deploy to dev', 'One artefact from main, with its evidence attached. A green dev deploy never reaches prod without your approval.'),
       st(2, ['stale', 'partial', 'conflict', 'error'].includes(ctx.state) ? 'warn' : 'done', 'ci', 'Gate report', `${plain(gateChip(ctx))}. A missing or failed gate is never green, and the live model gate stays separate.`),
-      st(3, '', 'out', 'Start the release', 'In GitHub, in a workflow only you can start. Its evidence holds the commit, the artefact hash, the gates, the plan and your start.'),
+      st(3, '', 'out', 'Approve the release', 'A merge to main starts it, and it waits in GitHub\'s production environment for your approval. Its evidence holds the commit, the artefact hash, the gates, the plan and your approval.', tags(settled('MP203-08'))),
       st(4, '', 'out', 'Waive a gate, if you must', 'In your own words, on the release evidence. There is no control for this in MP.'),
       st(5, '', 'code', 'Roll back', 'A failed prod deploy rolls back by Lambda alias to the previous release, and history stays.'),
       st(6, '', 'you', 'Switch forward again', 'That needs your yes. For a model, it is in Models and evaluations.', list(opens('fan', 'Models and evaluations', 'R1-LGB v2 reverted to v1, Mon 22:20')))

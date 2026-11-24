@@ -703,7 +703,7 @@ footer p + p { margin-top: 8px; }
           <div class="row"><dt>Models</dt><dd><b>SageMaker</b> CPU training, two capped campaigns a month, network-isolated · <b>Lambda</b> inference<span class="st s">SELECTED</span></dd></div>
           <div class="row"><dt>Claude</dt><dd><b>Haiku 5.5 · Opus 5.5 · Sonnet 5.5</b> through the Anthropic API; batch what can wait<span class="st s">SELECTED</span></dd></div>
           <div class="row"><dt>Ops</dt><dd><b>SSM Parameter Store</b> for secrets · <b>CloudWatch</b> and <b>X-Ray</b> through ADOT<span class="st p">PROPOSED</span></dd></div>
-          <div class="row"><dt>Delivery</dt><dd><b>Terraform only</b> · GitHub OIDC · prod from a release workflow only the owner can start<span class="st s">SELECTED</span></dd></div>
+          <div class="row"><dt>Delivery</dt><dd><b>Terraform only</b> · GitHub OIDC · prod waits for the owner's approval in the GitHub production environment<span class="st s">SELECTED</span></dd></div>
           <div class="row"><dt>Place</dt><dd><b>us-east-1</b> · N0, no VPC · dev and prod under Organizations with a cost-guard SCP<span class="st s">SELECTED</span></dd></div>
         </dl>
       </div>
@@ -1069,8 +1069,8 @@ footer p + p { margin-top: 8px; }
   <div class="wrap">
     <div class="sec-head">
       <p class="eyebrow">Environments and delivery · MP-29, MP-30</p>
-      <h2 id="del-h">Terraform only, one artefact, prod from a workflow only the owner starts</h2>
-      <p>Every AWS change, from the first resource, goes through Terraform; IaC stays plan-only until an apply is asked for. One artefact is built once, tested in dev, and the same bytes go to prod. CI deploys; no laptop and no Claude session does. <span class="tag t-impl">Implemented</span> the ten required checks and secret scanning. <span class="tag t-prop">Proposed</span> the rest. <span class="tag t-sel">Owner-selected</span> 3 November 2026: a prod release runs from a release workflow that only the owner can start, on GitHub Free. This answers PL-11's release route. Since 24 November 2026 the repository is public, where GitHub Free offers environments with required reviewers; whether route A stands, or a protected environment replaces or joins it, is open for the owner (MP-199).</p>
+      <h2 id="del-h">Terraform only, one artefact, prod only with the owner's approval</h2>
+      <p>Every AWS change, from the first resource, goes through Terraform; IaC stays plan-only until an apply is asked for. One artefact is built once, tested in dev, and the same bytes go to prod. CI deploys; no laptop and no Claude session does. <span class="tag t-impl">Implemented</span> the ten required checks and secret scanning. <span class="tag t-prop">Proposed</span> the rest. <span class="tag t-sel">Owner-selected</span> 24 November 2026 (MP203-08, "An environment replaces route A"): a merge to main starts the release, which waits in the GitHub production environment for the owner's approval. It replaces the 3 November route, a release workflow only the owner started, chosen while the repository was private. Administrators can bypass environment rules by default.</p>
     </div>
     <div class="pipe-wrap"><span class="runner" aria-hidden="true"></span>
     <ol class="pipe" aria-label="The release pipeline, in order">
@@ -1078,7 +1078,7 @@ footer p + p { margin-top: 8px; }
       <li class="stg"><span class="ic"><svg aria-hidden="true"><use href="#g-terraform"/></svg></span><b>Terraform</b><span>fmt, validate, TFLint and Checkov now; <code>plan</code> with read-only credentials later</span><span class="tag t-sel">Terraform</span></li>
       <li class="stg"><span class="ic"><svg aria-hidden="true"><use href="#g-lambda"/></svg></span><b>Build once</b><span>Lambda packages and the static PWA, each with a sha256 and an SBOM</span><span class="tag t-prop">proposed</span></li>
       <li class="stg"><span class="ic"><svg aria-hidden="true"><use href="#g-shield"/></svg></span><b>Dev</b><span>GitHub OIDC into a dev-only role; synthetic smoke through the queue and workflow</span><span class="tag t-prop">proposed</span></li>
-      <li class="stg gate"><span class="ic"><svg aria-hidden="true"><use href="#g-person"/></svg></span><b>Owner starts the release</b><span>That exact sha256, from a release workflow only the owner can start (GitHub Free, PL-11)</span><span class="tag t-sel">selected</span></li>
+      <li class="stg gate"><span class="ic"><svg aria-hidden="true"><use href="#g-person"/></svg></span><b>Owner approves the release</b><span>That exact sha256, waiting in the GitHub production environment for the owner's approval (MP203-08, PL-11)</span><span class="tag t-sel">selected</span></li>
       <li class="stg"><span class="ic"><svg aria-hidden="true"><use href="#g-lock"/></svg></span><b>Prod</b><span>From CI on <code>main</code> only, into a separate prod role (ARC-11)</span><span class="tag t-sel">selected</span></li>
       <li class="stg"><span class="ic"><svg aria-hidden="true"><use href="#g-check"/></svg></span><b>Smoke or roll back</b><span>Read-only checks; a failure moves the <code>live</code> alias back</span><span class="tag t-prop">proposed</span></li>
     </ol></div>
