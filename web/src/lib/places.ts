@@ -61,7 +61,7 @@ export function pageTitle(pathname: string): string {
   const parts = pathname.split('/').filter(Boolean);
   if (parts[0] === 'holdings') return parts.length === 1 ? 'Holdings' : tickerOf(parts[1]!);
   if (parts[0] === 'settings' && parts[1] === 'privacy') return 'Privacy';
-  if (parts[0] === 'record' && parts[1] === 'track') return 'Track record';
+  if (parts[0] === 'record' && parts[1] === 'track') return ({ slice: '6 months', holding: 'By holding', model: 'By model', regime: 'By regime' } as Record<string, string>)[parts[2] ?? ''] ?? 'Track record';
   const place = placeOf(pathname);
   return place.id === 'record' ? 'Journal' : place.label;
 }

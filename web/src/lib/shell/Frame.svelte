@@ -32,13 +32,13 @@
 </script>
 
 <div class="jtop d-only">
-  {#if back}<a class="jback" href={back.href} aria-label="Back to {back.label}" style="font:400 15px/20px var(--font-text);text-decoration:none"><Icon name="chev-l" size="s18" /><span>{back.label}</span></a>{/if}
+  {#if back}<a class="jback" href={back.href} aria-label="Back to {back.label}" style="font:400 15px/20px var(--font-text);text-decoration:none;text-align:center"><Icon name="chev-l" size="s18" /><span>{back.label}</span></a>{/if}
   <h1 class="ttl">{title}</h1>
   <div class="acts"><FreshRow {state} mode={fresh} />{@render actions?.()}</div>
 </div>
 
 <div class="glass p-only" style="position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:10px;padding:8px 12px">
-  {#if back}<a class="jback" href={back.href} aria-label="Back to {back.label}" style="text-decoration:none"><Icon name="chev-l" size="s24" /></a>{:else}<span class="brand-mark" aria-hidden="true"></span>{/if}
+  {#if back}<a class="jback" href={back.href} aria-label="Back to {back.label}" style="text-decoration:none;text-align:center"><Icon name="chev-l" size="s24" /></a>{:else}<span class="brand-mark" aria-hidden="true"></span>{/if}
   <h1 style="font:600 17px/22px var(--font-text);letter-spacing:-.01em">{title}</h1>
   <span style="margin-left:auto;display:flex;gap:6px;align-items:center">{#if phoneActions}{@render phoneActions()}{:else}{@render actions?.()}{/if}</span>
 </div>

@@ -5,7 +5,7 @@
 // src/lib/prism/design.generated.css (git-ignored), so every rule the app draws with is the design's own and cascades
 // as it does on the design page. Nothing is copied by hand. With --check it fails if the written sheet is stale.
 // Fails closed: a source it cannot read or a block it cannot find stops the build (exit 2).
-import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -39,6 +39,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
       if (now !== css) { console.error('design-css: src/lib/prism/design.generated.css is stale; run node scripts/design-css.mjs'); process.exit(1); }
       console.log('design-css: the app draws with the design\'s own sheet');
     } else {
+      mkdirSync(dirname(OUT), { recursive: true });
       writeFileSync(OUT, css);
       console.log(`design-css: ${css.split('\n').length} lines from the design`);
     }

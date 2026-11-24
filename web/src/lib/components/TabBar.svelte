@@ -10,7 +10,7 @@
   <div class="tabbar" style="--i: {index}">
     <span class="lens" aria-hidden="true"></span>
     {#each TABS as t (t.id)}
-      <a class="tb" href={t.path} style="text-decoration:none" aria-current={t.id === lit.id ? 'page' : undefined}>
+      <a class="tb" href={t.path} style="text-decoration:none;text-align:center" aria-current={t.id === lit.id ? 'page' : undefined}>
         <Icon name={t.icon} size="s24" />{t.tabLabel ?? t.label}
       </a>
     {/each}

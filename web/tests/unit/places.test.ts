@@ -62,6 +62,9 @@ describe('page titles', () => {
     expect(pageTitle('/')).toBe('Portfolio');
     expect(pageTitle('/record')).toBe('Journal');
     expect(pageTitle('/record/track')).toBe('Track record');
+    expect(pageTitle('/record/track/slice')).toBe('6 months');
+    expect(pageTitle('/record/track/regime')).toBe('By regime');
+    expect(pageTitle('/record/track/x')).toBe('Track record');
     expect(pageTitle('/holdings')).toBe('Holdings');
     expect(pageTitle('/holdings/')).toBe('Holdings');
     expect(pageTitle('/holdings/nvda')).toBe('NVDA');

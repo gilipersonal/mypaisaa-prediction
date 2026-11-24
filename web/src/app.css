@@ -6,18 +6,20 @@
 .app { min-height: 100dvh; }
 main { display: block; min-width: 0; outline: none; }
 @media (min-width: 1024px) {
-  /* .jweb: the sidebar, then the pane */
-  .app { display: grid; grid-template-columns: var(--side-w) minmax(0, 1fr); }
-  /* The design's desktop frame is a .dev.win, and Prism's .win rule sets letter-spacing 0 on it, so its text is set at 0 where
-     no rule says otherwise; the phone web frame keeps the body's -.01em. The app draws as the design does (MP-205 parity). */
-  .app { letter-spacing: 0; }
-  .app > .side-nav { position: sticky; top: 0; height: 100dvh; overflow-y: auto; }
+  /* .jweb: the sidebar, then the pane, filling the window; the pane scrolls on its own, as the design's .jpane does */
+  .app { display: grid; grid-template-columns: var(--side-w) minmax(0, 1fr); height: 100dvh; }
+  /* The design's desktop frame is a .dev.win, so Prism's .win rules reach it: letter-spacing 0 and every <b> at 600 in ink.
+     The app's desktop root carries .win too (set by the layout from 1024 wide), and takes back what the design's .scr
+     sets over .win: no gap, 17/22 type, ink. */
+  .app.win { gap: 0; font-size: 17px; line-height: 22px; color: var(--ink); }
   .app > .tab-nav { display: none; }
   .p-only { display: none !important; }
 }
 @media (max-width: 1023.98px) {
   .app > .side-nav { display: none; }
   .d-only { display: none !important; }
+  /* the phone web frame scrolls the page itself and its pane draws no box of its own */
+  main.jpane { height: auto; overflow: visible; background: none; }
   /* the phone web frame: under the 62 px glass bar (116 less the device's 54 px status bar, which the browser draws) */
   main { padding-top: 62px; }
   /* .jbody, padding 0 12px: the body and then the rail, one column, 12 px apart */
