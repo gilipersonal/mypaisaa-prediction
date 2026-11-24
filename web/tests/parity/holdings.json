@@ -1,0 +1,23 @@
+[
+  {
+    "name": "holdings",
+    "journey": "holdings",
+    "option": "a",
+    "screen": "a-list",
+    "path": "/holdings"
+  },
+  {
+    "name": "holding",
+    "journey": "holdings",
+    "option": "a",
+    "screen": "a-one",
+    "path": {
+      "default": "/holdings/AAPL",
+      "loading": "/holdings/AAPL",
+      "error": "/holdings/AAPL",
+      "offline": "/holdings/AAPL",
+      "empty": "/holdings/NIFTYBEES",
+      "stale": "/holdings/HSBA"
+    }
+  }
+]

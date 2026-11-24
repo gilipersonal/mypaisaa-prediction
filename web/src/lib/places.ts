@@ -45,7 +45,34 @@ export function placeOf(pathname: string): Place {
   let end = pathname.length;
   while (end > 0 && pathname.charCodeAt(end - 1) === 47) end -= 1;
   const clean = pathname.slice(0, end) || '/';
-  return PLACES.find((p) => p.path === clean) ?? placeById('portfolio');
+  // A page inside a place lights that place: /settings/privacy is Settings. Anything else, /holdings among them, is
+  // reached from Portfolio and lights it (MP-205).
+  return PLACES.find((p) => p.path === clean)
+    ?? PLACES.find((p) => p.path !== '/' && clean.startsWith(p.path + '/'))
+    ?? placeById('portfolio');
+}
+
+/**
+ * The browser title for a path: it names the page its heading names (WCAG 2.4.2), not only the place it sits in.
+ * Record opens on the Journal (OWN-24); /holdings, one holding and the privacy centre sit inside Portfolio and
+ * Settings but are pages of their own (MP-205).
+ */
+export function pageTitle(pathname: string): string {
+  const parts = pathname.split('/').filter(Boolean);
+  if (parts[0] === 'holdings') return parts.length === 1 ? 'Holdings' : tickerOf(parts[1]!);
+  if (parts[0] === 'settings' && parts[1] === 'privacy') return 'Privacy';
+  if (parts[0] === 'record' && parts[1] === 'track') return ({ slice: '6 months', holding: 'By holding', model: 'By model', regime: 'By regime' } as Record<string, string>)[parts[2] ?? ''] ?? 'Track record';
+  const place = placeOf(pathname);
+  return place.id === 'record' ? 'Journal' : place.label;
+}
+
+/** A malformed escape in the address names the page as written rather than throwing in the layout. */
+function tickerOf(segment: string): string {
+  try {
+    return decodeURIComponent(segment).toUpperCase();
+  } catch {
+    return segment.toUpperCase();
+  }
 }
 
 export function tabOf(place: Place): Place {

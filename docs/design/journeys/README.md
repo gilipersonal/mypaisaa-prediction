@@ -10,7 +10,7 @@ Admin journeys are MP-64, not here. Nothing here is product code. The owner appr
 
 | File | What |
 | --- | --- |
-| `src/journeys/<id>.js` | One journey, registered with `J.add()`. Ids and order: home, holdings, forecast, research, journal, track, cost, approvals, privacy. Track record (MP-187) carries `picked: 'a'`: the owner picked A, Scorecard, on 24 Nov 2026, and B stays drawn, labelled not picked |
+| `src/journeys/<id>.js` | One journey, registered with `J.add()`. Ids and order: home, holdings, forecast, research, journal, track, cost, approvals, privacy, peek. Tap to show (`peek`, MP-205) is an options round on the hidden Home that privacy.js lends it through `J.kit.privacy`. Track record (MP-187) carries `picked: 'a'`: the owner picked A, Scorecard, on 24 Nov 2026, and B stays drawn, labelled not picked |
 | `src/journeys/<id>.css` | Layout only that journey needs, classes prefixed with its id. Prefer Prism's components. A component a picked option keeps goes into Prism first, under `.claude/rules/design-sync.md`, before anything is built |
 | `src/shell.*` | The page around the screens, the device chrome and the state helpers |
 | `build.py` | Takes tokens, components, icons, helpers and frames from `docs/design/prism/` as they stand, and writes `index.html` |

@@ -12,17 +12,20 @@
     "#lib/*": "./src/lib/*"
   },
   "scripts": {
-    "assets": "node scripts/assets.mjs",
+    "assets": "node scripts/assets.mjs && node scripts/sample.mjs && node scripts/design-css.mjs",
     "dev": "npm run assets && vite dev",
     "build": "npm run assets && vite build && node scripts/check-build.mjs",
     "preview": "vite preview --port 4173 --strictPort",
     "sync": "svelte-kit sync",
-    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --fail-on-warnings && tsc -p src/service-worker --noEmit && node scripts/prism-components.mjs --check",
-    "test": "svelte-kit sync && vitest run",
-    "e2e": "playwright test"
+    "check": "npm run assets && svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --fail-on-warnings && tsc -p src/service-worker --noEmit && node scripts/prism-components.mjs --check",
+    "test": "npm run assets && svelte-kit sync && vitest run",
+    "e2e": "playwright test",
+    "parity": "node scripts/design-parity.mjs --surface web,pwa --state default,loading,empty,error,stale,offline --theme light,dark --show 20"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.14.1",
+    "@fontsource/inter": "5.2.8",
+    "@fontsource/nunito": "5.2.7",
     "@playwright/test": "1.65.1",
     "@sveltejs/adapter-static": "4.0.1",
     "@sveltejs/kit": "3.4.0",

@@ -1,16 +1,31 @@
-/* The app's own layout. Colours, type, spacing and components all come from Prism (tokens.css and components.css). */
+/* The app's frame: what the design's device frames do (docs/design/journeys/src/shell.js frame(), shell.css .jweb and
+   .jbody) for a real browser window. Every component style is the design's own sheet (design.generated.css); this file
+   only places the sidebar, the pane and the tab bar, and switches between the desktop and the phone web frame. */
 .skip { position: absolute; left: 12px; top: -60px; z-index: 100; padding: 12px 16px; border-radius: var(--r-sm); background: var(--btn); color: var(--btn-ink); font: 600 15px/20px var(--font-text); text-decoration: none; }
 .skip:focus { top: 12px; }
 .app { min-height: 100dvh; }
-.app > .side-nav { display: none; }
-main { display: block; max-width: 960px; margin: 0 auto; padding: env(safe-area-inset-top, 0px) var(--gr) calc(var(--tab-h) + 24px) var(--gl); outline: none; }
+main { display: block; min-width: 0; outline: none; }
 @media (min-width: 1024px) {
-  .app { display: grid; grid-template-columns: var(--side-w) minmax(0, 1fr); }
-  .app > .side-nav { display: block; }
+  /* .jweb: the sidebar, then the pane, filling the window; the pane scrolls on its own, as the design's .jpane does */
+  .app { display: grid; grid-template-columns: var(--side-w) minmax(0, 1fr); height: 100dvh; }
+  /* The design's desktop frame is a .dev.win, so Prism's .win rules reach it: letter-spacing 0 and every <b> at 600 in ink.
+     The app's desktop root carries .win too (set by the layout from 1024 wide), and takes back what the design's .scr
+     sets over .win: no gap, 17/22 type, ink. */
+  .app.win { gap: 0; font-size: 17px; line-height: 22px; color: var(--ink); }
   .app > .tab-nav { display: none; }
-  main { padding: 24px 32px 48px; }
+  .p-only { display: none !important; }
 }
-a { color: var(--link); }
+@media (max-width: 1023.98px) {
+  .app > .side-nav { display: none; }
+  .d-only { display: none !important; }
+  /* the phone web frame scrolls the page itself and its pane draws no box of its own */
+  main.jpane { height: auto; overflow: visible; background: none; }
+  /* the phone web frame: under the 62 px glass bar (116 less the device's 54 px status bar, which the browser draws) */
+  main { padding-top: 62px; }
+  /* .jbody, padding 0 12px: the body and then the rail, one column, 12 px apart */
+  .jcols, .jcols.one { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; padding: 0 12px; }
+  .jcols > div { display: contents; }
+}
 @media (prefers-reduced-motion: no-preference) {
   .spin { animation: spin 800ms linear infinite; }
 }

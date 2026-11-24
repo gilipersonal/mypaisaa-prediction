@@ -1,0 +1,9 @@
+[
+  {
+    "name": "home",
+    "journey": "home",
+    "option": "a",
+    "screen": "a-portfolio",
+    "path": "/"
+  }
+]

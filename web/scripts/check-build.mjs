@@ -16,7 +16,11 @@ export const FORBIDDEN = [
   [/MP_[A-Z_]*(SECRET|TOKEN|PASSWORD)/, 'a private environment variable name'],
   [/"synthetic"\s*:\s*false|synthetic:\s*!1|synthetic:\s*false/, 'data that is not marked synthetic']
 ];
-export const PLACES = ['index.html', 'forecasts.html', 'segments.html', 'record.html', 'research.html', 'approvals.html', 'imports.html', 'sources.html', 'settings.html', 'signin.html'];
+export const PLACES = ['index.html', 'forecasts.html', 'segments.html', 'record.html', 'research.html', 'approvals.html', 'imports.html', 'sources.html', 'settings.html', 'signin.html',
+  // the read-only screens (MP-205): the privacy centre, the holdings list and each sample holding
+  'settings/privacy.html', 'holdings.html', ...['AAPL', 'NVDA', 'SPY', 'AZN', 'HSBA', 'RELIANCE', 'NIFTYBEES'].map((t) => `holdings/${t}.html`),
+  // the Track record and the screens its rows open
+  'record/track.html', ...['slice', 'holding', 'model', 'regime'].map((v) => `record/track/${v}.html`)];
 
 /** @param {string} dir @returns {string[]} */
 function walk(dir) {

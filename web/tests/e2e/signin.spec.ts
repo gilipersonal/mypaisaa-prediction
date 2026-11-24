@@ -47,7 +47,7 @@ test.describe('signing in', () => {
     for (const bad of ['//evil.example', 'https://evil.example', '/\\evil.example']) {
       await page.goto(`/signin?next=${encodeURIComponent(bad)}`);
       await passkey(page).click();
-      await expect(page).toHaveURL('http://localhost:4173/');
+      await expect(page).toHaveURL(/^http:\/\/localhost:\d+\/$/);
       await page.evaluate(() => sessionStorage.clear());
     }
   });
@@ -154,6 +154,9 @@ test.describe('accessibility', () => {
         await page.evaluate(() => sessionStorage.clear()).catch(() => {});
         await page.goto(sc ? `/signin?pretend=${sc}${sc === 'expired' ? '&reason=expired' : ''}` : '/signin');
         await expect(passkey(page)).toBeVisible();
+        // the design's buttons fade their colour when they turn on (180 ms): judge the page at rest, not mid-fade
+        await expect(passkey(page)).toBeEnabled();
+        await page.waitForFunction(() => document.getAnimations().every((a) => a.playState !== 'running'));
         const r = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze();
         expect(r.passes.length).toBeGreaterThan(0);
         expect(r.violations.map((v) => `${sc || 'default'}: ${v.id} ${v.nodes.map((n) => n.target.join(' ')).join(', ')}`)).toEqual([]);

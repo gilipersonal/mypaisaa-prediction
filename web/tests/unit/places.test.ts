@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { PLACES, TABS, childrenOf, placeOf, tabOf } from '../../src/lib/places';
+import { PLACES, TABS, childrenOf, pageTitle, placeOf, tabOf } from '../../src/lib/places';
 
 const prism = readFileSync(new URL('../../../docs/design/prism/index.html', import.meta.url), 'utf8');
 const icons = readFileSync(new URL('../../../docs/design/prism/icons.svg', import.meta.url), 'utf8');
@@ -41,14 +41,36 @@ describe('places follow Prism', () => {
     expect(tabOf(placeOf('/research')).id).toBe('portfolio');
     expect(tabOf(placeOf('/imports')).id).toBe('settings');
     expect(placeOf('/nowhere').id).toBe('portfolio');
+    expect(placeOf('/settings/privacy').id).toBe('settings');
+    expect(placeOf('/holdings/AAPL').id).toBe('portfolio');
+    expect(placeOf('/settingsx').id).toBe('portfolio');
     expect(placeOf('/settings///').id).toBe('settings');
     expect(placeOf('///').id).toBe('portfolio');
   });
 
   it('trims a very long run of slashes quickly', () => {
     const start = performance.now();
-    expect(placeOf('/settings' + '/'.repeat(200_000) + 'x').id).toBe('portfolio');
+    // a path under Settings lights Settings since MP-205; the timing is what this case guards (CodeQL)
+    expect(placeOf('/settings' + '/'.repeat(200_000) + 'x').id).toBe('settings');
     expect(placeOf('/settings' + '/'.repeat(200_000)).id).toBe('settings');
     expect(performance.now() - start).toBeLessThan(200);
+  });
+});
+
+describe('page titles', () => {
+  it('names the page, not only its place (MP-205)', () => {
+    expect(pageTitle('/')).toBe('Portfolio');
+    expect(pageTitle('/record')).toBe('Journal');
+    expect(pageTitle('/record/track')).toBe('Track record');
+    expect(pageTitle('/record/track/slice')).toBe('6 months');
+    expect(pageTitle('/record/track/regime')).toBe('By regime');
+    expect(pageTitle('/record/track/x')).toBe('Track record');
+    expect(pageTitle('/holdings')).toBe('Holdings');
+    expect(pageTitle('/holdings/')).toBe('Holdings');
+    expect(pageTitle('/holdings/nvda')).toBe('NVDA');
+    expect(pageTitle('/holdings/%E0')).toBe('%E0');
+    expect(pageTitle('/settings')).toBe('Settings');
+    expect(pageTitle('/settings/privacy')).toBe('Privacy');
+    expect(pageTitle('/sources')).toBe('Data sources');
   });
 });
