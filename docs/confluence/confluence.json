@@ -47,8 +47,8 @@
   },
   "sync": {
    "id": "6389776",
-   "version": 3,
-   "sha256": "9845310c1de6e54908d1356414a0e164d4403eb7218b9dd78bf4b6c8669118f3"
+   "version": 4,
+   "sha256": "217787a24a1473f122c36f89714550378bb2e60d5b1f668b83a7f0e68464c727"
   },
   "rec-rules": {
    "id": "6291509",
@@ -182,8 +182,8 @@
   },
   "rec-apple-testing": {
    "id": "6291956",
-   "version": 8,
-   "sha256": "b0a18f164f687990c21aeafe4a849c1c5d835c64aeebaadb8128017f6c0e3a4e"
+   "version": 9,
+   "sha256": "c536ea13e9ecf5fa34e40e507c3617aaf58fd2680e514de87948b7a48982de56"
   },
   "rec-perimeter": {
    "id": "6390123",
@@ -192,8 +192,8 @@
   },
   "rec-web-quality": {
    "id": "6095187",
-   "version": 4,
-   "sha256": "959739b6b3aa05a1766ecfc21e23e860866db86fa5102c2ffc63e5c6aeccce52"
+   "version": 5,
+   "sha256": "a013ecd6cea62b78634d9ec8a1298b403170d3259f362ac6847b132b55e1af80"
   }
  },
  "media": {

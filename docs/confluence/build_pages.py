@@ -1317,7 +1317,8 @@ def tree() -> None:
 # word, tag, link, status, macro parameter and media node we sent, so a page cut short or changed
 # in transit still differs. The cases are in selftest().
 
-RB_DROP = {"data-local-id"}  # Confluence adds an id to every block
+RB_DROP = {"data-local-id",  # Confluence adds an id to every block
+           "data-confluence-metadata"}  # and, since about 4 Nov 2026, a link title and version to every link (MP-199)
 RB_DROP_BY_TYPE = {
     "media-single": {"data-width", "data-width-type"},  # 90% becomes a pixel width; full width loses its type
     "media": {"data-width", "data-height"},  # the file's own pixel size, added
@@ -1623,6 +1624,9 @@ def selftest() -> int:
                                                                 "&quot;depth&quot;: {&quot;value&quot;: &quot;2&quot;}"), 1)
         run("a renumbered list fails", faithful.replace("<ol", '<ol start="2"', 1), 1)
         run("the faithful read-back passes again", faithful, 0)
+        meta = '<a data-confluence-metadata="{&quot;linkTitle&quot;:&quot;x&quot;,&quot;version&quot;:4}" href='
+        run("a link Confluence annotates with its metadata passes", faithful.replace("<a href=", meta, 1), 0)
+        run("... but an annotated link whose target changed fails", re.sub(r'href="[^"]*"', 'href="https://example.com/x"', faithful.replace("<a href=", meta, 1), count=1), 1)
         man["pages"]["p"]["sha256"] = "0" * 64
         (root / "pages" / "p.html").write_text("changed")
         man["pages"]["p"]["sha256"] = hashlib.sha256(b"changed").hexdigest()
