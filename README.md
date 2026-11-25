@@ -219,7 +219,7 @@ The first runs the backend gates. The second checks these three documents' links
 reduced-motion fallbacks, and every GIF's frames and still image. The third picks and runs the checks for whatever
 a branch changed. CI runs nine checks on every pull request (Backend, Docs, Review tooling, Agent config, Plan sync, Confluence
 receipts, Static preview, Workflow lint, Jira traceability), and GitHub's CodeQL code scanning is a required check too. Static preview
-also builds and tests the web app. It deploys nothing.
+also type-checks, unit-tests and builds the web app; its browser and axe tests run locally, not in CI. It deploys nothing.
 
 ## How work is done here
 

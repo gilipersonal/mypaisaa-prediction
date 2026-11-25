@@ -1955,7 +1955,7 @@
    "key": "MP-187",
    "summary": "Design the Track record view in Record",
    "type": "Task",
-   "status": "In Progress",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     "docs/design/journeys/src/journeys/",
@@ -2123,7 +2123,7 @@
    "key": "MP-194",
    "summary": "Move the unclassified action case out of the No model state",
    "type": "Task",
-   "status": "In Progress",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     "docs/design/journeys/src/journeys/home.js",
@@ -2249,7 +2249,7 @@
    "key": "MP-202",
    "summary": "Draw the owner's act to record production lost on Admin",
    "type": "Task",
-   "status": "In Review",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     "docs/design/admin/",
@@ -2264,7 +2264,7 @@
    "key": "MP-203",
    "summary": "Put the questions the owner's 5 November picks left open to the owner",
    "type": "Task",
-   "status": "In Progress",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     "docs/planning/owner-question-pack-2026-11-24/",
@@ -2324,6 +2324,30 @@
     "docs/planning/trace.json",
     "README.md"
    ]
+  },
+  {
+   "key": "MP-206",
+   "summary": "Write a handover note for where MP stands on 24 November 2026",
+   "type": "Task",
+   "status": "In Review",
+   "parent": "MP-4",
+   "code": [
+    "docs/handover/claude-2026-11-24/README.md",
+    "CLAUDE_HANDOVER.md",
+    "docs/planning/trace.json",
+    ".github/workflows/verify.yml",
+    "docs/github-workflow.md",
+    "README.md",
+    "TECH-STACK.md"
+   ]
+  },
+  {
+   "key": "MP-207",
+   "summary": "Home's width sweep runs past its 5-minute limit on the phone browser project",
+   "type": "Bug",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
   }
  ]
 }

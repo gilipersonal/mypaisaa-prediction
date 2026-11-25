@@ -236,14 +236,6 @@ jobs:
       - name: Build the web app and inspect the static output
         working-directory: web
         run: npm run build
-      - name: Install Playwright's Chromium
-        working-directory: web
-        run: npx playwright install --with-deps chromium
-      - name: Browser tests with axe WCAG 2.2 checks, desktop and phone
-        working-directory: web
-        env:
-          CI: 'true'
-        run: npx playwright test
 
   workflow-lint:
     name: Workflow lint

@@ -84,7 +84,7 @@ feature exists.
 | Hosting | S3 and CloudFront | Cheap static hosting with a private origin | Owner-selected |
 | Data | Authenticated calls to FastAPI; SSE for notices | Durable state is always a normal read | Owner-selected |
 | Install | PWA with Web Push | Works on a laptop, an iPad or a phone | Owner-selected |
-| Testing | Playwright end to end with ARIA snapshots, axe-core WCAG 2.2 A and AA checks, Playwright screenshot comparison | Free tools; nothing hosted | Proposed (MP-36); for the shell, Vitest **5.1.1** unit tests and Playwright **1.65.1** with axe-core **4.14.1** implemented (MP-134); ARIA snapshots and screenshot comparison not yet |
+| Testing | Playwright end to end with ARIA snapshots, axe-core WCAG 2.2 A and AA checks, Playwright screenshot comparison | Free tools; nothing hosted | Proposed (MP-36); for the shell, Vitest **5.1.1** unit tests and Playwright **1.65.1** with axe-core **4.14.1** implemented (MP-134), run locally and out of CI since 25 November 2026 (MP-206); ARIA snapshots and screenshot comparison not yet |
 
 The React and Vite project in `site/` is a documentation presentation, not the product app.
 
