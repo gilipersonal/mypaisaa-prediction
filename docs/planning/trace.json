@@ -2329,12 +2329,16 @@
    "key": "MP-206",
    "summary": "Write a handover note for where MP stands on 24 November 2026",
    "type": "Task",
-   "status": "In Progress",
+   "status": "In Review",
    "parent": "MP-4",
    "code": [
     "docs/handover/claude-2026-11-24/README.md",
     "CLAUDE_HANDOVER.md",
-    "docs/planning/trace.json"
+    "docs/planning/trace.json",
+    ".github/workflows/verify.yml",
+    "docs/github-workflow.md",
+    "README.md",
+    "TECH-STACK.md"
    ]
   }
  ]

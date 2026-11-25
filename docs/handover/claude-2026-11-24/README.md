@@ -71,6 +71,10 @@ uv run --project backend --frozen --extra dev pytest backend/tests
 `.github/main-protection.json` plus CodeQL). A changed head means asking again before a merge. Locally, actionlint and
 pdftoppm are missing, so their checks report UNAVAILABLE, which is not a pass.
 
+CI's Static preview job type-checks, unit-tests and builds the web app; since 25 November 2026 it no longer runs the
+Playwright browser tests or their axe WCAG 2.2 checks (owner: "no need to do AXE WCAG 2.2 test now... normal unit tests
+is fine", MP-206). They still run locally in the `web` check and with `npm run e2e`. The owner plans to add Argo CI later.
+
 ## Open work in Jira (read 24 November 2026)
 
 | Issue | Status | What is left |
